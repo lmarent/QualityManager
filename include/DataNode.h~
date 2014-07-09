@@ -1,0 +1,76 @@
+#ifndef _DATA_NODE_H
+#define _DATA_NODE_H
+
+/*  This code is based on Neeraj Sathe */
+
+namespace ecodtn {
+
+template <class Type> class Ref;
+
+template <class Type> class Data 
+{
+private:
+	typedef unsigned long ULONG;
+	Data(Type *p=NULL);
+	ULONG AddRef();
+ 	ULONG Release();
+
+   // accessors 
+	Type *operator->();
+	operator Type&();
+	Type &get_Data();
+	~Data();
+	
+	// members
+	Type *pData;
+	ULONG dwRefs;
+	friend class Ref<Type>;
+};
+
+template <class Type> class Ref 
+{
+	typedef Data<Type> DataT;
+	
+public:
+	typedef unsigned long ULONG;
+	typedef unsigned long KEY;
+	
+	// constructors
+	Ref(const Type &t);
+	Ref(Type *p);
+	Ref();
+	Ref(const Ref<Type> &rhs);
+	
+	//destructor
+	virtual ~Ref();
+
+	//operator =
+	Ref &operator=(const Ref<Type> &rhs);
+	Ref &operator=(const Type &t);
+	Ref &operator=(Type *p);
+	
+	// operator ==
+	bool operator==(const Ref<Type> &rhs);
+	
+	Ref Clone();
+	void Release();
+	bool IsNull();
+
+    // accessors	
+	Type *operator;
+	Type &get_Data();
+	operator Type&();
+	KEY Key();
+
+protected: 
+	ULONG GetRefCount();
+	Ref(KEY key);
+	
+private:
+	Data<Type> *pData;
+	friend class Ref<Type>;
+};
+
+}  // namespace ecodtn
+
+#endif
