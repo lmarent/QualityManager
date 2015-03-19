@@ -97,17 +97,18 @@ public:
 								uint32_t parentMin,  uint32_t childMaj, uint32_t childMin);
 	
 	void deleteSubNetworkInterface(Poco::Net::NetworkInterface intf);
+		
+	void addQdiscRootHTB(void);
+
+	void deleteQdiscRootHTB(void);
 	
 	void addClassRootHTB( uint64_t rate, uint64_t ceil, 
 						  uint32_t burst, uint32_t cburst);
-	
-	void addQdiscRootHTB(void);
 
 	void addClassHTB(Poco::Net::IPAddress ipaddr, Poco::Net::IPAddress submask, 
-				     uint64_t rate, uint64_t ceil, uint32_t burst, 
-				     uint32_t cburst, uint32_t prio, int quantum, 
-				     int limit, int perturb, char *keyval_str, 
-				     char *keymask_str, int keyoff, int keyoffmask);
+					 uint64_t rate, uint64_t ceil, uint32_t burst, 
+					 uint32_t cburst, uint32_t prio, int quantum, 
+					 int limit, int perturb);
 	
 	void deleteClassHTB(Poco::Net::IPAddress ipaddr, 
 					    uint64_t rate, Poco::Net::IPAddress submask);

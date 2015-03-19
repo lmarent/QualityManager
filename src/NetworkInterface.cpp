@@ -46,8 +46,9 @@ namespace net
 		
 	
 NetworkInterface::NetworkInterface( std::string intfc_name,  uint32_t HandlerMaj_, uint32_t HandlerMin_):
-HandlerMaj(HandlerMaj_),
-HandlerMin(HandlerMin_),
+_intfc_name(intfc_name),
+_handlerMaj(HandlerMaj_),
+_handlerMin(HandlerMin_),
 _manager(intfc_name)
 {
 }
@@ -55,20 +56,26 @@ _manager(intfc_name)
 NetworkInterface::~NetworkInterface()
 {
 }
+
+std::string NetworkInterface::getName()
+{
+	return _intfc_name;
+}
 	
 uint32_t NetworkInterface::getMajorHandler()
 {
-	return HandlerMaj;
+	return _handlerMaj;
 }
 	
 uint32_t NetworkInterface::getMinorHandler()
 {
-	return HandlerMin;
+	return _handlerMin;
 }
 
 void NetworkInterface::addSubNetworkInterface(Poco::Net::NetworkInterface intf)
 {
-	_manager.addSubNetworkInterface(intf, HandlerMaj, HandlerMin,  
+	_manager.
+	_manager.addSubNetworkInterface(intf, _handlerMaj, _handlerMin,  
 								1, 0);
 }
 	
@@ -81,22 +88,33 @@ void NetworkInterface::addQdiscRootHTB(void)
 {
 	_manager.addQdiscRootHTB();
 }
+
+void NetworkInterface::deleteQdiscRootHTB(void)
+{
+	try {
+		_manager.deleteQdiscRootHTB();
+	}
+	catch(...){
+		std::cout << "Ok, the system does not have a previous QDisc";
+	}
+}
 	
 void NetworkInterface::addClassRootHTB(uint64_t rate, uint64_t ceil, 
 						  uint32_t burst, uint32_t cburst)
+/// The exceptions must be handled by the caller procedure						  
 {
 	_manager.addClassRootHTB(rate, ceil, burst, cburst);
 }
 	
-void NetworkInterface::addClassHTB(Poco::Net::IPAddress ipaddr, uint64_t rate, 
+void NetworkInterface::addClassHTB(Poco::Net::IPAddress ipaddr, 
+					 Poco::Net::IPAddress submask, uint64_t rate, 
 					 uint64_t ceil, uint32_t burst, uint32_t cburst, 
-					 uint32_t prio, int quantum, int limit, int perturb, 
-					 char *keyval_str, char *keymask_str, int keyoff, int keyoffmask)
+					 uint32_t prio, int quantum, int limit, int perturb)
 {
-	/*_manager.addClassHTB(ipaddr, rate, ceil, burst, cburst, prio, quantum, 
-						 limit, perturb, keyval_str, keymask_str, keyoff, 
-						 keyoffmask);*/
-	std::cout << "Pending";
+
+	_manager.addClassHTB(ipaddr, submask, rate, ceil, burst, cburst, prio, quantum, 
+						 limit, perturb);
+						
 }					 
 	
 void NetworkInterface::deleteClassHTB(Poco::Net::IPAddress ipaddr, 

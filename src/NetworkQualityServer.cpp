@@ -31,8 +31,17 @@ namespace net
     void NetworkQualityServer::initialize(Poco::Util::Application& self)
     {
         loadConfiguration();
-		addSubsystem(new RouteSys());
-		addSubsystem(new TrafficControlSys());
+        // Initialize the router subsystem.
+		Poco::AutoPtr<RouteSys> routeSys(new RouteSys());
+		addSubsystem(routeSys);
+		_subsystems.push_back(routeSys);
+		
+		// Initialize the traffic control subsystem.
+		Poco::AutoPtr<TrafficControlSys> trafficControlSys(new TrafficControlSys());		
+		addSubsystem(trafficControlSys);
+		_subsystems.push_back(trafficControlSys);
+		
+		// Finally Initialize the application.
         Poco::Util::ServerApplication::initialize(self);               
     }
 

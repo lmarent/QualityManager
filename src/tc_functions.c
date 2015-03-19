@@ -55,9 +55,24 @@
 // Build of the qdisk object at the root of the hierarchy
 int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
 {
-
    int err = 0;
+
+   if (sock == NULL){
+	  printf("sock null");
+	  err = -1;
+	  return err;
+   }
+   
+   if (rtnlLink == NULL){
+	  printf("link null");
+	  err = -2;
+	  return err;
+   }
+	   
+
    uint32_t defaultClass = DEFAULT_CLASS;
+  
+   printf("Add root Qdisc message 1 \n");
 
    /* Allocation of a qdisc object */
    struct rtnl_qdisc *qdisc = rtnl_qdisc_alloc();
@@ -66,6 +81,8 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
 	   return err; 
    }
 
+   printf("Add root Qdisc message 2 \n");
+
    /* Establish the link associated to the class */
    err = rtnl_tc_set_kind(TC_CAST(qdisc), "htb");
    if (err < 0)
@@ -73,6 +90,9 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
        err = ECODTN_NET_TC_QDISC_SETUP_ERROR;
        return err; 
    }
+   
+   printf("Add root Qdisc message 3 \n");
+   
    rtnl_tc_set_link(TC_CAST(qdisc), rtnlLink);
    rtnl_tc_set_parent(TC_CAST(qdisc), TC_H_ROOT);
    rtnl_tc_set_handle(TC_CAST(qdisc), TC_HANDLE(1,0));
@@ -81,17 +101,19 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
    //fprintf(stdout, "tc handle: [%"PRIu32" ]\n",tc_handle );
    // The value of the integer is 65536
 
+   printf("Add root Qdisc message 4 \n");
+
    /* Set default class for unclassified traffic */
    rtnl_htb_set_defcls(qdisc, TC_HANDLE(1, defaultClass));
    rtnl_htb_set_rate2quantum(qdisc, 1);
 
+   printf("Add root Qdisc message 5 \n");
+   
    err = rtnl_qdisc_add(sock, qdisc, NLM_F_CREATE );
 
+   printf("Add root Qdisc message 6 \n");
    /* Free the qdisc object */
    rtnl_qdisc_put(qdisc);
-
-   /* Free the Link object */
-   rtnl_link_put(rtnlLink);
 
    if (err < 0) {
         err = ECODTN_NET_TC_QDISC_ESTABLISH_ERROR;
@@ -102,6 +124,35 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
 }
 
 
+int qdisc_delete_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink )
+{
+    int err;
+    struct rtnl_qdisc *qdisc;
+
+    if (!(qdisc = rtnl_qdisc_alloc())) {
+        printf("error on delete Qdisc %d", err);
+        err = ECODTN_NET_TC_QDISC_ALLOC_ERROR;
+        return err;
+    }
+	
+    rtnl_tc_set_link(TC_CAST(qdisc), rtnlLink);
+    rtnl_tc_set_parent(TC_CAST(qdisc), TC_H_ROOT);
+    rtnl_tc_set_handle(TC_CAST(qdisc), TC_HANDLE(1,0));
+
+    /* Submit request to kernel and wait for response */
+    if ((err = rtnl_qdisc_delete(sock, qdisc))) {
+		printf("error on delete Qdisc %d", err);
+        err = ECODTN_NET_TC_QDISC_ESTABLISH_ERROR;
+		return err;
+    }
+
+    /* Return the qdisc object to free memory resources */
+    rtnl_qdisc_put(qdisc);
+    return ECODTN_NET_TC_SUCCESS;
+}
+
+
+
 int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
 					   uint64_t rate, uint64_t ceil, 
 					   uint32_t burst, uint32_t cburst)
@@ -109,22 +160,29 @@ int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     int err;
     struct rtnl_class *class;
     
+    //Allocate memory for the HTB class
+    if (!(class = rtnl_class_alloc())) {
+        printf("Can not allocate class object \n");
+        err = ECODTN_NET_TC_CLASS_ALLOC_ERROR;
+        return err;
+    }
+	printf("Add root Class message 1 \n");
+    // Assign the link and the class's parent
     rtnl_tc_set_link(TC_CAST(class), rtnlLink);
     rtnl_tc_set_parent(TC_CAST(class), TC_H_ROOT);
 
-    //add a HTB class
+    //add the handled for the class class
     rtnl_tc_set_handle(TC_CAST(class), 1);
+	printf("Add root Class message 2 \n");
 
     if ((err = rtnl_tc_set_kind(TC_CAST(class), "htb"))) {
         err = ECODTN_NET_TC_CLASS_SETUP_ERROR;
         return err;
     }
     if (rate) {
-       //rate=rate/8;
        rtnl_htb_set_rate(class, rate);
     }
     if (ceil) {
-       //ceil=ceil/8;
        rtnl_htb_set_ceil(class, ceil);
     }
     if (burst) {
@@ -133,13 +191,19 @@ int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     if (cburst) {
         rtnl_htb_set_cbuffer(class, cburst);
     }
+	printf("Add root Class message 3 \n");
     
     /* Submit request to kernel and wait for response */
     if ((err = rtnl_class_add(sock, class, NLM_F_CREATE))) {
         err = ECODTN_NET_TC_CLASS_ESTABLISH_ERROR;
         return err;
     }
+    
+    // Free the memory allocated for the class structure.
     rtnl_class_put(class);
+	printf("Add root Class message 4 \n");
+    
+    // return Ok.
     return ECODTN_NET_TC_SUCCESS;
 }
 
@@ -307,7 +371,7 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock, struct rtnl_link *rtnlLink,
 *
 */
 int u32_add_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-				   uint32_t prio, char *keyval_str, char *keymask_str, 
+				   uint32_t prio, const char *keyval_str, const char *keymask_str, 
 				   int keyoff, int keyoffmask, uint32_t parentMaj, 
 			       uint32_t parentMin, uint32_t classfierMah, 
 			       uint32_t classfierMin)
@@ -361,7 +425,7 @@ int u32_add_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink,
 *
 */
 int u32_delete_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-				   uint32_t prio, char *keyval_str, char *keymask_str, 
+				   uint32_t prio, const char *keyval_str, const char *keymask_str, 
 				   int keyoff, int keyoffmask, uint32_t parentMaj, 
 			       uint32_t parentMin, uint32_t classfierMah, uint32_t classfierMin )
 {

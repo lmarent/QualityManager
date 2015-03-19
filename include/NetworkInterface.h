@@ -39,6 +39,7 @@
 #define NetworkInterface_INCLUDED
 
 
+#include <Poco/RefCountedObject.h>
 #include "HandlerManager.h"
 #include "TrafficControlManager.h"
 
@@ -48,7 +49,7 @@ namespace ecodtn
 namespace net
 {
 
-class NetworkInterface : public HandlerManager
+class NetworkInterface : public HandlerManager, public Poco::RefCountedObject
 {
 
 public: 	
@@ -57,6 +58,8 @@ public:
 	NetworkInterface( std::string intfc_name, uint32_t HandlerMaj_, uint32_t HandlerMin_);
 					   
 	~NetworkInterface();
+	
+	std::string getName();
 	
 	uint32_t getMajorHandler();
 	
@@ -68,20 +71,28 @@ public:
 	
 	void addQdiscRootHTB(void);
 	
+	void deleteQdiscRootHTB(void);
+	
 	void addClassRootHTB(uint64_t rate, uint64_t ceil, 
 						  uint32_t burst, uint32_t cburst);
 	
-	void addClassHTB(Poco::Net::IPAddress ipaddr, uint64_t rate, 
+	void addClassHTB(Poco::Net::IPAddress ipaddr, 
+					 Poco::Net::IPAddress submask, uint64_t rate, 
 					 uint64_t ceil, uint32_t burst, uint32_t cburst, 
-					 uint32_t prio, int quantum, int limit, int perturb, 
-					 char *keyval_str, char *keymask_str, int keyoff, int keyoffmask);
+					 uint32_t prio, int quantum, int limit, int perturb);
+     /// The value keyoff means what part of the octec to read in order to compare, 
+     /// value 12 means source IP ; value 16 means destination IP 
+     /// If we put the mask 255.255.255.0 it will match all ip that start with 10.100.1.
+     /// If we put the mask 255.255.0.0 it will match all ip that start with 10.100.
+					 
 	
 	void deleteClassHTB(Poco::Net::IPAddress ipaddr, uint64_t rate );
 
 private:
 
-	uint32_t HandlerMaj; 
-	uint32_t HandlerMin;
+	std::string _intfc_name;
+	uint32_t _handlerMaj; 
+	uint32_t _handlerMin;
     TrafficControlManager _manager;
 };
 

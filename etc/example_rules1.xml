@@ -1,0 +1,25 @@
+<?xml version ="1.0" encoding="UTF-8"?>
+<!DOCTYPE RULESET SYSTEM "rulefile.dtd"> 
+<RULESET ID="1">
+  <!-- global part is the default for all rules -->
+  <!-- overwritten by rule specific configuration -->
+  <GLOBAL>
+    <!-- how long the rules are active -->
+    <PREF NAME="Duration">1000</PREF>
+
+  </GLOBAL>
+  <RULE ID="1">
+    <!-- packets comming from specfic address and protocol-->
+    <FILTER NAME="SrcIP">192.168.1.11</FILTER>
+    <FILTER NAME="Proto">udp,tcp</FILTER>
+
+    <ACTION NAME="htb">
+		<PREF NAME="Rate" TYPE="Float64">5667</PREF>
+		<PREF NAME="Burst" TYPE="UInt32">5667</PREF>
+		<PREF NAME="Priority" TYPE="UInt32">5667</PREF>
+		<!-- The value is in seconds -->
+		<PREF NAME="Duration">100</PREF>		
+    </ACTION>
+ 
+  </RULE>
+</RULESET>

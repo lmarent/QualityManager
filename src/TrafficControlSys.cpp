@@ -1,6 +1,8 @@
-#include "TrafficControlSys.h"
 #include <Poco/Net/NetworkInterface.h>
+#include <Poco/AutoPtr.h>
 #include <vector>
+#include "TrafficControlSys.h"
+#include "TrafficControlException.h"
 
 namespace ecodtn
 {
@@ -20,7 +22,7 @@ void TrafficControlSys::initialize(Poco::Util::Application &app)
 {
     app.logger().information("Initialization TraffiControl System");
     
-    // Reads all interfaces
+    // Read all interfaces
     std::vector<Poco::Net::NetworkInterface> list = Poco::Net::NetworkInterface::list();
     std::vector<Poco::Net::NetworkInterface>::iterator it = list.begin();
     for(;it!=list.end();it++)
@@ -31,10 +33,39 @@ void TrafficControlSys::initialize(Poco::Util::Application &app)
 			initializeInterface(infc_name);
 		}
 	}
-    
-    
+	
+	// Adds the subnetworks
+    std::vector<Poco::Net::NetworkInterface> list2 = Poco::Net::NetworkInterface::list();
+    std::vector<Poco::Net::NetworkInterface>::iterator it2 = list2.begin();
+    for(;it2!=list2.end();it2++)
+	{
+		Poco::Net::NetworkInterface netIntf2 = *it2;
+		if (!((netIntf2.address()).isLoopback())){
+			addSubnetwork(netIntf2.name(), netIntf2);
+		}
+	}	
+	
+	// Temporal to prove that the functions are Ok.
+	/*addClassHTB(Poco::Net::IPAddress ipaddr, 
+					 Poco::Net::IPAddress submask, uint64_t rate, 
+					 uint64_t ceil, uint32_t burst, uint32_t cburst, 
+					 uint32_t prio, int quantum, int limit, int perturb);
+					 */
 }
 
+
+int TrafficControlSys::getIndexOfInterface(std::string netIntf)
+{
+	unsigned i=0;
+	std::vector<NetworkInterfacePtr>::size_type sz = _subInterfaces.size();
+	for (; i<sz; i++) 
+		if (netIntf.compare((*_subInterfaces[i]).getName())==0)
+			break;
+	if (i == sz)
+		return -1;
+	else
+		return (int) i;
+}
 
 void TrafficControlSys::initializeInterface(std::string network_interface_name)
 {
@@ -44,21 +75,48 @@ void TrafficControlSys::initializeInterface(std::string network_interface_name)
 	uint32_t burst = 25000;
 	uint32_t cburst = 25000;
 	
-	if (_subInterfaces.count(network_interface_name)>0){
-	
-	} else{
+	int index = getIndexOfInterface(network_interface_name);
+	if (index < 0){ // The interface is not initialized
 	   
-	   // Creates the Traffic Control Manager for the interface.
-	   uint32_t HandlerMaj = 1; 
-	   uint32_t HandlerMin = 0;
-	   // NetworkInterface netIntfc(network_interface_name, HandlerMaj, HandlerMin);
-	   // _subInterfaces.insert( std::pair<std::string, NetworkInterface>(network_interface_name,netIntfc));
-	   // Creates the root Qdisc 
-	   // netIntfc.addQdiscRootHTB();
+	   try{
+		   std::cout << "1" << std::endl;
+		   // Creates the Traffic Control Manager for the interface.
+		   uint32_t HandlerMaj = 1; 
+		   uint32_t HandlerMin = 0;
+		   std::cout << "2" << std::endl;
+		   NetworkInterfacePtr netIntfc(new NetworkInterface(network_interface_name, HandlerMaj, HandlerMin));
+			
+		   _subInterfaces.push_back(netIntfc);
+		   std::cout << "3" << std::endl;
+		   
+		   // delete possible Qdisc already created in the system.
+		   (*netIntfc).deleteQdiscRootHTB();
+		   std::cout << "Possible Qdiscs were deleted" << std::endl;
+		   
+		   //Creates the root Qdisc 
+		   (*netIntfc).addQdiscRootHTB();
+		   std::cout << "Added the root Qdisc" << std::endl;
 
-	   // Creates the root class
-	   // netIntfc.addClassRootHTB(rate, ceil, burst, cburst);
-		
+		   // Creates the root class
+		   (*netIntfc).addClassRootHTB(rate, ceil, burst, cburst);
+		   std::cout << "Added the root class" << std::endl;
+		   
+		} catch(TrafficControlException &e){
+		   std::cout << "Error: The interface could not be initialized" << std::endl;
+		}	
+	}
+}
+
+void TrafficControlSys::addSubnetwork(std::string network_interface_name, 
+									  Poco::Net::NetworkInterface netIfc)
+{
+	std::cout << "addSubnetwork" << std::endl; 
+	int index = getIndexOfInterface(network_interface_name);
+	if (index < 0){ // The interface is not initialized
+		std::cout << "Error: The interface is not initialized" << std::endl;
+	} else{
+		NetworkInterfacePtr netIntfc = _subInterfaces[index];
+		(*netIntfc).addSubNetworkInterface(netIfc);
 	}
 }
 

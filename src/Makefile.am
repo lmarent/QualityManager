@@ -1,22 +1,34 @@
 AUTOMAKE_OPTIONS = foreign
 
 bin_PROGRAMS = qualityManager
-qualityManager_SOURCES = main.cpp \
-						 NetworkQualityServer.cpp \
-						 ConnectionHandler.cpp \
-						 RouteManager.cpp \
-						 RouteException.cpp \
-						 route_functions.c \
-						 route_functions.h \
-						 HandlerManager.cpp \
-						 tc_functions.c \
-						 tc_functions.h \
-						 TrafficControlException.cpp \
-						 TrafficControlManager.cpp \
-						 RouteSys.cpp \
-						 TrafficControlSys.cpp \
-						 NetworkInterface.cpp
-						 
+
+if ENABLE_DEBUG
+  AM_CXXFLAGS = -g -fno-inline -D_GLIBCXX_DEBUG -DDEBUG -DPROFILING
+else
+  AM_CXXFLAGS = -O2  
+endif
+
+qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
+						 XMLParser.cpp CommandLineArgs.cpp \
+						 ConfigManager.cpp ParserFcts.cpp \
+						 ConfigParser.cpp FilterValue.cpp \
+						 FilterDefParser.cpp FilterValParser.cpp \
+					     PageRepository.cpp Module.cc \
+						 Timeval.cpp  Event.cpp CtrlComm.cpp \
+						 constants_qos.cpp QualityManagerComponent.cpp \
+						 ProcModule.cpp Rule.cpp \
+						 RuleFileParser.cpp QualityManagerInfo.cpp \
+						 RuleIdSource.cpp RuleManager.cpp \
+						 EventScheduler.cpp PerfTimer.cpp \
+						 QualityManager.cpp QOSProcessor.cpp \
+						 ModuleLoader.cpp
+
+INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
+		   -I$(top_srcdir)/lib/httpd
+
+qualityManager_LDADD = $(top_builddir)/lib/getopt_long/libgetopt_long.a \
+					   $(top_builddir)/lib/httpd/libhttpd.a \
+					   @PTHREADLIB@ @DLLIB@ @SSLLIB@ @XMLLIB@
 
 # what flags you want to pass to the C compiler & linker
 AM_CPPFLAGS = -g -I@top_srcdir@/include @poco_CFLAGS@ @NL3_CFLAGS@ @NL_ROUTE_3_CFLAGS@

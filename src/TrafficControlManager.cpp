@@ -98,26 +98,30 @@ _rtnlLink(NULL)
 	if (!_sk){
 		throw TrafficControlException("Socket allocation error");
 	}
-	
+	std::cout << "Could alloc the socket" << std::endl;
 	// Connects the socket
 	if ((err = nl_connect(_sk, NETLINK_ROUTE)) < 0) {
 		throw TrafficControlException("Socket connect error", err);
 	}
 	
+	std::cout << "Could connect the socket" << std::endl;
+	
 	// Creates the cache to comunicate thorough the socket.
 	if ((err = rtnl_link_alloc_cache(_sk, AF_UNSPEC, &_link_cache))< 0){ 
 	    throw TrafficControlException("Unable to allocate cache", err); 
 	}
-	
+	std::cout << "Could create the allocation cache" << std::endl;
 	nl_cache_mngt_provide(_link_cache);
 	
 	// Creates the link to the interface
 	int link_int = rtnl_link_name2i(_link_cache, intfc_name.c_str());
-    struct rtnl_link *_rtnlLink = rtnl_link_get(_link_cache, link_int);
-    if (!_rtnlLink){     
+	
+    _rtnlLink = rtnl_link_get(_link_cache, link_int);
+    if (_rtnlLink == NULL){     
+        std::cout << "error" << std::endl;
         throw TrafficControlException("Interface could not find", err);
     }
-	
+	std::cout << "Could create the interface link" << std::endl;
 }
 
 TrafficControlManager::~TrafficControlManager()
@@ -162,11 +166,23 @@ void TrafficControlManager::addQdiscRootHTB()
 	check_error(val_result);
 }
 
+void TrafficControlManager::deleteQdiscRootHTB()
+{
+	int val_result = 0;
+	val_result = qdisc_delete_root_HTB(_sk, _rtnlLink);
+	check_error(val_result);	
+}
+
 void TrafficControlManager::addClassRootHTB( uint64_t rate, uint64_t ceil, 
 											 uint32_t burst, uint32_t cburst)
 {
 	int val_result = 0;
     val_result = class_add_HTB_root(_sk, _rtnlLink, rate, ceil, burst, cburst);
+
+    std::cout << "result from class_add_HTB_root";
+    std::cout << val_result;
+    std::cout << val_result << std::endl;
+    
 	check_error(val_result);
 }
 
@@ -174,12 +190,12 @@ void TrafficControlManager::addClassRootHTB( uint64_t rate, uint64_t ceil,
 void TrafficControlManager::addClassHTB(Poco::Net::IPAddress ipaddr, 
 				  Poco::Net::IPAddress submask, uint64_t rate, uint64_t ceil, 
 				  uint32_t burst, uint32_t cburst, uint32_t prio, int quantum, 
-				  int limit, int perturb, char *keyval_str, char *keymask_str, 
-				  int keyoff, int keyoffmask)
+				  int limit, int perturb)
 {
     // Define local variables
     int val_result = 0;
-    
+	int keyoff = 12; // This means that the filter is based in source Ip Address.
+	int keyoffmask = 0;
     
     // Finds the subnetwork that the IP Address belongs to
 	std::map<std::string, SubNetworkInterface>::iterator it;
@@ -196,6 +212,7 @@ void TrafficControlManager::addClassHTB(Poco::Net::IPAddress ipaddr,
 		throw TrafficControlException("Invalid address"); 
 		break;
 	}	
+
 	
 	// Gets the parentMajor and parentMinor 
 	uint32_t parentMaj = (it->second).getMajorHandler();
@@ -218,8 +235,10 @@ void TrafficControlManager::addClassHTB(Poco::Net::IPAddress ipaddr,
 						   
 		if (val_result == ECODTN_NET_TC_SUCCESS){
 			// Adds the filter
-			val_result = u32_add_filter(_sk, _rtnlLink, prio, keyval_str, 
-										keymask_str, keyoff, keyoffmask, 
+			std::string ipAddrStr = ipaddr.toString();
+			std::string submaskStr = submask.toString();
+			val_result = u32_add_filter(_sk, _rtnlLink, prio, ipAddrStr.c_str(), 
+										submaskStr.c_str(), keyoff, keyoffmask, 
 										handler, 0, handler, 0);
 		    
 		    if (val_result != ECODTN_NET_TC_SUCCESS){

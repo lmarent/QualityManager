@@ -7,6 +7,7 @@
 #include <Poco/Util/OptionSet.h>
 #include <Poco/Util/HelpFormatter.h>
 #include <iostream>
+#include <vector>
 
 #include "HandlerManager.h"
 #include "NetworkInterface.h"
@@ -29,13 +30,21 @@ protected:
     void reinitialize(Poco::Util::Application &app);
     void uninitialize();
 
+    int getIndexOfInterface(std::string netIntf);
+    
     void initializeInterface(std::string netIntf);
+    
+    void addSubnetwork(std::string network_interface_name, 
+					   Poco::Net::NetworkInterface netIfc);
+					   
     void defineOptions(Poco::Util::OptionSet& options);
+    
     virtual const char* name() const;
 
 private:
     char p_cName;
-    std::map <std::string, NetworkInterface> _subInterfaces;
+    typedef Poco::AutoPtr<NetworkInterface> NetworkInterfacePtr;
+    std::vector <NetworkInterfacePtr> _subInterfaces;
 };
 
 

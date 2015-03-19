@@ -50,29 +50,27 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_qualityManager_OBJECTS = main.$(OBJEXT) \
-	NetworkQualityServer.$(OBJEXT) ConnectionHandler.$(OBJEXT) \
-	RouteManager.$(OBJEXT) RouteException.$(OBJEXT) \
-	route_functions.$(OBJEXT) HandlerManager.$(OBJEXT) \
-	tc_functions.$(OBJEXT) TrafficControlException.$(OBJEXT) \
-	TrafficControlManager.$(OBJEXT) RouteSys.$(OBJEXT) \
-	TrafficControlSys.$(OBJEXT) NetworkInterface.$(OBJEXT)
+am_qualityManager_OBJECTS = Error.$(OBJEXT) constants.$(OBJEXT) \
+	Logger.$(OBJEXT) XMLParser.$(OBJEXT) CommandLineArgs.$(OBJEXT) \
+	ConfigManager.$(OBJEXT) ParserFcts.$(OBJEXT) \
+	ConfigParser.$(OBJEXT) FilterValue.$(OBJEXT) \
+	FilterDefParser.$(OBJEXT) FilterValParser.$(OBJEXT) \
+	PageRepository.$(OBJEXT) Module.$(OBJEXT) Timeval.$(OBJEXT) \
+	Event.$(OBJEXT) CtrlComm.$(OBJEXT) constants_qos.$(OBJEXT) \
+	QualityManagerComponent.$(OBJEXT) ProcModule.$(OBJEXT) \
+	Rule.$(OBJEXT) RuleFileParser.$(OBJEXT) \
+	QualityManagerInfo.$(OBJEXT) RuleIdSource.$(OBJEXT) \
+	RuleManager.$(OBJEXT) EventScheduler.$(OBJEXT) \
+	PerfTimer.$(OBJEXT) QualityManager.$(OBJEXT) \
+	QOSProcessor.$(OBJEXT) ModuleLoader.$(OBJEXT)
 qualityManager_OBJECTS = $(am_qualityManager_OBJECTS)
-qualityManager_LDADD = $(LDADD)
-qualityManager_DEPENDENCIES =
+qualityManager_DEPENDENCIES =  \
+	$(top_builddir)/lib/getopt_long/libgetopt_long.a \
+	$(top_builddir)/lib/httpd/libhttpd.a
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -96,35 +94,47 @@ AUTOMAKE = ${SHELL} /home/luis/QualityManager/missing --run automake-1.11
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+CFLAGS =  -Wall -I/usr/include/libxml2
 CPP = gcc -E
-CPPFLAGS = 
+CPPFLAGS =  -I/usr/include/libxml2
+CURLLIB = 
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
+CXXFLAGS =  -Wall -Wno-deprecated  -I/usr/include/libxml2
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
+DEF_BINDIR = /usr/local/bin
+DEF_LIBDIR = /usr/local/lib/qualitymanager
+DEF_STATEDIR = /usr/local/var
+DEF_SYSCONFDIR = /home/luis/QualityManager/etc
 DEPDIR = .deps
+DLLIB = 
 DLLTOOL = false
+DOXY = doxygen
 DSYMUTIL = 
 DUMPBIN = 
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
+ENABLE_DEBUG = 
+ENABLE_NF = 
+ENABLE_TEST = 
 EXEEXT = 
 FGREP = /bin/grep -F
 GREP = /bin/grep
+HISTORYLIB = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+IPTABLES_VERSION = 
 LD = /usr/bin/ld
-LDFLAGS = 
+LDFLAGS =  -L/lib -L/usr/local/lib -L/usr/lib  -L/usr/lib/i386-linux-gnu -lxml2
 LIBOBJS = 
-LIBS = 
+LIBS =  -lcrypto -lPocoFoundation -lPocoUtil -lPocoNet
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
@@ -132,6 +142,7 @@ LTLIBOBJS =
 MAINT = #
 MAKEINFO = ${SHELL} /home/luis/QualityManager/missing --run makeinfo
 MANIFEST_TOOL = :
+MATHLIB = 
 MKDIR_P = /bin/mkdir -p
 NL3_CFLAGS = -I/usr/include/libnl3  
 NL3_LIBS = -lnl-3  
@@ -141,6 +152,7 @@ NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
 OBJEXT = o
+OS = UNIX
 OTOOL = 
 OTOOL64 = 
 PACKAGE = qualitymanager
@@ -154,12 +166,22 @@ PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
 PKG_CONFIG_PATH = 
+PTHREADLIB = 
 RANLIB = ranlib
+READLINELIB = 
+REL_DATE = 
 SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
+SSLLIB = -lssl
+SSL_PASSWD = netmate
 STRIP = strip
+ULOGLIB = 
+USE_SSL = -DUSE_SSL
 VERSION = 0.1
+XMLLIB = -lxml2
+XML_CONFIG = /usr/bin/xml2-config
+XSLTLIB = -lxslt
 abs_builddir = /home/luis/QualityManager/src
 abs_srcdir = /home/luis/QualityManager/src
 abs_top_builddir = /home/luis/QualityManager
@@ -184,7 +206,7 @@ datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
-exec_prefix = ${prefix}
+exec_prefix = /usr/local
 host = i686-pc-linux-gnu
 host_alias = 
 host_cpu = i686
@@ -194,7 +216,7 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /home/luis/QualityManager/install-sh
-libdir = ${exec_prefix}/lib
+libdir = ${exec_prefix}/lib/qualitymanager
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
@@ -211,27 +233,35 @@ psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
-sysconfdir = ${prefix}/etc
+sysconfdir = /home/luis/QualityManager/etc
 target_alias = 
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 AUTOMAKE_OPTIONS = foreign
-qualityManager_SOURCES = main.cpp \
-						 NetworkQualityServer.cpp \
-						 ConnectionHandler.cpp \
-						 RouteManager.cpp \
-						 RouteException.cpp \
-						 route_functions.c \
-						 route_functions.h \
-						 HandlerManager.cpp \
-						 tc_functions.c \
-						 tc_functions.h \
-						 TrafficControlException.cpp \
-						 TrafficControlManager.cpp \
-						 RouteSys.cpp \
-						 TrafficControlSys.cpp \
-						 NetworkInterface.cpp
+#AM_CXXFLAGS = -O2  
+AM_CXXFLAGS = -g -fno-inline -D_GLIBCXX_DEBUG -DDEBUG -DPROFILING
+qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
+						 XMLParser.cpp CommandLineArgs.cpp \
+						 ConfigManager.cpp ParserFcts.cpp \
+						 ConfigParser.cpp FilterValue.cpp \
+						 FilterDefParser.cpp FilterValParser.cpp \
+					     PageRepository.cpp Module.cc \
+						 Timeval.cpp  Event.cpp CtrlComm.cpp \
+						 constants_qos.cpp QualityManagerComponent.cpp \
+						 ProcModule.cpp Rule.cpp \
+						 RuleFileParser.cpp QualityManagerInfo.cpp \
+						 RuleIdSource.cpp RuleManager.cpp \
+						 EventScheduler.cpp PerfTimer.cpp \
+						 QualityManager.cpp QOSProcessor.cpp \
+						 ModuleLoader.cpp
+
+INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
+		   -I$(top_srcdir)/lib/httpd
+
+qualityManager_LDADD = $(top_builddir)/lib/getopt_long/libgetopt_long.a \
+					   $(top_builddir)/lib/httpd/libhttpd.a \
+					     -lssl -lxml2
 
 
 # what flags you want to pass to the C compiler & linker
@@ -241,7 +271,7 @@ LDADD = -lPocoFoundation -lPocoUtil -lPocoNet
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cpp .lo .o .obj
+.SUFFIXES: .cc .cpp .lo .o .obj
 $(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -325,40 +355,56 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/ConnectionHandler.Po
-include ./$(DEPDIR)/HandlerManager.Po
-include ./$(DEPDIR)/NetworkInterface.Po
-include ./$(DEPDIR)/NetworkQualityServer.Po
-include ./$(DEPDIR)/RouteException.Po
-include ./$(DEPDIR)/RouteManager.Po
-include ./$(DEPDIR)/RouteSys.Po
-include ./$(DEPDIR)/TrafficControlException.Po
-include ./$(DEPDIR)/TrafficControlManager.Po
-include ./$(DEPDIR)/TrafficControlSys.Po
-include ./$(DEPDIR)/main.Po
-include ./$(DEPDIR)/route_functions.Po
-include ./$(DEPDIR)/tc_functions.Po
+include ./$(DEPDIR)/CommandLineArgs.Po
+include ./$(DEPDIR)/ConfigManager.Po
+include ./$(DEPDIR)/ConfigParser.Po
+include ./$(DEPDIR)/CtrlComm.Po
+include ./$(DEPDIR)/Error.Po
+include ./$(DEPDIR)/Event.Po
+include ./$(DEPDIR)/EventScheduler.Po
+include ./$(DEPDIR)/FilterDefParser.Po
+include ./$(DEPDIR)/FilterValParser.Po
+include ./$(DEPDIR)/FilterValue.Po
+include ./$(DEPDIR)/Logger.Po
+include ./$(DEPDIR)/Module.Po
+include ./$(DEPDIR)/ModuleLoader.Po
+include ./$(DEPDIR)/PageRepository.Po
+include ./$(DEPDIR)/ParserFcts.Po
+include ./$(DEPDIR)/PerfTimer.Po
+include ./$(DEPDIR)/ProcModule.Po
+include ./$(DEPDIR)/QOSProcessor.Po
+include ./$(DEPDIR)/QualityManager.Po
+include ./$(DEPDIR)/QualityManagerComponent.Po
+include ./$(DEPDIR)/QualityManagerInfo.Po
+include ./$(DEPDIR)/Rule.Po
+include ./$(DEPDIR)/RuleFileParser.Po
+include ./$(DEPDIR)/RuleIdSource.Po
+include ./$(DEPDIR)/RuleManager.Po
+include ./$(DEPDIR)/Timeval.Po
+include ./$(DEPDIR)/XMLParser.Po
+include ./$(DEPDIR)/constants.Po
+include ./$(DEPDIR)/constants_qos.Po
 
-.c.o:
-	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+.cc.o:
+	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
 	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 #	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c $<
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXXCOMPILE) -c -o $@ $<
 
-.c.obj:
-	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+.cc.obj:
+	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
 	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
 #	source='$<' object='$@' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-.c.lo:
-	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+.cc.lo:
+	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
 	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
 #	source='$<' object='$@' libtool=yes \
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LTCOMPILE) -c -o $@ $<
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(LTCXXCOMPILE) -c -o $@ $<
 
 .cpp.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

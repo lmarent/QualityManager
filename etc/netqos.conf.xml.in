@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CONFIG SYSTEM "config.dtd"> 
+<CONFIG>
+  <MAIN>
+    <!-- verbose level for logging -->
+    <PREF NAME="VerboseLevel" TYPE="UInt8">4</PREF>
+    <!-- log file name -->
+    <PREF NAME="LogFile">@DEF_STATEDIR@/log/netqos.log</PREF>
+    <!-- pid file location -->
+    <PREF NAME="PidFile">@DEF_STATEDIR@/run/netqos.pid</PREF>
+    <!-- rule file to load at start -->
+    <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
+    <!-- interface to capture packets from -->
+    <PREF NAME="NetInterface">eth0</PREF>
+    <!-- don't use promiscuous interface -->
+    <PREF NAME="NoPromiscInt" TYPE="Bool">no</PREF>
+  </MAIN>
+  <CONTROL>
+    <!-- enable remote control interface -->
+    <PREF NAME="Enable" TYPE="Bool">no</PREF>
+    <!-- port for control connections -->
+    <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
+    <!-- use SSL encryption -->
+    <PREF NAME="UseSSL" TYPE="Bool">yes</PREF>
+    <!-- use IPv6 (if no IPv6 interface present IP4 will be used) -->
+    <PREF NAME="UseIPv6" TYPE="Bool">no</PREF>
+    <!-- log all incoming control requests -->
+    <PREF NAME="LogOnConnect" TYPE="Bool">yes</PREF>
+    <!-- log all meter commands -->
+    <PREF NAME="LogMeterCommand" TYPE="Bool">yes</PREF>
+    <!-- access list -->
+    <ACCESS>
+      <ALLOW TYPE="Host">localhost</ALLOW>
+      <DENY>All</DENY>
+    </ACCESS>
+  </CONTROL>
+</CONFIG>

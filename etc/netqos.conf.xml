@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE CONFIG SYSTEM "config.dtd"> 
+<CONFIG>
+  <MAIN>
+    <!-- verbose level for logging -->
+    <PREF NAME="VerboseLevel" TYPE="UInt8">4</PREF>
+    <!-- log file name -->
+    <PREF NAME="LogFile">/usr/local/var/log/netqos.log</PREF>
+    <!-- pid file location -->
+    <PREF NAME="PidFile">/usr/local/var/run/netqos.pid</PREF>
+    <!-- rule file to load at start -->
+    <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
+    <!-- filter attribute definition file -->
+    <PREF NAME="FilterDefFile">/home/luis/QualityManager/etc/filterdef.xml</PREF>
+    <!-- filter constant file -->
+    <PREF NAME="FilterConstFile">/home/luis/QualityManager/etc/filterval.xml</PREF>     
+    <!-- interface to capture packets from -->
+    <PREF NAME="NetInterface">eth2</PREF>
+    <!-- don't use promiscuous interface -->
+    <PREF NAME="NoPromiscInt" TYPE="Bool">no</PREF>
+  </MAIN>
+  <CONTROL>
+    <!-- enable remote control interface -->
+    <PREF NAME="Enable" TYPE="Bool">no</PREF>
+    <!-- port for control connections -->
+    <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
+    <!-- use SSL encryption -->
+    <PREF NAME="UseSSL" TYPE="Bool">yes</PREF>
+    <!-- use IPv6 (if no IPv6 interface present IP4 will be used) -->
+    <PREF NAME="UseIPv6" TYPE="Bool">no</PREF>
+    <!-- log all incoming control requests -->
+    <PREF NAME="LogOnConnect" TYPE="Bool">yes</PREF>
+    <!-- log all meter commands -->
+    <PREF NAME="LogMeterCommand" TYPE="Bool">yes</PREF>
+    <!-- access list -->
+    <ACCESS>
+      <ALLOW TYPE="Host">localhost</ALLOW>
+      <DENY>All</DENY>
+    </ACCESS>
+  </CONTROL>
+  <QOS_PROCESSOR>
+    <!-- run as separate thread -->
+    <PREF NAME="Thread" TYPE="Bool">no</PREF>
+    <!-- directory where the processing modules are located -->
+    <PREF NAME="ModuleDir">/home/luis/QualityManager/proc_modules</PREF>
+    <!-- allow on-demand loading i.e. when new module is used in rule definition --> 
+    <PREF NAME="ModuleDynamicLoad" TYPE="Bool">yes</PREF>
+    <!-- buffers in queue between classifier and packet processor -->
+    <PREF NAME="PacketQueueBuffers" TYPE="UInt32">20000</PREF>
+    <!-- module which is preloaded at startup, if the user put a list, the SW will only load the first module defined-->
+    <PREF NAME="Modules">htb</PREF>
+    <MODULES>
+      <MODULE NAME="htb">
+		  <!-- Total interface Rate is on mbps -->
+		  <PREF NAME="Rate" TYPE="UInt32">1</PREF>
+		  <!-- Burst for the interface -->
+		  <PREF NAME="Burst" TYPE="UInt32">5555</PREF>
+      </MODULE>
+      <MODULE NAME="tbf">
+		  <!-- Total interface Rate is on mbps -->
+		  <PREF NAME="Rate" TYPE="UInt32">1</PREF>
+      </MODULE>
+    </MODULES>
+  </QOS_PROCESSOR>  
+</CONFIG>

@@ -72,6 +72,8 @@
 
 int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink);
 
+int qdisc_delete_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink);
+
 int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
 					   uint64_t rate, uint64_t ceil, uint32_t burst, 
 					   uint32_t cburst);
@@ -93,13 +95,13 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock, struct rtnl_link *rtnlLink,
 					   uint32_t parentMaj, uint32_t parentMin );
 
 int u32_add_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-				   uint32_t prio, char *keyval_str, char *keymask_str, 
+				   uint32_t prio, const char *keyval_str, const char *keymask_str, 
 				   int keyoff, int keyoffmask, uint32_t parentMaj, 
 			       uint32_t parentMin, uint32_t classfierMah, 
 			       uint32_t classfierMin);
 			       
 int u32_delete_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-				   uint32_t prio, char *keyval_str, char *keymask_str, 
+				   uint32_t prio, const char *keyval_str, const char *keymask_str, 
 				   int keyoff, int keyoffmask, uint32_t parentMaj, 
 			       uint32_t parentMin, uint32_t classfierMah, uint32_t classfierMin );			       
 					   

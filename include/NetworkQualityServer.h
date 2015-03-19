@@ -63,7 +63,7 @@ namespace net
 	protected:	
 
 		void initialize(Poco::Util::ServerApplication::Application& self);
-		/// Initialize the procy with the corresponding application
+		/// Initialize the proxy with the corresponding application
 		
 		void uninitialize();
 		
@@ -79,6 +79,10 @@ namespace net
 
 	private:
 		bool _helpRequested;
+		typedef Poco::AutoPtr<Subsystem> QualitySubsystemPtr;
+		typedef std::vector<QualitySubsystemPtr> QualitySubsystemVec;
+		QualitySubsystemVec _subsystems;
+		
 
 	};
 
