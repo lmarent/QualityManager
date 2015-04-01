@@ -109,6 +109,19 @@ if test $debug = true ; then
   AC_DEFINE(ENABLE_DEBUG, 1, [enable debug build])
 fi
 
+
+AC_ARG_ENABLE(mp,
+  [  --enable-mp            enable mpatrol memory surveillance ],
+  [case "${enableval}" in
+    yes) mp=true ;;
+    no)  mp=false ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-mp) ;;
+  esac],[mp=false])
+AM_CONDITIONAL(ENABLE_MP, test x$mp = xtrue)
+if test $mp = true ; then
+  AC_DEFINE(ENABLE_MP, 1, [enable mpatrol linking])
+fi
+
 AC_ARG_ENABLE(ssl,
   [  --enable-ssl            enable ssl ],
   [case "${enableval}" in
@@ -152,6 +165,31 @@ if test $threads = true ; then
 fi
 
 
+
+if test $mp = true ; then
+    LDFLAGS="$LDFLAGS -lbfd"	
+    if test $threads = true ; then
+       LDFLAGS="$LDFLAGS -lpthread"	
+       AC_CHECK_LIB(mpatrolmt, xmalloc,
+       [MPATROLLIB="-lmpatrolmt"],
+       [AC_MSG_ERROR([cannot find libmpatrolmt])])
+    else
+       AC_CHECK_LIB(mpatrol, xmalloc,
+       [MPATROLLIB="-lmpatrol"],
+       [AC_MSG_ERROR([cannot find libmpatrol])])
+    fi
+fi
+
+READLINELIB=""
+# some readlines (Redhat) need -ltermcap
+AC_CHECK_LIB(termcap, tgetent, LDFLAGS="$LDFLAGS -ltermcap",[])
+AC_CHECK_HEADERS([readline/readline.h readline/history.h],,
+  [AC_MSG_ERROR([cannot find libreadline headers])])
+AC_CHECK_LIB(readline, readline,
+  [READLINELIB="$READLINELIB -lreadline"],
+  [AC_MSG_ERROR([cannot find libreadline])])
+
+
 dnl # check size
 
 AC_CHECK_SIZEOF(off_t)
@@ -170,7 +208,7 @@ AC_HEADER_STDBOOL
 AC_CHECK_FUNCS([alarm bzero floor getaddrinfo inet_ntoa gettimeofday memmove memset select socket strdup strchr strerror strstr atoll strtof getopt_long])
 
 
-PKG_CHECK_MODULES(NL3, libnl-3.0 >= 3.0, [
+PKG_CHECK_MODULES(NL3, libnl-3.0 >= 3.2.25, [
 	AC_SUBST(NL3_CFLAGS)
 	AC_SUBST(NL3_LIBS)
 	AC_DEFINE(HAVE_LIBNL, [1], ["libnl is available"])
@@ -180,7 +218,7 @@ PKG_CHECK_MODULES(NL3, libnl-3.0 >= 3.0, [
 ])
 
 
-PKG_CHECK_MODULES(NL_ROUTE_3, libnl-route-3.0 >= 3.0, [
+PKG_CHECK_MODULES(NL_ROUTE_3, libnl-route-3.0 >= 3.2.25, [
 	AC_SUBST(NL_ROUTE_3_CFLAGS)
 	AC_SUBST(NL_ROUTE_3_LIBS)
 	AC_DEFINE(HAVE_LIBNL_ROUTE, [1], ["libnl-route is available"])
@@ -212,28 +250,6 @@ if test $threads = true ; then
   fi
 fi
 
-
-
-# check for Poco Foundation library
-# Checks for libraries.
-AC_LANG(C++)
-SAVED_LDFLAGS=$LDFLAGS
-SAVED_CPPFLAGS=$CPPFLAGS
-SAVED_LIBS=$LIBS
-CPPFLAGS="$CPPFLAGS -I/usr/local/include/Poco"
-LDFLAGS="$LDFLAGS -L/usr/local/lib/"
-LIBS="$LIBS -lPocoFoundation -lPocoUtil -lPocoNet"
-AC_LINK_IFELSE(
-    [AC_LANG_PROGRAM([#include <DateTime.h>],
-    [Poco::DateTime now])],
-    [poco_LIBS="-lPocoFoundation -lPocoUtil -lPocoNet"] 
-    [poco_CFLAGS="-DHAVE_PCAP -I/usr/local/include/Poco"] 
-    [poco_LDFLAGS]="-L/usr/local/lib/"]
-    [HAVE_POCO=1],
-    [AC_MSG_WARN([libPoco is not installed.])])
-CPPFLAGS=$SAVED_CPPFLAGS 
-LDFLAGS=$SAVED_LDFLAGS
-LIBS= $SAVED_LIBS
 
 
 dnl # Checks for XML lib
@@ -273,6 +289,31 @@ AC_CHECK_HEADERS([libxslt/transform.h libxslt/xsltutils.h],,
 AC_CHECK_LIB(xslt, xsltApplyStylesheet,
   [XSLTLIB="-lxslt"],
   [AC_MSG_WARN([cannot find libxsltl])])
+
+
+if test "$CURL_DIR" ; then
+   LDFLAGS="$LDFLAGS -L$CURL_DIR/lib -lxslt"          
+   CFLAGS="$CFLAGS -I$CURL_DIR/include" 
+   CXXFLAGS="$CXXFLAGS -I$CURL_DIR/include"
+   CPPFLAGS="$CPPFLAGS -I$CURL_DIR/include"
+fi
+
+dnl # check for libcurl
+# Check CURL, needed for install netmate policy rules.
+CURL_LIBS=
+PKG_CHECK_MODULES(CURL, 
+  libcurl, 
+  [AC_DEFINE([HAVE_CURL],[1],[Use CURL])])
+AM_CONDITIONAL(CURL, test -n "$CURL_LIBS")
+AC_SUBST(CURL_CFLAGS)
+AC_SUBST(CURL_LIBS)
+
+
+dnl # dont try to build nqrsh if we don't have the libs
+AM_CONDITIONAL(BUILD_NQRSH, test "$XSLTLIB" && test "$CURL_LIBS") 
+
+
+
 
 
 dnl # checks for programs
@@ -339,7 +380,7 @@ AC_SUBST(MATHLIB)
 AC_SUBST(USE_SSL)
 AC_SUBST(SSL_PASSWD)
 AC_SUBST(IPTABLES_VERSION)
-AC_SUBST(CURLLIB)
+AC_SUBST(MPATROLLIB)
 AC_SUBST(DEF_SYSCONFDIR)
 AC_SUBST(DEF_STATEDIR)
 AC_SUBST(DEF_LIBDIR)
@@ -348,10 +389,12 @@ AC_SUBST(DOXY)
 
 
 
-AC_CONFIG_FILES([Makefile
-				lib/httpd/Makefile \
-				lib/getopt_long/Makefile \
-				proc_modules/Makefile \
-                src/Makefile])
+AC_CONFIG_FILES([Makefile \
+				 lib/getpass/Makefile \
+  				 lib/httpd/Makefile \
+				 lib/getopt_long/Makefile \
+				 nqrsh/Makefile \
+				 proc_modules/Makefile \
+                 src/Makefile] )
 
 AC_OUTPUT

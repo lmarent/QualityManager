@@ -191,8 +191,8 @@ CommandLineArgs.o: CommandLineArgs.cpp ../include/CommandLineArgs.h \
  /usr/include/c++/4.6/debug/set.h /usr/include/c++/4.6/debug/multiset.h \
  /usr/include/c++/4.6/bitset /usr/include/c++/4.6/debug/bitset \
  /usr/include/c++/4.6/iomanip ../lib/getopt_long/getopt_long.h \
- ../include/Error.h ../include/Logger.h ../include/Threads.h \
- ../include/constants.h ../include/constants_qos.h
+ ../include/Error.h ../include/Logger.h ../include/ProcError.h \
+ ../include/Threads.h ../include/constants.h ../include/constants_qos.h
 
 ../include/CommandLineArgs.h:
 
@@ -737,6 +737,8 @@ CommandLineArgs.o: CommandLineArgs.cpp ../include/CommandLineArgs.h \
 ../include/Error.h:
 
 ../include/Logger.h:
+
+../include/ProcError.h:
 
 ../include/Threads.h:
 

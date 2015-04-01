@@ -189,8 +189,9 @@ ProcModule.o: ProcModule.cpp ../include/Error.h ../include/stdincpp.h \
  /usr/include/c++/4.6/bits/stl_multiset.h /usr/include/c++/4.6/debug/set \
  /usr/include/c++/4.6/debug/set.h /usr/include/c++/4.6/debug/multiset.h \
  /usr/include/c++/4.6/bitset /usr/include/c++/4.6/debug/bitset \
- /usr/include/c++/4.6/iomanip ../include/Logger.h ../include/Error.h \
- ../include/Threads.h ../include/constants.h ../include/constants_qos.h \
+ /usr/include/c++/4.6/iomanip ../include/Logger.h ../include/ProcError.h \
+ ../include/Error.h ../include/Threads.h ../include/constants.h \
+ ../include/constants_qos.h ../include/ProcError.h \
  ../include/ProcModule.h ../include/ProcModuleInterface.h \
  ../include/metadata.h ../include/FilterDefParser.h \
  /usr/include/libxml2/libxml/parser.h \
@@ -756,6 +757,8 @@ ProcModule.o: ProcModule.cpp ../include/Error.h ../include/stdincpp.h \
 
 ../include/Logger.h:
 
+../include/ProcError.h:
+
 ../include/Error.h:
 
 ../include/Threads.h:
@@ -763,6 +766,8 @@ ProcModule.o: ProcModule.cpp ../include/Error.h ../include/stdincpp.h \
 ../include/constants.h:
 
 ../include/constants_qos.h:
+
+../include/ProcError.h:
 
 ../include/ProcModule.h:
 

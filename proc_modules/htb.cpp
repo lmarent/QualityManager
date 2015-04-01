@@ -27,16 +27,19 @@
 
 #include "config.h"
 #include <stdio.h>
-#include "ProcModule.h"
 #include "arpa/inet.h"
-#include "htb_functions.h"
 #include <sys/types.h>
 #include <time.h>     
 #include <iostream>
 
+#include "htb_functions.h"
+#include "ProcError.h"
+#include "ProcModule.h"
+
+
 const int COUNTCHUNK = 20;    /* new entries per realloc */
 const int MOD_INIT_REQUIRED_PARAMS = 3;
-const int MOD_INI_FLOW_REQUIRED_PARAMS = 5;
+const int MOD_INI_FLOW_REQUIRED_PARAMS = 6;
 const int MOD_DEL_FLOW_REQUIRED_PARAMS = 1;
 
 
@@ -58,6 +61,11 @@ enum def_parameters {
     defp_match,
     defp_bidir
 };
+
+typedef enum { 
+	TC_FILTER_ADD = 0,
+	TC_FILTER_DELETE
+} TcFilterAction_e;
 
 static const char *param_names[] = {
     ( "srcip" ),
@@ -127,8 +135,79 @@ typedef struct {
 
 struct timeval zerotime = {0,0};
 
+int string_to_number(const char *s, unsigned int min, unsigned int max,
+		     unsigned int *ret)
+{
+    long number;
+    char *end;
+  
+    /* Handle hex, octal, etc. */
+    errno = 0;
+    number = strtol(s, &end, 0);
+    if ((*end == '\0') && (end != s)) {
+		cout << "receive a number:" << number << endl;
+		/* we parsed a number, let's see if we want this */
+		if ((errno != ERANGE) && ((long)min <= number) && (number <= (long)max)) {
+			*ret = number;
+			return 0;
+		}
+    }
+    return -1;
+}     
 
-int initModule( configParam_t *params )
+u_int16_t parse_protocol(const char *s)
+{
+    unsigned int proto;
+  
+    if (string_to_number(s, 0, 255, &proto) == -1) {
+		struct protoent *pent;
+	 
+		if ((pent = getprotobyname(s)))
+			proto = pent->p_proto;
+		else {
+			unsigned int i;
+			for (i = 0; i < sizeof(chain_protos)/sizeof(struct pprot); i++) {
+			if (strcmp(s, chain_protos[i].name) == 0) {
+				proto = chain_protos[i].num;
+				break;
+			}
+			}
+			if (i == sizeof(chain_protos)/sizeof(struct pprot))
+			throw ProcError(NET_TC_PARAMETER_ERROR, 
+							"unknown protocol `%s' specified", s);
+		}
+    }
+  
+    return (u_int16_t)proto;
+}                           
+
+u_int16_t parse_protocol(FilterValue &value)
+{
+	uint16_t proto;
+	string ftype = value.getType();
+	
+	if ((ftype == "UInt8") || (ftype =="Int8")) 
+	{
+		proto = (uint16_t) (value.getValue())[0];
+	}
+	else if (ftype == "UInt16")
+	{
+		proto = ntohs(*((unsigned short *) value.getValue()));
+	}
+	else if (ftype == "Int16"){
+		proto = ntohs(*((short *) value.getValue()));
+	}
+	else
+	{
+		proto = parse_protocol(reinterpret_cast<const char*> (value.getValue()));
+	}
+	cout << "Protocol converted:" << proto << endl;
+	return proto;
+}                           
+
+
+
+void initModule( configParam_t *params )
 {
     
      sk = NULL;
@@ -139,20 +218,17 @@ int initModule( configParam_t *params )
      std::string infc;
      uint32_t burst;
      int numparams = 0;
-
+	 int link_int = 0;
 
      while (params[0].name != NULL) {
-		fprintf( stdout, "Evaluating parameter %s \n", params[0].name ); 
-		
+		// in all the application we establish the rates and 
+		// burst parameters in bytes
         if (!strcmp(params[0].name, "Rate")) {
-            double _rate= atol(params[0].value);
-            if (_rate > 0) {
-				rate = _rate;
-				numparams++;
+            rate = parseLong(params[0].value);
+			numparams++;
 #ifdef DEBUG
-		fprintf( stdout, "htb module: setting rate to   %lf \n", _rate );
+		fprintf( stdout, "htb module: setting rate to   %lf \n", rate );
 #endif
-            }
         }
 
         if (!strcmp(params[0].name, "NetInterface")) {
@@ -166,67 +242,69 @@ int initModule( configParam_t *params )
             }
         }
 
+
         if (!strcmp(params[0].name, "Burst")) {
-            uint32_t _burst = (uint32_t) atoi(params[0].value);
-            if ( _burst > 0 ) {
-                burst = _burst;
-                numparams++;
+			// in all the application we establish the rates and 
+			// burst parameters in bytes.
+            burst = (uint32_t) parseInt( params[0].value );
+            numparams++;
 #ifdef DEBUG
-		fprintf( stdout, "htb module: Burst %u \n", _burst );
+			fprintf( stdout, "htb module: Burst %u \n", burst );
 #endif
-            }
         }
 
         params++;
      }
 
 #ifdef DEBUG
-		fprintf( stdout, "htb module: number of parameters given: %d \n", numparams );
+	fprintf( stdout, "htb module: number of parameters given: %d \n", numparams );
 #endif
 
 	 if ( numparams == MOD_INIT_REQUIRED_PARAMS ){
-		 /* 1. Establish the socket and a cache to list interfaces and other data */
+		 
+		 /* 1. Establish the socket and a cache 
+		  *  			to list interfaces and other data */
 		 sk = nl_socket_alloc();
-		 if ((err = nl_connect(sk, NETLINK_ROUTE)) < 0) {
-			nl_perror(err, "Unable to connect socket");
-			return err;
-		 }
+		 if ((err = nl_connect(sk, NETLINK_ROUTE)) < 0)
+			throw ProcError(err, "Unable to connect socket");
 
 		 if ((err = rtnl_link_alloc_cache(sk, AF_UNSPEC, &link_cache))< 0)
-		 { 
-			nl_perror(err, "Unable to allocate cache");
-			return err;
-		 }
+			throw ProcError(err, "Unable to allocate cache");
 		 
 		 nl_cache_mngt_provide(link_cache);
 
-		 int link_int = rtnl_link_name2i(link_cache, infc.c_str());
+		 link_int = rtnl_link_name2i(link_cache, infc.c_str());
 		 nllink = rtnl_link_get(link_cache, link_int);
-		 if (nllink == NULL){
-			   
-			fprintf(stdout,"The interface does not exist");       
-		 }
+		 if (nllink == NULL)
+			throw ProcError(NET_TC_PARAMETER_ERROR, "Invalid Interface");
 		
 		 err = qdisc_add_root_HTB(sk, nllink);
 		 if (err == 0){
+
+
 			err = class_add_HTB_root(sk, nllink, rate, rate, burst, burst);
+			if (err != 0)
+				throw ProcError(err, "Error creating the HTB root");
+
+			err = class_add_HTB(sk, nllink, NET_DEFAULT_CLASS, 1, 1,
+							 1, 1, 1000);
+			if (err != 0)
+				throw ProcError(err, "Error creating the default root class");
+
+
 		 }
 		 else
-		 {
-			 std::cout << "htb init module: error:" << err<< std::endl;
-		 }
-		 std::cout << "htb init module" << std::endl;
-		 return err;
+			throw ProcError(err, "Error creating the root qdisc");
+			 
      } 
-     else{
-		 std::cout << "htb init module - not enought parameters" << std::endl;
-		 return NET_TC_PARAMETER_ERROR;
-	 }
+     else
+		 throw ProcError(NET_TC_PARAMETER_ERROR, 
+					"htb init module - not enought parameters");
      
 }
 
 
-int destroyModule()
+void destroyModule()
 {
     if ((sk != NULL) and (nllink != NULL))
 		qdisc_delete_root_HTB(sk, nllink);
@@ -237,40 +315,83 @@ int destroyModule()
 	if (sk != NULL) 
 		nl_socket_free(sk);
 
+#ifdef DEBUG
+	fprintf( stdout, "HTB destroy module" );
+#endif
     
-    std::cout << "htb destroy module" << std::endl;
-    return 0;
 }
 
+int calculateRelativeOffSet( refer_t refer)
+{
+	int val_return = 0;
+	
+	switch (refer)
+	{
+		case MAC:
+		case IP:
+		case TRANS:
+		case DATA:
+			val_return = offset_refer[refer];
+			break;
+		default:
+			val_return = 0;
+	}
+	
+	return val_return;
+}
+
+// If refer is more than or equal to TRANS then it 
+// has to put offsetmask in -1 ( following header in the packet )
+int calculateRelativeMaskOffSet(refer_t refer )
+{
+	int val_return = 0;
+	
+	switch (refer)
+	{
+		case MAC:
+		case IP:
+			val_return = 0;
+			break;
+		case TRANS:
+		case DATA:
+			val_return = -1;
+			break;
+		default:
+			val_return = 0;
+	}
+
+	return val_return;
+
+}
 
 inline void resetCurrent( accData_t *data )
 {
 
 }
 
-int create_filter( int flowId, filterList_t *filters )
+void modify_filter( int flowId, filterList_t *filters, 
+					int bidir, TcFilterAction_e action )
 {
 	int err = 0;
-	cout << "In Creating Filter" << std::endl;
-	
-	if (filters == NULL){
-		cout << "Given Filters are null" << endl;
-		return NET_TC_PARAMETER_ERROR;
-	}	
-	
+	uint32_t prio = 1; // TODO AM: we need to create a function that 
+					   //		   takes the protocol and return the prio.
 	struct rtnl_cls *cls;
+
+#ifdef DEBUG
+	fprintf( stdout, "In Creating Filter" );
+#endif
 	
-	err = create_u32_classifier(struct nl_sock *sock, 
-	  					  struct rtnl_link *rtnlLink, 
-	  					  &cls,		 
-						  uint32_t prio, 
-						  uint32_t parentMaj, 
-						  uint32_t parentMin);
-	
-	if ( err != NET_TC_SUCCESS ){
-		cout << "Error allocating classifier object" << endl;
-		return NET_TC_PARAMETER_ERROR;
-	}
+	if (filters == NULL)
+		throw ProcError(NET_TC_PARAMETER_ERROR, "Filters given are null");
+		
+	// Allocate the new classifier.
+	err = create_u32_classifier(sk, nllink, &cls, prio, 
+								NET_ROOT_HANDLE_MAJOR, 0,
+								NET_ROOT_HANDLE_MAJOR, flowId);
+								
+	if ( err != NET_TC_SUCCESS )
+		throw ProcError(err, "Error allocating classifier objec");
+
 	
 	filterListIter_t iter;
 	for ( iter = filters->begin() ; iter != filters->end() ; iter++ ) 
@@ -295,55 +416,90 @@ int create_filter( int flowId, filterList_t *filters )
 		{
 			case FT_EXACT:
 			case FT_SET:
-			{
-				for ( int index = 0; i < filter.cnt; i++)
+			
+				for ( int index = 0; index < filter.cnt; index++)
 				{
-					if (!strcmp( filter.name, param_names[defp_prot])
-						 cout << "Protocol:" << filter.value[i]).getValue() << endl;
-						 break;
-					
-					u32_add_key_filter(cls, (filter.value[i]).getValue(),
-									(filter.mask).getValue(),
-									filter.len,
-									filter.offs,
-									0);
-					
-					if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
+					 cout << "Filter lenght:" << filter.len << "Offset:" << filter.offs << endl;
+					 cout << "refer:" << filter.refer << "rrefer:" << filter.refer << endl;
+					 cout << "roffset:" << filter.roffs << "rname:" << filter.rname << endl;
+					 
+					 int offset = filter.offs + calculateRelativeOffSet(filter.refer);
+					 int roffset = filter.roffs + calculateRelativeOffSet(filter.refer);
+					 
+					 int maskoffset = calculateRelativeMaskOffSet(filter.refer);
+
+					 cout << "offset:" << offset << "name:" << filter.name << endl;
+					 					 
+					 err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
+									(filter.mask).getValue(), filter.len,
+									offset, maskoffset);
+					 
+					 if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
+					 {
 						goto fail;
+					 }
+					 else
+					 {
+						if ((bidir == 1) 
+									and (filter.rname.length() > 0))
+						{
+							err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
+									(filter.mask).getValue(), filter.len,
+									roffset, maskoffset);
+							
+							if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
+								goto fail;
+						}
+					 }
 				}
-				break;
-										
-			}
+				
+				break;						
+
 			case FT_RANGE:
-			{
 				// TODO AM: Not implemented yet.
 				break;
-			}
 			case FT_WILD:
-			{
 				// TODO AM : Not implemented yet.
 				break;
-			}
 		}			  
 	}
 	
-	err = save_u32_filter(cls);
-	if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR )
-		goto fail;
-	else
-		return NET_TC_SUCCESS;
+	if (action == TC_FILTER_ADD)
+	{
+		err = save_add_u32_filter(sk, cls);
+		if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR )
+			goto fail;
+		else
+			goto ok;
+	}
+	else 
+	{
+		err = save_delete_u32_filter(sk, cls);
+		if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR )
+			goto fail;
+		else
+			goto ok;
+	}
 
 fail:
-    if (cls != NULL) ;
+    if (cls != NULL)
 		rtnl_cls_put(cls);
+		
+	throw ProcError(err, "Error setting up Filters");
 
-	return err;
-	
+ok:
+	err = 0;
+#ifdef DEBUG
+	fprintf( stdout, "Filters sucessfully setup" );
+#endif	
+
 }
 
+	
 
 
-int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata)
+void initFlowSetup( configParam_t *params, 
+					filterList_t *filters, void **flowdata)
 {
 
     accData_t *data;
@@ -354,20 +510,20 @@ int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata
     uint32_t flowId;
     uint32_t priority;
     int numparams = 0;
+    int bidir = 0;
     
 
     data = (accData_t *) malloc( sizeof(accData_t) );
 
-    if (data == NULL ) {
-        return NET_TC_PARAMETER_ERROR;
-    }
+    if (data == NULL ) 
+        throw ProcError(NET_TC_PARAMETER_ERROR, 
+							"HTB Flow init - allocation flow data error");
 
     /* copy default timers to current timers array for a specific task */
     memcpy(data->currTimers, timers, sizeof(timers));
     
 
     while (params[0].name != NULL) {
-		fprintf( stdout, "Evaluating parameter %s \n", params[0].name ); 
 		
         if (!strcmp(params[0].name, "Rate")) {
             rate = parseLong(params[0].value);
@@ -394,6 +550,11 @@ int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata
             numparams++;
         }
 
+        if (!strcmp(params[0].name, "Bidir")) {
+            bidir = (uint32_t) parseBool( params[0].value );
+            numparams++;
+        }
+
         params++;
      }
 
@@ -402,42 +563,47 @@ int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata
 #endif
 
 
-	 if ( numparams == MOD_INI_FLOW_REQUIRED_PARAMS )
-	 {
+	 if ( numparams == MOD_INI_FLOW_REQUIRED_PARAMS ){
 		 err = class_add_HTB(sk, nllink, flowId, rate, rate,
 							 burst, burst, priority);
 		
-	     if ( err == NET_TC_SUCCESS )
-	     {
+	     if ( err == NET_TC_SUCCESS ){
 			data->currTimers[0].ival_msec = 1000 * duration;
-			create_filter(flowId, filters);
+			modify_filter(flowId, filters, bidir, TC_FILTER_ADD);
 			*flowdata = data;
-			return NET_TC_SUCCESS;
 		 } 
-		 else 
-		 {
-			return err;
-		 }
+		 else
+			throw ProcError(err, "Error adding HTB class");
+			
      } 
-     else{
-		 std::cout << "htb FLOW init - not enought parameters" << std::endl;
-		 return NET_TC_PARAMETER_ERROR;
-	 }
+     else
+		 throw ProcError(NET_TC_PARAMETER_ERROR, 
+							"HTB Flow init - not enought parameters");
 }
 
 
-int resetFlowSetup( configParam_t *params )
+void resetFlowSetup( configParam_t *params )
 {
     // NOT implemented, the user have to destroy and recreate the flow.
-    return 0;
+#ifdef DEBUG
+		fprintf( stdout, "init resetFlowSetup \n" );
+#endif
 }
 
 
-int destroyFlowSetup( configParam_t *params, void *flowdata )
+void destroyFlowSetup( configParam_t *params, 
+					   filterList_t *filters,	
+					   void *flowdata )
 {
 	accData_t *data = (accData_t *)flowdata;
     uint32_t flowId;
     int numparams = 0;
+    int err;
+    int bidir = 0;
+
+#ifdef DEBUG
+		fprintf( stdout, "destroy FlowSetup \n" );
+#endif
     
 	free( data );
 
@@ -445,27 +611,30 @@ int destroyFlowSetup( configParam_t *params, void *flowdata )
 		fprintf( stdout, "Evaluating parameter %s \n", params[0].name ); 
 
         if (!strcmp(params[0].name, "FlowId")) {
-            int _flowId = atoi(params[0].value);
-            if ( _flowId > 0 ) {
-                flowId = (uint32_t) _flowId;
-                numparams++;
-            }
+            flowId = (uint32_t) parseInt( params[0].value );
+            numparams++;
         }
 
         params++;
     }
+#ifdef DEBUG
+		fprintf( stdout, "Flow Id to delete: %d \n", flowId );
+#endif
 
-	 if ( numparams == MOD_DEL_FLOW_REQUIRED_PARAMS )
-	 {
-		 return class_delete_HTB(sk, nllink, flowId);  
-     } 
-     else{
-		 std::cout << "htb FLOW init - not enought parameters" << std::endl;
-		 return NET_TC_PARAMETER_ERROR;
-	 }
+	if ( numparams == MOD_DEL_FLOW_REQUIRED_PARAMS )
+	{
 
-	std::cout << "htb destroy flow setup" << std::endl;
-	return NET_TC_SUCCESS;
+		 modify_filter(flowId, filters, bidir,  TC_FILTER_DELETE);
+
+		 err = class_delete_HTB(sk, nllink, flowId);
+		 if (err != 0 )
+			throw ProcError(err, "Error deleting HTB class"); 
+		
+    } 
+    else
+		 throw ProcError(NET_TC_PARAMETER_ERROR, 
+							"HTB Flow destroy - not enought parameters"); 
+
 }
 
 
@@ -499,10 +668,9 @@ char* getErrorMsg( int code )
 }
 
 
-int timeout( int timerID, void *flowdata )
+void timeout( int timerID, void *flowdata )
 {
 	std::cout << "htb timeout" << std::endl;
-    return 0;
 }
 
 

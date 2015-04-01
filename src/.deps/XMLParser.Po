@@ -207,8 +207,8 @@ XMLParser.o: XMLParser.cpp ../include/XMLParser.h ../include/stdincpp.h \
  /usr/include/libxml2/libxml/xlink.h /usr/include/libxml2/libxml/SAX2.h \
  /usr/include/libxml2/libxml/xmlmemory.h \
  /usr/include/libxml2/libxml/threads.h ../include/Logger.h \
- ../include/Error.h ../include/Threads.h ../include/constants.h \
- ../include/constants_qos.h
+ ../include/ProcError.h ../include/Error.h ../include/Threads.h \
+ ../include/constants.h ../include/constants_qos.h
 
 ../include/XMLParser.h:
 
@@ -793,6 +793,8 @@ XMLParser.o: XMLParser.cpp ../include/XMLParser.h ../include/stdincpp.h \
 /usr/include/libxml2/libxml/threads.h:
 
 ../include/Logger.h:
+
+../include/ProcError.h:
 
 ../include/Error.h:
 

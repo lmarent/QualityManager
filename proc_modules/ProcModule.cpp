@@ -127,33 +127,6 @@ uint32_t parseUInt32( unsigned char *val )
 	return val_return;
 }
 
-/*static*/ u_int16_t parse_protocol(const char *s)
-{
-    unsigned int proto;
-  
-    if (string_to_number(s, 0, 255, &proto) == -1) {
-	struct protoent *pent;
- 
-	if ((pent = getprotobyname(s)))
-	    proto = pent->p_proto;
-	else {
-	    unsigned int i;
-	    for (i = 0; i < sizeof(chain_protos)/sizeof(struct pprot); i++) {
-		if (strcmp(s, chain_protos[i].name) == 0) {
-		    proto = chain_protos[i].num;
-		    break;
-		}
-	    }
-	    if (i == sizeof(chain_protos)/sizeof(struct pprot))
-		exit_error(PARAMETER_PROBLEM, "unknown protocol `%s' specified", s);
-	}
-    }
-  
-    return (u_int16_t)proto;
-}                           
-
-
-
 unsigned long long parseULLong( string s )
 {
     char *errp = NULL;
@@ -284,7 +257,7 @@ inline struct in6_addr parseIP6Addr(string s)
     return a;	
 }
 
-inline int parseBool(string s)
+int parseBool(string s)
 {
     if ((s == "yes") || (s == "1") || (s == "true")) {
         return 1;

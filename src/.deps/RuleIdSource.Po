@@ -191,7 +191,8 @@ RuleIdSource.o: RuleIdSource.cpp ../include/RuleIdSource.h \
  /usr/include/c++/4.6/debug/set.h /usr/include/c++/4.6/debug/multiset.h \
  /usr/include/c++/4.6/bitset /usr/include/c++/4.6/debug/bitset \
  /usr/include/c++/4.6/iomanip ../include/Error.h ../include/Logger.h \
- ../include/Threads.h ../include/constants.h ../include/constants_qos.h
+ ../include/ProcError.h ../include/Threads.h ../include/constants.h \
+ ../include/constants_qos.h
 
 ../include/RuleIdSource.h:
 
@@ -734,6 +735,8 @@ RuleIdSource.o: RuleIdSource.cpp ../include/RuleIdSource.h \
 ../include/Error.h:
 
 ../include/Logger.h:
+
+../include/ProcError.h:
 
 ../include/Threads.h:
 

@@ -21,7 +21,7 @@
   </MAIN>
   <CONTROL>
     <!-- enable remote control interface -->
-    <PREF NAME="Enable" TYPE="Bool">no</PREF>
+    <PREF NAME="Enable" TYPE="Bool">yes</PREF>
     <!-- port for control connections -->
     <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
     <!-- use SSL encryption -->
@@ -34,7 +34,8 @@
     <PREF NAME="LogMeterCommand" TYPE="Bool">yes</PREF>
     <!-- access list -->
     <ACCESS>
-      <ALLOW TYPE="Host">localhost</ALLOW>
+      <ALLOW TYPE="Host">All</ALLOW>
+      <ALLOW TYPE="User">admin:admin</ALLOW>
       <DENY>All</DENY>
     </ACCESS>
   </CONTROL>
@@ -48,13 +49,13 @@
     <!-- buffers in queue between classifier and packet processor -->
     <PREF NAME="PacketQueueBuffers" TYPE="UInt32">20000</PREF>
     <!-- module which is preloaded at startup, if the user put a list, the SW will only load the first module defined-->
-    <PREF NAME="Modules">htb</PREF>
+    <PREF NAME="Modules">htb	</PREF>
     <MODULES>
       <MODULE NAME="htb">
-		  <!-- Total interface Rate is on mbps -->
-		  <PREF NAME="Rate" TYPE="UInt32">1</PREF>
-		  <!-- Burst for the interface -->
-		  <PREF NAME="Burst" TYPE="UInt32">5555</PREF>
+		  <!-- Total interface Rate is on bytes  -->
+		  <PREF NAME="Rate" TYPE="UInt32">102400</PREF>
+		  <!-- Burst for the interface is on bytes -->
+		  <PREF NAME="Burst" TYPE="UInt32">1556</PREF>
       </MODULE>
       <MODULE NAME="tbf">
 		  <!-- Total interface Rate is on mbps -->

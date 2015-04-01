@@ -5,7 +5,7 @@
 /* #undef ALPHA */
 
 /* "release date" */
-#define BUILD_TIME "11/03/2015 16:19:32"
+#define BUILD_TIME "01/04/2015 15:28:42"
 
 /* "bin dir" */
 #define DEF_BINDIR "/usr/local/bin"
@@ -21,6 +21,9 @@
 
 /* enable debug build */
 #define ENABLE_DEBUG 1
+
+/* enable mpatrol linking */
+/* #undef ENABLE_MP */
 
 /* enable multi threading */
 /* #undef ENABLE_THREADS */
@@ -39,6 +42,9 @@
 
 /* Define to 1 if you have the `bzero' function. */
 #define HAVE_BZERO 1
+
+/* Use CURL */
+#define HAVE_CURL 1
 
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
    */
@@ -117,19 +123,25 @@
 #define HAVE_NET_ETHERNET_H 1
 
 /* Define to 1 if you have the <openssl/bio.h> header file. */
-#define HAVE_OPENSSL_BIO_H 1
+/* #undef HAVE_OPENSSL_BIO_H */
 
 /* Define to 1 if you have the <openssl/err.h> header file. */
-#define HAVE_OPENSSL_ERR_H 1
+/* #undef HAVE_OPENSSL_ERR_H */
 
 /* Define to 1 if you have the <openssl/evp.h> header file. */
-#define HAVE_OPENSSL_EVP_H 1
+/* #undef HAVE_OPENSSL_EVP_H */
 
 /* Define to 1 if you have the <openssl/ssl.h> header file. */
-#define HAVE_OPENSSL_SSL_H 1
+/* #undef HAVE_OPENSSL_SSL_H */
 
 /* Define to 1 if you have the <pthread.h> header file. */
 /* #undef HAVE_PTHREAD_H */
+
+/* Define to 1 if you have the <readline/history.h> header file. */
+#define HAVE_READLINE_HISTORY_H 1
+
+/* Define to 1 if you have the <readline/readline.h> header file. */
+#define HAVE_READLINE_READLINE_H 1
 
 /* Define to 1 if you have the `select' function. */
 #define HAVE_SELECT 1
@@ -243,7 +255,7 @@
 /* #undef SOLARIS */
 
 /* password for ssl encryption */
-#define SSL_PASSWD "netmate"
+/* #undef SSL_PASSWD */
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -255,7 +267,7 @@
 #define UNIX 1
 
 /* use ssl flag */
-#define USE_SSL 1
+/* #undef USE_SSL */
 
 /* Version number of package */
 #define VERSION "0.1"

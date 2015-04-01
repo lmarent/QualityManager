@@ -1,4 +1,4 @@
-getopt_long.o: getopt_long.c getopt_long.h ../../../config.h \
+getopt_long.o: getopt_long.c getopt_long.h ../../config.h \
  /usr/include/getopt.h /usr/include/ctype.h /usr/include/features.h \
  /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
@@ -12,7 +12,7 @@ getopt_long.o: getopt_long.c getopt_long.h ../../../config.h \
 
 getopt_long.h:
 
-../../../config.h:
+../../config.h:
 
 /usr/include/getopt.h:
 

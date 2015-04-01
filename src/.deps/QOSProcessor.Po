@@ -1,7 +1,5 @@
-QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
- ../include/stdincpp.h ../include/stdinc.h ../config.h \
- /usr/include/stdio.h /usr/include/features.h \
- /usr/include/i386-linux-gnu/bits/predefs.h \
+QOSProcessor.o: QOSProcessor.cpp /usr/include/stdio.h \
+ /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
  /usr/include/i386-linux-gnu/gnu/stubs.h \
@@ -24,7 +22,8 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
  /usr/include/i386-linux-gnu/bits/time.h \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
- /usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/limits.h \
+ ../include/ProcError.h ../include/stdincpp.h ../include/stdinc.h \
+ ../config.h /usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/limits.h \
  /usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/syslimits.h \
  /usr/include/limits.h /usr/include/i386-linux-gnu/bits/posix1_lim.h \
  /usr/include/i386-linux-gnu/bits/local_lim.h /usr/include/linux/limits.h \
@@ -190,9 +189,10 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
  /usr/include/c++/4.6/bits/stl_multiset.h /usr/include/c++/4.6/debug/set \
  /usr/include/c++/4.6/debug/set.h /usr/include/c++/4.6/debug/multiset.h \
  /usr/include/c++/4.6/bitset /usr/include/c++/4.6/debug/bitset \
- /usr/include/c++/4.6/iomanip ../include/ProcModule.h \
- ../include/ProcModuleInterface.h ../include/metadata.h \
- ../include/FilterDefParser.h /usr/include/libxml2/libxml/parser.h \
+ /usr/include/c++/4.6/iomanip ../include/QOSProcessor.h \
+ ../include/ProcModule.h ../include/ProcModuleInterface.h \
+ ../include/metadata.h ../include/FilterDefParser.h \
+ /usr/include/libxml2/libxml/parser.h \
  /usr/include/libxml2/libxml/xmlversion.h \
  /usr/include/libxml2/libxml/xmlexports.h \
  /usr/include/libxml2/libxml/tree.h \
@@ -210,8 +210,8 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
  /usr/include/libxml2/libxml/xlink.h /usr/include/libxml2/libxml/SAX2.h \
  /usr/include/libxml2/libxml/xmlmemory.h \
  /usr/include/libxml2/libxml/threads.h ../include/Logger.h \
- ../include/Error.h ../include/Threads.h ../include/constants.h \
- ../include/constants_qos.h ../include/XMLParser.h \
+ ../include/ProcError.h ../include/Error.h ../include/Threads.h \
+ ../include/constants.h ../include/constants_qos.h ../include/XMLParser.h \
  ../include/FilterValue.h ../include/PerfTimer.h ../include/Module.h \
  ../include/ConfigManager.h ../include/ConfigParser.h \
  ../include/CommandLineArgs.h ../lib/getopt_long/getopt_long.h \
@@ -225,35 +225,8 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
  /usr/include/i386-linux-gnu/sys/signal.h \
  /usr/include/i386-linux-gnu/sys/utsname.h \
  /usr/include/i386-linux-gnu/bits/utsname.h /usr/include/netinet/tcp.h \
- /usr/include/openssl/ssl.h /usr/include/openssl/e_os2.h \
- /usr/include/openssl/opensslconf.h /usr/include/openssl/comp.h \
- /usr/include/openssl/crypto.h /usr/include/openssl/stack.h \
- /usr/include/openssl/safestack.h /usr/include/openssl/opensslv.h \
- /usr/include/openssl/ossl_typ.h /usr/include/openssl/symhacks.h \
- /usr/include/openssl/bio.h /usr/include/openssl/x509.h \
- /usr/include/openssl/buffer.h /usr/include/openssl/evp.h \
- /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
- /usr/include/openssl/asn1.h /usr/include/openssl/bn.h \
- /usr/include/openssl/ec.h /usr/include/openssl/ecdsa.h \
- /usr/include/openssl/ecdh.h /usr/include/openssl/rsa.h \
- /usr/include/openssl/dsa.h /usr/include/openssl/dh.h \
- /usr/include/openssl/sha.h /usr/include/openssl/x509_vfy.h \
- /usr/include/openssl/lhash.h /usr/include/openssl/pkcs7.h \
- /usr/include/openssl/pem.h /usr/include/openssl/pem2.h \
- /usr/include/openssl/hmac.h /usr/include/openssl/kssl.h \
- /usr/include/openssl/ssl2.h /usr/include/openssl/ssl3.h \
- /usr/include/openssl/tls1.h /usr/include/openssl/dtls1.h \
- /usr/include/openssl/pqueue.h /usr/include/openssl/ssl23.h \
- /usr/include/openssl/srtp.h ../include/EventScheduler.h \
- ../include/Timeval.h ../include/Module.h ../include/ParserFcts.h
-
-../include/QOSProcessor.h:
-
-../include/stdincpp.h:
-
-../include/stdinc.h:
-
-../config.h:
+ ../include/EventScheduler.h ../include/Timeval.h ../include/Module.h \
+ ../include/ParserFcts.h
 
 /usr/include/stdio.h:
 
@@ -318,6 +291,14 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
 /usr/include/i386-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/alloca.h:
+
+../include/ProcError.h:
+
+../include/stdincpp.h:
+
+../include/stdinc.h:
+
+../config.h:
 
 /usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/limits.h:
 
@@ -785,6 +766,8 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
 
 /usr/include/c++/4.6/iomanip:
 
+../include/QOSProcessor.h:
+
 ../include/ProcModule.h:
 
 ../include/ProcModuleInterface.h:
@@ -838,6 +821,8 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
 /usr/include/libxml2/libxml/threads.h:
 
 ../include/Logger.h:
+
+../include/ProcError.h:
 
 ../include/Error.h:
 
@@ -896,84 +881,6 @@ QOSProcessor.o: QOSProcessor.cpp ../include/QOSProcessor.h \
 /usr/include/i386-linux-gnu/bits/utsname.h:
 
 /usr/include/netinet/tcp.h:
-
-/usr/include/openssl/ssl.h:
-
-/usr/include/openssl/e_os2.h:
-
-/usr/include/openssl/opensslconf.h:
-
-/usr/include/openssl/comp.h:
-
-/usr/include/openssl/crypto.h:
-
-/usr/include/openssl/stack.h:
-
-/usr/include/openssl/safestack.h:
-
-/usr/include/openssl/opensslv.h:
-
-/usr/include/openssl/ossl_typ.h:
-
-/usr/include/openssl/symhacks.h:
-
-/usr/include/openssl/bio.h:
-
-/usr/include/openssl/x509.h:
-
-/usr/include/openssl/buffer.h:
-
-/usr/include/openssl/evp.h:
-
-/usr/include/openssl/objects.h:
-
-/usr/include/openssl/obj_mac.h:
-
-/usr/include/openssl/asn1.h:
-
-/usr/include/openssl/bn.h:
-
-/usr/include/openssl/ec.h:
-
-/usr/include/openssl/ecdsa.h:
-
-/usr/include/openssl/ecdh.h:
-
-/usr/include/openssl/rsa.h:
-
-/usr/include/openssl/dsa.h:
-
-/usr/include/openssl/dh.h:
-
-/usr/include/openssl/sha.h:
-
-/usr/include/openssl/x509_vfy.h:
-
-/usr/include/openssl/lhash.h:
-
-/usr/include/openssl/pkcs7.h:
-
-/usr/include/openssl/pem.h:
-
-/usr/include/openssl/pem2.h:
-
-/usr/include/openssl/hmac.h:
-
-/usr/include/openssl/kssl.h:
-
-/usr/include/openssl/ssl2.h:
-
-/usr/include/openssl/ssl3.h:
-
-/usr/include/openssl/tls1.h:
-
-/usr/include/openssl/dtls1.h:
-
-/usr/include/openssl/pqueue.h:
-
-/usr/include/openssl/ssl23.h:
-
-/usr/include/openssl/srtp.h:
 
 ../include/EventScheduler.h:
 

@@ -27,11 +27,15 @@
 
 #include "config.h"
 #include <stdio.h>
-#include "ProcModule.h"
 #include "arpa/inet.h"
 #include <sys/types.h>
 #include <time.h>     
 #include <iostream>
+
+#include "ProcError.h"
+#include "ProcModule.h"
+#include "TcNetqosErrorCode.h"
+
 
 
 const int COUNTCHUNK = 20;    /* new entries per realloc */
@@ -59,29 +63,28 @@ typedef struct {
 struct timeval zerotime = {0,0};
 
 
-int initModule(configParam_t *params)
+void initModule(configParam_t *params)
 {
     std::cout << "priority init module" << std::endl;
-    return 0;
 }
 
 
-int destroyModule()
+void destroyModule()
 {
     std::cout << "priority destroy module" << std::endl;
-    return 0;
 }
 
 
-int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata )
+void initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata )
 {
 	accData_t *data;
 
     data = (accData_t *) malloc( sizeof(accData_t) );
 
-    if (data == NULL ) {
-        return -1;
-    }
+    if (data == NULL ) 
+        throw ProcError(NET_TC_PARAMETER_ERROR, 
+							"TBF Flow init - allocation flow data error");
+    
 
     /* copy default timers to current timers array for a specific task */
     memcpy(data->currTimers, timers, sizeof(timers));
@@ -111,26 +114,29 @@ int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata
     }
     
     *flowdata = data;
-	
+
+#ifdef DEBUG
 	std::cout << "priority init flow setup" << std::endl;
-    return 0;
+#endif
+
 }
 
 
-int resetFlowSetup( configParam_t *params )
+void resetFlowSetup( configParam_t *params )
 {
 	std::cout << "priority reset flow setup" << std::endl;
-    return 0;
 }
 
 
-int destroyFlowSetup( void *flowdata )
+void destroyFlowSetup( configParam_t *params, filterList_t *filters, void *flowdata )
 {
 	accData_t *data = (accData_t *)flowdata;
 	free( data );
 
+#ifdef DEBUG
 	std::cout << "priority destroy flow setup" << std::endl;
-	return 0;
+#endif
+
 }
 
 
@@ -164,10 +170,9 @@ char* getErrorMsg( int code )
 }
 
 
-int timeout( int timerID, void *flowdata )
+void timeout( int timerID, void *flowdata )
 {
 	std::cout << "priority time out" << std::endl;
-    return 0;
 }
 
 

@@ -1,4 +1,4 @@
-ProcError.lo: ProcError.cpp ProcError.h ../include/stdincpp.h \
+ProcError.lo: ProcError.cpp ../include/ProcError.h ../include/stdincpp.h \
  ../include/stdinc.h ../config.h /usr/include/stdio.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
@@ -179,7 +179,7 @@ ProcError.lo: ProcError.cpp ProcError.h ../include/stdincpp.h \
  /usr/include/c++/4.6/bits/stl_multiset.h /usr/include/c++/4.6/bitset \
  /usr/include/c++/4.6/iomanip
 
-ProcError.h:
+../include/ProcError.h:
 
 ../include/stdincpp.h:
 

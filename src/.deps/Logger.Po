@@ -189,8 +189,9 @@ Logger.o: Logger.cpp ../include/Error.h ../include/stdincpp.h \
  /usr/include/c++/4.6/bits/stl_multiset.h /usr/include/c++/4.6/debug/set \
  /usr/include/c++/4.6/debug/set.h /usr/include/c++/4.6/debug/multiset.h \
  /usr/include/c++/4.6/bitset /usr/include/c++/4.6/debug/bitset \
- /usr/include/c++/4.6/iomanip ../include/Logger.h ../include/Error.h \
- ../include/Threads.h ../include/constants.h ../include/constants_qos.h
+ /usr/include/c++/4.6/iomanip ../include/Logger.h ../include/ProcError.h \
+ ../include/Error.h ../include/Threads.h ../include/constants.h \
+ ../include/constants_qos.h
 
 ../include/Error.h:
 
@@ -731,6 +732,8 @@ Logger.o: Logger.cpp ../include/Error.h ../include/stdincpp.h \
 /usr/include/c++/4.6/iomanip:
 
 ../include/Logger.h:
+
+../include/ProcError.h:
 
 ../include/Error.h:
 

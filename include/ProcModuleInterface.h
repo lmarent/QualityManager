@@ -118,6 +118,15 @@ typedef enum {
 
 #define TIMER_END  { (unsigned int)-1, 0 /*ival==0 marks list end*/, TM_END }
 
+
+static const int offset_refer[] = {
+    ( -14 ),
+    ( 0 ),
+    ( 0 ),
+    ( 0 )
+};
+
+
 // FIXME document!
 const int MAX_FILTER_SET_SIZE = 16;
 
@@ -170,13 +179,13 @@ typedef int (*proc_timeout_func_t)( int timerID, void *flowdata );
 /*! \short   initialize the action module upon loading 
    \returns 0 - on success, <0 - else 
 */
-int initModule( configParam_t *params );
+void initModule( configParam_t *params );
 
 
 /*! \short   cleanup action module structures before it is unloaded 
    \returns 0 - on success, <0 - else 
 */
-int destroyModule();
+void destroyModule();
 
 
 /*! \short   initialize flow data record for a rule
@@ -189,7 +198,7 @@ int destroyModule();
     \arg \c  flowdata  - place for action module specific data from flow table
     \returns 0 - on success (parameters are valid), <0 - else
 */
-int initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata );
+void initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata );
 
 
 /*! \short   get list of default timers for this proc module
@@ -205,7 +214,7 @@ timers_t* getTimers( void *flowdata );
     \arg \c  flowdata  - place of action module specific data from flow table
     \returns 0 - on success, <0 - else
 */
-int destroyFlowSetup( configParam_t *params, void *flowdata );
+void destroyFlowSetup( configParam_t *params, filterList_t *filters, void *flowdata );
 
 
 /*! \short   reset flow data record for a rule
@@ -213,7 +222,7 @@ int destroyFlowSetup( configParam_t *params, void *flowdata );
     \arg \c  flowdata  - place of action module specific data from flow table
     \returns 0 - on success, <0 - else
 */
-int resetFlowSetup( configParam_t *params );
+void resetFlowSetup( configParam_t *params );
 
 
 /*! \short  check module parameters for a set of rules for correctness
@@ -260,7 +269,7 @@ const char* getModuleInfo( int i );
 
 /*! \short   this function is called if the module supports a timeout callback function every x seconds and its invokation is configured to make use of the timeout feature
  */
-int timeout( int timerID, void *flowdata );
+void timeout( int timerID, void *flowdata );
 
 
 /*! \short   return error message for last failed function
@@ -284,16 +293,16 @@ typedef struct {
 
     int version;
 
-    int (*initModule)( configParam_t *params );
-    int (*destroyModule)();
+    void (*initModule)( configParam_t *params );
+    void (*destroyModule)();
 
     /*    int (*getFlowRecSize)(); -- deprecated -- */
-    int (*initFlowSetup)( configParam_t *params, filterList_t *filters, void **flowdata );
+    void (*initFlowSetup)( configParam_t *params, filterList_t *filters, void **flowdata );
     timers_t* (*getTimers)( void *flowdata );
-    int (*destroyFlowSetup)( configParam_t *params, void *flowdata );
+    void (*destroyFlowSetup)( configParam_t *params, filterList_t *filters, void *flowdata );
 
-    int (*resetFlowSetup)( configParam_t *params );
-    int (*timeout)( int timerID, void *flowdata );
+    void (*resetFlowSetup)( configParam_t *params );
+    void (*timeout)( int timerID, void *flowdata );
 
     const char* (*getModuleInfo)(int i);
     char* (*getErrorMsg)( int code );

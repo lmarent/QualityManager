@@ -50,20 +50,8 @@
 #include <netlink/route/qdisc/sfq.h>
 #include <linux/if_ether.h>
 #include <netlink/attr.h>
+#include "TcNetqosErrorCode.h"
 
-
-#define NET_TC_SUCCESS 0
-#define NET_TC_QDISC_ALLOC_ERROR -1
-#define NET_TC_QDISC_SETUP_ERROR -2
-#define NET_TC_QDISC_ESTABLISH_ERROR -3
-#define NET_TC_CLASS_ALLOC_ERROR -4
-#define NET_TC_CLASS_SETUP_ERROR -5
-#define NET_TC_CLASS_ESTABLISH_ERROR -6
-#define NET_TC_CLASSIFIER_ALLOC_ERROR -7
-#define NET_TC_CLASSIFIER_SETUP_ERROR -8
-#define NET_TC_CLASSIFIER_ESTABLISH_ERROR -9
-#define NET_TC_LINK_ERROR -10
-#define NET_TC_PARAMETER_ERROR -11
 
 
 #ifdef __cplusplus
@@ -73,6 +61,7 @@ extern "C" {
 extern uint32_t NET_ROOT_HANDLE_MAJOR;
 extern uint32_t NET_ROOT_HANDLE_MINOR;
 extern uint32_t NET_DEFAULT_CLASS;
+extern uint32_t NET_FILTER_HANDLE_MINOR;
 
 /**
  * Compute tc handle based on major and minor parts
@@ -104,16 +93,25 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock,
 						  struct rtnl_link *rtnlLink, 
 						  uint32_t childMin );
 
-int u32_add_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-				   uint32_t prio, const char *keyval_str, const char *keymask_str, 
-				   int keyoff, int keyoffmask, uint32_t parentMaj, 
-			       uint32_t parentMin, uint32_t classfierMah, 
-			       uint32_t classfierMin);
-			       
-int u32_delete_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-				   uint32_t prio, const char *keyval_str, const char *keymask_str, 
-				   int keyoff, int keyoffmask, uint32_t parentMaj, 
-			       uint32_t parentMin, uint32_t classfierMah, uint32_t classfierMin );			       
+int create_u32_classifier(struct nl_sock *sock, 
+						  struct rtnl_link *rtnlLink, 
+						  struct rtnl_cls **cls_out,
+						  uint32_t prio, 
+						  uint32_t parentMaj, 
+						  uint32_t parentMin,
+						  uint32_t classfierMaj, 
+						  uint32_t classfierMin);
+
+int u32_add_key_filter(struct rtnl_cls *cls, const unsigned char *keyval_str, 
+				   const unsigned char *keymask_str, unsigned short len,
+				   int keyoff, int keyoffmask );
+
+int save_add_u32_filter(struct nl_sock *sock,
+					struct rtnl_cls *cls);
+
+int save_delete_u32_filter(struct nl_sock *sock,
+					struct rtnl_cls *cls);
+     
 
 #ifdef __cplusplus
 }

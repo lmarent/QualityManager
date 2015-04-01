@@ -27,6 +27,7 @@
 
 #include "Error.h"
 #include "Logger.h"
+#include "ProcError.h"
 #include "ProcModule.h"
 #include "ProcModuleInterface.h"
 #include "ConfigManager.h"
@@ -79,18 +80,22 @@ ProcModule::ProcModule( ConfigManager *_cnf, string libname, string libfile,
  
 	setOwnName(libname); // TODO (change): read ownName from module properties XML file
 
-	cout << "loading module" << libname << endl;
-	cnf->dump(cout);
-	configItemList_t list = cnf->getItems(confgroup, libname);
-	configItem_t * intfc = cnf->getItem("NetInterface");
-	list.push_back(*intfc);
-	configParam_t *params = cnf->getParamList(list);
-    res = funcList->initModule(params);
-    if (res != 0) {
-        s_log->elog(s_ch, "initialization for module '%s' failed: %s",
-                    libname.c_str(), funcList->getErrorMsg(res));
-    }
-
+	try
+	{
+		cout << "loading module" << libname << endl;
+		cnf->dump(cout);
+		configItemList_t list = cnf->getItems(confgroup, libname);
+		configItem_t * intfc = cnf->getItem("NetInterface");
+		list.push_back(*intfc);
+		configParam_t *params = cnf->getParamList(list);
+		funcList->initModule(params);
+	}
+	catch(ProcError &e)
+	{
+		s_log->elog(s_ch, "initialization for module '%s' failed: %s",
+					libname.c_str(), funcList->getErrorMsg(res));
+	
+	}
     moduleInfoXML = makeModuleInfoXML();
 #ifdef MODULE_DEBUG
     cerr << getModuleInfoXML();

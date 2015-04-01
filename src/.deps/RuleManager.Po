@@ -190,10 +190,11 @@ RuleManager.o: RuleManager.cpp ../include/RuleManager.h \
  /usr/include/c++/4.6/bits/stl_multiset.h /usr/include/c++/4.6/debug/set \
  /usr/include/c++/4.6/debug/set.h /usr/include/c++/4.6/debug/multiset.h \
  /usr/include/c++/4.6/bitset /usr/include/c++/4.6/debug/bitset \
- /usr/include/c++/4.6/iomanip ../include/Logger.h ../include/Error.h \
- ../include/Threads.h ../include/constants.h ../include/constants_qos.h \
- ../include/RuleIdSource.h ../include/Rule.h ../include/PerfTimer.h \
- ../include/ConfigParser.h /usr/include/libxml2/libxml/parser.h \
+ /usr/include/c++/4.6/iomanip ../include/Logger.h ../include/ProcError.h \
+ ../include/Error.h ../include/Threads.h ../include/constants.h \
+ ../include/constants_qos.h ../include/RuleIdSource.h ../include/Rule.h \
+ ../include/PerfTimer.h ../include/ConfigParser.h \
+ /usr/include/libxml2/libxml/parser.h \
  /usr/include/libxml2/libxml/xmlversion.h \
  /usr/include/libxml2/libxml/xmlexports.h \
  /usr/include/libxml2/libxml/tree.h \
@@ -224,27 +225,7 @@ RuleManager.o: RuleManager.cpp ../include/RuleManager.h \
  /usr/include/i386-linux-gnu/sys/signal.h \
  /usr/include/i386-linux-gnu/sys/utsname.h \
  /usr/include/i386-linux-gnu/bits/utsname.h /usr/include/netinet/tcp.h \
- /usr/include/openssl/ssl.h /usr/include/openssl/e_os2.h \
- /usr/include/openssl/opensslconf.h /usr/include/openssl/comp.h \
- /usr/include/openssl/crypto.h /usr/include/openssl/stack.h \
- /usr/include/openssl/safestack.h /usr/include/openssl/opensslv.h \
- /usr/include/openssl/ossl_typ.h /usr/include/openssl/symhacks.h \
- /usr/include/openssl/bio.h /usr/include/openssl/x509.h \
- /usr/include/openssl/buffer.h /usr/include/openssl/evp.h \
- /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
- /usr/include/openssl/asn1.h /usr/include/openssl/bn.h \
- /usr/include/openssl/ec.h /usr/include/openssl/ecdsa.h \
- /usr/include/openssl/ecdh.h /usr/include/openssl/rsa.h \
- /usr/include/openssl/dsa.h /usr/include/openssl/dh.h \
- /usr/include/openssl/sha.h /usr/include/openssl/x509_vfy.h \
- /usr/include/openssl/lhash.h /usr/include/openssl/pkcs7.h \
- /usr/include/openssl/pem.h /usr/include/openssl/pem2.h \
- /usr/include/openssl/hmac.h /usr/include/openssl/kssl.h \
- /usr/include/openssl/ssl2.h /usr/include/openssl/ssl3.h \
- /usr/include/openssl/tls1.h /usr/include/openssl/dtls1.h \
- /usr/include/openssl/pqueue.h /usr/include/openssl/ssl23.h \
- /usr/include/openssl/srtp.h ../include/PageRepository.h \
- ../include/constants.h
+ ../include/PageRepository.h ../include/constants.h
 
 ../include/RuleManager.h:
 
@@ -786,6 +767,8 @@ RuleManager.o: RuleManager.cpp ../include/RuleManager.h \
 
 ../include/Logger.h:
 
+../include/ProcError.h:
+
 ../include/Error.h:
 
 ../include/Threads.h:
@@ -895,84 +878,6 @@ RuleManager.o: RuleManager.cpp ../include/RuleManager.h \
 /usr/include/i386-linux-gnu/bits/utsname.h:
 
 /usr/include/netinet/tcp.h:
-
-/usr/include/openssl/ssl.h:
-
-/usr/include/openssl/e_os2.h:
-
-/usr/include/openssl/opensslconf.h:
-
-/usr/include/openssl/comp.h:
-
-/usr/include/openssl/crypto.h:
-
-/usr/include/openssl/stack.h:
-
-/usr/include/openssl/safestack.h:
-
-/usr/include/openssl/opensslv.h:
-
-/usr/include/openssl/ossl_typ.h:
-
-/usr/include/openssl/symhacks.h:
-
-/usr/include/openssl/bio.h:
-
-/usr/include/openssl/x509.h:
-
-/usr/include/openssl/buffer.h:
-
-/usr/include/openssl/evp.h:
-
-/usr/include/openssl/objects.h:
-
-/usr/include/openssl/obj_mac.h:
-
-/usr/include/openssl/asn1.h:
-
-/usr/include/openssl/bn.h:
-
-/usr/include/openssl/ec.h:
-
-/usr/include/openssl/ecdsa.h:
-
-/usr/include/openssl/ecdh.h:
-
-/usr/include/openssl/rsa.h:
-
-/usr/include/openssl/dsa.h:
-
-/usr/include/openssl/dh.h:
-
-/usr/include/openssl/sha.h:
-
-/usr/include/openssl/x509_vfy.h:
-
-/usr/include/openssl/lhash.h:
-
-/usr/include/openssl/pkcs7.h:
-
-/usr/include/openssl/pem.h:
-
-/usr/include/openssl/pem2.h:
-
-/usr/include/openssl/hmac.h:
-
-/usr/include/openssl/kssl.h:
-
-/usr/include/openssl/ssl2.h:
-
-/usr/include/openssl/ssl3.h:
-
-/usr/include/openssl/tls1.h:
-
-/usr/include/openssl/dtls1.h:
-
-/usr/include/openssl/pqueue.h:
-
-/usr/include/openssl/ssl23.h:
-
-/usr/include/openssl/srtp.h:
 
 ../include/PageRepository.h:
 

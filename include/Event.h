@@ -58,7 +58,11 @@ const string eventNames[] =
       "Activate-rules",
       "Get-info",
       "Get-module-info",
-      "Test"
+      "Test",
+      "Remove-rules-ctrlcomm",
+      "Add-rules-ctrlcomm",
+      "Proc-module-timer",
+      "Ctrlcomm-timer",      
 };
 
 /* ------------------------- Event class ------------------------- */

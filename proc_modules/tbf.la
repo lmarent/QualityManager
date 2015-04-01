@@ -17,7 +17,7 @@ old_library='tbf.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -lnl-route-3 -lnl-3 -L/lib -L/usr/local/lib -L/usr/lib /usr/lib/i386-linux-gnu/libxml2.la -lcrypto -lPocoFoundation -lPocoUtil -lPocoNet'
+dependency_libs=' -L/usr/local/lib /usr/local/lib/libnl-route-3.la /usr/local/lib/libnl-3.la -lpthread -L/lib -L/usr/lib /usr/lib/i386-linux-gnu/libxml2.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

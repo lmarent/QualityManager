@@ -97,7 +97,8 @@ CCDEPMODE = depmode=gcc3
 CFLAGS =  -Wall -I/usr/include/libxml2
 CPP = gcc -E
 CPPFLAGS =  -I/usr/include/libxml2
-CURLLIB = 
+CURL_CFLAGS =  
+CURL_LIBS = -lcurl  
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
@@ -132,9 +133,9 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPTABLES_VERSION = 
 LD = /usr/bin/ld
-LDFLAGS =  -L/lib -L/usr/local/lib -L/usr/lib  -L/usr/lib/i386-linux-gnu -lxml2
+LDFLAGS =  -L/lib -L/usr/local/lib -L/usr/lib  -ltermcap -L/usr/lib/i386-linux-gnu -lxml2
 LIBOBJS = 
-LIBS =  -lcrypto -lPocoFoundation -lPocoUtil -lPocoNet
+LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
@@ -144,10 +145,11 @@ MAKEINFO = ${SHELL} /home/luis/QualityManager/missing --run makeinfo
 MANIFEST_TOOL = :
 MATHLIB = 
 MKDIR_P = /bin/mkdir -p
-NL3_CFLAGS = -I/usr/include/libnl3  
-NL3_LIBS = -lnl-3  
-NL_ROUTE_3_CFLAGS = -I/usr/include/libnl3  
-NL_ROUTE_3_LIBS = -lnl-route-3 -lnl-3  
+MPATROLLIB = 
+NL3_CFLAGS = -I/usr/local/include/libnl3  
+NL3_LIBS = -L/usr/local/lib -lnl-3  
+NL_ROUTE_3_CFLAGS = -I/usr/local/include/libnl3  
+NL_ROUTE_3_LIBS = -L/usr/local/lib -lnl-route-3 -lnl-3  
 NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
@@ -168,16 +170,16 @@ PKG_CONFIG_LIBDIR =
 PKG_CONFIG_PATH = 
 PTHREADLIB = 
 RANLIB = ranlib
-READLINELIB = 
+READLINELIB =  -lreadline
 REL_DATE = 
 SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
-SSLLIB = -lssl
-SSL_PASSWD = netmate
+SSLLIB = 
+SSL_PASSWD = 
 STRIP = strip
 ULOGLIB = 
-USE_SSL = -DUSE_SSL
+USE_SSL = 
 VERSION = 0.1
 XMLLIB = -lxml2
 XML_CONFIG = /usr/bin/xml2-config
@@ -224,9 +226,9 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-poco_CFLAGS = -DHAVE_PCAP -I/usr/local/include/Poco
-poco_LDFLAGS = -L/usr/local/lib/
-poco_LIBS = -lPocoFoundation -lPocoUtil -lPocoNet
+poco_CFLAGS = 
+poco_LDFLAGS = 
+poco_LIBS = 
 prefix = /usr/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
@@ -261,13 +263,13 @@ INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
 
 qualityManager_LDADD = $(top_builddir)/lib/getopt_long/libgetopt_long.a \
 					   $(top_builddir)/lib/httpd/libhttpd.a \
-					     -lssl -lxml2
+					      -lxml2
 
 
 # what flags you want to pass to the C compiler & linker
-AM_CPPFLAGS = -g -I../include -DHAVE_PCAP -I/usr/local/include/Poco -I/usr/include/libnl3   -I/usr/include/libnl3  
-AM_LDFLAGS = -L/usr/local/lib/ -lnl-3   -lnl-route-3 -lnl-3  
-LDADD = -lPocoFoundation -lPocoUtil -lPocoNet 
+AM_CPPFLAGS = -g -I../include  -I/usr/local/include/libnl3   -I/usr/local/include/libnl3  
+AM_LDFLAGS =  -L/usr/local/lib -lnl-3   -L/usr/local/lib -lnl-route-3 -lnl-3  
+LDADD =  
 all: all-am
 
 .SUFFIXES:

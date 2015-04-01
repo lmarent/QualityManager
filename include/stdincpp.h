@@ -32,7 +32,8 @@
 #ifndef __STDINCPP_H
 #define __STDINCPP_H
 
-extern "C" {
+extern "C" 
+{
 #include "stdinc.h"
 }
 

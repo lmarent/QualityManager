@@ -51,10 +51,13 @@
 #include <linux/if_ether.h>
 #include <netlink/attr.h>
 #include "htb_functions.h"
+
  
-uint32_t NET_ROOT_HANDLE_MAJOR = 0x00000001U;
-uint32_t NET_ROOT_HANDLE_MINOR = 0x00000001U;
-uint32_t NET_DEFAULT_CLASS 	   = 0x0000FFFFU; 
+uint32_t NET_ROOT_HANDLE_MAJOR 		= 0x00000001U;
+uint32_t NET_ROOT_HANDLE_MINOR 		= 0x00000001U;
+uint32_t NET_DEFAULT_CLASS 	   		= 0x0000FFFFU; 
+uint32_t NET_FILTER_HANDLE_MINOR 	= 0x00000001U; 
+
  
 // Build of the qdisk object at the root of the hierarchy
 int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
@@ -131,7 +134,7 @@ int qdisc_delete_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink )
     struct rtnl_qdisc *qdisc;
 
     if (!(qdisc = rtnl_qdisc_alloc())) {
-        printf("error on delete Qdisc %d", err);
+        printf("error on delete Qdisc");
         err = NET_TC_QDISC_ALLOC_ERROR;
         return err;
     }
@@ -379,8 +382,8 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock, struct rtnl_link *rtnlLink,
 
 
 /***
- * This function allocate and prepare the link for creating a u31 classifier,
- * must be called before any key is introduced.
+ * This function allocate and prepare the link for creating a u32 classifier,
+ * it should be called before any key is introduced.
  */
 
 int create_u32_classifier(struct nl_sock *sock, 
@@ -410,10 +413,10 @@ int create_u32_classifier(struct nl_sock *sock,
     rtnl_cls_set_prio(cls, prio);
     rtnl_cls_set_protocol(cls, ETH_P_IP);
     rtnl_tc_set_parent(TC_CAST(cls), 
-					   NET_HANDLE(classfierMaj, parentMin));
+					   NET_HANDLE(parentMaj, parentMin));
 					   
 	
-	err = rtnl_u32_set_classid(cls, NET_HANDLE(parentMaj, classfierMin));
+	err = rtnl_u32_set_classid(cls, NET_HANDLE(classfierMaj, classfierMin));
     if (err < 0){        
 		err = NET_TC_CLASSIFIER_SETUP_ERROR;
 		return err;
@@ -488,12 +491,16 @@ int u32_add_key_filter(struct rtnl_cls *cls,
 	return err;
 }	
     
-int save_u32_filter(struct nl_sock *sock,
-					struct rtnl_cls *cls) 
+int save_add_u32_filter(struct nl_sock *sock,
+						struct rtnl_cls *cls) 
 {   
     int err;
-    
-    if ((err = rtnl_cls_add(sock, cls, NLM_F_CREATE))) {
+    int flags = NLM_F_CREATE;
+        
+    rtnl_u32_set_cls_terminal(cls);    
+        
+    if ((err = rtnl_cls_add(sock, cls, flags))) {
+        printf("Error adding classifier %s \n", nl_geterror(err));
         err = NET_TC_CLASSIFIER_ESTABLISH_ERROR;
         return err;
     }
@@ -501,50 +508,12 @@ int save_u32_filter(struct nl_sock *sock,
     return NET_TC_SUCCESS;
 }
 
-/*
-* Deletes an existent filter
-*
-*/
-int u32_delete_filter(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
-					  uint32_t prio, const char *keyval_str, const char *keymask_str, 
-					  int keyoff, int keyoffmask, uint32_t parentMaj, 
-					  uint32_t parentMin, uint32_t classfierMaj, uint32_t classfierMin )
+int save_delete_u32_filter(struct nl_sock *sock,
+						struct rtnl_cls *cls)
 {
     int err;
-    struct rtnl_cls *cls = (struct rtnl_cls *) rtnl_cls_alloc();
-
-    if (!(cls)) {
-        err = NET_TC_CLASSIFIER_ALLOC_ERROR;
-		return err;
-    }
     
-    rtnl_tc_set_link(TC_CAST(cls), rtnlLink);
 
-    if ((err = rtnl_tc_set_kind(TC_CAST(cls), "u32"))) {
-        err = NET_TC_CLASSIFIER_SETUP_ERROR;
-        return err;
-    }
-
-    rtnl_cls_set_prio(cls, prio);
-    rtnl_cls_set_protocol(cls, ETH_P_IP);
-    rtnl_tc_set_parent(TC_CAST(cls), NET_HANDLE(parentMaj, parentMin));
-
-    uint32_t keyval = inet_network (keyval_str);
-    printf("address 1: %u", keyval);
-    uint32_t keymask = inet_network (keymask_str);
-
-    err = rtnl_u32_add_key_uint32(cls, keyval, keymask, keyoff, keyoffmask); /* 10.0.0.0/8 */
-    if (err < 0){
-        err = NET_TC_CLASSIFIER_SETUP_ERROR;
-        return err;
-    }
-    
-    err = rtnl_u32_set_classid(cls, NET_HANDLE(classfierMaj, classfierMin));
-    if (err < 0){        
-		err = NET_TC_CLASSIFIER_SETUP_ERROR;
-		return err;
-    }
-    
     if ((err = rtnl_cls_delete(sock, cls, 0))) {
         err = NET_TC_CLASSIFIER_ESTABLISH_ERROR;
         return err;

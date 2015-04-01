@@ -10,22 +10,28 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
  /usr/include/_G_config.h /usr/include/wchar.h \
  /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
- /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/inttypes.h \
+ /usr/include/i386-linux-gnu/bits/sys_errlist.h \
+ /usr/include/i386-linux-gnu/bits/stdio.h \
+ /usr/include/i386-linux-gnu/bits/stdio2.h /usr/include/inttypes.h \
  /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/i386-linux-gnu/bits/wchar.h \
- /usr/include/libnl3/netlink/netlink.h /usr/include/string.h \
- /usr/include/xlocale.h /usr/include/stdlib.h \
- /usr/include/i386-linux-gnu/bits/waitflags.h \
- /usr/include/i386-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
+ /usr/local/include/libnl3/netlink/netlink.h /usr/include/string.h \
+ /usr/include/xlocale.h /usr/include/i386-linux-gnu/bits/string.h \
+ /usr/include/i386-linux-gnu/bits/string2.h /usr/include/endian.h \
  /usr/include/i386-linux-gnu/bits/endian.h \
- /usr/include/i386-linux-gnu/bits/byteswap.h \
+ /usr/include/i386-linux-gnu/bits/byteswap.h /usr/include/stdlib.h \
+ /usr/include/i386-linux-gnu/bits/string3.h \
+ /usr/include/i386-linux-gnu/bits/waitflags.h \
+ /usr/include/i386-linux-gnu/bits/waitstatus.h \
  /usr/include/i386-linux-gnu/sys/types.h /usr/include/time.h \
  /usr/include/i386-linux-gnu/sys/select.h \
  /usr/include/i386-linux-gnu/bits/select.h \
  /usr/include/i386-linux-gnu/bits/sigset.h \
  /usr/include/i386-linux-gnu/bits/time.h \
+ /usr/include/i386-linux-gnu/bits/select2.h \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
+ /usr/include/i386-linux-gnu/bits/stdlib.h \
  /usr/include/i386-linux-gnu/sys/poll.h \
  /usr/include/i386-linux-gnu/bits/poll.h \
  /usr/include/i386-linux-gnu/sys/socket.h \
@@ -37,10 +43,11 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
  /usr/include/asm-generic/socket.h \
  /usr/include/i386-linux-gnu/asm/sockios.h \
  /usr/include/asm-generic/sockios.h \
+ /usr/include/i386-linux-gnu/bits/socket2.h \
  /usr/include/i386-linux-gnu/sys/time.h /usr/include/netdb.h \
  /usr/include/netinet/in.h /usr/include/i386-linux-gnu/bits/in.h \
  /usr/include/rpc/netdb.h /usr/include/i386-linux-gnu/bits/netdb.h \
- /usr/include/libnl3/netlink/netlink-compat.h \
+ /usr/local/include/libnl3/netlink/netlink-compat.h \
  /usr/include/linux/netlink.h /usr/include/linux/socket.h \
  /usr/include/linux/types.h /usr/include/i386-linux-gnu/asm/types.h \
  /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
@@ -53,27 +60,34 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
  /usr/include/linux/if_addr.h /usr/include/linux/neighbour.h \
  /usr/include/linux/genetlink.h /usr/include/linux/netfilter/nfnetlink.h \
  /usr/include/linux/netfilter/nfnetlink_compat.h \
- /usr/include/libnl3/netlink/version.h \
- /usr/include/libnl3/netlink/errno.h /usr/include/libnl3/netlink/types.h \
- /usr/include/libnl3/netlink/handlers.h \
- /usr/include/libnl3/netlink/netlink-kernel.h \
- /usr/include/libnl3/netlink/socket.h \
- /usr/include/libnl3/netlink/object.h /usr/include/libnl3/netlink/utils.h \
- /usr/include/libnl3/netlink/list.h \
- /usr/include/libnl3/netlink/cache-api.h \
- /usr/include/libnl3/netlink/route/link.h \
- /usr/include/libnl3/netlink/cache.h /usr/include/libnl3/netlink/msg.h \
- /usr/include/libnl3/netlink/attr.h /usr/include/libnl3/netlink/addr.h \
- /usr/include/libnl3/netlink/data.h /usr/include/linux/if.h \
- /usr/include/linux/hdlc/ioctl.h /usr/include/libnl3/netlink/route/tc.h \
+ /usr/include/netinet/tcp.h /usr/local/include/libnl3/netlink/version.h \
+ /usr/local/include/libnl3/netlink/errno.h \
+ /usr/local/include/libnl3/netlink/types.h \
+ /usr/local/include/libnl3/netlink/handlers.h \
+ /usr/local/include/libnl3/netlink/netlink-kernel.h \
+ /usr/local/include/libnl3/netlink/socket.h \
+ /usr/local/include/libnl3/netlink/object.h \
+ /usr/local/include/libnl3/netlink/utils.h \
+ /usr/local/include/libnl3/netlink/list.h \
+ /usr/local/include/libnl3/netlink/route/link.h \
+ /usr/local/include/libnl3/netlink/cache.h \
+ /usr/local/include/libnl3/netlink/msg.h \
+ /usr/local/include/libnl3/netlink/attr.h \
+ /usr/local/include/libnl3/netlink/addr.h \
+ /usr/local/include/libnl3/netlink/data.h /usr/include/linux/if.h \
+ /usr/include/linux/hdlc/ioctl.h \
+ /usr/local/include/libnl3/netlink/route/tc.h \
  /usr/include/linux/pkt_sched.h /usr/include/linux/pkt_cls.h \
- /usr/include/libnl3/netlink/route/qdisc.h \
- /usr/include/libnl3/netlink/route/class.h \
- /usr/include/libnl3/netlink/route/classifier.h \
- /usr/include/libnl3/netlink/route/cls/u32.h /usr/include/arpa/inet.h \
- /usr/include/libnl3/netlink/route/qdisc/htb.h \
- /usr/include/libnl3/netlink/route/qdisc/sfq.h \
- /usr/include/linux/if_ether.h htb_functions.h
+ /usr/local/include/libnl3/netlink/route/qdisc.h \
+ /usr/local/include/libnl3/netlink/route/class.h \
+ /usr/local/include/libnl3/netlink/route/classifier.h \
+ /usr/local/include/libnl3/netlink/route/cls/u32.h \
+ /usr/local/include/libnl3/netlink/route/action.h \
+ /usr/include/arpa/inet.h \
+ /usr/local/include/libnl3/netlink/route/qdisc/htb.h \
+ /usr/local/include/libnl3/netlink/route/qdisc/sfq.h \
+ /usr/include/linux/if_ether.h htb_functions.h \
+ ../include/TcNetqosErrorCode.h
 
 /usr/include/stdio.h:
 
@@ -107,6 +121,10 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
 
 /usr/include/i386-linux-gnu/bits/sys_errlist.h:
 
+/usr/include/i386-linux-gnu/bits/stdio.h:
+
+/usr/include/i386-linux-gnu/bits/stdio2.h:
+
 /usr/include/inttypes.h:
 
 /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h:
@@ -115,23 +133,29 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
 
 /usr/include/i386-linux-gnu/bits/wchar.h:
 
-/usr/include/libnl3/netlink/netlink.h:
+/usr/local/include/libnl3/netlink/netlink.h:
 
 /usr/include/string.h:
 
 /usr/include/xlocale.h:
 
-/usr/include/stdlib.h:
+/usr/include/i386-linux-gnu/bits/string.h:
 
-/usr/include/i386-linux-gnu/bits/waitflags.h:
-
-/usr/include/i386-linux-gnu/bits/waitstatus.h:
+/usr/include/i386-linux-gnu/bits/string2.h:
 
 /usr/include/endian.h:
 
 /usr/include/i386-linux-gnu/bits/endian.h:
 
 /usr/include/i386-linux-gnu/bits/byteswap.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/i386-linux-gnu/bits/string3.h:
+
+/usr/include/i386-linux-gnu/bits/waitflags.h:
+
+/usr/include/i386-linux-gnu/bits/waitstatus.h:
 
 /usr/include/i386-linux-gnu/sys/types.h:
 
@@ -145,11 +169,15 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
 
 /usr/include/i386-linux-gnu/bits/time.h:
 
+/usr/include/i386-linux-gnu/bits/select2.h:
+
 /usr/include/i386-linux-gnu/sys/sysmacros.h:
 
 /usr/include/i386-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/alloca.h:
+
+/usr/include/i386-linux-gnu/bits/stdlib.h:
 
 /usr/include/i386-linux-gnu/sys/poll.h:
 
@@ -173,6 +201,8 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
 
 /usr/include/asm-generic/sockios.h:
 
+/usr/include/i386-linux-gnu/bits/socket2.h:
+
 /usr/include/i386-linux-gnu/sys/time.h:
 
 /usr/include/netdb.h:
@@ -185,7 +215,7 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
 
 /usr/include/i386-linux-gnu/bits/netdb.h:
 
-/usr/include/libnl3/netlink/netlink-compat.h:
+/usr/local/include/libnl3/netlink/netlink-compat.h:
 
 /usr/include/linux/netlink.h:
 
@@ -225,62 +255,66 @@ htb_functions.lo: htb_functions.c /usr/include/stdio.h \
 
 /usr/include/linux/netfilter/nfnetlink_compat.h:
 
-/usr/include/libnl3/netlink/version.h:
+/usr/include/netinet/tcp.h:
 
-/usr/include/libnl3/netlink/errno.h:
+/usr/local/include/libnl3/netlink/version.h:
 
-/usr/include/libnl3/netlink/types.h:
+/usr/local/include/libnl3/netlink/errno.h:
 
-/usr/include/libnl3/netlink/handlers.h:
+/usr/local/include/libnl3/netlink/types.h:
 
-/usr/include/libnl3/netlink/netlink-kernel.h:
+/usr/local/include/libnl3/netlink/handlers.h:
 
-/usr/include/libnl3/netlink/socket.h:
+/usr/local/include/libnl3/netlink/netlink-kernel.h:
 
-/usr/include/libnl3/netlink/object.h:
+/usr/local/include/libnl3/netlink/socket.h:
 
-/usr/include/libnl3/netlink/utils.h:
+/usr/local/include/libnl3/netlink/object.h:
 
-/usr/include/libnl3/netlink/list.h:
+/usr/local/include/libnl3/netlink/utils.h:
 
-/usr/include/libnl3/netlink/cache-api.h:
+/usr/local/include/libnl3/netlink/list.h:
 
-/usr/include/libnl3/netlink/route/link.h:
+/usr/local/include/libnl3/netlink/route/link.h:
 
-/usr/include/libnl3/netlink/cache.h:
+/usr/local/include/libnl3/netlink/cache.h:
 
-/usr/include/libnl3/netlink/msg.h:
+/usr/local/include/libnl3/netlink/msg.h:
 
-/usr/include/libnl3/netlink/attr.h:
+/usr/local/include/libnl3/netlink/attr.h:
 
-/usr/include/libnl3/netlink/addr.h:
+/usr/local/include/libnl3/netlink/addr.h:
 
-/usr/include/libnl3/netlink/data.h:
+/usr/local/include/libnl3/netlink/data.h:
 
 /usr/include/linux/if.h:
 
 /usr/include/linux/hdlc/ioctl.h:
 
-/usr/include/libnl3/netlink/route/tc.h:
+/usr/local/include/libnl3/netlink/route/tc.h:
 
 /usr/include/linux/pkt_sched.h:
 
 /usr/include/linux/pkt_cls.h:
 
-/usr/include/libnl3/netlink/route/qdisc.h:
+/usr/local/include/libnl3/netlink/route/qdisc.h:
 
-/usr/include/libnl3/netlink/route/class.h:
+/usr/local/include/libnl3/netlink/route/class.h:
 
-/usr/include/libnl3/netlink/route/classifier.h:
+/usr/local/include/libnl3/netlink/route/classifier.h:
 
-/usr/include/libnl3/netlink/route/cls/u32.h:
+/usr/local/include/libnl3/netlink/route/cls/u32.h:
+
+/usr/local/include/libnl3/netlink/route/action.h:
 
 /usr/include/arpa/inet.h:
 
-/usr/include/libnl3/netlink/route/qdisc/htb.h:
+/usr/local/include/libnl3/netlink/route/qdisc/htb.h:
 
-/usr/include/libnl3/netlink/route/qdisc/sfq.h:
+/usr/local/include/libnl3/netlink/route/qdisc/sfq.h:
 
 /usr/include/linux/if_ether.h:
 
 htb_functions.h:
+
+../include/TcNetqosErrorCode.h:

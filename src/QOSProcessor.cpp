@@ -26,11 +26,13 @@
     $Id: PacketProcessor.cpp 748 2009-09-10 02:54:03Z szander $
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "ProcError.h"
 #include "QOSProcessor.h"
 #include "Module.h"
 #include "ParserFcts.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 
 
@@ -58,6 +60,11 @@ QOSProcessor::QOSProcessor(ConfigManager *cnf, int threaded, string moduleDir )
                                   cnf->getValue("Modules", "QOS_PROCESSOR"),/*modlist*/
                                   "Proc" /*channel name prefix*/,
                                   getConfigGroup() /* Configuration group */);
+
+#ifdef DEBUG
+    log->dlog(ch,"End starting");
+#endif
+
     } catch (Error &e) {
         throw e;
     }
@@ -104,7 +111,9 @@ QOSProcessor::~QOSProcessor()
              itmConf.push_front(flowId);
              
   			 i->mapi->destroyFlowSetup(
-					ConfigManager::getParamList(itmConf), i->flowData);
+					ConfigManager::getParamList(itmConf), 
+					(r->rule)->getFilter(), i->flowData);
+					
             saveDeleteArr(i->params);
         }
         
@@ -154,6 +163,9 @@ int QOSProcessor::checkRule(Rule *r)
     int ruleId;
     actionList_t *actions;
     ppaction_t a;
+    int errNo;
+    string errStr;
+    bool exThrown = false;
 
     ruleId  = r->getUId();
     actions = r->getActions();
@@ -193,12 +205,8 @@ int QOSProcessor::checkRule(Rule *r)
                 flowId.type = "UInt16"; 
                 itmConf.push_front(flowId);
                 a.params = ConfigManager::getParamList(itmConf);
-                               
-                int ret = (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
-
-                if (ret < 0) {
-                    throw Error("Invalid parameters for module %s", mname.c_str());
-                }
+                                               
+                (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
 
                 saveDeleteArr(a.params);
                 a.params = NULL;
@@ -216,7 +224,7 @@ int QOSProcessor::checkRule(Rule *r)
                 itmConf2.push_front(flowId2);
                 a.params = ConfigManager::getParamList(itmConf2);
                 
-                (a.mapi)->destroyFlowSetup(a.params, a.flowData);
+                (a.mapi)->destroyFlowSetup(a.params, r->getFilter(), a.flowData);
                 saveDeleteArr(a.params);
                 a.params = NULL;
 
@@ -229,8 +237,22 @@ int QOSProcessor::checkRule(Rule *r)
             }
         }
     	
-    } catch (Error &e) { 
+    } 
+    catch (Error &e) { 
         log->elog(ch, e);
+        errNo = e.getErrorNo();
+        errStr = e.getError();
+		exThrown = true;
+    }
+	catch (ProcError &proce){
+        errNo = proce.getErrorNo();
+        errStr = proce.getError();
+        log->elog(ch, proce);
+		exThrown = true;
+	}
+
+	if (exThrown)
+	{
 
         if (a.params != NULL) {
 			saveDeleteArr(a.params);
@@ -250,7 +272,7 @@ int QOSProcessor::checkRule(Rule *r)
             itmConf3.push_front(flowId3);
             a.params = ConfigManager::getParamList(itmConf3);
                 
-            (a.mapi)->destroyFlowSetup(a.params, a.flowData);
+            (a.mapi)->destroyFlowSetup(a.params, r->getFilter(), a.flowData);
 
 			if (a.params != NULL) {
 				saveDeleteArr(a.params);
@@ -263,8 +285,9 @@ int QOSProcessor::checkRule(Rule *r)
             loader->releaseModule(a.module);
         }
        
-        throw e;
-    }
+        throw Error(errNo, errStr);
+	
+	}
     return 0;
 }
 
@@ -276,6 +299,9 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
     int ruleId;
     ruleActions_t entry;
     actionList_t *actions;
+    int errNo;
+    string errStr;
+    bool exThrown = false;
 
     ruleId  = r->getUId();
     actions = r->getActions();
@@ -336,14 +362,15 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
                 a.params = ConfigManager::getParamList(itmConf);
                                                 
                 a.flowData = NULL;
-                int ret = (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
+                (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
 
+                // TODO AM : CHECK IF THIS IS REQUIRED.
                 // if packet proc modules requires bidir matching
                 // then set rule to bidir
                 // FIXME not a well defined method...
-                if (ret == 1) {
-                    r->setBidir();
-                }
+                //if (ret == 1) {
+                //    r->setBidir();
+                //}
 								
                 // init timers
                 addTimerEvents(ruleId, cnt, a, *e);
@@ -364,11 +391,26 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
         rules[ruleId] = entry;
 
 		cout << "voy aqui 3" << endl;
-
 	
-    } catch (Error &e) { 
+    } 
+    catch (Error &e) 
+    { 
         log->elog(ch, e);
+        errNo = e.getErrorNo();
+        errStr = e.getError();
+		exThrown = true;	
+    }
 	
+	catch (ProcError &e)
+	{
+        log->elog(ch, e);
+        errNo = e.getErrorNo();
+        errStr = e.getError();
+		exThrown = true;		
+	}
+
+	if (exThrown)
+	{
         for (ppactionListIter_t i = entry.actions.begin(); 
              i != entry.actions.end(); i++) {
 
@@ -386,7 +428,7 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
 			itmConf2.push_front(flowId2);
 			configParam_t * params = ConfigManager::getParamList(itmConf2);
 
-            (i->mapi)->destroyFlowSetup( params, i->flowData );
+            (i->mapi)->destroyFlowSetup( params, r->getFilter(), i->flowData );
 
 			if (params != NULL) {
 				saveDeleteArr(params);
@@ -400,8 +442,8 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
         // empty the list itself
         entry.actions.clear();
 
-        throw e;
-    }
+        throw Error(errNo, errStr);;
+	}
     return 0;
 }
 
@@ -438,7 +480,7 @@ int QOSProcessor::delRule( Rule *r )
          configParam_t * params = ConfigManager::getParamList(itmConf);
 
         // dismantle flow data structure with module function
-        i->mapi->destroyFlowSetup( params, i->flowData );
+        i->mapi->destroyFlowSetup( params, (ra->rule)->getFilter(), i->flowData );
         
         if (params != NULL) {
             saveDeleteArr(params);

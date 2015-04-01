@@ -256,6 +256,8 @@ QualityManager::QualityManager( int argc, char *argv[])
 			comm->mergeFDs(&fdList);
 		}
 
+		cout << "estoy aqui 4 after cntrlcomm" << endl;
+
     } catch (Error &e) {
         if (log.get()) {
             log->elog(ch, e);
@@ -625,6 +627,7 @@ void QualityManager::run()
             }
         }
         fds.max = fdList.begin()->first.fd;
+		
 
         // register a timer for ctrlcomm (only online capturing)
 		if (enableCtrl) {
@@ -633,12 +636,13 @@ void QualityManager::run()
 				evnt->addEvent(new CtrlCommTimerEvent(t, t * 1000));
 		  }
 		}
-
+		
+		
         // start threads (if threading is configured)
         proc->run();
 
 #ifdef DEBUG
-        log->dlog(ch,"------- meter is running -------");
+        log->dlog(ch,"------- Quality Manager is running -------");
 #endif
 
         do {
@@ -749,7 +753,7 @@ void QualityManager::run()
 		// wait for packet processor to handle all remaining packets (if threaded)
 		proc->waitUntilDone();
 
-		log->log(ch,"meter going down on Ctrl-C" );
+		log->log(ch,"NetQoS going down on Ctrl-C" );
 
 #ifdef DEBUG
 		log->dlog(ch,"------- shutdown -------" );
@@ -757,6 +761,8 @@ void QualityManager::run()
 
 
     } catch (Error &err) {
+        
+        cout << "error in run() method" << err << endl;
         if (log.get()) { // Logger might not be available yet
             log->elog(ch, err);
         }	   
@@ -768,6 +774,9 @@ void QualityManager::run()
 
         throw err;
     }
+    catch (...){
+		cout << "error in run() method" << endl;
+	}
 }
 
 /* ------------------------- dump ------------------------- */

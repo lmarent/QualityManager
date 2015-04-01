@@ -60,12 +60,11 @@ inline uint32_t parseIPAddr( unsigned char *val );
 inline int isNumericIPv6( string s);
 inline struct in6_addr parseIP6Addr( string s);
 
-inline int parseBool( string s);
+int parseBool( string s);
 
 inline float parseFloat( string s);
 
 inline double parseDouble( string s);
-
 
 /*! \short   declaration of struct containing all function pointers of a module */
 extern ProcModuleInterface_t func;

@@ -197,9 +197,9 @@ ProcModule.lo: ProcModule.cpp ProcModule.h \
  /usr/include/libxml2/libxml/xlink.h /usr/include/libxml2/libxml/SAX2.h \
  /usr/include/libxml2/libxml/xmlmemory.h \
  /usr/include/libxml2/libxml/threads.h ../include/Logger.h \
- ../include/Error.h ../include/Threads.h ../include/constants.h \
- ../include/constants_qos.h ../include/XMLParser.h \
- ../include/FilterValue.h ../include/stdincpp.h ProcError.h
+ ../include/ProcError.h ../include/Error.h ../include/Threads.h \
+ ../include/constants.h ../include/constants_qos.h ../include/XMLParser.h \
+ ../include/FilterValue.h ../include/stdincpp.h ../include/ProcError.h
 
 ProcModule.h:
 
@@ -751,6 +751,8 @@ ProcModule.h:
 
 ../include/Logger.h:
 
+../include/ProcError.h:
+
 ../include/Error.h:
 
 ../include/Threads.h:
@@ -765,4 +767,4 @@ ProcModule.h:
 
 ../include/stdincpp.h:
 
-ProcError.h:
+../include/ProcError.h:

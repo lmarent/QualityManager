@@ -620,7 +620,7 @@ DEF_BINDIR
 DEF_LIBDIR
 DEF_STATEDIR
 DEF_SYSCONFDIR
-CURLLIB
+MPATROLLIB
 IPTABLES_VERSION
 SSL_PASSWD
 USE_SSL
@@ -642,6 +642,12 @@ poco_LDFLAGS
 poco_LIBS
 poco_CFLAGS
 DOXY
+BUILD_NQRSH_FALSE
+BUILD_NQRSH_TRUE
+CURL_FALSE
+CURL_TRUE
+CURL_LIBS
+CURL_CFLAGS
 XML_CONFIG
 NL_ROUTE_3_LIBS
 NL_ROUTE_3_CFLAGS
@@ -654,6 +660,8 @@ ENABLE_THREADS_FALSE
 ENABLE_THREADS_TRUE
 ENABLE_SSL_FALSE
 ENABLE_SSL_TRUE
+ENABLE_MP_FALSE
+ENABLE_MP_TRUE
 ENABLE_DEBUG_FALSE
 ENABLE_DEBUG_TRUE
 CXXCPP
@@ -790,6 +798,7 @@ with_ssl
 with_xml2
 with_xslt
 enable_debug
+enable_mp
 enable_ssl
 enable_threads
 '
@@ -812,7 +821,9 @@ PKG_CONFIG_LIBDIR
 NL3_CFLAGS
 NL3_LIBS
 NL_ROUTE_3_CFLAGS
-NL_ROUTE_3_LIBS'
+NL_ROUTE_3_LIBS
+CURL_CFLAGS
+CURL_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1443,6 +1454,7 @@ Optional Features:
   --enable-maintainer-mode  enable make rules and dependencies not useful
 			  (and sometimes confusing) to the casual installer
   --enable-debug            enable debug build 
+  --enable-mp            enable mpatrol memory surveillance 
   --enable-ssl            enable ssl 
   --enable-threads            enable threads 
 
@@ -1481,6 +1493,8 @@ Some influential environment variables:
               C compiler flags for NL_ROUTE_3, overriding pkg-config
   NL_ROUTE_3_LIBS 
               linker flags for NL_ROUTE_3, overriding pkg-config
+  CURL_CFLAGS C compiler flags for CURL, overriding pkg-config
+  CURL_LIBS   linker flags for CURL, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -16455,6 +16469,32 @@ $as_echo "@%:@define ENABLE_DEBUG 1" >>confdefs.h
 
 fi
 
+
+@%:@ Check whether --enable-mp was given.
+if test "${enable_mp+set}" = set; then :
+  enableval=$enable_mp; case "${enableval}" in
+    yes) mp=true ;;
+    no)  mp=false ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-mp" "$LINENO" 5 ;;
+  esac
+else
+  mp=false
+fi
+
+ if test x$mp = xtrue; then
+  ENABLE_MP_TRUE=
+  ENABLE_MP_FALSE='#'
+else
+  ENABLE_MP_TRUE='#'
+  ENABLE_MP_FALSE=
+fi
+
+if test $mp = true ; then
+  
+$as_echo "@%:@define ENABLE_MP 1" >>confdefs.h
+
+fi
+
 @%:@ Check whether --enable-ssl was given.
 if test "${enable_ssl+set}" = set; then :
   enableval=$enable_ssl; case "${enableval}" in
@@ -16579,6 +16619,200 @@ if test $threads = true ; then
 $as_echo "@%:@define ENABLE_THREADS 1" >>confdefs.h
 
 fi
+
+
+
+if test $mp = true ; then
+    LDFLAGS="$LDFLAGS -lbfd"	
+    if test $threads = true ; then
+       LDFLAGS="$LDFLAGS -lpthread"	
+       { $as_echo "$as_me:${as_lineno-$LINENO}: checking for xmalloc in -lmpatrolmt" >&5
+$as_echo_n "checking for xmalloc in -lmpatrolmt... " >&6; }
+if ${ac_cv_lib_mpatrolmt_xmalloc+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmpatrolmt  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char xmalloc ();
+int
+main ()
+{
+return xmalloc ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_mpatrolmt_xmalloc=yes
+else
+  ac_cv_lib_mpatrolmt_xmalloc=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_mpatrolmt_xmalloc" >&5
+$as_echo "$ac_cv_lib_mpatrolmt_xmalloc" >&6; }
+if test "x$ac_cv_lib_mpatrolmt_xmalloc" = xyes; then :
+  MPATROLLIB="-lmpatrolmt"
+else
+  as_fn_error $? "cannot find libmpatrolmt" "$LINENO" 5
+fi
+
+    else
+       { $as_echo "$as_me:${as_lineno-$LINENO}: checking for xmalloc in -lmpatrol" >&5
+$as_echo_n "checking for xmalloc in -lmpatrol... " >&6; }
+if ${ac_cv_lib_mpatrol_xmalloc+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmpatrol  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char xmalloc ();
+int
+main ()
+{
+return xmalloc ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_mpatrol_xmalloc=yes
+else
+  ac_cv_lib_mpatrol_xmalloc=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_mpatrol_xmalloc" >&5
+$as_echo "$ac_cv_lib_mpatrol_xmalloc" >&6; }
+if test "x$ac_cv_lib_mpatrol_xmalloc" = xyes; then :
+  MPATROLLIB="-lmpatrol"
+else
+  as_fn_error $? "cannot find libmpatrol" "$LINENO" 5
+fi
+
+    fi
+fi
+
+READLINELIB=""
+# some readlines (Redhat) need -ltermcap
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for tgetent in -ltermcap" >&5
+$as_echo_n "checking for tgetent in -ltermcap... " >&6; }
+if ${ac_cv_lib_termcap_tgetent+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-ltermcap  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char tgetent ();
+int
+main ()
+{
+return tgetent ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_termcap_tgetent=yes
+else
+  ac_cv_lib_termcap_tgetent=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_termcap_tgetent" >&5
+$as_echo "$ac_cv_lib_termcap_tgetent" >&6; }
+if test "x$ac_cv_lib_termcap_tgetent" = xyes; then :
+  LDFLAGS="$LDFLAGS -ltermcap"
+fi
+
+for ac_header in readline/readline.h readline/history.h
+do :
+  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+ac_fn_cxx_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
+if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
+  cat >>confdefs.h <<_ACEOF
+@%:@define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+ 
+else
+  as_fn_error $? "cannot find libreadline headers" "$LINENO" 5
+fi
+
+done
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for readline in -lreadline" >&5
+$as_echo_n "checking for readline in -lreadline... " >&6; }
+if ${ac_cv_lib_readline_readline+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lreadline  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char readline ();
+int
+main ()
+{
+return readline ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_readline_readline=yes
+else
+  ac_cv_lib_readline_readline=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_readline_readline" >&5
+$as_echo "$ac_cv_lib_readline_readline" >&6; }
+if test "x$ac_cv_lib_readline_readline" = xyes; then :
+  READLINELIB="$READLINELIB -lreadline"
+else
+  as_fn_error $? "cannot find libreadline" "$LINENO" 5
+fi
+
 
 
 
@@ -17181,12 +17415,12 @@ if test -n "$NL3_CFLAGS"; then
     pkg_cv_NL3_CFLAGS="$NL3_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-3.0 >= 3.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libnl-3.0 >= 3.0") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-3.0 >= 3.2.25\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libnl-3.0 >= 3.2.25") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_NL3_CFLAGS=`$PKG_CONFIG --cflags "libnl-3.0 >= 3.0" 2>/dev/null`
+  pkg_cv_NL3_CFLAGS=`$PKG_CONFIG --cflags "libnl-3.0 >= 3.2.25" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes 
 else
   pkg_failed=yes
@@ -17198,12 +17432,12 @@ if test -n "$NL3_LIBS"; then
     pkg_cv_NL3_LIBS="$NL3_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-3.0 >= 3.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libnl-3.0 >= 3.0") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-3.0 >= 3.2.25\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libnl-3.0 >= 3.2.25") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_NL3_LIBS=`$PKG_CONFIG --libs "libnl-3.0 >= 3.0" 2>/dev/null`
+  pkg_cv_NL3_LIBS=`$PKG_CONFIG --libs "libnl-3.0 >= 3.2.25" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes 
 else
   pkg_failed=yes
@@ -17224,9 +17458,9 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        NL3_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libnl-3.0 >= 3.0" 2>&1`
+	        NL3_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libnl-3.0 >= 3.2.25" 2>&1`
         else 
-	        NL3_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libnl-3.0 >= 3.0" 2>&1`
+	        NL3_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libnl-3.0 >= 3.2.25" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$NL3_PKG_ERRORS" >&5
@@ -17267,12 +17501,12 @@ if test -n "$NL_ROUTE_3_CFLAGS"; then
     pkg_cv_NL_ROUTE_3_CFLAGS="$NL_ROUTE_3_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-route-3.0 >= 3.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libnl-route-3.0 >= 3.0") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-route-3.0 >= 3.2.25\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libnl-route-3.0 >= 3.2.25") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_NL_ROUTE_3_CFLAGS=`$PKG_CONFIG --cflags "libnl-route-3.0 >= 3.0" 2>/dev/null`
+  pkg_cv_NL_ROUTE_3_CFLAGS=`$PKG_CONFIG --cflags "libnl-route-3.0 >= 3.2.25" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes 
 else
   pkg_failed=yes
@@ -17284,12 +17518,12 @@ if test -n "$NL_ROUTE_3_LIBS"; then
     pkg_cv_NL_ROUTE_3_LIBS="$NL_ROUTE_3_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-route-3.0 >= 3.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libnl-route-3.0 >= 3.0") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libnl-route-3.0 >= 3.2.25\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libnl-route-3.0 >= 3.2.25") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_NL_ROUTE_3_LIBS=`$PKG_CONFIG --libs "libnl-route-3.0 >= 3.0" 2>/dev/null`
+  pkg_cv_NL_ROUTE_3_LIBS=`$PKG_CONFIG --libs "libnl-route-3.0 >= 3.2.25" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes 
 else
   pkg_failed=yes
@@ -17310,9 +17544,9 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        NL_ROUTE_3_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libnl-route-3.0 >= 3.0" 2>&1`
+	        NL_ROUTE_3_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libnl-route-3.0 >= 3.2.25" 2>&1`
         else 
-	        NL_ROUTE_3_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libnl-route-3.0 >= 3.0" 2>&1`
+	        NL_ROUTE_3_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libnl-route-3.0 >= 3.2.25" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$NL_ROUTE_3_PKG_ERRORS" >&5
@@ -17494,47 +17728,6 @@ fi
   fi
 fi
 
-
-
-# check for Poco Foundation library
-# Checks for libraries.
-ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-SAVED_LDFLAGS=$LDFLAGS
-SAVED_CPPFLAGS=$CPPFLAGS
-SAVED_LIBS=$LIBS
-CPPFLAGS="$CPPFLAGS -I/usr/local/include/Poco"
-LDFLAGS="$LDFLAGS -L/usr/local/lib/"
-LIBS="$LIBS -lPocoFoundation -lPocoUtil -lPocoNet"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <DateTime.h>
-int
-main ()
-{
-Poco::DateTime now
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  poco_LIBS="-lPocoFoundation -lPocoUtil -lPocoNet" 
-    poco_CFLAGS="-DHAVE_PCAP -I/usr/local/include/Poco" 
-    poco_LDFLAGS="-L/usr/local/lib/"
-    HAVE_POCO=1]
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: libPoco is not installed." >&5
-$as_echo "$as_me: WARNING: libPoco is not installed." >&2;}
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-CPPFLAGS=$SAVED_CPPFLAGS 
-LDFLAGS=$SAVED_LDFLAGS
-LIBS= $SAVED_LIBS
 
 
 if test -z "$XML2_DIR" ; then 
@@ -17721,6 +17914,133 @@ fi
 
 
 
+if test "$CURL_DIR" ; then
+   LDFLAGS="$LDFLAGS -L$CURL_DIR/lib -lxslt"          
+   CFLAGS="$CFLAGS -I$CURL_DIR/include" 
+   CXXFLAGS="$CXXFLAGS -I$CURL_DIR/include"
+   CPPFLAGS="$CPPFLAGS -I$CURL_DIR/include"
+fi
+
+# Check CURL, needed for install netmate policy rules.
+CURL_LIBS=
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for CURL" >&5
+$as_echo_n "checking for CURL... " >&6; }
+
+if test -n "$CURL_CFLAGS"; then
+    pkg_cv_CURL_CFLAGS="$CURL_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libcurl\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libcurl") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_CURL_CFLAGS=`$PKG_CONFIG --cflags "libcurl" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$CURL_LIBS"; then
+    pkg_cv_CURL_LIBS="$CURL_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libcurl\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libcurl") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_CURL_LIBS=`$PKG_CONFIG --libs "libcurl" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes 
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+        
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        CURL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libcurl" 2>&1`
+        else 
+	        CURL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libcurl" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$CURL_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (libcurl) were not met:
+
+$CURL_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables CURL_CFLAGS
+and CURL_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5        
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables CURL_CFLAGS
+and CURL_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }        
+else
+	CURL_CFLAGS=$pkg_cv_CURL_CFLAGS
+	CURL_LIBS=$pkg_cv_CURL_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	
+$as_echo "@%:@define HAVE_CURL 1" >>confdefs.h
+
+fi
+ if test -n "$CURL_LIBS"; then
+  CURL_TRUE=
+  CURL_FALSE='#'
+else
+  CURL_TRUE='#'
+  CURL_FALSE=
+fi
+
+
+
+
+
+ if test "$XSLTLIB" && test "$CURL_LIBS"; then
+  BUILD_NQRSH_TRUE=
+  BUILD_NQRSH_FALSE='#'
+else
+  BUILD_NQRSH_TRUE='#'
+  BUILD_NQRSH_FALSE=
+fi
+ 
+
+
+
+
+
 
 # Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
@@ -17846,7 +18166,7 @@ _ACEOF
 
 
 
-ac_config_files="$ac_config_files Makefile lib/httpd/Makefile lib/getopt_long/Makefile proc_modules/Makefile src/Makefile"
+ac_config_files="$ac_config_files Makefile lib/getpass/Makefile lib/httpd/Makefile lib/getopt_long/Makefile nqrsh/Makefile proc_modules/Makefile src/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -17990,12 +18310,24 @@ if test -z "${ENABLE_DEBUG_TRUE}" && test -z "${ENABLE_DEBUG_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_DEBUG\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${ENABLE_MP_TRUE}" && test -z "${ENABLE_MP_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_MP\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${ENABLE_SSL_TRUE}" && test -z "${ENABLE_SSL_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_SSL\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_THREADS_TRUE}" && test -z "${ENABLE_THREADS_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_THREADS\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${CURL_TRUE}" && test -z "${CURL_FALSE}"; then
+  as_fn_error $? "conditional \"CURL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_NQRSH_TRUE}" && test -z "${BUILD_NQRSH_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_NQRSH\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -18981,8 +19313,10 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "lib/getpass/Makefile") CONFIG_FILES="$CONFIG_FILES lib/getpass/Makefile" ;;
     "lib/httpd/Makefile") CONFIG_FILES="$CONFIG_FILES lib/httpd/Makefile" ;;
     "lib/getopt_long/Makefile") CONFIG_FILES="$CONFIG_FILES lib/getopt_long/Makefile" ;;
+    "nqrsh/Makefile") CONFIG_FILES="$CONFIG_FILES nqrsh/Makefile" ;;
     "proc_modules/Makefile") CONFIG_FILES="$CONFIG_FILES proc_modules/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
 

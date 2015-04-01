@@ -31,6 +31,7 @@
 
 
 #include "stdincpp.h"
+#include "ProcError.h"
 #include "Error.h"
 #include "Threads.h"
 #include "constants.h"
@@ -193,6 +194,7 @@ public:
     void elog( int channel, const char *fmt, ... );
     void dlog( int channel, const char *fmt, ... );
     void elog( int channel, Error &e );
+    void elog( int channel, ProcError &e );
 
     //! \short   dump Logger object
     void dump( ostream &os );

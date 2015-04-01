@@ -331,6 +331,12 @@ void Logger::elog(int channel, Error &e )
 }
 
 
+void Logger::elog(int channel, ProcError &e )
+{
+    log(L_ERROR, channel, "%s", e.getError().c_str());
+}
+
+
 void Logger::dlog(int channel, const char *fmt, ...)
 {
 #ifdef DEBUG
