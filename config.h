@@ -5,7 +5,7 @@
 /* #undef ALPHA */
 
 /* "release date" */
-#define BUILD_TIME "01/04/2015 15:28:42"
+#define BUILD_TIME "06/04/2015 08:53:56"
 
 /* "bin dir" */
 #define DEF_BINDIR "/usr/local/bin"
@@ -79,6 +79,9 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#define HAVE_LIBDL 1
 
 /* "libnl is available" */
 #define HAVE_LIBNL 1
@@ -249,7 +252,7 @@
 #define PACKAGE_VERSION "0.1"
 
 /* The size of `off_t', as computed by sizeof. */
-#define SIZEOF_OFF_T 4
+#define SIZEOF_OFF_T 8
 
 /* "Solaris OS" */
 /* #undef SOLARIS */

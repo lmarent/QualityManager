@@ -156,12 +156,25 @@ Rule *RuleManager::getRule(string sname, string rname)
     ruleIndexIter_t iter2;
 
     iter = ruleSetIndex.find(sname);
-    if (iter != ruleSetIndex.end()) {
+    if (iter != ruleSetIndex.end()) {		
         iter2 = iter->second.find(rname);
         if (iter2 != iter->second.end()) {
             return getRule(iter2->second);
         }
+        else
+        {
+#ifdef DEBUG
+    log->dlog(ch,"RuleId not found");
+#endif		
+			
+		}
     }
+    else
+    {
+#ifdef DEBUG
+    log->dlog(ch,"Ruleset not found");
+#endif		
+	}
 
     return NULL;
 }
@@ -245,8 +258,13 @@ ruleDB_t *RuleManager::parseRulesBuffer(char *buf, int len, int mapi)
         // load the filter val list
         loadFilterVals("");
 	
-        RuleFileParser rfp = RuleFileParser(buf, len);
-        rfp.parse(&filterDefs, &filterVals, new_rules, &idSource);
+        if (mapi) {
+             MAPIRuleParser rfp = MAPIRuleParser(buf, len);
+             rfp.parse(&filterDefs, &filterVals, new_rules, &idSource);
+        } else {
+            RuleFileParser rfp = RuleFileParser(buf, len);
+            rfp.parse(&filterDefs, &filterVals, new_rules, &idSource);
+        }
 
         return new_rules;
 	
@@ -336,8 +354,10 @@ void RuleManager::addRule(Rule *r)
         // could do some more checks here
         r->setState(RS_VALID);
 
-        // assign new unique numeric index
-        r->setUId(idSource.newId());
+#ifdef DEBUG    
+    log->dlog(ch, "Rule Id = '%d'",
+              r->getUId());
+#endif 
 
         // resize vector if necessary
         if ((unsigned int)r->getUId() >= ruleDB.size()) {
@@ -491,6 +511,12 @@ string RuleManager::getInfo()
 void RuleManager::delRule(string sname, string rname, EventScheduler *e)
 {
     Rule *r;
+
+#ifdef DEBUG    
+    log->dlog(ch, "Deleting rule set= %s name = '%s'",
+              sname.c_str(), rname.c_str());
+#endif  
+
 
     if (sname.empty() && rname.empty()) {
         throw Error("incomplete rule set or name specified");

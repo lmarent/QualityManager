@@ -75,12 +75,12 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
 
     // init server
 #ifdef USE_SSL
-    ret = httpd_init(portnum, "netmate", 
+    ret = httpd_init(portnum, "NetQoS", 
                      cnf->isTrue("UseSSL", "CONTROL"),
                      CERT_FILE.c_str(), SSL_PASSWD, 
                      cnf->isTrue("UseIPv6", "CONTROL"));
 #else
-    ret = httpd_init(portnum, "netmate", 
+    ret = httpd_init(portnum, "NetQoS", 
                      0, NULL, NULL, 
                      cnf->isTrue("UseIPv6", "CONTROL"));
 #endif
@@ -97,7 +97,7 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
         flags |= LOG_CONNECT;
     }
     
-    if (cnf->isTrue("LogMeterCommand", "CONTROL")) {
+    if (cnf->isTrue("LogQoSCommand", "CONTROL")) {
         flags |= LOG_COMMAND;
     }
     
@@ -376,9 +376,12 @@ int CtrlComm::handleFDEvent(eventVec_t *e, fd_set *rset, fd_set *wset, fd_sets_t
     
     // check for incoming message
     if (httpd_handle_event(rset, wset, fds) < 0) {
+		cout << "ERROR HANDLING THE EVENT" << endl;
         throw Error("ctrlcomm handle event error");
     }
-
+	
+	std::cout << "Finish httpd_handle_event" << std::endl;
+	
     // processCmd callback funtion is called in case of new request
 
     // return resulting event (freed by event scheduler)
@@ -446,11 +449,11 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
     
     }
 
-//#ifdef DEBUG
+#ifdef DEBUG
     for (paramListIter_t iter=preq.params.begin(); iter != preq.params.end(); iter++) {
-        cerr << iter->first << "::" << iter->second << endl;
+        log->log(ch, "%s :: %s", (iter->first).c_str(), (iter->second).c_str());
     }
-//#endif
+#endif
 
     return preq;
 }
@@ -469,14 +472,10 @@ int CtrlComm::processCmd(struct REQUEST *req)
 #endif
 
 #ifdef DEBUG
-    cerr << "client requested cmd: '" << req->path << "' and params '" << req->query 
-         << req->post_body << "'" << endl;
+    log->log(ch, "client requested cmd:%s Params: %s Body:%s", 
+						req->path, req->query, req->post_body);
 #endif
-	
-	std::cout << "client requested cmd:" << req->path 
-			  << " and params" << req->query << "body:" 
-			  << req->post_body << std::endl;
-	
+		
     if (isEnabled(LOG_COMMAND)) {
         log->log(ch, "client requested cmd: '%s' and params '%s%s'", req->path, req->query,
                  req->post_body);
@@ -491,8 +490,15 @@ int CtrlComm::processCmd(struct REQUEST *req)
     // try lookup in repository of static meter pages
     string page = pcache.getPage(preq.comm); 
 
+#ifdef DEBUG
+    log->log(ch, "Command:%s Page:%s", (preq.comm).c_str(), page.c_str() );
+#endif			
+
+
     try {
         if (page != "") {
+
+			
             // send page
             req->body = strdup(page.c_str());  // FIXME not very performant
             req->mime = get_mime((char *) pcache.getFileName(preq.comm).c_str());

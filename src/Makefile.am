@@ -18,13 +18,13 @@ qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
 						 constants_qos.cpp QualityManagerComponent.cpp \
 						 ProcModule.cpp Rule.cpp \
 						 RuleFileParser.cpp QualityManagerInfo.cpp \
-						 RuleIdSource.cpp RuleManager.cpp \
+						 RuleIdSource.cpp MAPIRuleParser.cpp RuleManager.cpp \
 						 EventScheduler.cpp PerfTimer.cpp \
 						 QualityManager.cpp QOSProcessor.cpp \
 						 ModuleLoader.cpp
 
-INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
-		   -I$(top_srcdir)/lib/httpd
+qualityManager_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
+						  -I$(top_srcdir)/lib/httpd
 
 qualityManager_LDADD = $(top_builddir)/lib/getopt_long/libgetopt_long.a \
 					   $(top_builddir)/lib/httpd/libhttpd.a \

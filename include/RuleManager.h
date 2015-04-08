@@ -35,12 +35,10 @@
 #include "Error.h"
 #include "RuleIdSource.h"
 #include "Rule.h"
-/*
 #include "FilterDefParser.h"
 #include "FilterValParser.h"
 #include "RuleFileParser.h"
 #include "MAPIRuleParser.h"
-* */
 #include "EventScheduler.h"
 
 
@@ -99,11 +97,11 @@ class RuleManager
     //! filter values
     filterValList_t filterVals;
 
-    // pool of unique rule ids
-    RuleIdSource idSource;
-
     // name of filter def and filter vals files
     string filterDefFileName, filterValFileName;
+
+    // pool of unique rule ids
+    RuleIdSource idSource;
 
     //! load filter definitions
     void loadFilterDefs(string fname);

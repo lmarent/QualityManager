@@ -15,7 +15,7 @@
     <!-- filter constant file -->
     <PREF NAME="FilterConstFile">/home/luis/QualityManager/etc/filterval.xml</PREF>     
     <!-- interface to capture packets from -->
-    <PREF NAME="NetInterface">eth2</PREF>
+    <PREF NAME="NetInterface">eth0</PREF>
     <!-- don't use promiscuous interface -->
     <PREF NAME="NoPromiscInt" TYPE="Bool">no</PREF>
   </MAIN>
@@ -29,9 +29,10 @@
     <!-- use IPv6 (if no IPv6 interface present IP4 will be used) -->
     <PREF NAME="UseIPv6" TYPE="Bool">no</PREF>
     <!-- log all incoming control requests -->
+    <PREF NAME="NetworkMasks">192.168.0.0/22,192.168.4.0/22,192.168.8.0/22</PREF>
     <PREF NAME="LogOnConnect" TYPE="Bool">yes</PREF>
     <!-- log all meter commands -->
-    <PREF NAME="LogMeterCommand" TYPE="Bool">yes</PREF>
+    <PREF NAME="LogQoSCommand" TYPE="Bool">yes</PREF>
     <!-- access list -->
     <ACCESS>
       <ALLOW TYPE="Host">All</ALLOW>

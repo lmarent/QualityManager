@@ -375,97 +375,95 @@ void modify_filter( int flowId, filterList_t *filters,
 	int err = 0;
 	uint32_t prio = 1; // TODO AM: we need to create a function that 
 					   //		   takes the protocol and return the prio.
-	struct rtnl_cls *cls;
+	struct rtnl_cls *cls = NULL;
 
 #ifdef DEBUG
-	fprintf( stdout, "In Creating Filter" );
+	fprintf( stdout, "In Modify Filter" );
 #endif
 	
 	if (filters == NULL)
 		throw ProcError(NET_TC_PARAMETER_ERROR, "Filters given are null");
 		
-	// Allocate the new classifier.
-	err = create_u32_classifier(sk, nllink, &cls, prio, 
-								NET_ROOT_HANDLE_MAJOR, 0,
-								NET_ROOT_HANDLE_MAJOR, flowId);
-								
-	if ( err != NET_TC_SUCCESS )
-		throw ProcError(err, "Error allocating classifier objec");
 
-	
-	filterListIter_t iter;
-	for ( iter = filters->begin() ; iter != filters->end() ; iter++ ) 
-	{	
-		filter_t filter = *iter;
-		
-		cout << "name:" << filter.name << endl;
-		cout << "offs:" << filter.offs << endl;
-		cout << "roffs:" << filter.roffs << endl;
-		cout << "len:" << filter.len << endl;
-		cout << "cnt:" << filter.cnt << endl;
-		cout << "filterType:" << filter.mtype << endl;
-		
-		/*
-		invert = check_for_invert(params[i], &param);
-		if (invert)
-			optind++;
-		*/
-				
-		// set_inverse(defp_srcipmask, &fw.ip.invflags, invert);
-		switch (filter.mtype)
-		{
-			case FT_EXACT:
-			case FT_SET:
-			
-				for ( int index = 0; index < filter.cnt; index++)
-				{
-					 cout << "Filter lenght:" << filter.len << "Offset:" << filter.offs << endl;
-					 cout << "refer:" << filter.refer << "rrefer:" << filter.refer << endl;
-					 cout << "roffset:" << filter.roffs << "rname:" << filter.rname << endl;
-					 
-					 int offset = filter.offs + calculateRelativeOffSet(filter.refer);
-					 int roffset = filter.roffs + calculateRelativeOffSet(filter.refer);
-					 
-					 int maskoffset = calculateRelativeMaskOffSet(filter.refer);
 
-					 cout << "offset:" << offset << "name:" << filter.name << endl;
-					 					 
-					 err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
-									(filter.mask).getValue(), filter.len,
-									offset, maskoffset);
-					 
-					 if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
-					 {
-						goto fail;
-					 }
-					 else
-					 {
-						if ((bidir == 1) 
-									and (filter.rname.length() > 0))
-						{
-							err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
-									(filter.mask).getValue(), filter.len,
-									roffset, maskoffset);
-							
-							if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
-								goto fail;
-						}
-					 }
-				}
-				
-				break;						
-
-			case FT_RANGE:
-				// TODO AM: Not implemented yet.
-				break;
-			case FT_WILD:
-				// TODO AM : Not implemented yet.
-				break;
-		}			  
-	}
-	
 	if (action == TC_FILTER_ADD)
 	{
+	
+		// Allocate the new classifier.
+		err = create_u32_classifier(sk, nllink, &cls, prio, 
+									NET_ROOT_HANDLE_MAJOR, 0,
+									NET_ROOT_HANDLE_MAJOR, flowId);
+									
+		if ( err != NET_TC_SUCCESS )
+			throw ProcError(err, "Error allocating classifier objec");
+
+
+		err = rtnl_u32_set_classid(cls, NET_HANDLE(
+					(uint32_t) NET_ROOT_HANDLE_MAJOR, (uint32_t) flowId));
+		
+		if (err < 0)       
+			throw ProcError(err, "Error establishing class id for the classifier");
+		
+		filterListIter_t iter;
+		for ( iter = filters->begin() ; iter != filters->end() ; iter++ ) 
+		{	
+			filter_t filter = *iter;
+
+	#ifdef DEBUG
+			cout << "name:" << filter.name << endl;
+			// cout << "offs:" << filter.offs << endl;
+			// cout << "roffs:" << filter.roffs << endl;
+			// cout << "len:" << filter.len << endl;
+			// cout << "cnt:" << filter.cnt << endl;
+			// cout << "filterType:" << filter.mtype << endl;
+	#endif		
+			
+			switch (filter.mtype)
+			{
+				case FT_EXACT:
+				case FT_SET:
+				
+					for ( int index = 0; index < filter.cnt; index++)
+					{
+						 
+						 int offset = filter.offs + calculateRelativeOffSet(filter.refer);
+						 int roffset = filter.roffs + calculateRelativeOffSet(filter.refer);					 
+						 int maskoffset = calculateRelativeMaskOffSet(filter.refer);
+											 
+						 err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
+										(filter.mask).getValue(), filter.len,
+										offset, maskoffset);
+						 
+						 if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
+						 {
+							goto fail;
+						 }
+						 else
+						 {
+							if ((bidir == 1) 
+										and (filter.rname.length() > 0))
+							{
+								err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
+										(filter.mask).getValue(), filter.len,
+										roffset, maskoffset);
+								
+								if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
+									goto fail;
+							}
+						 }
+					}
+					
+					break;						
+
+				case FT_RANGE:
+					// TODO AM: Not implemented yet.
+					break;
+				case FT_WILD:
+					// TODO AM : Not implemented yet.
+					break;
+			}			  
+		}
+	
 		err = save_add_u32_filter(sk, cls);
 		if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR )
 			goto fail;
@@ -474,9 +472,21 @@ void modify_filter( int flowId, filterList_t *filters,
 	}
 	else 
 	{
+
+		// Allocate the new classifier.
+		err = delete_u32_classifier(sk, nllink, &cls, prio, 
+									NET_ROOT_HANDLE_MAJOR, 0,
+									NET_ROOT_HANDLE_MAJOR, flowId);
+									
+		if ( err != NET_TC_SUCCESS )
+			throw ProcError(err, "classifier allocate error during deleting");
+		
 		err = save_delete_u32_filter(sk, cls);
-		if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR )
+		if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR ){
+			cout << "Error eliminando classifier" << endl;
 			goto fail;
+		
+		}
 		else
 			goto ok;
 	}
@@ -490,7 +500,7 @@ fail:
 ok:
 	err = 0;
 #ifdef DEBUG
-	fprintf( stdout, "Filters sucessfully setup" );
+	fprintf( stdout, "Filters sucessfully setup \n" );
 #endif	
 
 }
@@ -579,6 +589,11 @@ void initFlowSetup( configParam_t *params,
      else
 		 throw ProcError(NET_TC_PARAMETER_ERROR, 
 							"HTB Flow init - not enought parameters");
+
+#ifdef DEBUG
+		fprintf( stdout, "Success creating flowsetup \n" );
+#endif
+
 }
 
 
@@ -602,7 +617,7 @@ void destroyFlowSetup( configParam_t *params,
     int bidir = 0;
 
 #ifdef DEBUG
-		fprintf( stdout, "destroy FlowSetup \n" );
+		fprintf( stdout, "init destroy FlowSetup \n" );
 #endif
     
 	free( data );
@@ -624,7 +639,7 @@ void destroyFlowSetup( configParam_t *params,
 	if ( numparams == MOD_DEL_FLOW_REQUIRED_PARAMS )
 	{
 
-		 modify_filter(flowId, filters, bidir,  TC_FILTER_DELETE);
+		 modify_filter(flowId, filters, bidir, TC_FILTER_DELETE);
 
 		 err = class_delete_HTB(sk, nllink, flowId);
 		 if (err != 0 )
@@ -634,6 +649,11 @@ void destroyFlowSetup( configParam_t *params,
     else
 		 throw ProcError(NET_TC_PARAMETER_ERROR, 
 							"HTB Flow destroy - not enought parameters"); 
+
+
+#ifdef DEBUG
+		fprintf( stdout, "end destroy FlowSetup \n" );
+#endif
 
 }
 

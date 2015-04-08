@@ -288,7 +288,7 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             write_request(req);
         }
         
-        fprintf(stdout, "parsing message");
+        fprintf(stdout, "parsing message abc \n");
 
         /* handle finished requests */
         if (req->state == STATE_FINISHED && !req->keep_alive) {

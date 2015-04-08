@@ -1,7 +1,7 @@
-EXTRA_DIST = ProcModule.h ProcModule.cpp ProcError.h ProcError.cpp
+EXTRA_DIST = ProcModule.h ProcModule.cpp ProcError.cpp
 
 INCLUDES = -I$(top_srcdir)/include \
-           -I/usr/src/linux/include
+				  -I/usr/src/linux/include
 
 lib_LTLIBRARIES = htb.la tbf.la
 
@@ -13,10 +13,17 @@ else
   AM_CXXFLAGS = -O2 @NL3_CFLAGS@ @NL_ROUTE_3_CFLAGS@
 endif
 
+htb_la_CPPFLAGS = -I$(top_srcdir)/include \
+				  -I/usr/src/linux/include
+		   
 htb_la_LDFLAGS = -export-dynamic -module @NL3_LIBS@ @NL_ROUTE_3_LIBS@
 htb_la_SOURCES = htb_functions.c htb.cpp
 htb_la_LIBADD = ProcModule.lo ProcError.lo
 
+
+tbf_la_CPPFLAGS = -I$(top_srcdir)/include \
+				  -I/usr/src/linux/include
+				  
 tbf_la_LDFLAGS = -export-dynamic -module @NL3_LIBS@ @NL_ROUTE_3_LIBS@
 tbf_la_SOURCES = tbf.cpp
 tbf_la_LIBADD = ProcModule.lo ProcError.lo

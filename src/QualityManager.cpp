@@ -85,7 +85,7 @@ QualityManager::QualityManager( int argc, char *argv[])
         if (pipe((int *)&s_sigpipe) < 0) {
             throw Error("failed to create signal pipe");
         }
-
+				
         fdList[make_fd(s_sigpipe[0], FD_RD)] = NULL;
 
         // the read fd must not block
@@ -97,7 +97,9 @@ QualityManager::QualityManager( int argc, char *argv[])
         signal(SIGUSR1, sigusr1_handler);
         signal(SIGALRM, sigalarm_handler);
         // FIXME sighup for log file rotation
-
+		
+		cout << "estoy aqui 0a" << endl;
+		
         auto_ptr<CommandLineArgs> _args(new CommandLineArgs());
         args = _args;
 
@@ -128,6 +130,9 @@ QualityManager::QualityManager( int argc, char *argv[])
                       "promiscuous mode", "MAIN", "nopromisc");
 #endif
 #endif
+
+		cout << "estoy aqui 0b" << endl;
+
 
         // get command line arguments from components via static method
         // TODO AM: Check if this part is required
@@ -212,7 +217,7 @@ QualityManager::QualityManager( int argc, char *argv[])
         auto_ptr<EventScheduler> _evnt(new EventScheduler());
         evnt = _evnt;
 
-        // startup meter components
+        // startup Quality components
 
 #ifdef ENABLE_THREADS
 
@@ -553,9 +558,14 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               string r = ((RemoveRulesCtrlEvent *)e)->getRule();
               int n = r.find(".");
               if (n > 0) {
+				  string sname = r.substr(0,n); 
+				  string rname = r.substr(n+1, r.length()-n);
+#ifdef DEBUG
+        log->dlog(ch,"Deleting rule set=%s ruleId=%s", sname.c_str(), rname.c_str() );
+#endif
+
                   // delete 1 rule
-                  Rule *rptr = rulm->getRule(r.substr(0,n), 
-                                             r.substr(n+1, r.length()-n));
+                  Rule *rptr = rulm->getRule(sname, rname);
                   if (rptr == NULL) {
                       throw Error("no such rule");
                   }
@@ -564,6 +574,10 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
                   rulm->delRule(rptr, evnt.get());
 
               } else {
+
+#ifdef DEBUG
+        log->dlog(ch,"Deleting rule set=%s ", r.c_str() );
+#endif				  
                   // delete rule set
                   ruleIndex_t *rules = rulm->getRules(r);
                   if (rules == NULL) {
@@ -831,9 +845,13 @@ int QualityManager::alreadyRunning()
     struct stat stats;
     int status, oldPid;
 
+	cout << NETQOS_LOCK_FILE.c_str() << endl;
+
     // do we have a lock file ?
     if (stat(NETQOS_LOCK_FILE.c_str(), &stats ) == 0) { 
-
+		
+		
+		
         // read process ID from lock file
         file = fopen(NETQOS_LOCK_FILE.c_str(), "rt" );
         if (file == NULL) {
@@ -856,7 +874,9 @@ int QualityManager::alreadyRunning()
         // remove (old) pid file and proceed
         unlink(NETQOS_LOCK_FILE.c_str());
     }
-
+	
+	cout << NETQOS_LOCK_FILE.c_str() << endl;
+	
     // no lock file and no running meter process
     // write new lock file and continue
     file = fopen(NETQOS_LOCK_FILE.c_str(), "wt" );
@@ -864,6 +884,9 @@ int QualityManager::alreadyRunning()
         throw Error("cannot open pidfile '%s' for writing: %s\n",
                     NETQOS_LOCK_FILE.c_str(), strerror(errno));
     }
+    
+    cout << NETQOS_LOCK_FILE.c_str() << endl;
+    
     fprintf(file, "%d\n", getpid());
     fclose(file);
 

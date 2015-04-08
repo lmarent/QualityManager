@@ -8,7 +8,7 @@ else
   AM_CFLAGS = -O2 @USE_SSL@ 
 endif
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src/include
+libgetpass_a_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src/include
 
 libgetpass_a_SOURCES = getpass.h getpass.c 
 

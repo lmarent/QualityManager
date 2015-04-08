@@ -18,7 +18,7 @@ nqrsh_LDADD   = @READLINELIB@ @SSLLIB@ @MPATROLLIB@ @CURL_LIBS@ @XMLLIB@ @XSLTLI
                 $(top_builddir)/lib/getopt_long/libgetopt_long.a \
 				$(top_builddir)/lib/getpass/libgetpass.a
 
-INCLUDES      = -I$(top_srcdir) -I$(top_srcdir)/src/include -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long -I$(top_srcdir)/lib/getpass
+INCLUDES  = -I$(top_srcdir) -I$(top_srcdir)/src/include -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long -I$(top_srcdir)/lib/getpass
 
 $(top_builddir)lib/getopt_long/libgetopt_long.a:
 	cd $(top_builddir)/lib/getopt_long ; $(MAKE)

@@ -98,7 +98,7 @@ class Rule
     //! state of this rule
     ruleState_t state;
 
-    //! name of the rule by convention this must be either: <name> or <source>.<id>
+    //! name of the rule for the external system calling the QoS Manager
     string ruleName;
 
     //! parts of rule name for efficiency

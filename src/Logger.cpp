@@ -66,8 +66,8 @@ Logger::Logger(const string defaultFile) :
     logLevel(4), threaded(1), canlog(0), numChannels(0), numLogfiles(0)
 {
     /*
-      Logger is set to not threaded from Meter.cc via setThreaded(0) if
-      and only if not a single meter component is configured as threaded
+      Logger is set to not threaded from QualityManager.cpp via setThreaded(0) if
+      and only if not a single quality component is configured as threaded
     */
 		
     unlink(defaultFile.c_str());

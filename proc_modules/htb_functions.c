@@ -381,22 +381,77 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock, struct rtnl_link *rtnlLink,
 }
 
 
+/**
+ * This function adds a new filter and attach it to a hash table 
+ * and set a next hash table link with hash mask
+ *
+ */
+int u32_add_filter_on_ht_with_hashmask(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+		uint32_t prio, uint32_t parentMaj, uint32_t parentMin,
+		uint32_t keyval, uint32_t keymask, int keyoff, int keyoffmask, 
+		uint32_t htid, uint32_t htlink, uint32_t hmask, uint32_t hoffset )
+{
+    struct rtnl_cls *cls;
+    int err;
+
+    cls=rtnl_cls_alloc();
+
+    if (!(cls)) {
+        printf("Can not allocate classifier hash table\n");
+        return NET_TC_CLASSIFIER_ALLOC_ERROR;
+    }
+    
+    rtnl_tc_set_link(TC_CAST(cls), rtnlLink);
+
+    if ((err = rtnl_tc_set_kind(TC_CAST(cls), "u32"))) {
+        printf("Cannot set classifier as u32\n");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    rtnl_cls_set_prio(cls, prio);
+    rtnl_cls_set_protocol(cls, ETH_P_IP);
+
+    rtnl_tc_set_parent(TC_CAST(cls), 
+					   TC_HANDLE(parentMaj, parentMin));
+    
+    if (htid)
+		rtnl_u32_set_hashtable(cls, htid);
+
+    rtnl_u32_add_key_uint32(cls, keyval, keymask, keyoff, keyoffmask);
+
+    rtnl_u32_set_hashmask(cls, hmask, hoffset);
+
+    rtnl_u32_set_link(cls, htlink);
+
+
+    if ((err = rtnl_cls_add(sock, cls, NLM_F_CREATE))) {
+        printf("Error adding classifier %s \n", nl_geterror(err));
+        return NET_TC_CLASSIFIER_ESTABLISH_ERROR;
+    }
+    rtnl_cls_put(cls);
+    return 0;
+}
+
+
+
 /***
  * This function allocate and prepare the link for creating a u32 classifier,
  * it should be called before any key is introduced.
  */
-
 int create_u32_classifier(struct nl_sock *sock, 
 						  struct rtnl_link *rtnlLink, 
 						  struct rtnl_cls **cls_out,
 						  uint32_t prio, 
 						  uint32_t parentMaj, 
 						  uint32_t parentMin,
-						  uint32_t classfierMaj, 
-						  uint32_t classfierMin)
+						  int classfierMaj, 
+						  int classfierMin)
 {
     int err;
+    uint32_t handle, parent;
     struct rtnl_cls *cls = (struct rtnl_cls *) rtnl_cls_alloc();
+    int htid = 800;
+    int hash = 0;
 
     if (!(cls)) {
         err = NET_TC_CLASSIFIER_ALLOC_ERROR;
@@ -409,27 +464,67 @@ int create_u32_classifier(struct nl_sock *sock,
         err = NET_TC_CLASSIFIER_SETUP_ERROR;
         return err;
     }
+	
+	rtnl_cls_set_protocol(cls, ETH_P_IP);
 
     rtnl_cls_set_prio(cls, prio);
-    rtnl_cls_set_protocol(cls, ETH_P_IP);
     rtnl_tc_set_parent(TC_CAST(cls), 
 					   NET_HANDLE(parentMaj, parentMin));
-					   
-	
-	err = rtnl_u32_set_classid(cls, NET_HANDLE(classfierMaj, classfierMin));
-    if (err < 0){        
-		err = NET_TC_CLASSIFIER_SETUP_ERROR;
-		return err;
-    }
 
+	
+	rtnl_u32_set_handle(cls, 0, 0, classfierMin);
+	
 	*cls_out = cls;
 	return NET_TC_SUCCESS;
 } 
 
-/*
-* Function that adds a new filter and attach it to a hash table
-*
-*/
+
+/***
+ * This function allocate and prepare the link for creating a u32 classifier,
+ * it should be called before any key is introduced.
+ */
+
+int delete_u32_classifier(struct nl_sock *sock, 
+						  struct rtnl_link *rtnlLink, 
+						  struct rtnl_cls **cls_out,
+						  uint32_t prio, 
+						  uint32_t parentMaj, 
+						  uint32_t parentMin,
+						  int classfierMaj, 
+						  int classfierMin)
+{
+    int err;
+    uint32_t handle, parent;
+    struct rtnl_cls *cls = (struct rtnl_cls *) rtnl_cls_alloc();
+    int htid = 0x800;
+    int hash = 0;
+
+    if (!(cls)) {
+        err = NET_TC_CLASSIFIER_ALLOC_ERROR;
+		return err;
+    }
+    
+    rtnl_tc_set_link(TC_CAST(cls), rtnlLink);
+
+    if ((err = rtnl_tc_set_kind(TC_CAST(cls), "u32"))) {
+        err = NET_TC_CLASSIFIER_SETUP_ERROR;
+        return err;
+    }
+	
+	rtnl_cls_set_protocol(cls, ETH_P_IP);
+
+    rtnl_cls_set_prio(cls, prio);
+    rtnl_tc_set_parent(TC_CAST(cls), 
+					   NET_HANDLE(parentMaj, parentMin));
+
+	
+	rtnl_u32_set_handle(cls, htid, hash, classfierMin);
+	
+	*cls_out = cls;
+	return NET_TC_SUCCESS;
+} 
+
+
 int u32_add_key_filter(struct rtnl_cls *cls,  
 					   const unsigned char *keyval_str, 
 					   const unsigned char *keymask_str, 
@@ -504,17 +599,17 @@ int save_add_u32_filter(struct nl_sock *sock,
         err = NET_TC_CLASSIFIER_ESTABLISH_ERROR;
         return err;
     }
+    
     rtnl_cls_put(cls);
     return NET_TC_SUCCESS;
 }
 
-int save_delete_u32_filter(struct nl_sock *sock,
-						struct rtnl_cls *cls)
+int save_delete_u32_filter(struct nl_sock *sock, struct rtnl_cls *cls)
 {
     int err;
     
-
-    if ((err = rtnl_cls_delete(sock, cls, 0))) {
+    if ((err = rtnl_cls_delete(sock, cls, 0)) < 0) {
+        printf("Error deleting classifier, error: %s \n", nl_geterror(err));
         err = NET_TC_CLASSIFIER_ESTABLISH_ERROR;
         return err;
     }

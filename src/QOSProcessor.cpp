@@ -88,9 +88,7 @@ QOSProcessor::~QOSProcessor()
         mutexDestroy(&maccess);
     }
 #endif
-	
-	
-	
+		
     // destroy Flow setups for all rules
     for (ruleActionListIter_t r = rules.begin(); r != rules.end(); r++) 
     {
@@ -98,6 +96,9 @@ QOSProcessor::~QOSProcessor()
         for ( i = r->actions.begin(); i != r->actions.end(); i++) 
         {
 
+#ifdef DEBUG
+    log->dlog(ch,"Destroying rule id= %d", (r->rule)->getUId());
+#endif
              // Define the Flow id to be used.
              char buffer [50];
              configItemList_t itmConf;
@@ -338,7 +339,7 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
             a.module = dynamic_cast<ProcModule*> (mod);
 
 
-
+			
             if (a.module != NULL) { // is it a processing kind of module
 
 #ifdef DEBUG

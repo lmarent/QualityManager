@@ -69,6 +69,7 @@ extern uint32_t NET_FILTER_HANDLE_MINOR;
  */
 #define NET_HANDLE(maj, min)	(TC_H_MAJ((maj) << 16) | TC_H_MIN(min))
 
+
 	
 int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink);
 
@@ -99,8 +100,17 @@ int create_u32_classifier(struct nl_sock *sock,
 						  uint32_t prio, 
 						  uint32_t parentMaj, 
 						  uint32_t parentMin,
-						  uint32_t classfierMaj, 
-						  uint32_t classfierMin);
+						  int classfierMaj, 
+						  int classfierMin);
+
+int delete_u32_classifier(struct nl_sock *sock, 
+						  struct rtnl_link *rtnlLink, 
+						  struct rtnl_cls **cls_out,
+						  uint32_t prio, 
+						  uint32_t parentMaj, 
+						  uint32_t parentMin,
+						  int classfierMaj, 
+						  int classfierMin);
 
 int u32_add_key_filter(struct rtnl_cls *cls, const unsigned char *keyval_str, 
 				   const unsigned char *keymask_str, unsigned short len,

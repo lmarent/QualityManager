@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.68])
 AC_INIT([qualityManager],[0.1],[la.marentes455@uniandes.edu.co])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 LT_INIT
 AC_CONFIG_SRCDIR([src/main.cpp])
 
@@ -31,6 +31,7 @@ AC_PROG_MAKE_SET
 
 AC_LANG([C++])
 
+AC_CHECK_LIB([dl], [dlopen])
 
 dnl # Platform 
 case "$target" in
