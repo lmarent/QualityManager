@@ -69,7 +69,7 @@ void initModule(configParam_t *params)
 }
 
 
-void destroyModule()
+void destroyModule( configParam_t *params )
 {
     std::cout << "priority destroy module" << std::endl;
 }
@@ -127,6 +127,37 @@ void resetFlowSetup( configParam_t *params )
 	std::cout << "priority reset flow setup" << std::endl;
 }
 
+
+/*! \short  check if bandwidth available for the rule is enought.
+
+    \arg \c params - rule parameters
+    \returns 0 - on success (bandwidth is valid), <0 - else
+*/
+int checkBandWidth( configParam_t *params )
+{
+
+    uint64_t rate;
+    int numparams = 0;
+    
+    while (params[0].name != NULL) {
+		
+        if (!strcmp(params[0].name, "Rate")) {
+            rate = parseLong(params[0].value);
+			numparams++;
+			break;
+        }
+        params++;
+     }
+	
+	if (numparams == 1){
+		if (( bandwidth_available - rate ) >= 0)
+			return 0;
+		else
+			return NET_TC_RATE_AVAILABLE_ERROR;
+	}
+	
+	return NET_TC_RATE_AVAILABLE_ERROR;
+}
 
 void destroyFlowSetup( configParam_t *params, filterList_t *filters, void *flowdata )
 {

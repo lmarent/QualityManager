@@ -61,10 +61,8 @@ string ProcModule::INFOLABEL[] =
 
 ProcModule::ProcModule( ConfigManager *_cnf, string libname, string libfile, 
                         libHandle_t libhandle, string confgroup ) :
-    cnf(_cnf), Module( libname, libfile, libhandle ), confgroup(confgroup)
-{
-    int res;
-    
+    Module( libname, libfile, libhandle ), confgroup(confgroup), cnf(_cnf)
+{    
     if (s_log == NULL ) {
         s_log = Logger::getInstance();
         s_ch = s_log->createChannel("ProcModule");
@@ -82,18 +80,20 @@ ProcModule::ProcModule( ConfigManager *_cnf, string libname, string libfile,
 
 	try
 	{
-		cout << "loading module" << libname << endl;
 		cnf->dump(cout);
-		configItemList_t list = cnf->getItems(confgroup, libname);
+		configItemList_t list = cnf->getItems(confgroup, libname );
 		configItem_t * intfc = cnf->getItem("NetInterface");
+		configItem_t * intfc2 = cnf->getItem("UseIPv6");
 		list.push_back(*intfc);
+		list.push_back(*intfc2);
 		configParam_t *params = cnf->getParamList(list);
 		funcList->initModule(params);
 	}
 	catch(ProcError &e)
 	{
 		s_log->elog(s_ch, "initialization for module '%s' failed: %s",
-					libname.c_str(), funcList->getErrorMsg(res));
+					libname.c_str(), funcList->getErrorMsg(e.getErrorNo())
+				   );
 	
 	}
     moduleInfoXML = makeModuleInfoXML();
@@ -140,14 +140,21 @@ string ProcModule::makeModuleInfoXML()
 
     // append footer
     s << "</moduleinfo>" << endl;
-
+	cout << "module information:" << s.str() << endl;
     return s.str();
 }
 
 
 ProcModule::~ProcModule()
 {
-    funcList->destroyModule();
+	configItemList_t list = cnf->getItems(confgroup, getOwnName() );
+	configItem_t * intfc = cnf->getItem("NetInterface");
+	configItem_t * intfc2 = cnf->getItem("UseIPv6");
+	list.push_back(*intfc);
+	list.push_back(*intfc2);
+	configParam_t *params = cnf->getParamList(list);
+	
+    funcList->destroyModule(params);
 
 #ifdef DEBUG
     s_log->dlog(s_ch, "Destroyed" );
@@ -196,7 +203,7 @@ string ProcModule::getTypeInfoText()
         }	
         i++;
     }
-
+	cout << "string to print:" << s.str() << endl;
     return s.str();
 }
 

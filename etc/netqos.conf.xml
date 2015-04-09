@@ -29,7 +29,6 @@
     <!-- use IPv6 (if no IPv6 interface present IP4 will be used) -->
     <PREF NAME="UseIPv6" TYPE="Bool">no</PREF>
     <!-- log all incoming control requests -->
-    <PREF NAME="NetworkMasks">192.168.0.0/22,192.168.4.0/22,192.168.8.0/22</PREF>
     <PREF NAME="LogOnConnect" TYPE="Bool">yes</PREF>
     <!-- log all meter commands -->
     <PREF NAME="LogQoSCommand" TYPE="Bool">yes</PREF>
@@ -50,7 +49,7 @@
     <!-- buffers in queue between classifier and packet processor -->
     <PREF NAME="PacketQueueBuffers" TYPE="UInt32">20000</PREF>
     <!-- module which is preloaded at startup, if the user put a list, the SW will only load the first module defined-->
-    <PREF NAME="Modules">htb	</PREF>
+    <PREF NAME="Modules">htb tbf	</PREF>
     <MODULES>
       <MODULE NAME="htb">
 		  <!-- Total interface Rate is on bytes  -->

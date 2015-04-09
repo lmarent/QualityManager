@@ -38,9 +38,11 @@
 
 
 const int COUNTCHUNK = 20;    /* new entries per realloc */
-const int MOD_INIT_REQUIRED_PARAMS = 3;
+const int MOD_INIT_REQUIRED_PARAMS = 4;
 const int MOD_INI_FLOW_REQUIRED_PARAMS = 6;
-const int MOD_DEL_FLOW_REQUIRED_PARAMS = 1;
+const int MOD_DEL_FLOW_REQUIRED_PARAMS = 2;
+uint64_t bandwidth_available = 0;
+
 
 
 struct nl_sock *sk;
@@ -219,6 +221,13 @@ void initModule( configParam_t *params )
      uint32_t burst;
      int numparams = 0;
 	 int link_int = 0;
+	 bool useIPv6;
+	 uint32_t prio = 1; // TODO AM: we need to create a function that 
+					   //		   takes the protocol and return the prio.
+
+#ifdef DEBUG
+	fprintf( stdout, "htb module: start init module \n");
+#endif
 
      while (params[0].name != NULL) {
 		// in all the application we establish the rates and 
@@ -227,7 +236,7 @@ void initModule( configParam_t *params )
             rate = parseLong(params[0].value);
 			numparams++;
 #ifdef DEBUG
-		fprintf( stdout, "htb module: setting rate to   %lf \n", rate );
+		fprintf( stdout, "htb module: Rate: %lf \n", rate );
 #endif
         }
 
@@ -242,7 +251,6 @@ void initModule( configParam_t *params )
             }
         }
 
-
         if (!strcmp(params[0].name, "Burst")) {
 			// in all the application we establish the rates and 
 			// burst parameters in bytes.
@@ -250,6 +258,16 @@ void initModule( configParam_t *params )
             numparams++;
 #ifdef DEBUG
 			fprintf( stdout, "htb module: Burst %u \n", burst );
+#endif
+        }
+
+        if (!strcmp(params[0].name, "UseIPv6")) {
+			// in all the application we establish the rates and 
+			// burst parameters in bytes.
+            useIPv6 = parseBool( params[0].value );
+            numparams++;
+#ifdef DEBUG
+			fprintf( stdout, "htb module: UseIpv6: %s \n", useIPv6 ? "true" : "false");
 #endif
         }
 
@@ -290,7 +308,16 @@ void initModule( configParam_t *params )
 							 1, 1, 1000);
 			if (err != 0)
 				throw ProcError(err, "Error creating the default root class");
-
+			
+			if (!useIPv6){
+				err = create_hash_configuration(sk, nllink, 
+									prio, NET_ROOT_HANDLE_MAJOR, 0);
+				if (err != 0)
+					throw ProcError(err, "Error creating the hash table for classifiers");
+			}
+			
+			// Initialize the bandwidth available.
+			bandwidth_available = rate;
 
 		 }
 		 else
@@ -304,10 +331,49 @@ void initModule( configParam_t *params )
 }
 
 
-void destroyModule()
+void destroyModule( configParam_t *params)
 {
-    if ((sk != NULL) and (nllink != NULL))
-		qdisc_delete_root_HTB(sk, nllink);
+	 bool useIPv6;
+     int numparams = 0;
+     int err=0;
+	 uint32_t prio = 1; // TODO AM: we need to create a function that 
+					   //		   takes the protocol and return the prio.
+
+     while (params[0].name != NULL) {
+		 
+		 
+		 
+        if (!strcmp(params[0].name, "UseIPv6")) {
+			// in all the application we establish the rates and 
+			// burst parameters in bytes.
+            useIPv6 = parseBool( params[0].value );
+            numparams++;
+#ifdef DEBUG
+			fprintf( stdout, "htb module: UseIpv6 %s \n", useIPv6 ? "true" : "false");
+#endif
+        }
+
+        params++;
+     }
+
+#ifdef DEBUG
+	fprintf( stdout, "htb module: number of parameters given: %d \n", numparams );
+#endif
+
+	if (!useIPv6){
+		if ((sk != NULL) and (nllink != NULL)){
+			err = create_hash_configuration(sk, nllink, 
+							prio, NET_ROOT_HANDLE_MAJOR, 0);
+			if (err != 0)
+				throw ProcError(err, "Error creating the hash table for classifiers");
+			
+			qdisc_delete_root_HTB(sk, nllink);
+			
+			// Reinitialize the bandwidth available.
+			bandwidth_available = 0;
+
+		}
+	}		
     
     if (link_cache != NULL)
 		nl_cache_free(link_cache);
@@ -316,7 +382,7 @@ void destroyModule()
 		nl_socket_free(sk);
 
 #ifdef DEBUG
-	fprintf( stdout, "HTB destroy module" );
+	fprintf( stdout, "HTB destroy module \n" );
 #endif
     
 }
@@ -369,35 +435,95 @@ inline void resetCurrent( accData_t *data )
 
 }
 
+int create_hask_key(filterList_t *filters)
+{
+	
+#ifdef DEBUG
+	fprintf( stdout, "htb : init create_hash_key \n" );
+#endif
+	
+	uint32_t keyval32, hashkey;
+	filterListIter_t iter;
+	
+	for ( iter = filters->begin() ; iter != filters->end() ; iter++ ) 
+	{	
+		filter_t filter = *iter;
+
+#ifdef DEBUG
+	fprintf( stdout, "htb - filter type: %s \n", (filter.type).c_str() );
+#endif
+
+		if ( (strcmp((filter.type).c_str(), "IPAddr") == 0) and 
+		     ((filter.mtype) == FT_EXACT) )
+		{
+
+			keyval32 = (uint32_t)(filter.value[0]).getValue()[0] << 24 |
+					   (uint32_t)(filter.value[0]).getValue()[1] << 16 |
+					   (uint32_t)(filter.value[0]).getValue()[2] << 8  |
+					   (uint32_t)(filter.value[0]).getValue()[3];
+
+#ifdef DEBUG
+	fprintf( stdout, "htb - IP address as decimal: %d \n", keyval32 );
+#endif
+			
+			hashkey = (keyval32&0x000000FF);
+
+#ifdef DEBUG
+			fprintf( stdout, "htb : hash key value: %d \n", hashkey);
+#endif
+
+			return hashkey;
+		}
+	}
+
+	return -1; // We must to assign the filter to the non hashed table.
+}
+
 void modify_filter( int flowId, filterList_t *filters, 
 					int bidir, TcFilterAction_e action )
 {
 	int err = 0;
+	int hashkey = -1;
+	int htid=0;
 	uint32_t prio = 1; // TODO AM: we need to create a function that 
 					   //		   takes the protocol and return the prio.
 	struct rtnl_cls *cls = NULL;
 
 #ifdef DEBUG
-	fprintf( stdout, "In Modify Filter" );
+	fprintf( stdout, "htb: ------------------------  init modify filter" );
 #endif
 	
 	if (filters == NULL)
 		throw ProcError(NET_TC_PARAMETER_ERROR, "Filters given are null");
+
+	// Creates the hash key based on the last byte of the source IP address.
+	hashkey = create_hask_key(filters);
+	if (hashkey == -1)
+	{
+		htid = NET_UNHASH_FILTER_TABLE;
+		hashkey = 0;
+	}
+	else
+	{
+		htid = NET_HASH_FILTER_TABLE;
+	}
+
+#ifdef DEBUG
+	fprintf( stdout, "htb: hash table: %d - hashkey %d ", htid, hashkey );
+#endif
+
 		
-
-
 	if (action == TC_FILTER_ADD)
 	{
-	
+		
 		// Allocate the new classifier.
 		err = create_u32_classifier(sk, nllink, &cls, prio, 
 									NET_ROOT_HANDLE_MAJOR, 0,
-									NET_ROOT_HANDLE_MAJOR, flowId);
+									NET_ROOT_HANDLE_MAJOR, flowId, htid, hashkey );
 									
 		if ( err != NET_TC_SUCCESS )
 			throw ProcError(err, "Error allocating classifier objec");
-
-
+			
 		err = rtnl_u32_set_classid(cls, NET_HANDLE(
 					(uint32_t) NET_ROOT_HANDLE_MAJOR, (uint32_t) flowId));
 		
@@ -476,7 +602,7 @@ void modify_filter( int flowId, filterList_t *filters,
 		// Allocate the new classifier.
 		err = delete_u32_classifier(sk, nllink, &cls, prio, 
 									NET_ROOT_HANDLE_MAJOR, 0,
-									NET_ROOT_HANDLE_MAJOR, flowId);
+									NET_ROOT_HANDLE_MAJOR, flowId, htid, hashkey);
 									
 		if ( err != NET_TC_SUCCESS )
 			throw ProcError(err, "classifier allocate error during deleting");
@@ -500,7 +626,7 @@ fail:
 ok:
 	err = 0;
 #ifdef DEBUG
-	fprintf( stdout, "Filters sucessfully setup \n" );
+	fprintf( stdout, "htb: ------------------------  end modify filter" );
 #endif	
 
 }
@@ -580,6 +706,7 @@ void initFlowSetup( configParam_t *params,
 	     if ( err == NET_TC_SUCCESS ){
 			data->currTimers[0].ival_msec = 1000 * duration;
 			modify_filter(flowId, filters, bidir, TC_FILTER_ADD);
+			bandwidth_available = bandwidth_available - rate;
 			*flowdata = data;
 		 } 
 		 else
@@ -605,16 +732,46 @@ void resetFlowSetup( configParam_t *params )
 #endif
 }
 
+/*! \short  check if bandwidth available for the rule is enought.
+
+    \arg \c params - rule parameters
+    \returns 0 - on success (bandwidth is valid), <0 - else
+*/
+int checkBandWidth( configParam_t *params )
+{
+	uint64_t rate;
+	int numparams = 0;
+
+    while (params[0].name != NULL) {
+		
+        if (!strcmp(params[0].name, "Rate")) {
+            rate = parseLong(params[0].value);
+			numparams++;
+			break;
+        }
+        params++;
+     }
+
+	if (numparams == 1){
+		if (( bandwidth_available - rate ) >= 0)
+			return 0;
+		else
+			return NET_TC_RATE_AVAILABLE_ERROR;
+	}
+	
+	return NET_TC_RATE_AVAILABLE_ERROR;
+}
 
 void destroyFlowSetup( configParam_t *params, 
 					   filterList_t *filters,	
 					   void *flowdata )
 {
 	accData_t *data = (accData_t *)flowdata;
-    uint32_t flowId;
+    uint32_t flowId = 0;
     int numparams = 0;
     int err;
     int bidir = 0;
+    uint64_t rate;
 
 #ifdef DEBUG
 		fprintf( stdout, "init destroy FlowSetup \n" );
@@ -623,17 +780,33 @@ void destroyFlowSetup( configParam_t *params,
 	free( data );
 
     while (params[0].name != NULL) {
-		fprintf( stdout, "Evaluating parameter %s \n", params[0].name ); 
+		fprintf( stdout, "Evaluating parameter %s value %s \n", params[0].name, params[0].value ); 
+		
+		if (!strcmp(params[0].name, "Rate")) {
 
+            rate = parseLong(params[0].value);
+			numparams++;
+
+#ifdef DEBUG
+			fprintf( stdout, "rate: %d \n", rate );
+#endif			
+
+        }
+        
         if (!strcmp(params[0].name, "FlowId")) {
             flowId = (uint32_t) parseInt( params[0].value );
             numparams++;
+
+#ifdef DEBUG
+			fprintf( stdout, "Flowid: %d \n", flowId );
+#endif			
+
         }
 
         params++;
     }
 #ifdef DEBUG
-		fprintf( stdout, "Flow Id to delete: %d \n", flowId );
+		fprintf( stdout, "Flow Id to delete: %d - num parameters:%d \n", flowId, numparams );
 #endif
 
 	if ( numparams == MOD_DEL_FLOW_REQUIRED_PARAMS )
@@ -643,7 +816,9 @@ void destroyFlowSetup( configParam_t *params,
 
 		 err = class_delete_HTB(sk, nllink, flowId);
 		 if (err != 0 )
-			throw ProcError(err, "Error deleting HTB class"); 
+			throw ProcError(err, "Error deleting HTB class");
+		 else
+			bandwidth_available = bandwidth_available + rate;
 		
     } 
     else
@@ -663,15 +838,16 @@ const char* getModuleInfo(int i)
     /* fprintf( stderr, "count : getModuleInfo(%d)\n",i ); */
 
     switch(i) {
-    case I_MODNAME:    return "bandwidth";
+    case I_MODNAME:    return "Hierarchical Token Buckets Queue Discipline";
+    case I_ID:		   return "htb";
     case I_VERSION:    return "0.1";
     case I_CREATED:    return "2015/03/09";
     case I_MODIFIED:   return "2015/03/09";
-    case I_BRIEF:      return "rules to setup bandwidth ";
-    case I_VERBOSE:    return "rules to setup bandwidth "; 
+    case I_BRIEF:      return "rules to setup bandwidth and priority";
+    case I_VERBOSE:    return "rules to setup bandwidth and priority - use the hierarchical token buckets discipline"; 
     case I_HTMLDOCS:   return "http://www.uniandes.edu.co/... ";
-    case I_PARAMS:     return "Rate[float] : bandwidth rate to setup";
-    case I_RESULTS:    return "results description = ...";
+    case I_PARAMS:     return " \n Rate[long (bytes)] : bandwidth rate to setup \n Burst[long (bytes)] : burst to be used \n Priority[int] : rule's priority \n Bidir[bool] : is it dibirectional? \n Duration[int (seconds)] : elapsed time for the rule ";
+    case I_RESULTS:    return "Creates a new htb rule and the filters for classify the packets";
     case I_AUTHOR:     return "Andres Marentes";
     case I_AFFILI:     return "Universidad de los Andes, Colombia";
     case I_EMAIL:      return "la.marentes455@uniandes.edu.co";

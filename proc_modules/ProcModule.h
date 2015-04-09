@@ -69,6 +69,8 @@ inline double parseDouble( string s);
 /*! \short   declaration of struct containing all function pointers of a module */
 extern ProcModuleInterface_t func;
 
+/// This variable maintains the available bandwidth on the interface.
+extern uint64_t bandwidth_available;
 
 #endif /* __PROCMODULE_H */
 

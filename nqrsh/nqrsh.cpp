@@ -403,8 +403,6 @@ int main( int argc, char *argv[] )
           input2 = tmp;
           free(tmp);
           
-          std::cout << "estoy aqui 0" << input2 << std::endl;
-
           // If the line has any text in it, save it on the history.
           // but only do so, if it is different from the previous entry 
           if (!input2.empty() && (input2 != input)) {
@@ -457,7 +455,6 @@ int main( int argc, char *argv[] )
           // FIXME curl prob: error buf is first error while res is the
           // number for the last error
           if (res != 0) {
-			  std::cout << "estoy aqui 1" << std::endl;
               cerr << "Error (" << res << "): "<< getErr(cebuf) << endl;
               goto done;
           }
@@ -466,7 +463,6 @@ int main( int argc, char *argv[] )
           // FIXME curl prob: error buf is first error while res is the
           // number for the last error
           if (res != 0) {
-              std::cout << "estoy aqui 2" << std::endl;
               cerr << "Error (" << res << "): "<< getErr(cebuf) << endl;
               goto done;
           }
@@ -475,7 +471,6 @@ int main( int argc, char *argv[] )
           // FIXME curl prob: error buf is first error while res is the
           // number for the last error
           if (res != 0) {
-              std::cout << "estoy aqui 3" << std::endl;
               cerr << "Error (" << res << "): "<< getErr(cebuf) << endl;
               goto done;
           }

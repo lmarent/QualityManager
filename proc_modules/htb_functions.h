@@ -62,6 +62,8 @@ extern uint32_t NET_ROOT_HANDLE_MAJOR;
 extern uint32_t NET_ROOT_HANDLE_MINOR;
 extern uint32_t NET_DEFAULT_CLASS;
 extern uint32_t NET_FILTER_HANDLE_MINOR;
+extern uint32_t NET_HASH_FILTER_TABLE;
+extern uint32_t NET_UNHASH_FILTER_TABLE;
 
 /**
  * Compute tc handle based on major and minor parts
@@ -94,6 +96,80 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock,
 						  struct rtnl_link *rtnlLink, 
 						  uint32_t childMin );
 
+int get_u32(__u32 *val, const char *arg, int base);
+						  
+/** 
+ * Function that creates a unit32_t value from a handler represented as
+ *  a string
+ */ 
+int get_u32_handle(__u32 *handle, const char *str);						  
+
+
+uint32_t get_u32_parse_handle(const char *cHandle);
+						  
+/**
+ * This function adds a new filter and attach it to a hash table 
+ * and set a next hash table link with hash mask
+ *
+ */
+int u32_add_filter_on_ht_with_hashmask(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+		uint32_t prio, uint32_t parentMaj, uint32_t parentMin,
+		uint32_t keyval, uint32_t keymask, int keyoff, int keyoffmask, 
+		uint32_t htid, uint32_t htlink, uint32_t hmask, uint32_t hoffset );
+
+
+/**
+ * This function adds a new filter and attach it to a hash table 
+ * and set a the bucket in 0.
+ *
+ */
+int u32_add_filter_on_ht_without_hashmask(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+		uint32_t prio, uint32_t parentMaj, uint32_t parentMin,
+		uint32_t keyval, uint32_t keymask, int keyoff, int keyoffmask, 
+		uint32_t htid, uint32_t htlink );						  
+						  
+/** 
+ * Add a new hash table for classifiers
+ */
+int u32_add_ht(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+			   uint32_t prio, uint32_t parentMaj, uint32_t parentMin, 
+			   uint32_t htid, uint32_t divisor);
+						  
+/** 
+ * Delete a hash table created to maintain classifiers
+ */
+int u32_delete_ht(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+				  uint32_t prio, uint32_t parentMaj, uint32_t parentMin, 
+				  uint32_t htid, uint32_t divisor);
+
+/**
+ * Function that adds the main hast table. 
+ *    We create different filter lists depending on the ip address' last byte.
+ * 
+ * Create u32 first hash filter table 
+ *    Upper limit number of hash tables: 4096 0xFFF
+ *    Upper limit in buckets by hash table: 256
+ * 
+ */
+int create_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
+							  uint32_t priority, uint32_t parentMaj, uint32_t parentMin);
+
+/**
+ * Function that adds the main hast table. 
+ *    We create different filter lists depending on the ip address' last byte.
+ * 
+ * Create u32 first hash filter table 
+ *    Upper limit number of hash tables: 4096 0xFFF
+ *    Upper limit in buckets by hash table: 256
+ * 
+ */
+int delete_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
+							  uint32_t priority, uint32_t parentMaj, uint32_t parentMin);
+
+/**
+ * This function allocate and prepare the link for creating a u32 classifier,
+ * it should be called before any key is introduced.
+ */
 int create_u32_classifier(struct nl_sock *sock, 
 						  struct rtnl_link *rtnlLink, 
 						  struct rtnl_cls **cls_out,
@@ -101,8 +177,14 @@ int create_u32_classifier(struct nl_sock *sock,
 						  uint32_t parentMaj, 
 						  uint32_t parentMin,
 						  int classfierMaj, 
-						  int classfierMin);
+						  int classfierMin,
+						  int htid,
+						  int hashkey);
 
+/**
+ * This function allocate and prepare the link for creating a u32 classifier,
+ * it should be called before any key is introduced.
+ */
 int delete_u32_classifier(struct nl_sock *sock, 
 						  struct rtnl_link *rtnlLink, 
 						  struct rtnl_cls **cls_out,
@@ -110,7 +192,9 @@ int delete_u32_classifier(struct nl_sock *sock,
 						  uint32_t parentMaj, 
 						  uint32_t parentMin,
 						  int classfierMaj, 
-						  int classfierMin);
+						  int classfierMin,
+						  int htid,
+						  int hashkey);
 
 int u32_add_key_filter(struct rtnl_cls *cls, const unsigned char *keyval_str, 
 				   const unsigned char *keymask_str, unsigned short len,

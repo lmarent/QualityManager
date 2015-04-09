@@ -397,7 +397,7 @@ void RuleManager::activateRules(ruleDB_t *rules, EventScheduler *e)
         log->dlog(ch, "activate rule with name = '%s'", r->getRuleName().c_str());
         r->setState(RS_ACTIVE);
 	 
-        /* TODO: Evaluate this code to understand if it has to be adjusted or not
+        /* TODO AM: Evaluate this code to understand if it has to be adjusted or not
         // set flow timeout
         if (r->isFlagEnabled(RULE_FLOW_TIMEOUT)) {
             unsigned long timeout = r->getFlowTimeout();

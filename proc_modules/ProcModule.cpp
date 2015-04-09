@@ -45,6 +45,7 @@ ProcModuleInterface_t func =
     getTimers, 
     destroyFlowSetup,
     resetFlowSetup, 
+    checkBandWidth,
     timeout, 
     getModuleInfo, 
     getErrorMsg };
@@ -145,11 +146,10 @@ int parseInt( string s )
 {
     char *errp = NULL;
     int n;
+    
     n = (int) strtol(s.c_str(), &errp, 0);
-	cout << "Integer value:" << s << endl;
-    if (s.empty() || (*errp != '\0')) {
+    if (s.empty() || (*errp != '\0'))
         throw ProcError("Not an int number: %s", errp);
-    }
     
     return n;
 	

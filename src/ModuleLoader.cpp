@@ -74,27 +74,29 @@ ModuleLoader::ModuleLoader( ConfigManager *cnf, string basedir,
 #ifdef DEBUG
         s_log->dlog(ch, "specified modules to be preloaded: '%s'",modules.c_str());
 #endif	
-
-        while ((n2 = modules.find_first_of(" \t", n)) > 0) {
-            string mod = modules.substr(n, n2-n);
+		while ((n2 = modules.find_first_of(" \t", n)) > 0) {
+			string mod = modules.substr(n, n2-n);
             
 #ifdef DEBUG
-            s_log->log(ch, "going to preload module: '%s'", mod.c_str());
+			s_log->log(ch, "going to preload module: '%s'", mod.c_str());
 #endif	
-            loadModule(mod.c_str(), 1);
+			loadModule(mod.c_str(), 1);
+			
+			// If the user tries to load more than one module, the system only loads the first one.
+			n =  modules.length();
+			break; 
 
-            // skip additional ws
-            n = modules.find_first_not_of(" \t", n2);
-        }
+			// skip additional ws
+			n = modules.find_first_not_of(" \t", n2);
+		}
         
-        
-        if ((n >= 0) && (n < (int) modules.length())) {
-            string mod = modules.substr(n, modules.length()-n);
+		if ((n >= 0) && (n < (int) modules.length())) {
+			string mod = modules.substr(n, modules.length()-n);
 #ifdef DEBUG
-            s_log->log(ch, "going to preload module: '%s'", mod.c_str());
+			s_log->log(ch, "going to preload module: '%s'", mod.c_str());
 #endif	
-            loadModule(mod.c_str(), 1);
-        }
+			loadModule(mod.c_str(), 1);
+		}
     }
 }
 

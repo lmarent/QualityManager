@@ -147,6 +147,10 @@ class ConfigManager
     //! create a C-style param list for the proc modules
     static configParam_t *getParamList( configItemList_t &list );
 
+    /*! merge two C-style param list for the proc modules
+     */
+    static configParam_t * mergeParamList( configParam_t *list_a, configParam_t *list_b );
+
     //! dump object (list of configured items)
     void dump( ostream &os );
 };

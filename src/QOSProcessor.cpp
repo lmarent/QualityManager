@@ -99,23 +99,13 @@ QOSProcessor::~QOSProcessor()
 #ifdef DEBUG
     log->dlog(ch,"Destroying rule id= %d", (r->rule)->getUId());
 #endif
-             // Define the Flow id to be used.
-             char buffer [50];
-             configItemList_t itmConf;
-             configItem_t flowId;
-             flowId.group = getConfigGroup();
-             flowId.name = "FlowId";
-             int ruleId = (r->rule)->getUId();
-             sprintf (buffer, "%d", ruleId);
-             flowId.value = string(buffer);
-             flowId.type = "UInt16"; 
-             itmConf.push_front(flowId);
              
-  			 i->mapi->destroyFlowSetup(
-					ConfigManager::getParamList(itmConf), 
-					(r->rule)->getFilter(), i->flowData);
+  			i->mapi->destroyFlowSetup(i->params, (r->rule)->getFilter(), i->flowData);
 					
             saveDeleteArr(i->params);
+            
+            // release modules loaded for this rule
+			loader->releaseModule(i->module);
         }
         
     }
@@ -177,7 +167,7 @@ int QOSProcessor::checkRule(Rule *r)
 
     try {
         AUTOLOCK(threaded, &maccess);
-
+		
         for (actionListIter_t iter = actions->begin(); iter != actions->end(); iter++) {
             Module *mod;
             string mname = iter->name;
@@ -206,24 +196,15 @@ int QOSProcessor::checkRule(Rule *r)
                 flowId.type = "UInt16"; 
                 itmConf.push_front(flowId);
                 a.params = ConfigManager::getParamList(itmConf);
+                                           
+				errNo = (a.mapi)->checkBandWidth(a.params);
+				if ( errNo < 0 ){
+					 errStr = "Not available bandwidth";
+					 exThrown = true;
+					 break;
+				}
                                                
                 (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
-
-                saveDeleteArr(a.params);
-                a.params = NULL;
-
-                // free memory
-                configItemList_t itmConf2;
-				char buffer2 [50];
-                configItem_t flowId2;
-                flowId2.group = getConfigGroup();
-                flowId2.module = mname;
-                flowId2.name = "FlowId";
-				sprintf (buffer2, "%d", ruleId);
-				flowId2.value = string(buffer2);
-                flowId2.type = "UInt16"; 
-                itmConf2.push_front(flowId2);
-                a.params = ConfigManager::getParamList(itmConf2);
                 
                 (a.mapi)->destroyFlowSetup(a.params, r->getFilter(), a.flowData);
                 saveDeleteArr(a.params);
@@ -255,23 +236,8 @@ int QOSProcessor::checkRule(Rule *r)
 	if (exThrown)
 	{
 
-        if (a.params != NULL) {
-			saveDeleteArr(a.params);
-        }
-
         // free memory
         if (a.flowData != NULL) {
-
-            configItemList_t itmConf3;
-			char buffer3 [50];
-            configItem_t flowId3;
-            flowId3.group = getConfigGroup();
-            flowId3.name = "FlowId";
-			sprintf (buffer3, "%d", ruleId);
-			flowId3.value = string(buffer3);
-            flowId3.type = "UInt16"; 
-            itmConf3.push_front(flowId3);
-            a.params = ConfigManager::getParamList(itmConf3);
                 
             (a.mapi)->destroyFlowSetup(a.params, r->getFilter(), a.flowData);
 
@@ -326,6 +292,11 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
         int cnt = 0;
         for (actionListIter_t iter = actions->begin(); iter != actions->end(); iter++) {
             ppaction_t a;
+
+            a.module = NULL;
+            a.params = NULL;
+            a.flowData = NULL;
+
             Module *mod;
             string mname = iter->name;
 
@@ -338,8 +309,6 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
             mod = loader->getModule(mname.c_str());
             a.module = dynamic_cast<ProcModule*> (mod);
 
-
-			
             if (a.module != NULL) { // is it a processing kind of module
 
 #ifdef DEBUG
@@ -364,14 +333,13 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
                                                 
                 a.flowData = NULL;
                 (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
-
-                // TODO AM : CHECK IF THIS IS REQUIRED.
-                // if packet proc modules requires bidir matching
-                // then set rule to bidir
-                // FIXME not a well defined method...
-                //if (ret == 1) {
-                //    r->setBidir();
-                //}
+				if (a.params != NULL) {
+#ifdef DEBUG
+					log->dlog(ch, "estoy en a.params = null");
+#endif 
+					saveDeleteArr(a.params);
+					a.params = ConfigManager::getParamList(itmConf);
+				}
 								
                 // init timers
                 addTimerEvents(ruleId, cnt, a, *e);
@@ -391,7 +359,6 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
         // success ->enter struct into internal table
         rules[ruleId] = entry;
 
-		cout << "voy aqui 3" << endl;
 	
     } 
     catch (Error &e) 
@@ -412,27 +379,12 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
 
 	if (exThrown)
 	{
-        for (ppactionListIter_t i = entry.actions.begin(); 
-             i != entry.actions.end(); i++) {
+        for (ppactionListIter_t i = entry.actions.begin(); i != entry.actions.end(); i++) {
 
-            saveDelete(i->params);
-            
-			// Define the Flow id to be used.
-			configItemList_t itmConf2;
-			char buffer2 [50];
-			configItem_t flowId2;
-			flowId2.group = getConfigGroup();
-			flowId2.name = "FlowId";
-			sprintf (buffer2, "%d", ruleId);
-			flowId2.value = string(buffer2);
-			flowId2.type = "UInt16"; 
-			itmConf2.push_front(flowId2);
-			configParam_t * params = ConfigManager::getParamList(itmConf2);
+            (i->mapi)->destroyFlowSetup( i->params, r->getFilter(), i->flowData );
 
-            (i->mapi)->destroyFlowSetup( params, r->getFilter(), i->flowData );
-
-			if (params != NULL) {
-				saveDeleteArr(params);
+			if (i->params != NULL) {
+				saveDeleteArr(i->params);
 			}
 	    
             //release packet processing modules already loaded for this rule
@@ -467,25 +419,27 @@ int QOSProcessor::delRule( Rule *r )
 
     // now free flow data and release used Modules
     for (ppactionListIter_t i = ra->actions.begin(); i != ra->actions.end(); i++) {
+		
+		configParam_t *params2 = new configParam_t[2];
+		params2[0].name = (char *) malloc(7);
+		params2[0].value = (char *) malloc(30);
+		sprintf (params2[0].name, "FlowId");
+		sprintf (params2[0].value, "%d", ruleId);
+		params2[1].name = NULL;
+		params2[1].value = NULL;
+		ppaction_t a;
 
-         // Define the Flow id to be used.
-         configItemList_t itmConf;
-         char buffer [50];
-         configItem_t flowId;
-         flowId.group = getConfigGroup();
-         flowId.name = "FlowId";
-		 sprintf (buffer, "%d", ruleId);
-		 flowId.value = string(buffer);
-         flowId.type = "UInt16"; 
-         itmConf.push_front(flowId);
-         configParam_t * params = ConfigManager::getParamList(itmConf);
-
+#ifdef DEBUG
+    log->dlog(ch, "Before merge parameters");
+#endif		
+		a.params = ConfigManager::mergeParamList( params2, i->params );
+		
         // dismantle flow data structure with module function
-        i->mapi->destroyFlowSetup( params, (ra->rule)->getFilter(), i->flowData );
+        i->mapi->destroyFlowSetup( a.params, (ra->rule)->getFilter(), i->flowData );
         
-        if (params != NULL) {
-            saveDeleteArr(params);
-            params = NULL;
+        if (i->params != NULL) {
+            saveDeleteArr(i->params);
+            i->params = NULL;
         }
 
         // release modules loaded for this rule

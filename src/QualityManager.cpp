@@ -97,9 +97,7 @@ QualityManager::QualityManager( int argc, char *argv[])
         signal(SIGUSR1, sigusr1_handler);
         signal(SIGALRM, sigalarm_handler);
         // FIXME sighup for log file rotation
-		
-		cout << "estoy aqui 0a" << endl;
-		
+				
         auto_ptr<CommandLineArgs> _args(new CommandLineArgs());
         args = _args;
 
@@ -131,8 +129,6 @@ QualityManager::QualityManager( int argc, char *argv[])
 #endif
 #endif
 
-		cout << "estoy aqui 0b" << endl;
-
 
         // get command line arguments from components via static method
         // TODO AM: Check if this part is required
@@ -156,9 +152,7 @@ QualityManager::QualityManager( int argc, char *argv[])
 
         // register exit function
         atexit(exit_fct);
-		
-		cout << "estoy aqui 0" << endl;
-		
+				
         auto_ptr<Logger> _log(Logger::getInstance()); 	
         log = _log;
         ch = log->createChannel("QualityManager");

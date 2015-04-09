@@ -31,8 +31,10 @@ Description:
 Short<xsl:text>&#x9;&#x9;</xsl:text><xsl:value-of select="module/brief"/>
 Verbose<xsl:text>&#x9;&#x9;</xsl:text><xsl:value-of select="module/verbose"/>
 documented at<xsl:text>&#x9;</xsl:text><xsl:value-of select="module/htmldoc"/>
-Rule paramaters<xsl:text>&#x9;</xsl:text><xsl:value-of select="module/parameters"/>
-Exported Data<xsl:text>&#x9;</xsl:text><xsl:value-of select="module/results"/>
+Rule paramaters:
+<xsl:text>&#x9;</xsl:text><xsl:value-of select="module/parameters"/>
+
+Results: <xsl:text>&#x9;</xsl:text><xsl:value-of select="module/results"/>
 <xsl:text>&#xA;</xsl:text>
 Author:
 

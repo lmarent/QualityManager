@@ -215,10 +215,75 @@ configParam_t *ConfigManager::getParamList( configItemList_t &list )
     
     params[i].name = NULL;
     params[i].value = NULL;
+	
+	fprintf(stdout, "getParamList - item size: %d \n",  i );
 
     return params;
 }
 
+configParam_t * ConfigManager::mergeParamList( configParam_t *list_a, configParam_t *list_b )
+{
+	int size_a = 0;
+	int size_b = 0;
+	configParam_t *tmp;
+	
+	fprintf(stdout, "Init mergeParamList \n");
+	
+	tmp = list_a;
+	while (tmp[0].name != NULL) {
+		size_a ++;
+		tmp ++;
+	}
+	
+	fprintf(stdout, "size a: %d \n", size_a);
+	
+	tmp = list_b;
+	while (tmp[0].name != NULL) {
+		size_b ++;
+		tmp ++;
+	}
+	fprintf(stdout, "size a: %d - size b: %d \n", size_a, size_b);
+	
+    configParam_t *params = new configParam_t[size_a + size_b + 1];
+    int index = 0;
+    
+	while (index < size_a)
+	{
+        size_t numcharacters = sizeof (list_a[index].name);
+        params[index].name = (char *) malloc(numcharacters);
+        strncpy(params[index].name, list_a[index].name, numcharacters);
+        
+        numcharacters = sizeof (list_a[index].value);
+        params[index].value = (char *) malloc(numcharacters);
+		strncpy(params[index].value, list_a[index].value, numcharacters);
+		
+		index = index + 1;
+	}
+	
+	fprintf(stdout, "mergeParamList - End while 1 %d \n", index );
+	
+	while (index < size_a + size_b)
+	{
+        size_t numcharacters = sizeof (list_b[index - size_a].name);
+        params[index].name = (char *) malloc(numcharacters);
+        strncpy(params[index].name, list_b[index - size_a].name, numcharacters);
+        
+        numcharacters = sizeof (list_b[index - size_a].value);
+        params[index].value = (char *) malloc(numcharacters);
+		strncpy(params[index].value, list_b[index - size_a].value, numcharacters);
+		
+		index = index+ 1;
+	}
+	
+	fprintf(stdout, "mergeParamList - End while 2 %d \n", index );
+	
+    params[index].name = NULL;
+    params[index].value = NULL;
+
+	fprintf(stdout, "mergeParamList - param size: %d \n", index );
+
+	return params;
+}
 
 /* ------------------------- dump ------------------------- */
 

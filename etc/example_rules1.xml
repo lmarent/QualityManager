@@ -6,7 +6,6 @@
   <GLOBAL>
     <!-- how long the rules are active -->
     <PREF NAME="Duration">1000</PREF>
-
   </GLOBAL>
   <RULE ID="1">
     <!-- packets comming from specfic address and protocol-->
@@ -24,6 +23,5 @@
 		<!-- The value is in seconds -->
 		<PREF NAME="Duration">100</PREF>		
     </ACTION>
- 
-  </RULE>
+  </RULE>  
 </RULESET>

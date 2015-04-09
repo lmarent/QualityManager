@@ -57,6 +57,8 @@ uint32_t NET_ROOT_HANDLE_MAJOR 		= 0x00000001U;
 uint32_t NET_ROOT_HANDLE_MINOR 		= 0x00000001U;
 uint32_t NET_DEFAULT_CLASS 	   		= 0x0000FFFFU; 
 uint32_t NET_FILTER_HANDLE_MINOR 	= 0x00000001U; 
+uint32_t NET_HASH_FILTER_TABLE 		= 1;
+uint32_t NET_UNHASH_FILTER_TABLE 	= 2;
 
  
 // Build of the qdisk object at the root of the hierarchy
@@ -76,16 +78,12 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
 	  return err;
    }
 	     
-   printf("Add root Qdisc message 1 \n");
-
    /* Allocation of a qdisc object */
    struct rtnl_qdisc *qdisc = rtnl_qdisc_alloc();
    if (!qdisc){
 	   err = NET_TC_QDISC_ALLOC_ERROR;
 	   return err; 
    }
-
-   printf("Add root Qdisc message 2 \n");
 
    /* Establish the link associated to the class */
    err = rtnl_tc_set_kind(TC_CAST(qdisc), "htb");
@@ -94,9 +92,7 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
        err = NET_TC_QDISC_SETUP_ERROR;
        return err; 
    }
-   
-   printf("Add root Qdisc message 3 \n");
-   
+      
    rtnl_tc_set_link(TC_CAST(qdisc), rtnlLink);
    rtnl_tc_set_parent(TC_CAST(qdisc), TC_H_ROOT);
    rtnl_tc_set_handle(TC_CAST(qdisc), NET_HANDLE(NET_ROOT_HANDLE_MAJOR,0));
@@ -110,12 +106,9 @@ int qdisc_add_root_HTB(struct nl_sock *sock, struct rtnl_link *rtnlLink)
 					NET_HANDLE(NET_ROOT_HANDLE_MAJOR,NET_DEFAULT_CLASS));
 					
    rtnl_htb_set_rate2quantum(qdisc, 1);
-
-   printf("Add root Qdisc message 5 \n");
    
    err = rtnl_qdisc_add(sock, qdisc, NLM_F_CREATE );
 
-   printf("Add root Qdisc message 6 \n");
    /* Free the qdisc object */
    rtnl_qdisc_put(qdisc);
 
@@ -170,7 +163,7 @@ int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink,
         err = NET_TC_CLASS_ALLOC_ERROR;
         return err;
     }
-	printf("Add root Class message 1 \n");
+
     // Assign the link and the class's parent
     rtnl_tc_set_link(TC_CAST(class), rtnlLink);
     rtnl_tc_set_parent(TC_CAST(class), NET_HANDLE(NET_ROOT_HANDLE_MAJOR,0) );
@@ -178,7 +171,6 @@ int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     //add the handled for the class class
     rtnl_tc_set_handle(TC_CAST(class), NET_HANDLE(NET_ROOT_HANDLE_MAJOR,
 												 NET_ROOT_HANDLE_MINOR));
-	printf("Add root Class message 2 \n");
 
     if ((err = rtnl_tc_set_kind(TC_CAST(class), "htb"))) {
         err = NET_TC_CLASS_SETUP_ERROR;
@@ -196,7 +188,6 @@ int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     if (cburst) {
         rtnl_htb_set_cbuffer(class, cburst);
     }
-	printf("Add root Class message 3 \n");
     
     /* Submit request to kernel and wait for response */
     if ((err = rtnl_class_add(sock, class, NLM_F_CREATE))) {
@@ -206,7 +197,6 @@ int class_add_HTB_root(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     
     // Free the memory allocated for the class structure.
     rtnl_class_put(class);
-	printf("Add root Class message 4 \n");
     
     // return Ok.
     return NET_TC_SUCCESS;
@@ -380,6 +370,78 @@ int qdisc_delete_SFQ_leaf(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     return NET_TC_SUCCESS;
 }
 
+/* some functions are copied from iproute-tc tool */
+int get_u32(__u32 *val, const char *arg, int base)
+{
+	unsigned long res;
+	char *ptr;
+
+	if (!arg || !*arg)
+		return -1;
+	res = strtoul(arg, &ptr, base);
+	if (!ptr || ptr == arg || *ptr || res > 0xFFFFFFFFUL)
+		return -1;
+	*val = res;
+	return 0;
+}
+
+
+/** Function that creates a unit32_t value from a handler represented as
+ *  a string
+ * This function is taken from libnl-3 complex hash filters.
+ */ 
+int get_u32_handle(__u32 *handle, const char *str)
+{
+	__u32 htid=0, hash=0, nodeid=0;
+	char *tmp = strchr(str, ':');
+        
+	if (tmp == NULL) {
+		if (memcmp("0x", str, 2) == 0)
+			return get_u32(handle, str, 16);
+		return -1;
+	}
+	htid = strtoul(str, &tmp, 16);
+	if (tmp == str && *str != ':' && *str != 0)
+		return -1;
+	if (htid>=0x1000)
+		return -1;
+	if (*tmp) {
+		str = tmp+1;
+		hash = strtoul(str, &tmp, 16);
+		if (tmp == str && *str != ':' && *str != 0)
+			return -1;
+		if (hash>=0x100)
+			return -1;
+		if (*tmp) {
+			str = tmp+1;
+			nodeid = strtoul(str, &tmp, 16);
+			if (tmp == str && *str != 0)
+				return -1;
+			if (nodeid>=0x1000)
+				return -1;
+		}
+	}
+	*handle = (htid<<20)|(hash<<12)|nodeid;
+	return 0;
+}
+
+uint32_t get_u32_parse_handle(const char *cHandle)
+{
+	uint32_t handle=0;
+
+	if(get_u32_handle(&handle, cHandle)) {
+		printf ("Illegal \"ht\"\n");
+		return -1;
+	}
+
+	if (handle && TC_U32_NODE(handle)) {
+		printf("\"link\" must be a hash table.\n");
+		return -1;
+	}
+	return handle;
+}
+
+
 
 /**
  * This function adds a new filter and attach it to a hash table 
@@ -432,9 +494,253 @@ int u32_add_filter_on_ht_with_hashmask(struct nl_sock *sock, struct rtnl_link *r
     return 0;
 }
 
+/**
+ * This function adds a new filter and attach it to a hash table 
+ * and set a the bucket in 0.
+ *
+ */
+int u32_add_filter_on_ht_without_hashmask(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+		uint32_t prio, uint32_t parentMaj, uint32_t parentMin,
+		uint32_t keyval, uint32_t keymask, int keyoff, int keyoffmask, 
+		uint32_t htid, uint32_t htlink )
+{
+    struct rtnl_cls *cls;
+    int err;
+
+    cls=rtnl_cls_alloc();
+
+    if (!(cls)) {
+        printf("Can not allocate classifier hash table\n");
+        return NET_TC_CLASSIFIER_ALLOC_ERROR;
+    }
+    
+    rtnl_tc_set_link(TC_CAST(cls), rtnlLink);
+
+    if ((err = rtnl_tc_set_kind(TC_CAST(cls), "u32"))) {
+        printf("Cannot set classifier as u32\n");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    rtnl_cls_set_prio(cls, prio);
+    rtnl_cls_set_protocol(cls, ETH_P_IP);
+
+    rtnl_tc_set_parent(TC_CAST(cls), 
+					   TC_HANDLE(parentMaj, parentMin));
+    
+    if (htid)
+		rtnl_u32_set_hashtable(cls, htid);
+
+    rtnl_u32_add_key_uint32(cls, keyval, keymask, keyoff, keyoffmask);
+
+    rtnl_u32_set_link(cls, htlink);
+
+    if ((err = rtnl_cls_add(sock, cls, NLM_F_CREATE))) {
+        printf("Error adding classifier %s \n", nl_geterror(err));
+        return NET_TC_CLASSIFIER_ESTABLISH_ERROR;
+    }
+    rtnl_cls_put(cls);
+    return 0;
+}
 
 
-/***
+
+/** 
+ * Add a new hash table for classifiers
+ */
+int u32_add_ht(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+			   uint32_t prio, uint32_t parentMaj, uint32_t parentMin, 
+			   uint32_t htid, uint32_t divisor)
+{
+
+    int err;
+    struct rtnl_cls *cls;
+
+    cls=rtnl_cls_alloc();
+    if (!(cls)) {
+        printf("Can not create hash table\n");
+        return NET_TC_CLASSIFIER_ALLOC_ERROR;
+    }
+    
+    rtnl_tc_set_link(TC_CAST(cls), rtnlLink);
+
+    if ((err = rtnl_tc_set_kind(TC_CAST(cls), "u32"))) {
+        printf("Cannot set classifier as u32\n");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    rtnl_cls_set_prio(cls, prio);
+    rtnl_cls_set_protocol(cls, ETH_P_IP);
+    rtnl_tc_set_parent(TC_CAST(cls), TC_HANDLE(parentMaj, parentMin));
+
+    rtnl_u32_set_handle(cls, htid, 0x0, 0x0);
+    //printf("htid: 0x%X\n", htid);
+    rtnl_u32_set_divisor(cls, divisor);
+
+    if ((err = rtnl_cls_add(sock, cls, NLM_F_CREATE))) {
+        printf("Error adding classifier %s \n", nl_geterror(err));
+        return NET_TC_CLASSIFIER_ESTABLISH_ERROR;
+    }
+    rtnl_cls_put(cls);
+    return 0;
+}
+
+
+/** 
+ * Delete a hash table created to maintain classifiers
+ */
+int u32_delete_ht(struct nl_sock *sock, struct rtnl_link *rtnlLink, 
+				  uint32_t prio, uint32_t parentMaj, uint32_t parentMin, 
+				  uint32_t htid, uint32_t divisor)
+{
+
+    int err;
+    struct rtnl_cls *cls;
+
+    cls=rtnl_cls_alloc();
+    if (!(cls)) {
+        printf("Can not create hash table\n");
+        return NET_TC_CLASSIFIER_ALLOC_ERROR;
+    }
+    
+    rtnl_tc_set_link(TC_CAST(cls), rtnlLink);
+
+    if ((err = rtnl_tc_set_kind(TC_CAST(cls), "u32"))) {
+        printf("Cannot set classifier as u32\n");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    rtnl_cls_set_prio(cls, prio);
+    rtnl_cls_set_protocol(cls, ETH_P_IP);
+    rtnl_tc_set_parent(TC_CAST(cls), TC_HANDLE(parentMaj, parentMin));
+
+    rtnl_u32_set_handle(cls, htid, 0x0, 0x0);
+
+    if ((err = rtnl_cls_delete(sock, cls, 0)) < 0) {
+        printf("Error deleting classifier, error: %s \n", nl_geterror(err));
+        err = NET_TC_CLASSIFIER_ESTABLISH_ERROR;
+        return err;
+    }
+    rtnl_cls_put(cls);
+    return 0;
+}
+
+
+/**
+ * Function that adds the main hast table. 
+ *    We create different filter lists depending on the ip address' last byte.
+ * 
+ * Create u32 first hash filter table 
+ *    Upper limit number of hash tables: 4096 0xFFF
+ *    Upper limit in buckets by hash table: 256
+ * 
+ */
+int create_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
+							  uint32_t priority, uint32_t parentMaj, uint32_t parentMin)
+{
+
+#ifdef DEBUG
+	fprintf( stdout, "htb functions: init create_hash_configuration \n" );
+#endif
+
+
+    uint32_t htlink, htid, direction;
+    char chashlink[16];
+    
+    // Creates one hash table
+    // table 1 is dedicated to the last byte in the IP address
+    htid = NET_HASH_FILTER_TABLE;
+	u32_add_ht(sock, rtnlLink, priority, parentMaj, parentMin, htid, 256);
+
+    // Table 2 is the table for filters that do not have a unique source ipaddress 
+    // only one bucket.
+    htid = NET_UNHASH_FILTER_TABLE;
+	u32_add_ht(sock, rtnlLink, priority, parentMaj, parentMin, htid, 1);
+
+
+    /* 
+     * attach a u32 filter to the first hash 
+     * that redirects all traffic and make a hash key
+     * from the fist byte of the IP address
+     */
+    direction = 12; // Source IP.
+	sprintf(chashlink, "%d:",NET_HASH_FILTER_TABLE);
+    htlink = 0x0;		// is used by get_u32_handle to return the correct value of hash table (link)
+    
+    if(get_u32_handle(&htlink, chashlink)) {
+        fprintf (stdout, "Illegal \"link\"");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    if (htlink && TC_U32_NODE(htlink)) {
+		fprintf (stdout, "\"link\" must be a hash table.\n");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    // the hash mask will hit the hash table (link) Nbr 1:
+    // a hash filter is added which match the first byte (see the hashmask value 0x000000ff)
+    // of the source IP (offset 12 in the packet header)
+
+    u32_add_filter_on_ht_with_hashmask(sock, rtnlLink, priority, parentMaj, 
+									   parentMin, 0x0, 0x0, direction, 
+									   0, 0, htlink, 0x000000ff, direction);
+
+
+    /* 
+     * attach a u32 filter to the destiny ipaddress, takes all destiny ipaddress.
+     */
+    direction = 16; // destiny IP.
+	sprintf(chashlink, "%d:",NET_UNHASH_FILTER_TABLE);
+    htlink = 0x0;		// is used by get_u32_handle to return the correct value of hash table (link)
+    
+    if(get_u32_handle(&htlink, chashlink)) {
+        fprintf (stdout, "Illegal \"link\"");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    if (htlink && TC_U32_NODE(htlink)) {
+		fprintf (stdout,"\"link\" must be a hash table.\n");
+        return NET_TC_CLASSIFIER_SETUP_ERROR;
+    }
+
+    u32_add_filter_on_ht_without_hashmask(sock, rtnlLink, priority, parentMaj, 
+										  parentMin, 0x0, 0x0, direction,
+										  0, 0, htlink);
+	return 0;
+}
+
+
+/**
+ * Function that adds the main hast table. 
+ *    We create different filter lists depending on the ip address' last byte.
+ * 
+ * Create u32 first hash filter table 
+ *    Upper limit number of hash tables: 4096 0xFFF
+ *    Upper limit in buckets by hash table: 256
+ * 
+ */
+int delete_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
+							  uint32_t priority, uint32_t parentMaj, uint32_t parentMin)
+{
+
+    int err = 0;
+    uint32_t htid;
+    
+    // Delete hash table 1, which is dedicated to the last byte in the IP address, 
+    htid = NET_HASH_FILTER_TABLE;
+    err = u32_delete_ht(sock, rtnlLink, priority, parentMaj, parentMin, htid, 256);
+    
+    if (err == 0){
+		htid = NET_UNHASH_FILTER_TABLE;
+		return u32_delete_ht(sock, rtnlLink, priority, parentMaj, parentMin, htid, 1);
+	}
+	
+	return err;	
+	
+}
+
+
+
+/**
  * This function allocate and prepare the link for creating a u32 classifier,
  * it should be called before any key is introduced.
  */
@@ -445,13 +751,19 @@ int create_u32_classifier(struct nl_sock *sock,
 						  uint32_t parentMaj, 
 						  uint32_t parentMin,
 						  int classfierMaj, 
-						  int classfierMin)
+						  int classfierMin,
+						  int htid,
+						  int hashkey)
 {
+#ifdef DEBUG
+	fprintf( stdout, "htb functions: create_u32_classifier ht:%d - hk:%d \n", htid, hashkey );
+#endif	
+	
     int err;
-    uint32_t handle, parent;
+    uint32_t ht1, htid1;
+    char chashkey[20];
+    
     struct rtnl_cls *cls = (struct rtnl_cls *) rtnl_cls_alloc();
-    int htid = 800;
-    int hash = 0;
 
     if (!(cls)) {
         err = NET_TC_CLASSIFIER_ALLOC_ERROR;
@@ -470,20 +782,27 @@ int create_u32_classifier(struct nl_sock *sock,
     rtnl_cls_set_prio(cls, prio);
     rtnl_tc_set_parent(TC_CAST(cls), 
 					   NET_HANDLE(parentMaj, parentMin));
+	
+    sprintf(chashkey, "%x:%x:", htid, hashkey);
+    ht1	= get_u32_parse_handle(chashkey);
+    htid1 = (ht1&0xFFFFF000);
 
-	
-	rtnl_u32_set_handle(cls, 0, 0, classfierMin);
-	
+#ifdef DEBUG
+	fprintf( stdout, "htb functions: create_u32_classifier ht-hk:%d \n", htid1 );
+#endif		
+    rtnl_u32_set_hashtable(cls, htid1);
+
+	rtnl_u32_set_handle(cls, htid, hashkey, classfierMin);
+			
 	*cls_out = cls;
 	return NET_TC_SUCCESS;
 } 
 
 
-/***
+/**
  * This function allocate and prepare the link for creating a u32 classifier,
  * it should be called before any key is introduced.
  */
-
 int delete_u32_classifier(struct nl_sock *sock, 
 						  struct rtnl_link *rtnlLink, 
 						  struct rtnl_cls **cls_out,
@@ -491,13 +810,12 @@ int delete_u32_classifier(struct nl_sock *sock,
 						  uint32_t parentMaj, 
 						  uint32_t parentMin,
 						  int classfierMaj, 
-						  int classfierMin)
+						  int classfierMin,
+						  int htid, 
+						  int hashkey)
 {
     int err;
-    uint32_t handle, parent;
     struct rtnl_cls *cls = (struct rtnl_cls *) rtnl_cls_alloc();
-    int htid = 0x800;
-    int hash = 0;
 
     if (!(cls)) {
         err = NET_TC_CLASSIFIER_ALLOC_ERROR;
@@ -517,8 +835,7 @@ int delete_u32_classifier(struct nl_sock *sock,
     rtnl_tc_set_parent(TC_CAST(cls), 
 					   NET_HANDLE(parentMaj, parentMin));
 
-	
-	rtnl_u32_set_handle(cls, htid, hash, classfierMin);
+	rtnl_u32_set_handle(cls, htid, hashkey, classfierMin);
 	
 	*cls_out = cls;
 	return NET_TC_SUCCESS;

@@ -87,6 +87,7 @@ typedef struct {
 enum ActionInfoNumbers_e {
     /* module function attributes */
     I_MODNAME = 0, 
+    I_ID, 
     I_VERSION,
     I_CREATED,
     I_MODIFIED,
@@ -185,7 +186,7 @@ void initModule( configParam_t *params );
 /*! \short   cleanup action module structures before it is unloaded 
    \returns 0 - on success, <0 - else 
 */
-void destroyModule();
+void destroyModule( configParam_t *params );
 
 
 /*! \short   initialize flow data record for a rule
@@ -225,17 +226,12 @@ void destroyFlowSetup( configParam_t *params, filterList_t *filters, void *flowd
 void resetFlowSetup( configParam_t *params );
 
 
-/*! \short  check module parameters for a set of rules for correctness
+/*! \short  check if bandwidth available for the rule is enought.
 
-    This function is called by the Meter to check if the parameters supplied by 
-    a set of rules, that are to be installed, are acceptable according to the
-    specification of a specific module. The module is responsible for reporting
-    errors, either syntactically, semantically or in the supplied values.
-
-    \arg \c rules - a list of data sets with rules to be installed
-    \returns 0 - on success (parameters are valid), <0 - else
+    \arg \c params - rule parameters
+    \returns 0 - on success (bandwidth is valid), <0 - else
 */
-/*int checkRules( ruleDB_t *rules );*/
+int checkBandWidth( configParam_t *params );
 
 
 /*! \short   provide textual information about this action module
@@ -294,7 +290,7 @@ typedef struct {
     int version;
 
     void (*initModule)( configParam_t *params );
-    void (*destroyModule)();
+    void (*destroyModule)( configParam_t *params );
 
     /*    int (*getFlowRecSize)(); -- deprecated -- */
     void (*initFlowSetup)( configParam_t *params, filterList_t *filters, void **flowdata );
@@ -302,6 +298,7 @@ typedef struct {
     void (*destroyFlowSetup)( configParam_t *params, filterList_t *filters, void *flowdata );
 
     void (*resetFlowSetup)( configParam_t *params );
+    int (*checkBandWidth)( configParam_t *params );
     void (*timeout)( int timerID, void *flowdata );
 
     const char* (*getModuleInfo)(int i);
