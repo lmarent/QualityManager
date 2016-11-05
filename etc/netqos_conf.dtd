@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT CONFIG (MAIN,CONTROL,QOS_PROCESSOR) >
+
+<!ELEMENT MODULE (PREF*)>
+<!ATTLIST MODULE NAME CDATA #REQUIRED>
+
+<!ELEMENT DENY (#PCDATA)>
+<!ATTLIST DENY 
+          TYPE (Host | User | Group) "Host" >
+
+<!ELEMENT MODULES (MODULE*)>
+
+<!ELEMENT PREF (#PCDATA)>
+<!ATTLIST PREF NAME CDATA #REQUIRED
+                TYPE (UInt8|SInt8|UInt16|SInt16|UInt32|SInt32|UInt64|SInt64|Float32|Float64|Bool|String|IPAddr) "String" >
+
+<!ELEMENT MAIN (PREF*)>
+
+<!ELEMENT QOS_PROCESSOR (PREF* , MODULES)>
+
+<!ELEMENT ACCESS (ALLOW | DENY)*>
+
+<!ELEMENT ALLOW (#PCDATA)>
+<!ATTLIST ALLOW 
+          TYPE (Host | User | Group) "Host" >
+
+                
+<!ELEMENT CONTROL (PREF*,ACCESS)>
+
+
+
+
+
+
+
+
