@@ -44,9 +44,7 @@ Rule::Rule(int _uid, time_t now, string sname, string rname, filterList_t &f,
     log = Logger::getInstance();
     ch = log->createChannel("Rule");
 
-#ifdef DEBUG
     log->dlog(ch, "Rule constructor");
-#endif    
 
     try {
 	
@@ -167,9 +165,7 @@ Rule::Rule(int _uid, time_t now, string sname, string rname, filterList_t &f,
 
 Rule::~Rule()
 {
-#ifdef DEBUG
     log->dlog(ch, "Rule destructor");
-#endif    
 
 }
 
@@ -247,6 +243,7 @@ actionList_t *Rule::getActions()
 
 filterList_t *Rule::getFilter()
 {
+    log->log(ch, "getFilterList");
     return &filterList;
 }
 

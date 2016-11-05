@@ -1,17 +1,16 @@
 
 /*! \file ConfigManager.h
 
-    Copyright 2003-2004 Fraunhofer Institute for Open Communication Systems (FOKUS),
-                        Berlin, Germany
+    Copyright 2014-2015 Universidad de los Andes, Bogotá, Colombia
 
-    This file is part of Network Measurement and Accounting System (NETMATE).
+    This file is part of Network Quality Of Service System (NETQOS).
 
-    NETMATE is free software; you can redistribute it and/or modify 
+    NETQOS is free software; you can redistribute it and/or modify 
     it under the terms of the GNU General Public License as published by 
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
+    NETQOS is distributed in the hope that it will be useful, 
     but WITHOUT ANY WARRANTY; without even the implied warranty of 
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -23,7 +22,7 @@
     Description:
     command line and config file configuration db
 
-    $Id: ConfigManager.h 748 2009-09-10 02:54:03Z szander $
+    $Id: ConfigManager.h 748 2015-07-26 10:07:00 amarentes $
 */
 
 #ifndef _CONFIGMANAGER_H_
@@ -49,21 +48,22 @@ class ConfigManager
 {
   private:
 
-    configItemList_t list;    //!< list of configuration items
-    configADList_t   ad_list; //!< list of access allow/deny items
+    configItemList_t list;    		//!< list of configuration items
+    configADList_t   ad_list; 		//!< list of access allow/deny items
 
-    int ch;      //!< logging channel number used by objects of this class
-    Logger *log; //!< link to global logger object
+    int ch;      			 		//!< logging channel number used by objects of this class
+    Logger *log; 					//!< link to global logger object
 
     auto_ptr<ConfigParser> parser; //!< link to configuration parser
 
   public:
 
     /*! creates and initializes a ConfigManager
+      \arg \c dtdfilename - dtd filename to validate the config file.
       \arg \c filename - name of config file
       \arg \c binary - location of binary file, i.e. argv[0]
     */
-    ConfigManager(string filename, string binary);
+    ConfigManager(string dtdfilename, string filename, string binary);
 
     //! destroys a ConfigManager object
     ~ConfigManager();
@@ -73,9 +73,10 @@ class ConfigManager
         if used more than once, new items and values will be added
         to those already set. Old items may be overwritten.
 
+        \arg \c dtdfilename - name of dtd file to validate the configuration
         \arg \c fname - name of file to read configuration from
     */
-    void reread(const string fname);
+    void reread(const string dtdfilename, const string fname);
 
 
     /*! \short   get configured item's value

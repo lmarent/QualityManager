@@ -1,17 +1,16 @@
 
 /*! \file ConfigManager.cc
 
-    Copyright 2003-2004 Fraunhofer Institute for Open Communication Systems (FOKUS),
-                        Berlin, Germany
+    Copyright 2014-2015 Universidad de los Andes, Bogotá, Colombia
 
-    This file is part of Network Measurement and Accounting System (NETMATE).
+    This file is part of Network Quality of Service System (NETQOS).
 
-    NETMATE is free software; you can redistribute it and/or modify 
+    NETQOS is free software; you can redistribute it and/or modify 
     it under the terms of the GNU General Public License as published by 
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
+    NETQOS is distributed in the hope that it will be useful, 
     but WITHOUT ANY WARRANTY; without even the implied warranty of 
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -23,7 +22,7 @@
     Description:
     command line and config file configuration db 
 
-    $Id: ConfigManager.cc 748 2009-09-10 02:54:03Z szander $
+    $Id: ConfigManager.cpp 748 2015-07-26 10:09:00 amarentes $
 
 */
 
@@ -34,7 +33,7 @@
 
 /* ------------------------- ConfigManager ------------------------- */
 
-ConfigManager::ConfigManager(string filename, string binary)
+ConfigManager::ConfigManager(string dtdfilename, string filename, string binary)
 {
     log = Logger::getInstance();
     ch = log->createChannel("ConfigManager");
@@ -43,7 +42,7 @@ ConfigManager::ConfigManager(string filename, string binary)
 #endif
 
     // two separate lines -> support for old g++
-    auto_ptr<ConfigParser> _parser(new ConfigParser(filename, binary));   
+    auto_ptr<ConfigParser> _parser(new ConfigParser(dtdfilename, filename, binary));   
     parser = _parser;
 
     parser->parse(&list, &ad_list);
@@ -62,12 +61,12 @@ ConfigManager::~ConfigManager()
 
 /* ------------------------- reread ------------------------- */
 
-void ConfigManager::reread(const string filename)
+void ConfigManager::reread(const string dtdfilename, const string filename)
 {
     ConfigParser *_cp = parser.release();
     saveDelete(_cp);
     
-    auto_ptr<ConfigParser> cp(new ConfigParser(filename));
+    auto_ptr<ConfigParser> cp(new ConfigParser(dtdfilename, filename));
     parser = cp;
 
     parser->parse(&list, &ad_list);
@@ -79,9 +78,8 @@ void ConfigManager::reread(const string filename)
 string ConfigManager::getValue(string name, string group, string module)
 {
     configItemListIter_t iter;
-
-    for (iter = list.begin(); iter != list.end(); iter++) {
 		
+    for (iter = list.begin(); iter != list.end(); iter++) {
         if ((name == iter->name) && (group.empty() || group == iter->group) &&
             (module.empty() || module == iter->module)) {
             return iter->value;
@@ -113,7 +111,6 @@ configItemList_t ConfigManager::getItems(string group, string module)
     configItemList_t ret_list;
 
     for (iter = list.begin(); iter != list.end(); iter++) {
-		cout << "group:" << iter->group << "module:" << iter->module << endl;
         if ((group.empty() || group == iter->group) &&
             (module.empty() || module == iter->module)) {
             ret_list.push_back(*iter);
@@ -213,8 +210,8 @@ configParam_t *ConfigManager::getParamList( configItemList_t &list )
         i++;
     }
     
-    params[i].name = NULL;
-    params[i].value = NULL;
+    params[list.size()].name = NULL;
+    params[list.size()].value = NULL;
 	
 	fprintf(stdout, "getParamList - item size: %d \n",  i );
 

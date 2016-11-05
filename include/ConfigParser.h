@@ -1,17 +1,16 @@
 
-/*  \file   ConfigParser.h
+/*!  \file   ConfigParser.h
 
-    Copyright 2003-2004 Fraunhofer Institute for Open Communication Systems (FOKUS),
-                        Berlin, Germany
+    Copyright 2014-2015 Universidad de los Andes, Bogotá, Colombia
 
-    This file is part of Network Measurement and Accounting System (NETMATE).
+    This file is part of Network Quality of Service System (NETQOS).
 
-    NETMATE is free software; you can redistribute it and/or modify 
+    NETQOS is free software; you can redistribute it and/or modify 
     it under the terms of the GNU General Public License as published by 
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
+    NETQOS is distributed in the hope that it will be useful, 
     but WITHOUT ANY WARRANTY; without even the implied warranty of 
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -23,7 +22,7 @@
     Description:
     parses configuration file and adds item into config db
 
-    $Id: ConfigParser.h 748 2009-09-10 02:54:03Z szander $
+    $Id: ConfigParser.h 748 2015-07-26 10:07:00 amarentes $
 */
 
 #ifndef _CONFIGPARSER_H_
@@ -46,8 +45,6 @@ typedef struct configItem
     string type;
 } configItem_t;
 
-//! overload operator << for configItem_t so that it can be thorown in an ostream
-ostream& operator<< ( ostream &os, configItem_t &item );
 
 //! allow or deny
 typedef enum 
@@ -67,9 +64,6 @@ typedef struct
     string resolve_addr;
 } configADItem_t;
 
-//! overload operator << for configADItem_t so that it can be thorown in an ostream
-ostream& operator<< ( ostream &os, configADItem_t &item );
-
 //! list of config items
 class configItemList_t : public list<configItem_t> {
   public:
@@ -77,13 +71,17 @@ class configItemList_t : public list<configItem_t> {
 };
 
 typedef list<configItem_t>::iterator configItemListIter_t;
+typedef list<configItem_t>::const_iterator configItemListConstIter_t;
+
 
 //! list of access items
 typedef list<configADItem_t> configADList_t;
 typedef list<configADItem_t>::iterator configADListIter_t;
 
-ostream& operator<< ( ostream &os, configItemList_t &list );
-ostream& operator<< ( ostream &os, configADList_t &list );
+//! misc list (random access based on name required)
+typedef map<string,configItem_t>            miscList_t;
+typedef map<string,configItem_t>::iterator  miscListIter_t;
+typedef map<string,configItem_t>::const_iterator  miscListConstIter_t;
 
 
 class ConfigParser : public XMLParser
@@ -105,7 +103,7 @@ class ConfigParser : public XMLParser
 	\arg \c filename - filename to read configuration from
         \arg \c binary - location of binary file, i.e. argv[0]
      */
-    ConfigParser(string filename, string binary = "");
+    ConfigParser(string dtdfilename, string filename, string binary = "");
 
     //! destroy a config parser
     virtual ~ConfigParser() {}
@@ -119,5 +117,18 @@ class ConfigParser : public XMLParser
     virtual void parse(configItemList_t *list, configADList_t *alist);
 
 };
+
+//! overload operator << for configItem_t so that it can be thorown in an ostream
+ostream& operator<< ( ostream &os, configItem_t &item );
+
+//! overload operator << for configItemList_t
+ostream& operator<< ( ostream &os, configItemList_t &list );
+
+//! overload operator << for configADList_t
+ostream& operator<< ( ostream &os, configADList_t &list );
+
+//! overload operator << for configADItem_t so that it can be thorown in an ostream
+ostream& operator<< ( ostream &os, configADItem_t &item );
+
 
 #endif //_CONFIGPARSER_H_

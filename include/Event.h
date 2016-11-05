@@ -41,6 +41,12 @@ typedef enum
       ADD_RULES = 0,
       REMOVE_RULES,
       ACTIVATE_RULES,
+      ADD_RULES_QOS_PROCESSOR,
+      RESP_ADD_RULES_QOS_PROCESSOR,
+      CHECK_RULES_QOS_PROCESSOR,
+      RESP_CHECK_RULES_QOS_PROCESSOR,
+      DEL_RULES_QOS_PROCESSOR,
+      RESP_DEL_RULES_QOS_PROCESSOR,
       GET_INFO,
       GET_MODINFO,
       TEST,
@@ -50,12 +56,28 @@ typedef enum
       CTRLCOMM_TIMER,      
 } event_t;
 
+
+//! rule states during lifecycle
+typedef enum
+{
+    EV_NEW = 0,
+    EV_PROCESSING, 
+    EV_DONE,
+} eventState_t;
+
+
 //! event names for dump method
 const string eventNames[] = 
 {
       "Add-rules",
       "Remove-rules",
       "Activate-rules",
+      "Add Rule to QOS Processor",
+      "Response to add rule event in the QOS Processor",
+      "Check Rule to QOS Processor",
+      "Response to check rule event in the QOS Processor",
+      "Del rule in the QOS Processor",
+      "Response to delete rule in the QOS Processor",
       "Get-info",
       "Get-module-info",
       "Test",
@@ -87,6 +109,13 @@ class Event {
     
     //! align events on time boundaries
     void doAlign();
+
+    //! Event State 
+    eventState_t state;
+
+    //! parent event that created this event. 
+    Event *parent;
+
     
   public:
   
@@ -97,7 +126,7 @@ class Event {
         \arg \c align  align the event on the next ival
     */
     Event(event_t type, struct timeval time, unsigned long ival=0, 
-	  int align=0);
+	  int align=0, eventState_t state=EV_NEW, Event *parent=NULL);
     
     /*! \short  create an event relative to current time
         \arg \c type  type of the event
@@ -107,14 +136,14 @@ class Event {
         \arg \c align  align the event on the next ival
     */
     Event(event_t type, time_t offs_sec, time_t offs_usec = 0, 
-    	  unsigned long ival=0, int align=0);
+    	  unsigned long ival=0, int align=0, eventState_t state=EV_NEW, Event *parent=NULL);
     
     /*! \short  create an event at the current time (now)
         \arg \c type  type of the event
         \arg \c ival  interval (in ms) if the event is recurrent
         \arg \c align  align the event on the next ival
     */
-    Event(event_t type, unsigned long ival=0, int align=0);
+    Event(event_t type, unsigned long ival=0, int align=0,eventState_t state=EV_NEW, Event *parent=NULL);
     
     virtual ~Event() {}
     
@@ -142,7 +171,7 @@ class Event {
     }
     
     //! set interval
-    void setInterval( unsigned long ival )        
+    void setInterval( unsigned long ival )
     {
         interval = ival;
     }
@@ -162,6 +191,29 @@ class Event {
     
     //! get next expiry time (recurrent events)
     void advance();
+    
+    //! Get the parent event from this event
+    Event * getParent()
+    {
+       return parent;
+    }
+    
+    //! set the parent event for this event.
+    void setParent(Event * _parent)
+    {
+        parent = _parent;
+    }
+
+    eventState_t getState()
+    {
+        return state;
+    }
+    
+    void setState(eventState_t _state)
+    {
+    
+        state = _state;
+    }
     
     virtual void dump( ostream &os );
     
@@ -216,6 +268,56 @@ class TestEvent : public Event
       : Event(TEST, ival) {}
 };
 
+
+
+//! base class for all QosProcessor events, contains a reference to rules
+class QoSProcessorEvent : public Event
+{
+
+   private:
+      ruleDB_t rules;
+   
+   public:
+	  
+      QoSProcessorEvent(event_t type, struct timeval time, ruleDB_t &r) 
+		: Event(type, time), rules(r) {}
+
+      QoSProcessorEvent(event_t type, time_t offs_sec, ruleDB_t &r) 
+        : Event(type, offs_sec), rules(r) {}
+    
+      QoSProcessorEvent(event_t type, ruleDB_t &r) 
+        : Event(type), rules(r) {}
+	  
+	  
+	  ruleDB_t * getRules()
+	  {
+		  return  &rules;
+	  }
+
+
+      int deleteRule(int uid)
+      {
+         int ret = 0;
+         ruleDBIter_t iter;
+        
+         for (iter=rules.begin(); iter != rules.end(); iter++) 
+         {
+            if ((*iter)->getUId() == uid) {
+                rules.erase(iter);
+                ret++;
+                break;
+            }   
+         }
+          
+         if (rules.empty()) {
+            return ++ret;
+         }
+          
+         return ret;
+      }
+};
+
+
 /* --------------------------------- events ------------------------------ */
 
 
@@ -237,6 +339,8 @@ class AddRulesEvent : public Event
         return fileName;
     }
 };
+
+
 
 
 class ActivateRulesEvent : public Event
@@ -484,6 +588,107 @@ class RemoveRulesCtrlEvent : public CtrlCommEvent
         return rule;
     }
 };
+
+
+class addRulesQoSProcesorEvent : public QoSProcessorEvent
+{
+
+   public:
+	  
+      addRulesQoSProcesorEvent(struct timeval time, ruleDB_t &r) 
+		: QoSProcessorEvent(ADD_RULES_QOS_PROCESSOR, time, r) {}
+
+      addRulesQoSProcesorEvent(time_t offs_sec, ruleDB_t &r) 
+        : QoSProcessorEvent(ADD_RULES_QOS_PROCESSOR, offs_sec, r) {}
+    
+      addRulesQoSProcesorEvent(ruleDB_t &r) 
+        : QoSProcessorEvent(ADD_RULES_QOS_PROCESSOR, r) {}	
+	
+};
+
+class respAddRulesQoSProcesorEvent : public QoSProcessorEvent
+{
+
+   public:
+	  
+      respAddRulesQoSProcesorEvent(struct timeval time, ruleDB_t &r) 
+		: QoSProcessorEvent(RESP_ADD_RULES_QOS_PROCESSOR, time, r) {}
+
+      respAddRulesQoSProcesorEvent(time_t offs_sec, ruleDB_t &r) 
+        : QoSProcessorEvent(RESP_ADD_RULES_QOS_PROCESSOR, offs_sec, r) {}
+    
+      respAddRulesQoSProcesorEvent(ruleDB_t &r) 
+        : QoSProcessorEvent(RESP_ADD_RULES_QOS_PROCESSOR, r) {}	
+		
+};
+
+class checkRulesQoSProcessorEvent : public QoSProcessorEvent
+{
+
+   
+   public:
+	  
+      checkRulesQoSProcessorEvent(struct timeval time, ruleDB_t &r) 
+		: QoSProcessorEvent(CHECK_RULES_QOS_PROCESSOR, time, r) {}
+
+      checkRulesQoSProcessorEvent(time_t offs_sec, ruleDB_t &r) 
+        : QoSProcessorEvent(CHECK_RULES_QOS_PROCESSOR, offs_sec, r) {}
+    
+      checkRulesQoSProcessorEvent(ruleDB_t &r) 
+        : QoSProcessorEvent(CHECK_RULES_QOS_PROCESSOR, r) {}
+	  	  
+};
+
+
+class respCheckRulesQoSProcessorEvent : public QoSProcessorEvent
+{
+
+   public:
+      
+      respCheckRulesQoSProcessorEvent(struct timeval time, ruleDB_t &r) 
+		: QoSProcessorEvent(RESP_CHECK_RULES_QOS_PROCESSOR, time, r) {}
+
+      respCheckRulesQoSProcessorEvent(time_t offs_sec, ruleDB_t &r) 
+        : QoSProcessorEvent(RESP_CHECK_RULES_QOS_PROCESSOR, offs_sec, r) {}
+    
+      respCheckRulesQoSProcessorEvent(ruleDB_t &r) 
+        : QoSProcessorEvent(RESP_CHECK_RULES_QOS_PROCESSOR, r) {}
+	    
+};
+
+
+class delRulesQoSProcesorEvent : public QoSProcessorEvent
+{
+
+   public:
+	  
+      delRulesQoSProcesorEvent(struct timeval time, ruleDB_t &r) 
+		: QoSProcessorEvent(DEL_RULES_QOS_PROCESSOR, time, r) {}
+
+      delRulesQoSProcesorEvent(time_t offs_sec, ruleDB_t &r) 
+        : QoSProcessorEvent(DEL_RULES_QOS_PROCESSOR, offs_sec, r) {}
+    
+      delRulesQoSProcesorEvent(ruleDB_t &r) 
+        : QoSProcessorEvent(DEL_RULES_QOS_PROCESSOR, r) {}	
+	
+};
+
+class respDelRulesQoSProcesorEvent : public QoSProcessorEvent
+{
+
+   public:
+	  
+      respDelRulesQoSProcesorEvent(struct timeval time, ruleDB_t &r) 
+		: QoSProcessorEvent(RESP_DEL_RULES_QOS_PROCESSOR, time, r) {}
+
+      respDelRulesQoSProcesorEvent(time_t offs_sec, ruleDB_t &r) 
+        : QoSProcessorEvent(RESP_DEL_RULES_QOS_PROCESSOR, offs_sec, r) {}
+    
+      respDelRulesQoSProcesorEvent(ruleDB_t &r) 
+        : QoSProcessorEvent(RESP_DEL_RULES_QOS_PROCESSOR, r) {}	
+		
+};
+
 
 
 //! overload for << so that an Event object can be thrown into an ostream

@@ -1,17 +1,16 @@
 
-/*  \file   XMLParser.cpp
+/*!  \file   XMLParser.cpp
 
-    Copyright 2003-2004 Fraunhofer Institute for Open Communication Systems (FOKUS),
-                        Berlin, Germany
+    Copyright 2014-2015 Universidad de los Andes, Bogotá, Colombia
 
-    This file is part of Network Measurement and Accounting System (NETMATE).
+    This file is part of Network QoS System (NETQOS).
 
-    NETMATE is free software; you can redistribute it and/or modify 
+    NETQOS is free software; you can redistribute it and/or modify 
     it under the terms of the GNU General Public License as published by 
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
+    NETQOS is distributed in the hope that it will be useful, 
     but WITHOUT ANY WARRANTY; without even the implied warranty of 
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -23,7 +22,7 @@
 	Description:
 	parse XML files, base class for specific parsers
 
-    $Id: XMLParser.cc 748 2009-09-10 02:54:03Z szander $
+    $Id: XMLParser.cc 748 2015-03-03 12:48:00Z amarentes $
 
 */
 
@@ -55,20 +54,21 @@ XMLParser::XMLParser(string dtdname, string fname, string root)
             throw Error("DTD %s file '%s' not accessible: %s",
                         root.c_str(), dtdName.c_str(), strerror(errno) );
         }
-
+        
         xmlInitParser();
 
         // set line numbering
         xmlLineNumbersDefault(1);
         // set error function
         xmlSetGenericErrorFunc(NULL, XMLParser::XMLErrorCB);
-
+		
         XMLDoc = xmlParseFile(fileName.c_str()); 	    
         if (XMLDoc == NULL) {
             throw Error("XML document parse error in file %s", fileName.c_str());
         }
-
+                
         validate(root);
+		
 
     } catch (Error &e) {
         if (XMLDoc != NULL) {
@@ -136,10 +136,9 @@ void XMLParser::validate(string root)
     xmlValidCtxt cvp;
 
     try {
-
         dtd = xmlParseDTD(NULL, (const xmlChar *) dtdName.c_str());
-	
-        if (dtd == NULL) {
+        if (dtd == NULL) 
+        {
             throw Error("Could not parse DTD %s", dtdName.c_str());
         } else {
             memset(&cvp, 0, sizeof(cvp));
@@ -161,11 +160,9 @@ void XMLParser::validate(string root)
             }
 
             ns = xmlSearchNsByHref(XMLDoc,cur,NULL);
-       
             // add as external subset
             XMLDoc->extSubset = dtd;
         }
-	
     } catch (Error &e) {
         if (ns != NULL) {
             xmlFreeNs(ns);
@@ -188,7 +185,7 @@ void XMLParser::validate(string root)
         if (!err.empty()) {
             log->elog(ch, "%s", err.c_str());
         }
-        
+		
         throw(e);
     }
 }
@@ -219,7 +216,6 @@ void XMLParser::XMLErrorCB(void *ctx, const char *msg, ...)
 
     va_start( argp, msg );
     vsprintf(buf, msg, argp);
-    vfprintf(stderr, msg, argp);
     va_end( argp );
 
     err += buf;
@@ -240,10 +236,10 @@ void XMLParser::XMLWarningCB(void *ctx, const char *msg, ...)
 
 string XMLParser::xmlCharToString(xmlChar *in)
 {
-    string out = "";
+    string out;
 
     if (in != NULL) {
-        out = (char *) in;
+        out = std::string((char *) in);
         xmlFree(in);
     }
 

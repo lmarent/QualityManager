@@ -205,16 +205,12 @@ Module *ModuleLoader::loadModule( string libname, int preload )
     libHandle_t libhandle = NULL;
     
     if (libname.empty()) {
-#ifdef DEBUG
         s_log->log(ch, "libname to load is empty '%s'", libname.c_str());
-#endif
         return NULL;
     }
     
     try {
-#ifdef DEBUG
         s_log->log(ch, "trying to load module '%s'", libname.c_str());
-#endif
         // if libname has relative path (or none) then use basepath
         if (libname[0] != '/') {
             path = basepath;

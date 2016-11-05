@@ -39,10 +39,11 @@ QualityManagerComponent::QualityManagerComponent(ConfigManager *_cnf, string nam
     if (threaded) {
         mutexInit(&maccess);
 		threadCondInit(&doneCond);
+
+    log->log(ch, "Created the component as another thread");
     }
 #endif
 
-	cout << "termino initiate QualityManagerComponent" << endl;
 }
 
 

@@ -1,17 +1,16 @@
 
-/*  \file   XMLParser.h
+/*!  \file   XMLParser.h
 
-    Copyright 2003-2004 Fraunhofer Institute for Open Communication Systems (FOKUS),
-                        Berlin, Germany
+    Copyright 2014-2015 Universidad de los Andes, Bogotá, Colombia
 
-    This file is part of Network Measurement and Accounting System (NETMATE).
+    This file is part of Network Quality of Service System (NETQOS).
 
-    NETMATE is free software; you can redistribute it and/or modify 
+    NETQOS is free software; you can redistribute it and/or modify 
     it under the terms of the GNU General Public License as published by 
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
+    NETQOS is distributed in the hope that it will be useful, 
     but WITHOUT ANY WARRANTY; without even the implied warranty of 
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -23,7 +22,7 @@
     Description:
     parse XML files, base class for specific parsers
 
-    $Id: XMLParser.h 748 2009-09-10 02:54:03Z szander $
+    $Id: XMLParser.h 748 2015-03-03 12:48:00Z amarentes $
 */
 
 #ifndef _XMLPARSER_H_
@@ -74,8 +73,12 @@ class XMLParser
     XMLParser(string dtdname, char *buf, int len, string root);
 
     ~XMLParser();
-
+	
     string xmlCharToString(xmlChar *in);
+    
+    inline string getFileName() { return fileName; }
+    
+    inline string getDtdName() { return dtdName; }
 
 };
 

@@ -20,8 +20,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     Description:
-    meter component base class, provides common functionality
-    for all meter components (e.g. threads, fd handling, ...)
+    QoS component base class, provides common functionality
+    for all QoS components (e.g. threads, fd handling, ...)
 
     $Id: QualityManagerComponent.h 748 2015-03-05 18:19:00 amarentes $
 */

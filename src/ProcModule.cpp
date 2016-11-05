@@ -68,9 +68,7 @@ ProcModule::ProcModule( ConfigManager *_cnf, string libname, string libfile,
         s_ch = s_log->createChannel("ProcModule");
     }
 
-#ifdef DEBUG
-    s_log->dlog(s_ch, "Creating" );
-#endif
+    s_log->log(s_ch, "Creating - configGroup:%s", confgroup.c_str()  );
 
     checkMagic(PROC_MAGIC);
 
@@ -86,6 +84,7 @@ ProcModule::ProcModule( ConfigManager *_cnf, string libname, string libfile,
 		configItem_t * intfc2 = cnf->getItem("UseIPv6");
 		list.push_back(*intfc);
 		list.push_back(*intfc2);
+        s_log->log(s_ch, "Configurated Nbr Items:%d", (int) list.size() ); 
 		configParam_t *params = cnf->getParamList(list);
 		funcList->initModule(params);
 	}

@@ -390,12 +390,13 @@ AC_SUBST(DOXY)
 
 
 
-AC_CONFIG_FILES([Makefile \
-				 lib/getpass/Makefile \
-  				 lib/httpd/Makefile \
-				 lib/getopt_long/Makefile \
-				 nqrsh/Makefile \
-				 proc_modules/Makefile \
-                 src/Makefile] )
+AC_CONFIG_FILES([ Makefile \
+				  lib/getpass/Makefile \
+  				  lib/httpd/Makefile \
+				  lib/getopt_long/Makefile \
+				  nqrsh/Makefile \
+				  proc_modules/Makefile \
+                  src/Makefile \
+                  test/Makefile ] )
 
 AC_OUTPUT

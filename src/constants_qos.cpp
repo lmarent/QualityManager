@@ -32,7 +32,7 @@
 using namespace std;
 
 // QualityManager.h
-const string NETQOS_DEFAULT_CONFIG_FILE = DEF_SYSCONFDIR "/netqos.conf.xml";
+const string NETQOS_DEFAULT_CONFIG_FILE = DEF_SYSCONFDIR "/netqos_conf.xml";
 const string NETQOS_LOCK_FILE   = DEF_STATEDIR "/run/netqos.pid";
 
 // Logger.h
@@ -40,7 +40,7 @@ extern const string QOS_DEFAULT_LOG_FILE = DEF_STATEDIR "/log/netqos.log";
 
 
 // ConfigParser.h
-const string QOS_CONFIGFILE_DTD  = DEF_SYSCONFDIR "/netqos.conf.dtd";
+const string QOS_CONFIGFILE_DTD  = DEF_SYSCONFDIR "/netqos_conf.dtd";
 
 
 #ifdef USE_SSL

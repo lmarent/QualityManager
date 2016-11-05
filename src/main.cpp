@@ -1,26 +1,55 @@
-#include "NetworkQualityServer.h"
+#include "QualityManager.h"
+
+
+
+/*
+  version string embedded into executable file
+  can be found via 'strings <path>/netqos | grep version'
+*/
+const char *NETQOS_VERSION = "NetQoS version " VERSION ", (c) 2014-2015 Universidad de los Andes, Colombia";
+
+const char *NETQOS_OPTIONS = "compile options: "
+"multi-threading support = "
+#ifdef ENABLE_THREADS
+"[YES]"
+#else
+"[NO]"
+#endif
+", secure sockets (SSL) support = "
+#ifdef USE_SSL
+"[YES]"
+#else
+"[NO]"
+#endif
+" ";
+
+
+
+/* ------------------------- main() ------------------------- */
+
+
+// Log functions are not used before the logger is initialized
 
 int main(int argc, char *argv[])
 {
-	
-    ecodtn::net::NetworkQualityServer app;
-    return app.run(argc, argv);
-	
-	/*
-    std::vector<Poco::Net::NetworkInterface> list = Poco::Net::NetworkInterface::list();
-    std::vector<Poco::Net::NetworkInterface>::iterator it = list.begin();
-    for(;it!=list.end();it++)
-	{
-		Poco::Net::NetworkInterface netIntf = *it;
-		Poco::Net::IPAddress ipAddr = netIntf.address();
-		std::string aprStd = ipAddr.toString();
-		std::string name = netIntf.name();
-		int interfIndex = netIntf.index();
-		std::cout << "address:" << aprStd << "\n";
-		std::cout << "name:" << name << "\n";
-		std::cout << "index:";
-		std::cout << interfIndex;
-		std::cout << "\n";
-	}
-    */
+
+    try {
+        // start up the netmate (this blocks until Ctrl-C !)
+        cout << NETQOS_VERSION << endl;
+#ifdef DEBUG
+        cout << NETQOS_OPTIONS << endl;
+#endif
+        auto_ptr<QualityManager> quality(new QualityManager(argc, argv));
+        cout << "Up and running." << endl;
+
+        // going into main loop
+        quality->run();
+
+        // shut down the meter
+        cout << "Terminating netqos." << endl;
+
+    } catch (Error &e) {
+        cerr << "Terminating netqos on error: " << e.getError() << endl;
+        exit(1);
+    }
 }

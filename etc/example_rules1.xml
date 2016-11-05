@@ -24,4 +24,43 @@
 		<PREF NAME="Duration">100</PREF>		
     </ACTION>
   </RULE>  
+
+
+  <RULE ID="2">
+    <!-- packets comming from specfic address and protocol-->
+    <FILTER NAME="SrcIP">10.0.2.16</FILTER>
+    
+
+    <ACTION NAME="htb">
+		<!-- match both directions of the flow -->
+		<PREF NAME="Bidir">yes</PREF>
+		
+		<!-- Rate is on bytes  -->
+		<PREF NAME="Rate" TYPE="Float64">15000</PREF>
+		<PREF NAME="Burst" TYPE="UInt32">1500</PREF>
+		<PREF NAME="Priority" TYPE="UInt32">2</PREF>
+		<!-- The value is in seconds -->
+		<PREF NAME="Duration">100</PREF>		
+    </ACTION>
+  </RULE>  
+
+  <RULE ID="3">
+    <!-- packets comming from specfic address and protocol-->
+    <FILTER NAME="SrcIP">10.0.2.16</FILTER>
+    
+
+    <ACTION NAME="htb">
+		<!-- match both directions of the flow -->
+		<PREF NAME="Bidir">yes</PREF>
+		
+		<!-- Rate is on bytes  -->
+		<PREF NAME="Rate" TYPE="Float64">15000</PREF>
+		<PREF NAME="Burst" TYPE="UInt32">1500</PREF>
+		<PREF NAME="Priority" TYPE="UInt32">2</PREF>
+		<!-- The value is in seconds -->
+		<PREF NAME="Duration">100</PREF>		
+    </ACTION>
+  </RULE>  
+
+
 </RULESET>

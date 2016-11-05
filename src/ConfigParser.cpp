@@ -1,16 +1,16 @@
 
-/*  \file   ConfigParser.cpp
+/*!  \file   ConfigParser.cpp
 
     Copyright 2014-2015 Universidad de los Andes, Bogota, Colombia.
 
-    This file is part of Network Measurement and Accounting System (NETQoS).
+    This file is part of Network Quality of Service System (NETQoS).
 
-    NETMATE is free software; you can redistribute it and/or modify 
+    NETQOS is free software; you can redistribute it and/or modify 
     it under the terms of the GNU General Public License as published by 
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
+    NETQOS is distributed in the hope that it will be useful, 
     but WITHOUT ANY WARRANTY; without even the implied warranty of 
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -22,7 +22,7 @@
     Description:
     parses configuration file and adds item into config db
 
-    $Id: ConfigParser.cpp 748 2015-03-09 08:23:00 amarentes $
+    $Id: ConfigParser.cpp 748 2015-07-26 10:13:00 amarentes $
 */
 
 #include "config.h"
@@ -38,8 +38,8 @@
 string ConfigParser::bindir = "";
 
 
-ConfigParser::ConfigParser(string filename, string binary)
-    : XMLParser(QOS_CONFIGFILE_DTD, filename, "CONFIG")
+ConfigParser::ConfigParser(string dtdfilename, string filename, string binary)
+    : XMLParser(dtdfilename, filename, "CONFIG")
 {
     if (bindir.empty()) {
         bindir = dirname((char *)(binary + " ").c_str());
@@ -251,7 +251,8 @@ ostream& operator<< ( ostream &os, configItemList_t &list )
     configItemListIter_t iter;
 
     for (iter = list.begin(); iter != list.end(); iter++) {
-        os << (*iter);
+        configItem_t item = (*iter);
+        operator<< (os, item );
     }
     return os;
 }

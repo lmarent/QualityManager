@@ -33,10 +33,9 @@
 #include "QualityManager.h"
 
 
-Event::Event(event_t typ, unsigned long ival, int align)
-    : type(typ), interval(ival)
+Event::Event(event_t typ, unsigned long ival, int align, eventState_t state, Event *parent)
+    : type(typ), interval(ival), state(state), parent(parent)
 {
-    cout << "in Event 1" << endl;
     Timeval::gettimeofday(&when, NULL);
 
     if (align) {
@@ -45,10 +44,10 @@ Event::Event(event_t typ, unsigned long ival, int align)
 }
 
 
-Event::Event(event_t typ, time_t offs_sec, time_t offs_usec, unsigned long ival, int align)
-    : type(typ), interval(ival)
+Event::Event(event_t typ, time_t offs_sec, time_t offs_usec, 
+              unsigned long ival, int align, eventState_t state, Event *parent)
+    : type(typ), interval(ival), state(state), parent(parent)
 {
-    cout << "in Event 2" << endl;
     Timeval::gettimeofday(&when, NULL);
     
     when.tv_sec += offs_sec;
@@ -61,11 +60,10 @@ Event::Event(event_t typ, time_t offs_sec, time_t offs_usec, unsigned long ival,
 
 
 Event::Event(event_t typ, struct timeval time, unsigned long ival, 
-	     int align) 
-    : type(typ), when(time), interval(ival)
+	     int align, eventState_t state, Event *parent) 
+    : type(typ), when(time), interval(ival), state(state), parent(parent)
 { 
     
-    cout << "in Event 3" << endl;
     if (align) {
         doAlign();
     }

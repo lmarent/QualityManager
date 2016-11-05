@@ -28,12 +28,43 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 
 #include "ProcError.h"
 #include "QOSProcessor.h"
 #include "Module.h"
 #include "ParserFcts.h"
 
+
+ppaction_t& ppaction_t::operator=( ppaction_t const& rhs)
+{
+	
+	cout << "ppaction Operator=" << endl;
+	
+	module = rhs.module;
+	mapi = rhs.mapi;
+	flowData = rhs.flowData;
+	params = rhs.params;
+	
+	return *this;
+}
+
+
+ruleActions_t& ruleActions_t::operator=( ruleActions_t const& rhs)
+{
+	
+	cout << "ruleActions Operator=" << endl;
+	
+	lastPkt = rhs.lastPkt;
+	packets = rhs.packets;
+	auto_flows = rhs.auto_flows;
+	bidir = rhs.bidir;
+	seppaths = rhs.seppaths;
+	rule = rhs.rule;
+	actions = rhs.actions;
+	return *this;
+}
 
 
 /* ------------------------- QoSProcessor ------------------------- */
@@ -76,77 +107,228 @@ QOSProcessor::QOSProcessor(ConfigManager *cnf, int threaded, string moduleDir )
 QOSProcessor::~QOSProcessor()
 {
 
-#ifdef DEBUG
-    log->dlog(ch,"Shutdown");
-#endif
-
-#ifdef ENABLE_THREADS
-    if (threaded) {
-        mutexLock(&maccess);
-        stop();
-        mutexUnlock(&maccess);
-        mutexDestroy(&maccess);
-    }
-#endif
+    log->log(ch,"Shutdown");
 		
     // destroy Flow setups for all rules
-    for (ruleActionListIter_t r = rules.begin(); r != rules.end(); r++) 
+    
+    log->log(ch, "Active rules:%d", (int) rules.size());
+    
+    ruleActionListIter_t it;
+    for ( it = rules.begin(); it != rules.end(); it++) 
     {
-		ppactionListIter_t i;
-        for ( i = r->actions.begin(); i != r->actions.end(); i++) 
-        {
-
-#ifdef DEBUG
-    log->dlog(ch,"Destroying rule id= %d", (r->rule)->getUId());
-#endif
-             
-  			i->mapi->destroyFlowSetup(i->params, (r->rule)->getFilter(), i->flowData);
-					
-            saveDeleteArr(i->params);
-            
-            // release modules loaded for this rule
-			loader->releaseModule(i->module);
-        }
+        Rule *r = NULL;
+        r = (it->second).rule;
         
+        if (r == NULL)    
+			log->log(ch, "ruleId:%d with Null rule", it->first ) ;
+		else
+			delRule(r);
     }
-
+	
     // discard the Module Loader
     saveDelete(loader);
 
 }
 
 
-// check a ruleset (the filter part)
-void QOSProcessor::checkRules(ruleDB_t *rules)
+/* ------------------------- addEvent ------------------------- */
+
+void QOSProcessor::addEvent(Event *ev)
+{
+		
+#ifdef DEBUG
+    log->dlog(ch,"new event %s", eventNames[ev->getType()].c_str());
+#endif
+
+    AUTOLOCK(threaded, &maccess);
+    in_events.push_back(ev);
+    
+    log->log(ch, "Adding event NumEventsIn:%d", (int) in_events.size() );
+}
+
+
+/*! deleting is costly but it should occur much less than exporting
+    data or flow timeouts assuming the lifetimes of rules are reasonably large
+*/
+void QOSProcessor::delRuleEvents(int uid)
+{
+    int ret = 0;
+    eventVecIter_t iter, tmp;
+
+	AUTOLOCK(threaded, &maccess);
+
+    // search linearly through list for rule with given ID and delete entries
+    iter = in_events.begin();
+    while (iter != in_events.end()) {
+        tmp = iter;
+        iter++;
+        
+        ret = (*tmp)->deleteRule(uid);
+        if (ret == 1) {
+            // ret = 1 means rule was present in event but other rules are still in
+            // the event
+#ifdef DEBUG
+            log->dlog(ch,"remove rule %d from event %s", uid, 
+                      eventNames[(*tmp)->getType()].c_str());
+#endif
+        } else if (ret == 2) {
+            // ret=2 means the event is now empty and therefore can be deleted
+#ifdef DEBUG
+            log->dlog(ch,"remove event %s", eventNames[(*tmp)->getType()].c_str());
+#endif
+           
+            saveDelete(*tmp);
+            in_events.erase(tmp);
+        } 
+    }
+}
+
+
+Event *QOSProcessor::getNextEvent()
+{
+    
+    AUTOLOCK(threaded, &maccess);
+    
+    Event *ev;
+    
+    if (in_events.begin() != in_events.end()) {
+        ev = in_events.front();
+        // dequeue event
+        in_events.erase(in_events.begin());
+        // the receiver is responsible for
+        // returning or freeing the event
+        return ev;
+    } 
+    else 
+    {
+        return NULL;
+    }
+}
+
+
+// check a ruleset (the filter part) - single Thread.
+void QOSProcessor::checkRules(ruleDB_t *_rules, EventScheduler *e)
 {
     ruleDBIter_t iter;
     
-    for (iter = rules->begin(); iter != rules->end(); iter++) {
-        checkRule(*iter);
+    for (iter = _rules->begin(); iter != _rules->end(); iter++) {
+		Rule *rule = *iter;
+		if ((rule->getState() == RS_NEW ) || 
+			  (rule->getState() == RS_SCHEDULED ) || 
+			    (rule->getState() == RS_ERROR )){ 
+			checkRule(rule);
+        }
     }
 }
 
 
-// add rules
-void QOSProcessor::addRules( ruleDB_t *rules, EventScheduler *e )
+// check a ruleset (the filter part) - By the QoS processor interface
+void QOSProcessor::checkRules(ruleDB_t *_rules)
 {
+    
     ruleDBIter_t iter;
+    ruleDB_t response;
+    
+    log->log(ch, "starting checking rules");
+    
+    for (iter = _rules->begin(); iter != _rules->end(); iter++) {
+		Rule *rule = *iter;
+		if ((rule->getState() == RS_NEW ) || 
+			  (rule->getState() == RS_SCHEDULED ) || 
+			    (rule->getState() == RS_ERROR )){ 
+			checkRule(rule);
+        }
+        
+        response.push_back(rule);
+    }
+
+    AUTOLOCK(threaded, &maccess);    
+    out_events.push_back( new respCheckRulesQoSProcessorEvent(response) );
+    
+    log->log(ch, "ending checking rules");
+}
+
+
+// add rules single thread
+void QOSProcessor::addRules( ruleDB_t *_rules, EventScheduler *e )
+{
+    
+    log->dlog(ch, "starting add rules");
+    
+    ruleDBIter_t iter;
+    for (iter = _rules->begin(); iter != _rules->end(); iter++) 
+    {
+		Rule *rule = *iter;
+		
+        if ((rule->getState() == RS_VALID) ||  (rule->getState() == RS_SCHEDULED))
+        {
+			log->dlog(ch, "it is going to add  Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
+			addRule(rule, e);
+		}
+		else
+		{
+			log->dlog(ch, "Rule is not going to be added %s.%s because in Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
+		}
+			
+    }
+    
+    log->dlog(ch, "ending add rules");
+}
+
+
+// add rules by the Qos Processor Event Interface.
+void QOSProcessor::addRules( ruleDB_t *rules )
+{
+    
+    log->log(ch, "starting add rules");
+    
+    ruleDBIter_t iter;
+    ruleDB_t response;
    
     for (iter = rules->begin(); iter != rules->end(); iter++) {
-        addRule(*iter, e);
+		Rule *rule = *iter;
+		
+        if ((rule->getState() == RS_VALID) || 
+			 (rule->getState() == RS_SCHEDULED)){
+			addRule(rule);
+		}
+		
+        response.push_back(rule);
     }
+    
+    AUTOLOCK(threaded, &maccess);
+    out_events.push_back( new respAddRulesQoSProcesorEvent(response) );
+    
+    log->log(ch, "ending add rules NumEvents:%d", (int) out_events.size() );
 }
 
 
-// delete rules
-void QOSProcessor::delRules(ruleDB_t *rules)
+
+// delete rules single thread.
+void QOSProcessor::delRules(ruleDB_t *_rules, EventScheduler *e)
 {
     ruleDBIter_t iter;
 
-    for (iter = rules->begin(); iter != rules->end(); iter++) {
+    for (iter = _rules->begin(); iter != _rules->end(); iter++) {
         delRule(*iter);
     }
 }
+
+// delete rules by the Qos Processor Event Interface.
+void QOSProcessor::delRules(ruleDB_t *_rules)
+{
+    ruleDBIter_t iter;
+    ruleDB_t response;
+    
+    for (iter = _rules->begin(); iter != _rules->end(); iter++) {
+        delRule(*iter);
+        response.push_back(*iter);
+    }
+    
+    AUTOLOCK(threaded, &maccess);
+    out_events.push_back( new respDelRulesQoSProcesorEvent(response) );
+}
+
 
 
 int QOSProcessor::checkRule(Rule *r)
@@ -158,15 +340,14 @@ int QOSProcessor::checkRule(Rule *r)
     string errStr;
     bool exThrown = false;
 
+	AUTOLOCK(threaded, &maccess);
+
     ruleId  = r->getUId();
     actions = r->getActions();
 
-#ifdef DEBUG
-    log->dlog(ch, "checking Rule %s.%s - Id:%d", r->getSetName().c_str(), r->getRuleName().c_str(), ruleId);
-#endif  
+    log->log(ch, "checking Rule %s.%s - Id:%d", r->getSetName().c_str(), r->getRuleName().c_str(), ruleId);
 
     try {
-        AUTOLOCK(threaded, &maccess);
 		
         for (actionListIter_t iter = actions->begin(); iter != actions->end(); iter++) {
             Module *mod;
@@ -198,6 +379,9 @@ int QOSProcessor::checkRule(Rule *r)
                 a.params = ConfigManager::getParamList(itmConf);
                                            
 				errNo = (a.mapi)->checkBandWidth(a.params);
+				
+				log->log(ch, "bandwidth checking %s.%s - return:%d", r->getSetName().c_str(), r->getRuleName().c_str(), errNo);
+				
 				if ( errNo < 0 ){
 					 errStr = "Not available bandwidth";
 					 exThrown = true;
@@ -219,11 +403,14 @@ int QOSProcessor::checkRule(Rule *r)
             }
         }
     	
+    	log->log(ch, "checking Rule %s.%s - Id:%d - Pass the check", r->getSetName().c_str(), r->getRuleName().c_str(), ruleId);
+    	r->setState(RS_VALID);
     } 
     catch (Error &e) { 
         log->elog(ch, e);
         errNo = e.getErrorNo();
         errStr = e.getError();
+        log->elog(ch, e);
 		exThrown = true;
     }
 	catch (ProcError &proce){
@@ -235,6 +422,9 @@ int QOSProcessor::checkRule(Rule *r)
 
 	if (exThrown)
 	{
+
+		log->elog(ch, "Rule %s.%s - Id:%d has errors", r->getSetName().c_str(), r->getRuleName().c_str(), ruleId);
+
 
         // free memory
         if (a.flowData != NULL) {
@@ -252,9 +442,11 @@ int QOSProcessor::checkRule(Rule *r)
             loader->releaseModule(a.module);
         }
        
-        throw Error(errNo, errStr);
+        // Something on the rule is not correct, so it goes to not valid.
+        r->setState(RS_ERROR);
 	
 	}
+
     return 0;
 }
 
@@ -269,20 +461,16 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
     int errNo;
     string errStr;
     bool exThrown = false;
-
+    
     ruleId  = r->getUId();
     actions = r->getActions();
 
-#ifdef DEBUG
-    log->dlog(ch, "adding Rule #%d", ruleId);
-#endif  
+    log->log(ch, "adding Rule %d", ruleId);
 
-    AUTOLOCK(threaded, &maccess);  
 
     entry.lastPkt = 0;
     entry.packets = 0;
     entry.bytes = 0;
-    entry.flist = r->getFilter();
     entry.bidir = r->isBidir();
     entry.seppaths = r->sepPaths();
     entry.rule = r;
@@ -300,9 +488,7 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
             Module *mod;
             string mname = iter->name;
 
-#ifdef DEBUG
-    log->dlog(ch, "it is going to load module %s", mname.c_str());
-#endif 
+			log->log(ch, "it is going to load module %s", mname.c_str());
 
             	    
             // load Action Module used by this rule
@@ -311,9 +497,8 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
 
             if (a.module != NULL) { // is it a processing kind of module
 
-#ifdef DEBUG
-    log->dlog(ch, "module %s loaded", mname.c_str());
-#endif 
+				log->log(ch, "module %s loaded", mname.c_str());
+				
                 a.mapi = a.module->getAPI();
 
                 // init module
@@ -334,16 +519,13 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
                 a.flowData = NULL;
                 (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
 				if (a.params != NULL) {
-#ifdef DEBUG
-					log->dlog(ch, "estoy en a.params = null");
-#endif 
 					saveDeleteArr(a.params);
 					a.params = ConfigManager::getParamList(itmConf);
 				}
-								
+
                 // init timers
                 addTimerEvents(ruleId, cnt, a, *e);
-	
+                
                 entry.actions.push_back(a);
 
             }
@@ -351,14 +533,154 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
             cnt++;
         }
     
-        // make sure the vector of rules is large enough
-        if ((unsigned int)ruleId + 1 > rules.size()) {
-            rules.reserve(ruleId*2 + 1);
-            rules.resize(ruleId + 1 );
-        }
         // success ->enter struct into internal table
         rules[ruleId] = entry;
 
+        // Set the rule as active.
+        r->setState(RS_ACTIVE);
+
+
+		filterListIter_t iter;
+		for ( iter = r->getFilter()->begin() ; iter != r->getFilter()->end() ; iter++ ) 
+		{	
+			log->log(ch, "filter name%s - type: %s \n",  (iter->name).c_str(), (iter->type).c_str() );
+
+		}
+	
+    } 
+    catch (Error &e) 
+    { 
+        log->elog(ch, e);
+        errNo = e.getErrorNo();
+        errStr = e.getError();
+		exThrown = true;	
+    }
+	
+	catch (ProcError &e)
+	{
+        log->elog(ch, e);
+        errNo = e.getErrorNo();
+        errStr = e.getError();
+		exThrown = true;		
+	}
+
+	if (exThrown)
+	{
+        for (ppactionListIter_t i = entry.actions.begin(); i != entry.actions.end(); i++) {
+
+            (i->mapi)->destroyFlowSetup( i->params, r->getFilter(), i->flowData );
+
+			if (i->params != NULL) {
+				saveDeleteArr(i->params);
+			}
+	    
+            //release packet processing modules already loaded for this rule
+            if (i->module) {
+                loader->releaseModule(i->module);
+            }
+        }
+        // empty the list itself
+        entry.actions.clear();
+
+        throw Error(errNo, errStr);;
+	}
+    
+    return 0;
+}
+
+
+
+/* ------------------------- addRule ------------------------- */
+
+int QOSProcessor::addRule( Rule *r )
+{
+    int ruleId;
+    ruleActions_t entry;
+    actionList_t *actions;
+    int errNo;
+    string errStr;
+    bool exThrown = false;
+    
+    AUTOLOCK(threaded, &maccess);
+
+    ruleId  = r->getUId();
+    actions = r->getActions();
+
+    log->dlog(ch, "adding Rule #%d", ruleId);
+
+
+    entry.lastPkt = 0;
+    entry.packets = 0;
+    entry.bytes = 0;
+    entry.bidir = r->isBidir();
+    entry.seppaths = r->sepPaths();
+    entry.rule = r;
+
+    try {
+
+        int cnt = 0;
+        for (actionListIter_t iter = actions->begin(); iter != actions->end(); iter++) {
+            ppaction_t a;
+
+            a.module = NULL;
+            a.params = NULL;
+            a.flowData = NULL;
+
+            Module *mod;
+            string mname = iter->name;
+
+			log->dlog(ch, "it is going to load module %s", mname.c_str());
+
+            	    
+            // load Action Module used by this rule
+            mod = loader->getModule(mname.c_str());
+            a.module = dynamic_cast<ProcModule*> (mod);
+
+            if (a.module != NULL) { // is it a processing kind of module
+
+				log->dlog(ch, "module %s loaded", mname.c_str());
+                a.mapi = a.module->getAPI();
+
+                // init module
+                configItemList_t itmConf = iter->conf;
+                
+                // Define the Flow id to be used.
+                configItem_t flowId;
+				char buffer1 [50];
+                flowId.group = getConfigGroup();
+                flowId.module = mname;
+                flowId.name = "FlowId";
+				sprintf (buffer1, "%d", ruleId);
+				flowId.value = string(buffer1);
+                flowId.type = "UInt16"; 
+                itmConf.push_front(flowId);
+                a.params = ConfigManager::getParamList(itmConf);
+                                                
+                a.flowData = NULL;
+                (a.mapi)->initFlowSetup(a.params, r->getFilter(), &a.flowData);
+                
+                // Set the whole parameters, which includes the filter, for the action.
+				if (a.params != NULL) {
+					log->dlog(ch, "estoy en a.params != null");
+					saveDeleteArr(a.params);
+					a.params = ConfigManager::getParamList(itmConf);
+				}
+
+                // init timers
+                addTimerEvents(ruleId, cnt, a);
+                
+                entry.actions.push_back(a);
+
+            }
+
+            cnt++;
+        }
+    
+        // success ->enter struct into internal table
+        rules[ruleId] = entry;
+
+        // Set the rule as active.
+        r->setState(RS_ACTIVE);
 	
     } 
     catch (Error &e) 
@@ -401,20 +723,29 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
 }
 
 
+
 /* ------------------------- delRule ------------------------- */
 
 int QOSProcessor::delRule( Rule *r )
 {
-    ruleActions_t *ra;
     int ruleId = r->getUId();
+    ruleActions_t *ra =NULL;
 
-#ifdef DEBUG
-    log->dlog(ch, "deleting Rule #%d", ruleId);
-#endif
+    log->log(ch, "deleting Rule: %d", ruleId);
 
     AUTOLOCK(threaded, &maccess);
 
     ra = &rules[ruleId];
+	
+	log->log(ch, "Num filters for rule: %d - %d", ruleId, (int) r->getFilter()->size());
+
+	filterListIter_t iter;
+	for ( iter = r->getFilter()->begin() ; iter != r->getFilter()->end() ; iter++ ) 
+	{	
+        log->log(ch, "filter name%s - type: %s \n",  (iter->name).c_str(), (iter->type).c_str() );
+
+	}
+
 
 
     // now free flow data and release used Modules
@@ -429,21 +760,29 @@ int QOSProcessor::delRule( Rule *r )
 		params2[1].value = NULL;
 		ppaction_t a;
 
-#ifdef DEBUG
-    log->dlog(ch, "Before merge parameters");
-#endif		
-		a.params = ConfigManager::mergeParamList( params2, i->params );
+		log->log(ch, "Before merge parameters");
+				
+		try
+		{
+			// dismantle flow data structure with module function
+			i->mapi->destroyFlowSetup( i->params, r->getFilter(), i->flowData );
+			
+			log->log(ch, "Sucessfully destroy the flow setup");
+			
+			if (i->params != NULL) {
+				saveDeleteArr(i->params);
+				i->params = NULL;
+			}
+		} catch (ProcError &err){
+			log->elog(ch, err);
+		}
 		
-        // dismantle flow data structure with module function
-        i->mapi->destroyFlowSetup( a.params, (ra->rule)->getFilter(), i->flowData );
-        
-        if (i->params != NULL) {
-            saveDeleteArr(i->params);
-            i->params = NULL;
-        }
-
+		
         // release modules loaded for this rule
         loader->releaseModule(i->module);
+        
+        
+        log->log(ch, "After sucessfully release the module");
         
         // FIXME disable timers
     }
@@ -455,6 +794,8 @@ int QOSProcessor::delRule( Rule *r )
     ra->seppaths = 0;
     ra->rule = NULL;
 
+	r->setState(RS_DONE);
+	
     return 0;
 }
 
@@ -462,6 +803,35 @@ int QOSProcessor::delRule( Rule *r )
 int QOSProcessor::handleFDEvent(eventVec_t *e, fd_set *rset, fd_set *wset, fd_sets_t *fds)
 {
 
+    Event *evn;
+
+    // get next entry from event queue
+    while ((evn = getNextEvent()) != NULL) 
+    {
+        handleEvent(evn);
+        saveDelete(evn);
+
+	}
+	
+	AUTOLOCK(threaded, &maccess);
+	log->log(ch, "returning NumEvents:%d", (int) out_events.size() );
+	// This part returns the events created during execution.
+	if (e != NULL){
+		eventVecIter_t it;
+		for (it = out_events.begin(); it != out_events.end(); it++){
+			evn = *it;
+			e->push_back(evn);
+		}
+		
+		out_events.clear();
+	}
+	
+#ifdef ENABLE_THREADS
+	if (threaded && ((out_events.size() == 0) && (in_events.size() == 0))) {
+	  threadCondSignal(&doneCond);
+	}
+#endif
+    
     return 0;
 }
 
@@ -471,8 +841,12 @@ void QOSProcessor::main()
     // this function will be run as a single thread inside the QOS processor
     log->log(ch, "QoS Processor thread running");
     
+    // Sleeps 10 milliseconds.
+    unsigned int microseconds = 10000;
     for (;;) {
         handleFDEvent(NULL, NULL,NULL, NULL);
+        usleep(microseconds);
+
     }
 }       
 
@@ -482,7 +856,7 @@ void QOSProcessor::waitUntilDone(void)
     AUTOLOCK(threaded, &maccess);
 
     if (threaded) {
-      while (queue->getUsedBuffers() > 0) {
+      while ((out_events.size() > 0) || (in_events.size() > 0) ) {
         threadCondWait(&doneCond, &maccess);
       }
     }
@@ -540,12 +914,9 @@ string QOSProcessor::getInfo()
     return s.str();
 }
 
-
-
 /* -------------------- addTimerEvents -------------------- */
 
-void QOSProcessor::addTimerEvents( int ruleID, int actID,
-                                      ppaction_t &act, EventScheduler &es )
+void QOSProcessor::addTimerEvents( int ruleID, int actID, ppaction_t &act, EventScheduler &es )
 {
     timers_t *timers = (act.mapi)->getTimers(act.flowData);
 
@@ -555,6 +926,20 @@ void QOSProcessor::addTimerEvents( int ruleID, int actID,
         }
     }
 }
+
+
+void QOSProcessor::addTimerEvents( int ruleID, int actID, ppaction_t &act )
+{
+    timers_t *timers = (act.mapi)->getTimers(act.flowData);
+
+    if (timers != NULL) {
+        while (timers->flags != TM_END) {
+            out_events.push_back(new ProcTimerEvent(ruleID, actID, timers++));
+        }
+    }
+}
+
+
 
 // handle module timeouts
 void QOSProcessor::timeout(int rid, int actid, unsigned int tmID)
@@ -576,6 +961,61 @@ string QOSProcessor::getModuleInfoXML( string modname )
 {
     AUTOLOCK(threaded, &maccess);
     return loader->getModuleInfoXML( modname );
+}
+
+
+void QOSProcessor::handleEvent(Event *e)
+{
+   
+    switch (e->getType()) {
+    case TEST:
+      {
+
+          log->dlog(ch,"processing event test" );
+
+      }
+      break;
+    case ADD_RULES_QOS_PROCESSOR:
+      {
+
+        log->log(ch,"Add rules Qos Processor" );
+
+        ruleDB_t *rules = ((addRulesQoSProcesorEvent *)e)->getRules();
+	  	  
+        // now check rules.
+        addRules(rules);
+		
+      }
+      break;
+	case CHECK_RULES_QOS_PROCESSOR:
+	  {
+
+        log->log(ch,"Check rules Qos Processor" );
+
+        ruleDB_t *rules = ((checkRulesQoSProcessorEvent *)e)->getRules();
+	  	  
+        // now check rules.
+        checkRules(rules);
+
+
+	  }
+	  break;
+    case DEL_RULES_QOS_PROCESSOR:
+      {
+
+          log->log(ch,"Delete rules QoS Processor" );
+
+          ruleDB_t *rules = ((delRulesQoSProcesorEvent *)e)->getRules();
+	  	  
+          // now get rid of the expired rule
+          delRules(rules);
+          
+      }
+      break;
+    
+    default:
+        throw Error("unknown event");
+    }
 }
 
 

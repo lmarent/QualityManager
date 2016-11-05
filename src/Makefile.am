@@ -1,6 +1,9 @@
 AUTOMAKE_OPTIONS = foreign
 
+ACLOCAL_AMFLAGS= -I m4
+
 bin_PROGRAMS = qualityManager
+
 
 if ENABLE_DEBUG
   AM_CXXFLAGS = -g -fno-inline -D_GLIBCXX_DEBUG -DDEBUG -DPROFILING
@@ -21,7 +24,7 @@ qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
 						 RuleIdSource.cpp MAPIRuleParser.cpp RuleManager.cpp \
 						 EventScheduler.cpp PerfTimer.cpp \
 						 QualityManager.cpp QOSProcessor.cpp \
-						 ModuleLoader.cpp
+						 ModuleLoader.cpp main.cpp
 
 qualityManager_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
 						  -I$(top_srcdir)/lib/httpd

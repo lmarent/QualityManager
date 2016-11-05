@@ -137,6 +137,56 @@ class QualityManager
     //! handle the events
     void handleEvent(Event *e, fd_sets_t *fds);
 
+    //! handle the getInfo event
+    void handlerGetInfo(Event *e, fd_sets_t *fds);
+    
+    //! handle the modifyInfo event
+    void handlerModInfo(Event *e, fd_sets_t *fds);
+    
+    //! handle the add rules event non threaded
+    void handlerAddRulesNonThreaded(Event *e, fd_sets_t *fds);
+    
+    //! handle the add rules event threaded
+    void handlerAddRulesThreaded(Event *e, fd_sets_t *fds);
+    
+    //! handle the add rules cntrl comm event non threaded 
+    void handlerAddRulesCntrlCommNonThreads(Event *e, fd_sets_t *fds);
+
+    //! handle the add rules cntrl comm event threaded 
+    void handlerAddRulesCntrlCommThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the activate rules event non threaded 
+    void handlerActivateRulesNonThreaded(Event *e, fd_sets_t *fds);
+    
+    //! handle the activate rules event threaded
+    void handlerActivateRulesThreaded(Event *e, fd_sets_t *fds);
+    
+    //! handle the remove rules event non threaded
+    void handlerRemoveRulesNonThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the remove rules event threaded
+    void handlerRemoveRulesThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the remove rules control command event non threaded
+    void handlerRemoveRulesCntrlCommNonThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the remove rules control command event threaded
+    void handlerRemoveRulesCntrlCommThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the proc timer  command event non threaded
+    void handlerProcTimerNonThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the proc timer command event  threaded
+    void handlerProcTimerThreaded(Event *e, fd_sets_t *fds);
+
+    //! handle the reponse from an event add rules coming from the QoS processor.
+    void handlerResponseAddRulesQoSProcessor(Event *e, fd_sets_t *fds);
+    
+    //! handle the reponse from an event check rules coming from the QoS processor.
+    void handlerResponseCheckRulesQoSProcessor(Event *e, fd_sets_t *fds);
+    
+    //! handle the reponse from an event delete rules coming from the QoS processor.
+    void handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fds);
 };
 
 

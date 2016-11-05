@@ -70,7 +70,7 @@ inline double parseDouble( string s);
 extern ProcModuleInterface_t func;
 
 /// This variable maintains the available bandwidth on the interface.
-extern uint64_t bandwidth_available;
+extern int64_t bandwidth_available;
 
 #endif /* __PROCMODULE_H */
 
