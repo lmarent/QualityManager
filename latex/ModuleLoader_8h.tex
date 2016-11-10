@@ -1,0 +1,62 @@
+\hypertarget{ModuleLoader_8h}{}\section{include/\+Module\+Loader.h File Reference}
+\label{ModuleLoader_8h}\index{include/\+Module\+Loader.\+h@{include/\+Module\+Loader.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Proc\+Module\+Interface.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Config\+Manager.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Module.\+h\char`\"{}}\newline
+Include dependency graph for Module\+Loader.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ModuleLoader_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ModuleLoader_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structActionModule__t}{Action\+Module\+\_\+t}
+\begin{DoxyCompactList}\small\item\em struct that stores data for a loaded dynamic library \end{DoxyCompactList}\item 
+class \hyperlink{classModuleLoader}{Module\+Loader}
+\begin{DoxyCompactList}\small\item\em load dynamic libraries and extract function pointers \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ModuleLoader_8h_a789a38f75b129efe41426c165d0b3ae7}\label{ModuleLoader_8h_a789a38f75b129efe41426c165d0b3ae7}} 
+typedef map$<$ string, \hyperlink{classModule}{Module} $\ast$ $>$ \hyperlink{ModuleLoader_8h_a789a38f75b129efe41426c165d0b3ae7}{module\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em module list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ModuleLoader_8h_ab832e0ef33ba111cb44e9f1032ca1999}\label{ModuleLoader_8h_ab832e0ef33ba111cb44e9f1032ca1999}} 
+typedef map$<$ string, \hyperlink{classModule}{Module} $\ast$ $>$\+::iterator {\bfseries module\+List\+Iter\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ModuleLoader_8h_acfb86a906493be700bed93a066a5d613}\label{ModuleLoader_8h_acfb86a906493be700bed93a066a5d613}} 
+ostream \& \hyperlink{ModuleLoader_8h_acfb86a906493be700bed93a066a5d613}{operator$<$$<$} (ostream \&os, \hyperlink{classModuleLoader}{Module\+Loader} \&ml)
+\begin{DoxyCompactList}\small\item\em overload for $<$$<$, so that a \hyperlink{classModuleLoader}{Module\+Loader} object can be thrown into an iostream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2003-\/2004 Fraunhofer Institute for Open Communication Systems (F\+O\+K\+US), Berlin, Germany
+
+This file is part of Network Measurement and Accounting System (N\+E\+T\+M\+A\+TE).
+
+N\+E\+T\+M\+A\+TE is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+M\+A\+TE is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: load/unload packet proc and export modules
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{ModuleLoader_8h}{Module\+Loader.\+h} 748 2009-\/09-\/10 02\+:54\+:03Z szander 
+\end{DoxyParagraph}

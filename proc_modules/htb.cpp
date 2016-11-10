@@ -41,7 +41,7 @@ const int COUNTCHUNK = 20;    /* new entries per realloc */
 const int MOD_INIT_REQUIRED_PARAMS = 4;
 const int MOD_INI_FLOW_REQUIRED_PARAMS = 6;
 const int MOD_DEL_FLOW_REQUIRED_PARAMS = 2;
-uint64_t bandwidth_available = 0;
+int64_t bandwidth_available = 0;
 
 
 
@@ -216,12 +216,12 @@ void initModule( configParam_t *params )
      link_cache = NULL;
      nllink = NULL;
      int err;
-     double rate;
+     double rate = 0;
      std::string infc;
-     uint32_t burst;
+     uint32_t burst = 0;
      int numparams = 0;
 	 int link_int = 0;
-	 bool useIPv6;
+	 bool useIPv6 = false;
 	 uint32_t prio = 1; // TODO AM: we need to create a function that 
 					   //		   takes the protocol and return the prio.
 
@@ -279,7 +279,9 @@ void initModule( configParam_t *params )
 #endif
 
 	 if ( numparams == MOD_INIT_REQUIRED_PARAMS ){
-		 
+
+         fprintf( stdout, "htb module pass the number of parameters: %d \n", numparams );
+        
 		 /* 1. Establish the socket and a cache 
 		  *  			to list interfaces and other data */
 		 sk = nl_socket_alloc();
@@ -288,18 +290,23 @@ void initModule( configParam_t *params )
 
 		 if ((err = rtnl_link_alloc_cache(sk, AF_UNSPEC, &link_cache))< 0)
 			throw ProcError(err, "Unable to allocate cache");
-		 
+		
+         fprintf( stdout, "after connect and link creation \n");
+         
 		 nl_cache_mngt_provide(link_cache);
 
 		 link_int = rtnl_link_name2i(link_cache, infc.c_str());
 		 nllink = rtnl_link_get(link_cache, link_int);
 		 if (nllink == NULL)
 			throw ProcError(NET_TC_PARAMETER_ERROR, "Invalid Interface");
-		
+		 
+         fprintf( stdout, "after connecting the interface \n");
+         
 		 err = qdisc_add_root_HTB(sk, nllink);
 		 if (err == 0){
 
-
+            fprintf( stdout, "after creating the root htb \n");
+            
 			err = class_add_HTB_root(sk, nllink, rate, rate, burst, burst);
 			if (err != 0)
 				throw ProcError(err, "Error creating the HTB root");
@@ -318,7 +325,9 @@ void initModule( configParam_t *params )
 			
 			// Initialize the bandwidth available.
 			bandwidth_available = rate;
-
+            
+            fprintf( stdout, "ending the htb initialization  \n");
+            
 		 }
 		 else
 			throw ProcError(err, "Error creating the root qdisc");
@@ -333,7 +342,7 @@ void initModule( configParam_t *params )
 
 void destroyModule( configParam_t *params)
 {
-	 bool useIPv6;
+	 bool useIPv6 = false;
      int numparams = 0;
      int err=0;
 	 uint32_t prio = 1; // TODO AM: we need to create a function that 
@@ -348,25 +357,28 @@ void destroyModule( configParam_t *params)
 			// burst parameters in bytes.
             useIPv6 = parseBool( params[0].value );
             numparams++;
-#ifdef DEBUG
+//#ifdef DEBUG
 			fprintf( stdout, "htb module: UseIpv6 %s \n", useIPv6 ? "true" : "false");
-#endif
+//#endif
         }
 
         params++;
      }
 
-#ifdef DEBUG
+// #ifdef DEBUG
 	fprintf( stdout, "htb module: number of parameters given: %d \n", numparams );
-#endif
+// #endif
 
 	if (!useIPv6){
 		if ((sk != NULL) and (nllink != NULL)){
 			err = create_hash_configuration(sk, nllink, 
 							prio, NET_ROOT_HANDLE_MAJOR, 0);
-			if (err != 0)
+			if (err != 0){
+// #ifdef DEBUG
+                fprintf( stdout, "Error creating the hash table for classifiers\n" );
+// #endif
 				throw ProcError(err, "Error creating the hash table for classifiers");
-			
+			}
 			qdisc_delete_root_HTB(sk, nllink);
 			
 			// Reinitialize the bandwidth available.
@@ -381,9 +393,9 @@ void destroyModule( configParam_t *params)
 	if (sk != NULL) 
 		nl_socket_free(sk);
 
-#ifdef DEBUG
+// #ifdef DEBUG
 	fprintf( stdout, "HTB destroy module \n" );
-#endif
+// #endif
     
 }
 
@@ -437,33 +449,31 @@ inline void resetCurrent( accData_t *data )
 
 int create_hask_key(filterList_t *filters)
 {
-	
 #ifdef DEBUG
 	fprintf( stdout, "htb : init create_hash_key \n" );
 #endif
+
 	
 	uint32_t keyval32, hashkey;
 	filterListIter_t iter;
 	
 	for ( iter = filters->begin() ; iter != filters->end() ; iter++ ) 
 	{	
-		filter_t filter = *iter;
-
 #ifdef DEBUG
-	fprintf( stdout, "htb - filter type: %s \n", (filter.type).c_str() );
+        fprintf( stdout, "htb - filter type: %s \n", (iter->type).c_str() );
 #endif
 
-		if ( (strcmp((filter.type).c_str(), "IPAddr") == 0) and 
-		     ((filter.mtype) == FT_EXACT) )
+		if ( (strcmp((iter->type).c_str(), "IPAddr") == 0) and 
+		     ((iter->mtype) == FT_EXACT) )
 		{
 
-			keyval32 = (uint32_t)(filter.value[0]).getValue()[0] << 24 |
-					   (uint32_t)(filter.value[0]).getValue()[1] << 16 |
-					   (uint32_t)(filter.value[0]).getValue()[2] << 8  |
-					   (uint32_t)(filter.value[0]).getValue()[3];
+			keyval32 = (uint32_t)(iter->value[0]).getValue()[0] << 24 |
+					   (uint32_t)(iter->value[0]).getValue()[1] << 16 |
+					   (uint32_t)(iter->value[0]).getValue()[2] << 8  |
+					   (uint32_t)(iter->value[0]).getValue()[3];
 
 #ifdef DEBUG
-	fprintf( stdout, "htb - IP address as decimal: %d \n", keyval32 );
+            fprintf( stdout, "htb - IP address as decimal: %d \n", keyval32 );
 #endif
 			
 			hashkey = (keyval32&0x000000FF);
@@ -508,9 +518,7 @@ void modify_filter( int flowId, filterList_t *filters,
 		htid = NET_HASH_FILTER_TABLE;
 	}
 
-#ifdef DEBUG
-	fprintf( stdout, "htb: hash table: %d - hashkey %d ", htid, hashkey );
-#endif
+	fprintf( stdout, "htb: flowId:%d hash table: %d - hashkey %d ", flowId, htid, hashkey );
 
 		
 	if (action == TC_FILTER_ADD)
@@ -604,30 +612,31 @@ void modify_filter( int flowId, filterList_t *filters,
 									NET_ROOT_HANDLE_MAJOR, 0,
 									NET_ROOT_HANDLE_MAJOR, flowId, htid, hashkey);
 									
-		if ( err != NET_TC_SUCCESS )
+		if ( err != NET_TC_SUCCESS ){
+            fprintf( stdout, "Error deleting classifier %d \n", err);
 			throw ProcError(err, "classifier allocate error during deleting");
+        }
 		
 		err = save_delete_u32_filter(sk, cls);
 		if ( err == NET_TC_CLASSIFIER_ESTABLISH_ERROR ){
-			cout << "Error eliminando classifier" << endl;
+			fprintf( stdout, "Error deleting filter %d \n", err);
 			goto fail;
 		
 		}
-		else
+		else{
 			goto ok;
+        }
 	}
 
 fail:
-    if (cls != NULL)
+    if (cls != NULL){
 		rtnl_cls_put(cls);
-		
+	}	
 	throw ProcError(err, "Error setting up Filters");
 
 ok:
 	err = 0;
-#ifdef DEBUG
-	fprintf( stdout, "htb: ------------------------  end modify filter" );
-#endif	
+	fprintf( stdout, "htb: end modify filter \n" );
 
 }
 
@@ -640,11 +649,11 @@ void initFlowSetup( configParam_t *params,
 
     accData_t *data;
     int err;
-    uint64_t rate;
-    int duration;
-    uint32_t burst;
-    uint32_t flowId;
-    uint32_t priority;
+    int64_t rate = 0;
+    int duration = 0;
+    uint32_t burst = 0;
+    uint32_t flowId = 0;
+    uint32_t priority = 0;
     int numparams = 0;
     int bidir = 0;
     
@@ -739,8 +748,12 @@ void resetFlowSetup( configParam_t *params )
 */
 int checkBandWidth( configParam_t *params )
 {
-	uint64_t rate;
+	int64_t rate;
 	int numparams = 0;
+
+#ifdef DEBUG
+	fprintf( stdout, "check bandwidth - Current value:%f \n", (double) bandwidth_available);
+#endif
 
     while (params[0].name != NULL) {
 		
@@ -751,14 +764,33 @@ int checkBandWidth( configParam_t *params )
         }
         params++;
      }
-
+    
 	if (numparams == 1){
+        
+#ifdef DEBUG
+        fprintf( stdout, "check bandwidth - rate:%f \n", (double) rate);
+#endif
+        
 		if (( bandwidth_available - rate ) >= 0)
+        {
+#ifdef DEBUG
+            fprintf( stdout, "check bandwidth - enough bandwidth \n");
+#endif
 			return 0;
+        }
 		else
+        {
+#ifdef DEBUG
+            fprintf( stdout, "check bandwidth - not enough bandwidth \n");
+#endif
 			return NET_TC_RATE_AVAILABLE_ERROR;
+        }
 	}
-	
+    
+#ifdef DEBUG
+	fprintf( stdout, "param bandwidth was not provided \n");
+#endif
+
 	return NET_TC_RATE_AVAILABLE_ERROR;
 }
 
@@ -771,7 +803,7 @@ void destroyFlowSetup( configParam_t *params,
     int numparams = 0;
     int err;
     int bidir = 0;
-    uint64_t rate;
+    int64_t rate = 0;
 
 #ifdef DEBUG
 		fprintf( stdout, "init destroy FlowSetup \n" );
@@ -806,7 +838,7 @@ void destroyFlowSetup( configParam_t *params,
         params++;
     }
 #ifdef DEBUG
-		fprintf( stdout, "Flow Id to delete: %d - num parameters:%d \n", flowId, numparams );
+    fprintf( stdout, "Flow Id to delete: %d - num parameters:%d \n", flowId, numparams );
 #endif
 
 	if ( numparams == MOD_DEL_FLOW_REQUIRED_PARAMS )
@@ -816,19 +848,23 @@ void destroyFlowSetup( configParam_t *params,
 
 		 err = class_delete_HTB(sk, nllink, flowId);
 		 if (err != 0 )
+         {
+            fprintf( stdout, "error deleting HTB Class \n" );
 			throw ProcError(err, "Error deleting HTB class");
+         }
 		 else
+         {
 			bandwidth_available = bandwidth_available + rate;
+         }
 		
     } 
     else
+    {
 		 throw ProcError(NET_TC_PARAMETER_ERROR, 
-							"HTB Flow destroy - not enought parameters"); 
+							"HTB Flow destroy - not enought parameters Given:%d Required:%d", (int) numparams, (int) MOD_DEL_FLOW_REQUIRED_PARAMS); 
+    }
 
-
-#ifdef DEBUG
-		fprintf( stdout, "end destroy FlowSetup \n" );
-#endif
+    fprintf( stdout, "end destroy FlowSetup \n" );
 
 }
 
@@ -872,11 +908,9 @@ void timeout( int timerID, void *flowdata )
 
 timers_t* getTimers( void *flowdata )
 {
-	std::cout << "htb get timers 1" << std::endl;
 	accData_t *data = (accData_t *)flowdata;
 	
 	if (data == NULL){
-		std::cout << "data is null" << std::endl;
 		return NULL;
 	}
 	else{

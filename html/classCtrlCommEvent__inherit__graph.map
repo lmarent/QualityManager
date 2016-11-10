@@ -1,0 +1,7 @@
+<map id="CtrlCommEvent" name="CtrlCommEvent">
+<area shape="rect" id="node3" href="$classAddRulesCtrlEvent.html" title="AddRulesCtrlEvent" alt="" coords="5,155,139,181"/>
+<area shape="rect" id="node4" href="$classGetInfoEvent.html" title="GetInfoEvent" alt="" coords="164,155,263,181"/>
+<area shape="rect" id="node5" href="$classGetModInfoEvent.html" title="GetModInfoEvent" alt="" coords="287,155,411,181"/>
+<area shape="rect" id="node6" href="$classRemoveRulesCtrlEvent.html" title="RemoveRulesCtrlEvent" alt="" coords="435,155,593,181"/>
+<area shape="rect" id="node2" href="$classEvent.html" title="basic event element that is the base class of all other events that can be stored in the event queue ..." alt="" coords="253,5,308,32"/>
+</map>

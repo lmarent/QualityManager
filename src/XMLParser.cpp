@@ -81,7 +81,7 @@ XMLParser::XMLParser(string dtdname, string fname, string root)
         }
         
         if (!err.empty()) {
-            log->elog(ch, "%s", err.c_str());
+            log->elog(ch, "Error creating the XMLDOC - returned error:%s", err.c_str());
         }
 
         throw(e);
@@ -122,7 +122,7 @@ XMLParser::XMLParser(string dtdname, char *buf, int len, string root)
         }
 
         if (!err.empty()) {
-            log->elog(ch, "%s", err.c_str());
+            log->elog(ch, "Error creating the XMLDOC - returned error: %s", err.c_str());
         }
 
         throw(e);

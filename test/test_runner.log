@@ -1,0 +1,1172 @@
+QosProcessorThreaded::testCheckOkRulesConfigManager dump
+configured items:
+MAIN..VerboseLevel = 4
+MAIN..LogFile = /usr/local/var/log/netqos.log
+MAIN..PidFile = /usr/local/var/run/netqos.pid
+MAIN..RuleFile = /home/luis/QualityManager/etc/example_rules3.xml
+MAIN..FilterDefFile = /home/luis/QualityManager/etc/filterdef.xml
+MAIN..FilterConstFile = /home/luis/QualityManager/etc/filterval.xml
+MAIN..NetInterface = eth0
+MAIN..NoPromiscInt = no
+CONTROL..Enable = yes
+CONTROL..ControlPort = 12244
+CONTROL..UseSSL = yes
+CONTROL..UseIPv6 = no
+CONTROL..LogOnConnect = yes
+CONTROL..LogQoSCommand = yes
+QOS_PROCESSOR..Thread = yes
+QOS_PROCESSOR..ModuleDir = /home/luis/QualityManager/proc_modules
+QOS_PROCESSOR..ModuleDynamicLoad = yes
+QOS_PROCESSOR..PacketQueueBuffers = 20000
+QOS_PROCESSOR..Modules = htb tbf
+QOS_PROCESSOR.htb.Rate = 102400
+QOS_PROCESSOR.htb.Burst = 1556
+QOS_PROCESSOR.tbf.Rate = 1
+getParamList - item size: 4 
+htb module pass the number of parameters: 4 
+after connect and link creation 
+after connecting the interface 
+Add root Qdisc message 65536
+Add root Qdisc message 131071
+handle: [ 65536 ]
+after creating the root htb 
+handle: [ 65537 ]
+handle: [ 131071 ]
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+ending the htb initialization  
+module information:<moduleinfo>
+	<module>
+		<name>Hierarchical Token Buckets Queue Discipline</name>
+		<id>htb</id>
+		<version>0.1</version>
+		<created>2015/03/09</created>
+		<modified>2015/03/09</modified>
+		<brief>rules to setup bandwidth and priority</brief>
+		<verbose>rules to setup bandwidth and priority - use the hierarchical token buckets discipline</verbose>
+		<htmldoc>http://www.uniandes.edu.co/... </htmldoc>
+		<parameters> 
+ Rate[long (bytes)] : bandwidth rate to setup 
+ Burst[long (bytes)] : burst to be used 
+ Priority[int] : rule's priority 
+ Bidir[bool] : is it dibirectional? 
+ Duration[int (seconds)] : elapsed time for the rule </parameters>
+		<results>Creates a new htb rule and the filters for classify the packets</results>
+	</module>
+	<author>
+		<name>Andres Marentes</name>
+		<affiliation>Universidad de los Andes, Colombia</affiliation>
+		<email>la.marentes455@uniandes.edu.co</email>
+		<homepage>http://homepage</homepage>
+	</author>
+</moduleinfo>
+
+getParamList - item size: 6 
+handle: [ 65538 ]
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 f0 10 00 08 00 01 00 02 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 2 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 6 
+handle: [ 65539 ]
+htb: flowId:3 hash table: 1 - hashkey 16 handle: [ 1114115 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 03 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 00 11 00 08 00 01 00 03 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 10 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 10 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 3 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:3 hash table: 1 - hashkey 16 handle: [ 1114115 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 03 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 6 
+handle: [ 65540 ]
+htb: flowId:4 hash table: 1 - hashkey 16 handle: [ 1114116 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 04 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 00 11 00 08 00 01 00 04 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 10 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 10 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 4 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:4 hash table: 1 - hashkey 16 handle: [ 1114116 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 04 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 4 
+htb module: UseIpv6 false 
+htb module: number of parameters given: 1 
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+HTB destroy module 
+ : OK
+QosProcessorThreaded::testCheckNonOkRulesConfigManager dump
+configured items:
+MAIN..VerboseLevel = 4
+MAIN..LogFile = /usr/local/var/log/netqos.log
+MAIN..PidFile = /usr/local/var/run/netqos.pid
+MAIN..RuleFile = /home/luis/QualityManager/etc/example_rules3.xml
+MAIN..FilterDefFile = /home/luis/QualityManager/etc/filterdef.xml
+MAIN..FilterConstFile = /home/luis/QualityManager/etc/filterval.xml
+MAIN..NetInterface = eth0
+MAIN..NoPromiscInt = no
+CONTROL..Enable = yes
+CONTROL..ControlPort = 12244
+CONTROL..UseSSL = yes
+CONTROL..UseIPv6 = no
+CONTROL..LogOnConnect = yes
+CONTROL..LogQoSCommand = yes
+QOS_PROCESSOR..Thread = yes
+QOS_PROCESSOR..ModuleDir = /home/luis/QualityManager/proc_modules
+QOS_PROCESSOR..ModuleDynamicLoad = yes
+QOS_PROCESSOR..PacketQueueBuffers = 20000
+QOS_PROCESSOR..Modules = htb tbf
+QOS_PROCESSOR.htb.Rate = 102400
+QOS_PROCESSOR.htb.Burst = 1556
+QOS_PROCESSOR.tbf.Rate = 1
+getParamList - item size: 4 
+htb module pass the number of parameters: 4 
+after connect and link creation 
+after connecting the interface 
+Add root Qdisc message 65536
+Add root Qdisc message 131071
+handle: [ 65536 ]
+after creating the root htb 
+handle: [ 65537 ]
+handle: [ 131071 ]
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+ending the htb initialization  
+module information:<moduleinfo>
+	<module>
+		<name>Hierarchical Token Buckets Queue Discipline</name>
+		<id>htb</id>
+		<version>0.1</version>
+		<created>2015/03/09</created>
+		<modified>2015/03/09</modified>
+		<brief>rules to setup bandwidth and priority</brief>
+		<verbose>rules to setup bandwidth and priority - use the hierarchical token buckets discipline</verbose>
+		<htmldoc>http://www.uniandes.edu.co/... </htmldoc>
+		<parameters> 
+ Rate[long (bytes)] : bandwidth rate to setup 
+ Burst[long (bytes)] : burst to be used 
+ Priority[int] : rule's priority 
+ Bidir[bool] : is it dibirectional? 
+ Duration[int (seconds)] : elapsed time for the rule </parameters>
+		<results>Creates a new htb rule and the filters for classify the packets</results>
+	</module>
+	<author>
+		<name>Andres Marentes</name>
+		<affiliation>Universidad de los Andes, Colombia</affiliation>
+		<email>la.marentes455@uniandes.edu.co</email>
+		<homepage>http://homepage</homepage>
+	</author>
+</moduleinfo>
+
+/home/luis/QualityManager/proc_modules/xxx.so: cannot open shared object file: No such file or directory
+getParamList - item size: 6 
+getParamList - item size: 6 
+getParamList - item size: 4 
+htb module: UseIpv6 false 
+htb module: number of parameters given: 1 
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+HTB destroy module 
+ : OK
+QosProcessorThreaded::testAddDeleteRulesConfigManager dump
+configured items:
+MAIN..VerboseLevel = 4
+MAIN..LogFile = /usr/local/var/log/netqos.log
+MAIN..PidFile = /usr/local/var/run/netqos.pid
+MAIN..RuleFile = /home/luis/QualityManager/etc/example_rules3.xml
+MAIN..FilterDefFile = /home/luis/QualityManager/etc/filterdef.xml
+MAIN..FilterConstFile = /home/luis/QualityManager/etc/filterval.xml
+MAIN..NetInterface = eth0
+MAIN..NoPromiscInt = no
+CONTROL..Enable = yes
+CONTROL..ControlPort = 12244
+CONTROL..UseSSL = yes
+CONTROL..UseIPv6 = no
+CONTROL..LogOnConnect = yes
+CONTROL..LogQoSCommand = yes
+QOS_PROCESSOR..Thread = yes
+QOS_PROCESSOR..ModuleDir = /home/luis/QualityManager/proc_modules
+QOS_PROCESSOR..ModuleDynamicLoad = yes
+QOS_PROCESSOR..PacketQueueBuffers = 20000
+QOS_PROCESSOR..Modules = htb tbf
+QOS_PROCESSOR.htb.Rate = 102400
+QOS_PROCESSOR.htb.Burst = 1556
+QOS_PROCESSOR.tbf.Rate = 1
+getParamList - item size: 4 
+htb module pass the number of parameters: 4 
+after connect and link creation 
+after connecting the interface 
+Add root Qdisc message 65536
+Add root Qdisc message 131071
+handle: [ 65536 ]
+after creating the root htb 
+handle: [ 65537 ]
+handle: [ 131071 ]
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+ending the htb initialization  
+module information:<moduleinfo>
+	<module>
+		<name>Hierarchical Token Buckets Queue Discipline</name>
+		<id>htb</id>
+		<version>0.1</version>
+		<created>2015/03/09</created>
+		<modified>2015/03/09</modified>
+		<brief>rules to setup bandwidth and priority</brief>
+		<verbose>rules to setup bandwidth and priority - use the hierarchical token buckets discipline</verbose>
+		<htmldoc>http://www.uniandes.edu.co/... </htmldoc>
+		<parameters> 
+ Rate[long (bytes)] : bandwidth rate to setup 
+ Burst[long (bytes)] : burst to be used 
+ Priority[int] : rule's priority 
+ Bidir[bool] : is it dibirectional? 
+ Duration[int (seconds)] : elapsed time for the rule </parameters>
+		<results>Creates a new htb rule and the filters for classify the packets</results>
+	</module>
+	<author>
+		<name>Andres Marentes</name>
+		<affiliation>Universidad de los Andes, Colombia</affiliation>
+		<email>la.marentes455@uniandes.edu.co</email>
+		<homepage>http://homepage</homepage>
+	</author>
+</moduleinfo>
+
+getParamList - item size: 6 
+handle: [ 65538 ]
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 f0 10 00 08 00 01 00 02 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 2 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 6 
+handle: [ 65539 ]
+htb: flowId:3 hash table: 1 - hashkey 16 handle: [ 1114115 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 03 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 00 11 00 08 00 01 00 03 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 10 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 10 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 3 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:3 hash table: 1 - hashkey 16 handle: [ 1114115 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 03 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 6 
+handle: [ 65540 ]
+htb: flowId:4 hash table: 1 - hashkey 16 handle: [ 1114116 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 04 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 00 11 00 08 00 01 00 04 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 10 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 10 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 4 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:4 hash table: 1 - hashkey 16 handle: [ 1114116 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 04 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 6 
+handle: [ 65538 ]
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 f0 10 00 08 00 01 00 02 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+getParamList - item size: 6 
+htb get timers 2100000
+ruleActions Operator=
+getParamList - item size: 6 
+handle: [ 65539 ]
+htb: flowId:3 hash table: 1 - hashkey 16 handle: [ 1114115 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 03 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 00 11 00 08 00 01 00 03 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 10 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 10 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+getParamList - item size: 6 
+htb get timers 2100000
+ruleActions Operator=
+getParamList - item size: 6 
+handle: [ 65540 ]
+htb: flowId:4 hash table: 1 - hashkey 16 handle: [ 1114116 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 04 00 11 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 00 11 00 08 00 01 00 04 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 10 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 10 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+getParamList - item size: 6 
+htb get timers 2100000
+ruleActions Operator=
+Evaluating parameter FlowId value 4 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:4 hash table: 1 - hashkey 15 handle: [ 1110020 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 04 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error deleting classifier, error: Object not found 
+Error deleting filter -9 
+Evaluating parameter FlowId value - 
+Evaluating parameter FlowId value - 
+getParamList - item size: 4 
+htb module: UseIpv6 false 
+htb module: number of parameters given: 1 
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+HTB destroy module 
+ : OK
+QualityManagerThreaded_test::testcommandLine:qualityManager -c /home/luis/QualityManager/etc/netqos_conf.xml
+/usr/local/var/run/netqos.pid
+/usr/local/var/run/netqos.pid
+/usr/local/var/run/netqos.pid
+ConfigManager dump
+configured items:
+MAIN..VerboseLevel = 4
+MAIN..LogFile = /usr/local/var/log/netqos.log
+MAIN..PidFile = /usr/local/var/run/netqos.pid
+MAIN..RuleFile = /home/luis/QualityManager/etc/example_rules3.xml
+MAIN..FilterDefFile = /home/luis/QualityManager/etc/filterdef.xml
+MAIN..FilterConstFile = /home/luis/QualityManager/etc/filterval.xml
+MAIN..NetInterface = eth0
+MAIN..NoPromiscInt = no
+CONTROL..Enable = yes
+CONTROL..ControlPort = 12244
+CONTROL..UseSSL = yes
+CONTROL..UseIPv6 = no
+CONTROL..LogOnConnect = yes
+CONTROL..LogQoSCommand = yes
+QOS_PROCESSOR..Thread = yes
+QOS_PROCESSOR..ModuleDir = /home/luis/QualityManager/proc_modules
+QOS_PROCESSOR..ModuleDynamicLoad = yes
+QOS_PROCESSOR..PacketQueueBuffers = 20000
+QOS_PROCESSOR..Modules = htb tbf
+QOS_PROCESSOR.htb.Rate = 102400
+QOS_PROCESSOR.htb.Burst = 1556
+QOS_PROCESSOR.tbf.Rate = 1
+MAIN..ConfigFile = /home/luis/QualityManager/etc/netqos_conf.xml
+getParamList - item size: 4 
+htb module pass the number of parameters: 4 
+after connect and link creation 
+after connecting the interface 
+Add root Qdisc message 65536
+Add root Qdisc message 131071
+handle: [ 65536 ]
+after creating the root htb 
+handle: [ 65537 ]
+handle: [ 131071 ]
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+ending the htb initialization  
+module information:<moduleinfo>
+	<module>
+		<name>Hierarchical Token Buckets Queue Discipline</name>
+		<id>htb</id>
+		<version>0.1</version>
+		<created>2015/03/09</created>
+		<modified>2015/03/09</modified>
+		<brief>rules to setup bandwidth and priority</brief>
+		<verbose>rules to setup bandwidth and priority - use the hierarchical token buckets discipline</verbose>
+		<htmldoc>http://www.uniandes.edu.co/... </htmldoc>
+		<parameters> 
+ Rate[long (bytes)] : bandwidth rate to setup 
+ Burst[long (bytes)] : burst to be used 
+ Priority[int] : rule's priority 
+ Bidir[bool] : is it dibirectional? 
+ Duration[int (seconds)] : elapsed time for the rule </parameters>
+		<results>Creates a new htb rule and the filters for classify the packets</results>
+	</module>
+	<author>
+		<name>Andres Marentes</name>
+		<affiliation>Universidad de los Andes, Colombia</affiliation>
+		<email>la.marentes455@uniandes.edu.co</email>
+		<homepage>http://homepage</homepage>
+	</author>
+</moduleinfo>
+
+httpd_initLog level configured is:4
+getParamList - item size: 6 
+handle: [ 65538 ]
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 f0 10 00 08 00 01 00 02 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+Evaluating parameter FlowId value 2 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 6 
+handle: [ 65538 ]
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 132
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 116 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 58 00 02 00 ........u32.X...
+    08 00 02 00 00 f0 10 00 08 00 01 00 02 00 01 00 ................
+    44 00 05 00 01 00 02 00 00 00 00 00 00 00 00 00 D...............
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 0c 00 00 00 ................
+    00 00 00 00 ff ff ff ff 0a 00 02 0f 10 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00                                     ....
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+getParamList - item size: 6 
+htb get timers 2100000
+ruleActions Operator=
+Evaluating parameter FlowId value 2 
+Evaluating parameter Bidir value yes 
+Evaluating parameter Rate value 15000 
+Evaluating parameter Burst value 1500 
+Evaluating parameter Priority value 2 
+Evaluating parameter Duration value 100 
+htb: flowId:2 hash table: 1 - hashkey 15 handle: [ 1110018 ]
+Ok building delete request 
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 44
+    .type = 45 <0x2d>
+    .flags = 0 <>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 28 octets
+    00 00 00 00 02 00 00 00 02 f0 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00             ........u32.
+---------------------------  END NETLINK MESSAGE   ---------------------------
+htb: end modify filter 
+end destroy FlowSetup 
+getParamList - item size: 4 
+htb module: UseIpv6 false 
+htb module: number of parameters given: 1 
+handle: [ 1048576 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 10 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 00 01 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 2097152 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 56
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 40 octets
+    00 00 00 00 02 00 00 00 00 00 20 00 00 00 01 00 .......... .....
+    08 00 01 00 08 00 01 00 75 33 32 00 0c 00 02 00 ........u32.....
+    08 00 04 00 01 00 00 00                         ........
+---------------------------  END NETLINK MESSAGE   ---------------------------
+Error adding classifier Invalid input data or parameter 
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 108
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 92 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 40 00 02 00 ........u32.@...
+    08 00 03 00 00 00 10 00 34 00 05 00 00 00 01 00 ........4.......
+    00 00 00 00 00 00 0c 00 00 00 00 ff 00 00 00 00 ................
+    00 00 00 00 0c 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 00 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+handle: [ 0 ]
+--------------------------   BEGIN NETLINK MESSAGE ---------------------------
+  [NETLINK HEADER] 16 octets
+    .nlmsg_len = 92
+    .type = 44 <0x2c>
+    .flags = 1024 <ATOMIC>
+    .seq = 0
+    .port = 0
+  [PAYLOAD] 76 octets
+    00 00 00 00 02 00 00 00 00 00 00 00 00 00 01 00 ................
+    08 00 01 00 08 00 01 00 75 33 32 00 30 00 02 00 ........u32.0...
+    08 00 03 00 00 00 20 00 24 00 05 00 00 00 01 00 ...... .$.......
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+    00 00 00 00 10 00 00 00 00 00 00 00             ............
+---------------------------  END NETLINK MESSAGE   ---------------------------
+HTB destroy module 
+ : OK
+OK (4)

@@ -1,0 +1,132 @@
+\hypertarget{classQualityManagerComponent}{}\section{Quality\+Manager\+Component Class Reference}
+\label{classQualityManagerComponent}\index{Quality\+Manager\+Component@{Quality\+Manager\+Component}}
+
+
+{\ttfamily \#include $<$Quality\+Manager\+Component.\+h$>$}
+
+
+
+Inheritance diagram for Quality\+Manager\+Component\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{classQualityManagerComponent__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Quality\+Manager\+Component\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{classQualityManagerComponent__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classQualityManagerComponent_aa4185d8564d0ef37f12e2564a49aa727}{Quality\+Manager\+Component} (\hyperlink{classConfigManager}{Config\+Manager} $\ast$\+\_\+cnf, string name, int thread=0)
+\begin{DoxyCompactList}\small\item\em construct a new \hyperlink{classQualityManagerComponent}{Quality\+Manager\+Component} base \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a557542f7a34876dd43d09f9198942ee5}\label{classQualityManagerComponent_a557542f7a34876dd43d09f9198942ee5}} 
+virtual \hyperlink{classQualityManagerComponent_a557542f7a34876dd43d09f9198942ee5}{$\sim$\+Quality\+Manager\+Component} ()
+\begin{DoxyCompactList}\small\item\em destroy Quality Manager component, to be overloaded \end{DoxyCompactList}\item 
+virtual void \hyperlink{classQualityManagerComponent_ac3b9205c9c702674ae1967b218bb000b}{run} (void)
+\begin{DoxyCompactList}\small\item\em start the component as thread (if threaded) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a2c35bd46ba19be778b6670769727d7f6}\label{classQualityManagerComponent_a2c35bd46ba19be778b6670769727d7f6}} 
+virtual void \hyperlink{classQualityManagerComponent_a2c35bd46ba19be778b6670769727d7f6}{stop} (void)
+\begin{DoxyCompactList}\small\item\em stops components thread function \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_aa016c0b84e52088712e95c59c0e3689c}\label{classQualityManagerComponent_aa016c0b84e52088712e95c59c0e3689c}} 
+virtual void \hyperlink{classQualityManagerComponent_aa016c0b84e52088712e95c59c0e3689c}{main} (void)
+\begin{DoxyCompactList}\small\item\em thread main function \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a90a96e6b35798eb8954cd8ee59ce2dad}\label{classQualityManagerComponent_a90a96e6b35798eb8954cd8ee59ce2dad}} 
+void \hyperlink{classQualityManagerComponent_a90a96e6b35798eb8954cd8ee59ce2dad}{merge\+F\+Ds} (\hyperlink{QualityManagerComponent_8h_af42271cb30f9491a19b978393507b162}{fd\+List\+\_\+t} $\ast$list)
+\begin{DoxyCompactList}\small\item\em merge file descriptors from internal list with list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_aa5c2bbe7ca83fda048e6515e68714364}\label{classQualityManagerComponent_aa5c2bbe7ca83fda048e6515e68714364}} 
+virtual int \hyperlink{classQualityManagerComponent_aa5c2bbe7ca83fda048e6515e68714364}{handle\+F\+D\+Event} (\hyperlink{QualityManagerComponent_8h_acd67c59a21d5c694ab882c8905db0a2a}{event\+Vec\+\_\+t} $\ast$e, fd\+\_\+set $\ast$wset, fd\+\_\+set $\ast$rset, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds)
+\begin{DoxyCompactList}\small\item\em callback in case of a file descriptor event \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_ab5ce70b7ed86f3a2c5909a983056a8f4}\label{classQualityManagerComponent_ab5ce70b7ed86f3a2c5909a983056a8f4}} 
+virtual string \hyperlink{classQualityManagerComponent_ab5ce70b7ed86f3a2c5909a983056a8f4}{get\+Config\+Group} ()
+\begin{DoxyCompactList}\small\item\em return the config group of the component \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a27606881be415eb3f172530ddfd34cb6}\label{classQualityManagerComponent_a27606881be415eb3f172530ddfd34cb6}} 
+string {\bfseries get\+Conf\+Str} (string module, string name)
+\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a6479180677cb709afe8a10a1d1b97eec}\label{classQualityManagerComponent_a6479180677cb709afe8a10a1d1b97eec}} 
+string {\bfseries get\+Conf\+Str} (string name)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a204edcf51cefc6248eb12b02addd2f38}\label{classQualityManagerComponent_a204edcf51cefc6248eb12b02addd2f38}} 
+static void \hyperlink{classQualityManagerComponent_a204edcf51cefc6248eb12b02addd2f38}{add\+\_\+args} (\hyperlink{classCommandLineArgs}{Command\+Line\+Args} $\ast$args)
+\begin{DoxyCompactList}\small\item\em add command line arguments \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a3cf3b8eb9b52d2220b50a6539511c07f}\label{classQualityManagerComponent_a3cf3b8eb9b52d2220b50a6539511c07f}} 
+void \hyperlink{classQualityManagerComponent_a3cf3b8eb9b52d2220b50a6539511c07f}{add\+Fd} (int fd, int mode=F\+D\+\_\+\+RD)
+\begin{DoxyCompactList}\small\item\em add file descriptor to internal list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a6cd1555a2fa32c4e9cd53975ef3a200f}\label{classQualityManagerComponent_a6cd1555a2fa32c4e9cd53975ef3a200f}} 
+void \hyperlink{classQualityManagerComponent_a6cd1555a2fa32c4e9cd53975ef3a200f}{remove\+Fd} (int fd)
+\begin{DoxyCompactList}\small\item\em remove file descriptor from internal list \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQualityManagerComponent_add2cffa903c310563f8b999cdecd1953}\label{classQualityManagerComponent_add2cffa903c310563f8b999cdecd1953}} 
+int \hyperlink{classQualityManagerComponent_add2cffa903c310563f8b999cdecd1953}{threaded}
+\begin{DoxyCompactList}\small\item\em flag, is equal to 1 if component runs in separate thread \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a4814e26628086f8bb5602c1b27b6e874}\label{classQualityManagerComponent_a4814e26628086f8bb5602c1b27b6e874}} 
+\hyperlink{classLogger}{Logger} $\ast$ \hyperlink{classQualityManagerComponent_a4814e26628086f8bb5602c1b27b6e874}{log}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classLogger}{Logger} used by this component. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a11e3af69208fe05b075f7624f5adfe16}\label{classQualityManagerComponent_a11e3af69208fe05b075f7624f5adfe16}} 
+int \hyperlink{classQualityManagerComponent_a11e3af69208fe05b075f7624f5adfe16}{ch}
+\begin{DoxyCompactList}\small\item\em assigned logging channel \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a4fd1a4195c14f0a4dc277e64b494e9f6}\label{classQualityManagerComponent_a4fd1a4195c14f0a4dc277e64b494e9f6}} 
+\hyperlink{classPerfTimer}{Perf\+Timer} $\ast$ \hyperlink{classQualityManagerComponent_a4fd1a4195c14f0a4dc277e64b494e9f6}{perf}
+\begin{DoxyCompactList}\small\item\em link to \hyperlink{classPerfTimer}{Perf\+Timer} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQualityManagerComponent_a021f9991b72d52f295b87d8a5b02046a}\label{classQualityManagerComponent_a021f9991b72d52f295b87d8a5b02046a}} 
+\hyperlink{classConfigManager}{Config\+Manager} $\ast$ \hyperlink{classQualityManagerComponent_a021f9991b72d52f295b87d8a5b02046a}{cnf}
+\begin{DoxyCompactList}\small\item\em link to configuration manager (for cfg file query) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+this class represents an abstract superclass from which all the components (i.\+e. classes) that are aggregated in the Core must be derived 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classQualityManagerComponent_aa4185d8564d0ef37f12e2564a49aa727}\label{classQualityManagerComponent_aa4185d8564d0ef37f12e2564a49aa727}} 
+\index{Quality\+Manager\+Component@{Quality\+Manager\+Component}!Quality\+Manager\+Component@{Quality\+Manager\+Component}}
+\index{Quality\+Manager\+Component@{Quality\+Manager\+Component}!Quality\+Manager\+Component@{Quality\+Manager\+Component}}
+\subsubsection{\texorpdfstring{Quality\+Manager\+Component()}{QualityManagerComponent()}}
+{\footnotesize\ttfamily Quality\+Manager\+Component\+::\+Quality\+Manager\+Component (\begin{DoxyParamCaption}\item[{\hyperlink{classConfigManager}{Config\+Manager} $\ast$}]{\+\_\+cnf,  }\item[{string}]{name,  }\item[{int}]{thread = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+construct a new \hyperlink{classQualityManagerComponent}{Quality\+Manager\+Component} base 
+
+\begin{DoxyItemize}
+\item {\ttfamily the\+Core} -\/ a link to the Core that this object is part of \item {\ttfamily cname} -\/ textual name of this component (for logging purposes) \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classQualityManagerComponent_ac3b9205c9c702674ae1967b218bb000b}\label{classQualityManagerComponent_ac3b9205c9c702674ae1967b218bb000b}} 
+\index{Quality\+Manager\+Component@{Quality\+Manager\+Component}!run@{run}}
+\index{run@{run}!Quality\+Manager\+Component@{Quality\+Manager\+Component}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Quality\+Manager\+Component\+::run (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+start the component as thread (if threaded) 
+
+this starts the objects thread function main 
+\begin{DoxyExceptions}{Exceptions}
+{\em } & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{QualityManagerComponent_8h}{Quality\+Manager\+Component.\+h}\item 
+src/\hyperlink{QualityManagerComponent_8cpp}{Quality\+Manager\+Component.\+cpp}\end{DoxyCompactItemize}

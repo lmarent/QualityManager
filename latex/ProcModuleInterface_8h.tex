@@ -1,0 +1,334 @@
+\hypertarget{ProcModuleInterface_8h}{}\section{include/\+Proc\+Module\+Interface.h File Reference}
+\label{ProcModuleInterface_8h}\index{include/\+Proc\+Module\+Interface.\+h@{include/\+Proc\+Module\+Interface.\+h}}
+{\ttfamily \#include \char`\"{}stdinc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}metadata.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Filter\+Def\+Parser.\+h\char`\"{}}\newline
+Include dependency graph for Proc\+Module\+Interface.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ProcModuleInterface_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ProcModuleInterface_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structconfigParam__t}{config\+Param\+\_\+t}
+\item 
+struct \hyperlink{structtypeInfo__t}{type\+Info\+\_\+t}
+\item 
+struct \hyperlink{structtimers__t}{timers\+\_\+t}
+\item 
+struct \hyperlink{structfilter__t}{filter\+\_\+t}
+\begin{DoxyCompactList}\small\item\em definition of a filter \end{DoxyCompactList}\item 
+struct \hyperlink{structProcModuleInterface__t}{Proc\+Module\+Interface\+\_\+t}
+\begin{DoxyCompactList}\small\item\em definition of interface struct for Action Modules \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_af06f04e60059b21767c644a4bbe032bf}\label{ProcModuleInterface_8h_af06f04e60059b21767c644a4bbe032bf}} 
+\#define \hyperlink{ProcModuleInterface_8h_af06f04e60059b21767c644a4bbe032bf}{P\+R\+O\+C\+\_\+\+M\+A\+G\+IC}~(\textquotesingle{}N\textquotesingle{}$<$$<$24 $\vert$ \textquotesingle{}M\textquotesingle{}$<$$<$16 $\vert$ \textquotesingle{}\+\_\+\textquotesingle{}$<$$<$8 $\vert$ \textquotesingle{}P\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em short the magic number that will be embedded into every action module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_aa4f94b4222132afb2963e6c51cb62ce5}\label{ProcModuleInterface_8h_aa4f94b4222132afb2963e6c51cb62ce5}} 
+\#define {\bfseries L\+I\+S\+T\+\_\+\+E\+ND}~\{ L\+I\+S\+T\+E\+ND, \char`\"{}L\+End\char`\"{} \}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_aac4c25aeb89f52c3f9c93477e0042d1c}\label{ProcModuleInterface_8h_aac4c25aeb89f52c3f9c93477e0042d1c}} 
+\#define {\bfseries E\+X\+P\+O\+R\+T\+\_\+\+E\+ND}~\{ E\+X\+P\+O\+R\+T\+E\+ND, \char`\"{}E\+End\char`\"{} \}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_a35bf8095a86e8a5a2cab8a49cedb3107}\label{ProcModuleInterface_8h_a35bf8095a86e8a5a2cab8a49cedb3107}} 
+\#define {\bfseries T\+I\+M\+E\+R\+\_\+\+E\+ND}~\{ (unsigned int)-\/1, 0 /$\ast$ival==0 marks list end$\ast$/, T\+M\+\_\+\+E\+ND \}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}\label{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}} 
+typedef std\+::list$<$ \hyperlink{structfilter__t}{filter\+\_\+t} $>$ \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em filter list (only push\+\_\+back \& sequential access) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_af11027d45508eb6151c4b1fb2b815ea9}\label{ProcModuleInterface_8h_af11027d45508eb6151c4b1fb2b815ea9}} 
+typedef std\+::list$<$ \hyperlink{structfilter__t}{filter\+\_\+t} $>$\+::iterator {\bfseries filter\+List\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_a8f7532bbdb41e1105c8380b16438f2dc}\label{ProcModuleInterface_8h_a8f7532bbdb41e1105c8380b16438f2dc}} 
+typedef int($\ast$ {\bfseries proc\+\_\+timeout\+\_\+func\+\_\+t}) (int timer\+ID, void $\ast$flowdata)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{ProcModuleInterface_8h_a7f744a63aa1123dec31fc2bc47cf8ba8}{Data\+Type\+\_\+e} \{ \newline
+{\bfseries I\+N\+V\+A\+L\+I\+D1} = -\/1, 
+{\bfseries E\+X\+P\+O\+R\+T\+E\+ND} = 0, 
+{\bfseries L\+I\+ST}, 
+{\bfseries L\+I\+S\+T\+E\+ND}, 
+\newline
+{\bfseries C\+H\+AR}, 
+{\bfseries I\+N\+T8}, 
+{\bfseries I\+N\+T16}, 
+{\bfseries I\+N\+T32}, 
+\newline
+{\bfseries I\+N\+T64}, 
+{\bfseries U\+I\+N\+T8}, 
+{\bfseries U\+I\+N\+T16}, 
+{\bfseries U\+I\+N\+T32}, 
+\newline
+{\bfseries U\+I\+N\+T64}, 
+{\bfseries S\+T\+R\+I\+NG}, 
+{\bfseries B\+I\+N\+A\+RY}, 
+{\bfseries I\+P\+V4\+A\+D\+DR}, 
+\newline
+{\bfseries I\+P\+V6\+A\+D\+DR}, 
+{\bfseries F\+L\+O\+AT}, 
+{\bfseries D\+O\+U\+B\+LE}, 
+{\bfseries I\+N\+V\+A\+L\+I\+D2}
+ \}
+\item 
+enum \hyperlink{ProcModuleInterface_8h_a8ae2ca88266f0b47064fbf7355aeef07}{Action\+Info\+Numbers\+\_\+e} \{ \newline
+{\bfseries I\+\_\+\+M\+O\+D\+N\+A\+ME} = 0, 
+{\bfseries I\+\_\+\+ID}, 
+{\bfseries I\+\_\+\+V\+E\+R\+S\+I\+ON}, 
+{\bfseries I\+\_\+\+C\+R\+E\+A\+T\+ED}, 
+\newline
+{\bfseries I\+\_\+\+M\+O\+D\+I\+F\+I\+ED}, 
+{\bfseries I\+\_\+\+B\+R\+I\+EF}, 
+{\bfseries I\+\_\+\+V\+E\+R\+B\+O\+SE}, 
+{\bfseries I\+\_\+\+H\+T\+M\+L\+D\+O\+CS}, 
+\newline
+{\bfseries I\+\_\+\+P\+A\+R\+A\+MS}, 
+{\bfseries I\+\_\+\+R\+E\+S\+U\+L\+TS}, 
+{\bfseries I\+\_\+\+A\+U\+T\+H\+OR}, 
+{\bfseries I\+\_\+\+A\+F\+F\+I\+LI}, 
+\newline
+{\bfseries I\+\_\+\+E\+M\+A\+IL}, 
+{\bfseries I\+\_\+\+H\+O\+M\+E\+P\+A\+GE}, 
+{\bfseries I\+\_\+\+N\+U\+M\+I\+N\+F\+OS}
+ \}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_a7a2c5be27e27066d2a21f37813aef111}\label{ProcModuleInterface_8h_a7a2c5be27e27066d2a21f37813aef111}} 
+enum {\bfseries timer\+Flags\+\_\+e} \{ {\bfseries T\+M\+\_\+\+N\+O\+NE} = 0, 
+{\bfseries T\+M\+\_\+\+R\+E\+C\+U\+R\+R\+I\+NG} = 1, 
+{\bfseries T\+M\+\_\+\+A\+L\+I\+G\+N\+ED} = 2, 
+{\bfseries T\+M\+\_\+\+E\+ND} = 4
+ \}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_ad660177f0843f6899357d549c92d206c}\label{ProcModuleInterface_8h_ad660177f0843f6899357d549c92d206c}} 
+enum \hyperlink{ProcModuleInterface_8h_ad660177f0843f6899357d549c92d206c}{filter\+Type\+\_\+t} \{ {\bfseries F\+T\+\_\+\+E\+X\+A\+CT} =0, 
+{\bfseries F\+T\+\_\+\+R\+A\+N\+GE}, 
+{\bfseries F\+T\+\_\+\+S\+ET}, 
+{\bfseries F\+T\+\_\+\+W\+I\+LD}
+ \}\begin{DoxyCompactList}\small\item\em match/filter types \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ProcModuleInterface_8h_a9ec05f68c5198a7956d4126c632b0f66}{init\+Module} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em initialize the action module upon loading \end{DoxyCompactList}\item 
+void \hyperlink{ProcModuleInterface_8h_ac247885bd82a1dca433c878d0dc2436f}{destroy\+Module} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em cleanup action module structures before it is unloaded \end{DoxyCompactList}\item 
+void \hyperlink{ProcModuleInterface_8h_a6117f2101c7e55340844a8920ee60272}{init\+Flow\+Setup} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, void $\ast$$\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em initialize flow data record for a rule \end{DoxyCompactList}\item 
+\hyperlink{structtimers__t}{timers\+\_\+t} $\ast$ \hyperlink{ProcModuleInterface_8h_a486fa404e5b0a19219c7e0b2d80f98cd}{get\+Timers} (void $\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em get list of default timers for this proc module \end{DoxyCompactList}\item 
+void \hyperlink{ProcModuleInterface_8h_ade76bc6a679fbabc3e86dec946f87633}{destroy\+Flow\+Setup} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, void $\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em dismantle router configuration for a Qos Task \end{DoxyCompactList}\item 
+void \hyperlink{ProcModuleInterface_8h_a143c3b28e80d38c9bec70b3a5f10fac9}{reset\+Flow\+Setup} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em reset flow data record for a rule \end{DoxyCompactList}\item 
+int \hyperlink{ProcModuleInterface_8h_a26ba4c718f9e86290c82f8b11342cc19}{check\+Band\+Width} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em check if bandwidth available for the rule is enought. \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{ProcModuleInterface_8h_a21fc56684386fd77d1201775e7018d94}{get\+Module\+Info} (int i)
+\begin{DoxyCompactList}\small\item\em provide textual information about this action module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_a1809a6ca107d4818b7d390703c8934b4}\label{ProcModuleInterface_8h_a1809a6ca107d4818b7d390703c8934b4}} 
+void \hyperlink{ProcModuleInterface_8h_a1809a6ca107d4818b7d390703c8934b4}{timeout} (int timer\+ID, void $\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em this function is called if the module supports a timeout callback function every x seconds and its invokation is configured to make use of the timeout feature \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{ProcModuleInterface_8h_a6af52163f2fc971dda99bfd5faf9bd93}{get\+Error\+Msg} (int code)
+\begin{DoxyCompactList}\small\item\em return error message for last failed function \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ProcModuleInterface_8h_ae6712a29ce210bf8e60c2c1757b91f56}\label{ProcModuleInterface_8h_ae6712a29ce210bf8e60c2c1757b91f56}} 
+const int {\bfseries M\+A\+X\+\_\+\+F\+I\+L\+T\+E\+R\+\_\+\+S\+E\+T\+\_\+\+S\+I\+ZE} = 16
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia
+
+This file is part of Network Quality Manager System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: Interface definition for QoS policy execution modules
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{ProcModuleInterface_8h}{Proc\+Module\+Interface.\+h} 748 2015-\/03-\/15 16\+:19\+:00 amarentes 
+\end{DoxyParagraph}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a8ae2ca88266f0b47064fbf7355aeef07}\label{ProcModuleInterface_8h_a8ae2ca88266f0b47064fbf7355aeef07}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!Action\+Info\+Numbers\+\_\+e@{Action\+Info\+Numbers\+\_\+e}}
+\index{Action\+Info\+Numbers\+\_\+e@{Action\+Info\+Numbers\+\_\+e}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{Action\+Info\+Numbers\+\_\+e}{ActionInfoNumbers\_e}}
+{\footnotesize\ttfamily enum \hyperlink{ProcModuleInterface_8h_a8ae2ca88266f0b47064fbf7355aeef07}{Action\+Info\+Numbers\+\_\+e}}
+
+parameter values used for a call to \textquotesingle{}get\+Module\+Info\textquotesingle{} \mbox{\Hypertarget{ProcModuleInterface_8h_a7f744a63aa1123dec31fc2bc47cf8ba8}\label{ProcModuleInterface_8h_a7f744a63aa1123dec31fc2bc47cf8ba8}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!Data\+Type\+\_\+e@{Data\+Type\+\_\+e}}
+\index{Data\+Type\+\_\+e@{Data\+Type\+\_\+e}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{Data\+Type\+\_\+e}{DataType\_e}}
+{\footnotesize\ttfamily enum \hyperlink{ProcModuleInterface_8h_a7f744a63aa1123dec31fc2bc47cf8ba8}{Data\+Type\+\_\+e}}
+
+Data\+Type\+\_\+e identifiers are used within the runtime type information struct inside each \hyperlink{classProcModule}{Proc\+Module} 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a26ba4c718f9e86290c82f8b11342cc19}\label{ProcModuleInterface_8h_a26ba4c718f9e86290c82f8b11342cc19}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!check\+Band\+Width@{check\+Band\+Width}}
+\index{check\+Band\+Width@{check\+Band\+Width}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{check\+Band\+Width()}{checkBandWidth()}}
+{\footnotesize\ttfamily int check\+Band\+Width (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+check if bandwidth available for the rule is enought. 
+
+\begin{DoxyItemize}
+\item {\ttfamily params} -\/ rule parameters \begin{DoxyReturn}{Returns}
+0 -\/ on success (bandwidth is valid), $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{ProcModuleInterface_8h_ade76bc6a679fbabc3e86dec946f87633}\label{ProcModuleInterface_8h_ade76bc6a679fbabc3e86dec946f87633}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!destroy\+Flow\+Setup@{destroy\+Flow\+Setup}}
+\index{destroy\+Flow\+Setup@{destroy\+Flow\+Setup}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{destroy\+Flow\+Setup()}{destroyFlowSetup()}}
+{\footnotesize\ttfamily void destroy\+Flow\+Setup (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params,  }\item[{\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$}]{filters,  }\item[{void $\ast$}]{flowdata }\end{DoxyParamCaption})}
+
+
+
+dismantle router configuration for a Qos Task 
+
+attention\+: do N\+OT free this slice of memory itself \begin{DoxyItemize}
+\item {\ttfamily flowdata} -\/ place of action module specific data from flow table \begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{ProcModuleInterface_8h_ac247885bd82a1dca433c878d0dc2436f}\label{ProcModuleInterface_8h_ac247885bd82a1dca433c878d0dc2436f}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!destroy\+Module@{destroy\+Module}}
+\index{destroy\+Module@{destroy\+Module}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{destroy\+Module()}{destroyModule()}}
+{\footnotesize\ttfamily void destroy\+Module (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+cleanup action module structures before it is unloaded 
+
+\begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a6af52163f2fc971dda99bfd5faf9bd93}\label{ProcModuleInterface_8h_a6af52163f2fc971dda99bfd5faf9bd93}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!get\+Error\+Msg@{get\+Error\+Msg}}
+\index{get\+Error\+Msg@{get\+Error\+Msg}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{get\+Error\+Msg()}{getErrorMsg()}}
+{\footnotesize\ttfamily char$\ast$ get\+Error\+Msg (\begin{DoxyParamCaption}\item[{int}]{code }\end{DoxyParamCaption})}
+
+
+
+return error message for last failed function 
+
+\begin{DoxyItemize}
+\item {\ttfamily -\/} error number (return value from failed function) \begin{DoxyReturn}{Returns}
+0 -\/ textual description of error for logging purposes 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a21fc56684386fd77d1201775e7018d94}\label{ProcModuleInterface_8h_a21fc56684386fd77d1201775e7018d94}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!get\+Module\+Info@{get\+Module\+Info}}
+\index{get\+Module\+Info@{get\+Module\+Info}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{get\+Module\+Info()}{getModuleInfo()}}
+{\footnotesize\ttfamily const char$\ast$ get\+Module\+Info (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+provide textual information about this action module 
+
+A string is returned that describes one property (e.\+g.\+author) of the action module in detail. ~\newline
+ A list of common properties follows in the argument list
+
+\begin{DoxyItemize}
+\item {\ttfamily I\+\_\+\+N\+A\+ME} -\/ name of the action module \item {\ttfamily I\+\_\+\+U\+ID} -\/ return unique module id number (as string) \item {\ttfamily I\+\_\+\+B\+R\+I\+EF} -\/ brief description of the action module functionality \item {\ttfamily I\+\_\+\+A\+U\+T\+H\+OR} -\/ name/e-\/mail of the author of this module \item {\ttfamily I\+\_\+\+C\+R\+E\+A\+TE} -\/ info about module creation (usually date and similar) \item {\ttfamily I\+\_\+\+D\+E\+T\+A\+IL} -\/ detailed module functionality description \item {\ttfamily I\+\_\+\+P\+A\+R\+AM} -\/ description of parameter(s) of module \item {\ttfamily I\+\_\+\+R\+E\+S\+U\+LT} -\/ information about nature and format of measurement results for this module \item {\ttfamily I\+\_\+\+R\+E\+S\+E\+RV} -\/ reserved info entry \item {\ttfamily I\+\_\+\+U\+S\+ER} -\/ entry open for free use \item {\ttfamily I\+\_\+\+U\+S\+E\+R+1} -\/ entry open for free use \item {\ttfamily I\+\_\+\+U\+S\+E\+R+2} -\/ entry open for free use \item {\ttfamily I\+\_\+\+U\+S\+E\+R+n} -\/ must return N\+U\+LL\end{DoxyItemize}
+\begin{DoxyReturn}{Returns}
+-\/ a string which contains textual information about a property of this action module ~\newline
+
+
+-\/ pointer to a \textquotesingle{}\textbackslash{}0\textquotesingle{} string if no information is available ~\newline
+
+
+-\/ N\+U\+LL for index after last stored info string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a486fa404e5b0a19219c7e0b2d80f98cd}\label{ProcModuleInterface_8h_a486fa404e5b0a19219c7e0b2d80f98cd}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!get\+Timers@{get\+Timers}}
+\index{get\+Timers@{get\+Timers}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{get\+Timers()}{getTimers()}}
+{\footnotesize\ttfamily \hyperlink{structtimers__t}{timers\+\_\+t}$\ast$ get\+Timers (\begin{DoxyParamCaption}\item[{void $\ast$}]{flowdata }\end{DoxyParamCaption})}
+
+
+
+get list of default timers for this proc module 
+
+\begin{DoxyItemize}
+\item {\ttfamily flowdata} -\/ place for action module specific data from flow table \begin{DoxyReturn}{Returns}
+list of timer structs 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a6117f2101c7e55340844a8920ee60272}\label{ProcModuleInterface_8h_a6117f2101c7e55340844a8920ee60272}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!init\+Flow\+Setup@{init\+Flow\+Setup}}
+\index{init\+Flow\+Setup@{init\+Flow\+Setup}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{init\+Flow\+Setup()}{initFlowSetup()}}
+{\footnotesize\ttfamily void init\+Flow\+Setup (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params,  }\item[{\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$}]{filters,  }\item[{void $\ast$$\ast$}]{flowdata }\end{DoxyParamCaption})}
+
+
+
+initialize flow data record for a rule 
+
+The freshly allocated router configuration for a Qos task (for one module) is initialized here and the module parameter string can be parsed and checked
+
+\begin{DoxyItemize}
+\item {\ttfamily params} -\/ module parameter text from inside \textquotesingle{}( )\textquotesingle{} \item {\ttfamily flowdata} -\/ place for action module specific data from flow table \begin{DoxyReturn}{Returns}
+0 -\/ on success (parameters are valid), $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a9ec05f68c5198a7956d4126c632b0f66}\label{ProcModuleInterface_8h_a9ec05f68c5198a7956d4126c632b0f66}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!init\+Module@{init\+Module}}
+\index{init\+Module@{init\+Module}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{init\+Module()}{initModule()}}
+{\footnotesize\ttfamily void init\+Module (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+initialize the action module upon loading 
+
+\begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ProcModuleInterface_8h_a143c3b28e80d38c9bec70b3a5f10fac9}\label{ProcModuleInterface_8h_a143c3b28e80d38c9bec70b3a5f10fac9}} 
+\index{Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}!reset\+Flow\+Setup@{reset\+Flow\+Setup}}
+\index{reset\+Flow\+Setup@{reset\+Flow\+Setup}!Proc\+Module\+Interface.\+h@{Proc\+Module\+Interface.\+h}}
+\subsubsection{\texorpdfstring{reset\+Flow\+Setup()}{resetFlowSetup()}}
+{\footnotesize\ttfamily void reset\+Flow\+Setup (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+reset flow data record for a rule 
+
+\begin{DoxyItemize}
+\item {\ttfamily flowdata} -\/ place of action module specific data from flow table \begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}

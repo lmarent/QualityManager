@@ -1,0 +1,67 @@
+\hypertarget{structProcModuleInterface__t}{}\section{Proc\+Module\+Interface\+\_\+t Struct Reference}
+\label{structProcModuleInterface__t}\index{Proc\+Module\+Interface\+\_\+t@{Proc\+Module\+Interface\+\_\+t}}
+
+
+definition of interface struct for Action Modules  
+
+
+
+
+{\ttfamily \#include $<$Proc\+Module\+Interface.\+h$>$}
+
+
+
+Collaboration diagram for Proc\+Module\+Interface\+\_\+t\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{structProcModuleInterface__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_acfd41eed5bbd3b6dd40cb9f4c3200259}\label{structProcModuleInterface__t_acfd41eed5bbd3b6dd40cb9f4c3200259}} 
+int {\bfseries version}
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a52d61a61e5f9bc99302ad4391dd63320}\label{structProcModuleInterface__t_a52d61a61e5f9bc99302ad4391dd63320}} 
+void($\ast$ {\bfseries init\+Module} )(\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a7e1fdbeabf56530af6704a3781470b77}\label{structProcModuleInterface__t_a7e1fdbeabf56530af6704a3781470b77}} 
+void($\ast$ {\bfseries destroy\+Module} )(\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a4cb210433fd498ddffff3514d801aeb7}\label{structProcModuleInterface__t_a4cb210433fd498ddffff3514d801aeb7}} 
+void($\ast$ {\bfseries init\+Flow\+Setup} )(\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, void $\ast$$\ast$flowdata)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a938795aaa627bce229f93ee3c245ea4c}\label{structProcModuleInterface__t_a938795aaa627bce229f93ee3c245ea4c}} 
+\hyperlink{structtimers__t}{timers\+\_\+t} $\ast$($\ast$ {\bfseries get\+Timers} )(void $\ast$flowdata)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a4b64d61793632aa822155f5bc0a44c3b}\label{structProcModuleInterface__t_a4b64d61793632aa822155f5bc0a44c3b}} 
+void($\ast$ {\bfseries destroy\+Flow\+Setup} )(\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, void $\ast$flowdata)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_afa248e185040d67ea5fd189c39ab02bf}\label{structProcModuleInterface__t_afa248e185040d67ea5fd189c39ab02bf}} 
+void($\ast$ {\bfseries reset\+Flow\+Setup} )(\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a011a7f17fb169d26bf1c4224d967c7b3}\label{structProcModuleInterface__t_a011a7f17fb169d26bf1c4224d967c7b3}} 
+int($\ast$ {\bfseries check\+Band\+Width} )(\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a891358873cd1264013a61a136e705a82}\label{structProcModuleInterface__t_a891358873cd1264013a61a136e705a82}} 
+void($\ast$ {\bfseries timeout} )(int timer\+ID, void $\ast$flowdata)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a924c70b60eef375c72dffad4e5f33671}\label{structProcModuleInterface__t_a924c70b60eef375c72dffad4e5f33671}} 
+const char $\ast$($\ast$ {\bfseries get\+Module\+Info} )(int i)
+\item 
+\mbox{\Hypertarget{structProcModuleInterface__t_a0e045475982315a86919a0fe98e9eab2}\label{structProcModuleInterface__t_a0e045475982315a86919a0fe98e9eab2}} 
+char $\ast$($\ast$ {\bfseries get\+Error\+Msg} )(int code)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+definition of interface struct for Action Modules 
+
+this structure contains pointers to all functions of this module which are part of the Action \hyperlink{classModule}{Module} A\+PI. It will be automatically set for an Action \hyperlink{classModule}{Module} upon compilation (don\textquotesingle{}t forget to include Action\+Module.\+h into every module!) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{ProcModuleInterface_8h}{Proc\+Module\+Interface.\+h}\end{DoxyCompactItemize}

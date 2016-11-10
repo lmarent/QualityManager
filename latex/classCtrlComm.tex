@@ -1,0 +1,179 @@
+\hypertarget{classCtrlComm}{}\section{Ctrl\+Comm Class Reference}
+\label{classCtrlComm}\index{Ctrl\+Comm@{Ctrl\+Comm}}
+
+
+{\ttfamily \#include $<$Ctrl\+Comm.\+h$>$}
+
+
+
+Inheritance diagram for Ctrl\+Comm\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classCtrlComm__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Ctrl\+Comm\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{classCtrlComm__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCtrlComm_a557582fa33a0cbc4919dbfecfd1a09ac}{Ctrl\+Comm} (\hyperlink{classConfigManager}{Config\+Manager} $\ast$\hyperlink{classQualityManagerComponent_a021f9991b72d52f295b87d8a5b02046a}{cnf}, int \hyperlink{classQualityManagerComponent_add2cffa903c310563f8b999cdecd1953}{threaded}=0)
+\begin{DoxyCompactList}\small\item\em construct and initialize a \hyperlink{classCtrlComm}{Ctrl\+Comm} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a3aa5c9bb13b59ab3901010e1a20484f4}\label{classCtrlComm_a3aa5c9bb13b59ab3901010e1a20484f4}} 
+\hyperlink{classCtrlComm_a3aa5c9bb13b59ab3901010e1a20484f4}{$\sim$\+Ctrl\+Comm} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classCtrlComm}{Ctrl\+Comm} object \end{DoxyCompactList}\item 
+int \hyperlink{classCtrlComm_ac7b0ee75bc62a2fab69022e0ce1f507d}{access\+Check} (char $\ast$host, char $\ast$user)
+\begin{DoxyCompactList}\small\item\em check if host is allowed to talk to this meter instance \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a2e823214be951b2149207952c7cffab8}\label{classCtrlComm_a2e823214be951b2149207952c7cffab8}} 
+int \hyperlink{classCtrlComm_a2e823214be951b2149207952c7cffab8}{log\+Access} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, time\+\_\+t now)
+\begin{DoxyCompactList}\small\item\em log access \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a7f8b660b362c7507989444f79707fcee}\label{classCtrlComm_a7f8b660b362c7507989444f79707fcee}} 
+int \hyperlink{classCtrlComm_a7f8b660b362c7507989444f79707fcee}{log\+Error} (int eno, int loglevel, char $\ast$txt, char $\ast$peerhost)
+\begin{DoxyCompactList}\small\item\em log error \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_ad61f03c20dd876772b6127a5436c2192}\label{classCtrlComm_ad61f03c20dd876772b6127a5436c2192}} 
+int \hyperlink{classCtrlComm_ad61f03c20dd876772b6127a5436c2192}{handle\+F\+D\+Event} (\hyperlink{QualityManagerComponent_8h_acd67c59a21d5c694ab882c8905db0a2a}{event\+Vec\+\_\+t} $\ast$e, fd\+\_\+set $\ast$rset, fd\+\_\+set $\ast$wset, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds)
+\begin{DoxyCompactList}\small\item\em handle file descriptor event \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a350e593176feaefebad0ea1e68bb4e51}\label{classCtrlComm_a350e593176feaefebad0ea1e68bb4e51}} 
+void \hyperlink{classCtrlComm_a350e593176feaefebad0ea1e68bb4e51}{send\+Msg} (string msg, struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds, int quote=1)
+\begin{DoxyCompactList}\small\item\em send OK response message \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a7ac459479c0772e6536da73551f3ba12}\label{classCtrlComm_a7ac459479c0772e6536da73551f3ba12}} 
+void \hyperlink{classCtrlComm_a7ac459479c0772e6536da73551f3ba12}{send\+Err\+Msg} (string msg, struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds)
+\begin{DoxyCompactList}\small\item\em send error response message \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a6be57d266873bcd69afa3a98535b0b71}\label{classCtrlComm_a6be57d266873bcd69afa3a98535b0b71}} 
+int \hyperlink{classCtrlComm_a6be57d266873bcd69afa3a98535b0b71}{is\+Enabled} (int feature)
+\begin{DoxyCompactList}\small\item\em check whether or not a feature has been enabled on startup \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_ac7498c7579af7206df8a79d8b5d2f572}\label{classCtrlComm_ac7498c7579af7206df8a79d8b5d2f572}} 
+int \hyperlink{classCtrlComm_ac7498c7579af7206df8a79d8b5d2f572}{get\+Timeout} ()
+\begin{DoxyCompactList}\small\item\em get a timeout value ; ctrlcomm will be called in regular timeout intervals \end{DoxyCompactList}\item 
+int \hyperlink{classCtrlComm_abb7de8cec0d6a04b1b722b25cb42ba5c}{process\+Cmd} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\begin{DoxyCompactList}\small\item\em process an incomming request \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a3f9a7f22a18747a813268edc671b23d7}\label{classCtrlComm_a3f9a7f22a18747a813268edc671b23d7}} 
+char $\ast$ \hyperlink{classCtrlComm_a3f9a7f22a18747a813268edc671b23d7}{process\+Add\+Task} (\hyperlink{structparseReq__t}{parse\+Req\+\_\+t} $\ast$preq)
+\begin{DoxyCompactList}\small\item\em add a measurement task to the currently active tasks \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a82207d237fd23eae2f55ff22ecd4f72c}\label{classCtrlComm_a82207d237fd23eae2f55ff22ecd4f72c}} 
+char $\ast$ \hyperlink{classCtrlComm_a82207d237fd23eae2f55ff22ecd4f72c}{process\+Del\+Task} (\hyperlink{structparseReq__t}{parse\+Req\+\_\+t} $\ast$preq)
+\begin{DoxyCompactList}\small\item\em delete a currently running measurement task \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a62d5416d60123b5e13a613a4f7922e59}\label{classCtrlComm_a62d5416d60123b5e13a613a4f7922e59}} 
+char $\ast$ \hyperlink{classCtrlComm_a62d5416d60123b5e13a613a4f7922e59}{process\+Get\+Info} (\hyperlink{structparseReq__t}{parse\+Req\+\_\+t} $\ast$preq)
+\begin{DoxyCompactList}\small\item\em return meter information (tasklist,status,modlist,metercaps) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_adc079d5c19f2a75eaa4a21540e3e39a7}\label{classCtrlComm_adc079d5c19f2a75eaa4a21540e3e39a7}} 
+char $\ast$ \hyperlink{classCtrlComm_adc079d5c19f2a75eaa4a21540e3e39a7}{process\+Get\+Mod\+Info} (\hyperlink{structparseReq__t}{parse\+Req\+\_\+t} $\ast$preq)
+\begin{DoxyCompactList}\small\item\em return process module information \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a9b839913d19b1e7a57b0ff34ec4352a6}\label{classCtrlComm_a9b839913d19b1e7a57b0ff34ec4352a6}} 
+void \hyperlink{classCtrlComm_a9b839913d19b1e7a57b0ff34ec4352a6}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classCtrlComm}{Ctrl\+Comm} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a164cf89eda1d08f441a30d9e0bcb7155}\label{classCtrlComm_a164cf89eda1d08f441a30d9e0bcb7155}} 
+virtual string \hyperlink{classCtrlComm_a164cf89eda1d08f441a30d9e0bcb7155}{get\+Config\+Group} ()
+\begin{DoxyCompactList}\small\item\em return name of configuration group queried by this class \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classCtrlComm_a240b7eae0b93c38199b860693bfdee07}{s\+\_\+access\+\_\+check} (char $\ast$host, char $\ast$user)
+\begin{DoxyCompactList}\small\item\em callback\+: check if host is allowed to talk to this meter instance \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_ad026f62d977a42848e04362a636ab9f1}\label{classCtrlComm_ad026f62d977a42848e04362a636ab9f1}} 
+static int \hyperlink{classCtrlComm_ad026f62d977a42848e04362a636ab9f1}{s\+\_\+log\+\_\+request} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, time\+\_\+t now)
+\begin{DoxyCompactList}\small\item\em callback method\+: log incoming request \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_a608fc689ad9dc6262bb1208de956e90d}\label{classCtrlComm_a608fc689ad9dc6262bb1208de956e90d}} 
+static int \hyperlink{classCtrlComm_a608fc689ad9dc6262bb1208de956e90d}{s\+\_\+log\+\_\+error} (int eno, int loglevel, char $\ast$txt, char $\ast$peerhost)
+\begin{DoxyCompactList}\small\item\em callback method\+: log communication error \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCtrlComm_acbb6f0eed124c17de400b895119c33dd}\label{classCtrlComm_acbb6f0eed124c17de400b895119c33dd}} 
+static int {\bfseries s\+\_\+parse\+\_\+request} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\item 
+static string \hyperlink{classCtrlComm_a90fc85f6b20a5fd41f70049efdb4ac7a}{xml\+Quote} (string s)
+\begin{DoxyCompactList}\small\item\em convert string to new string with $<$ $>$ \& replaced by X\+ML representation \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+the \hyperlink{classCtrlComm}{Ctrl\+Comm} class is responsible for handling network connections to the meter. It uses H\+T\+TP as the underlying transport protocol (H\+T\+T\+PD) 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCtrlComm_a557582fa33a0cbc4919dbfecfd1a09ac}\label{classCtrlComm_a557582fa33a0cbc4919dbfecfd1a09ac}} 
+\index{Ctrl\+Comm@{Ctrl\+Comm}!Ctrl\+Comm@{Ctrl\+Comm}}
+\index{Ctrl\+Comm@{Ctrl\+Comm}!Ctrl\+Comm@{Ctrl\+Comm}}
+\subsubsection{\texorpdfstring{Ctrl\+Comm()}{CtrlComm()}}
+{\footnotesize\ttfamily Ctrl\+Comm\+::\+Ctrl\+Comm (\begin{DoxyParamCaption}\item[{\hyperlink{classConfigManager}{Config\+Manager} $\ast$}]{cnf,  }\item[{int}]{threaded = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a \hyperlink{classCtrlComm}{Ctrl\+Comm} object 
+
+\begin{DoxyItemize}
+\item {\ttfamily cnf} link to config manager \item {\ttfamily threaded} if 1 run as separate thread \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classCtrlComm_ac7b0ee75bc62a2fab69022e0ce1f507d}\label{classCtrlComm_ac7b0ee75bc62a2fab69022e0ce1f507d}} 
+\index{Ctrl\+Comm@{Ctrl\+Comm}!access\+Check@{access\+Check}}
+\index{access\+Check@{access\+Check}!Ctrl\+Comm@{Ctrl\+Comm}}
+\subsubsection{\texorpdfstring{access\+Check()}{accessCheck()}}
+{\footnotesize\ttfamily int Ctrl\+Comm\+::access\+Check (\begin{DoxyParamCaption}\item[{char $\ast$}]{host,  }\item[{char $\ast$}]{user }\end{DoxyParamCaption})}
+
+
+
+check if host is allowed to talk to this meter instance 
+
+\begin{DoxyReturn}{Returns}
+0 if allowed, -\/1 else 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCtrlComm_abb7de8cec0d6a04b1b722b25cb42ba5c}\label{classCtrlComm_abb7de8cec0d6a04b1b722b25cb42ba5c}} 
+\index{Ctrl\+Comm@{Ctrl\+Comm}!process\+Cmd@{process\+Cmd}}
+\index{process\+Cmd@{process\+Cmd}!Ctrl\+Comm@{Ctrl\+Comm}}
+\subsubsection{\texorpdfstring{process\+Cmd()}{processCmd()}}
+{\footnotesize\ttfamily int Ctrl\+Comm\+::process\+Cmd (\begin{DoxyParamCaption}\item[{struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$}]{req }\end{DoxyParamCaption})}
+
+
+
+process an incomming request 
+
+parse request via sub function and queue event(s)
+
+\begin{DoxyItemize}
+\item {\ttfamily req} the incmoing request from H\+T\+T\+PD \begin{DoxyReturn}{Returns}
+0 on success 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classCtrlComm_a240b7eae0b93c38199b860693bfdee07}\label{classCtrlComm_a240b7eae0b93c38199b860693bfdee07}} 
+\index{Ctrl\+Comm@{Ctrl\+Comm}!s\+\_\+access\+\_\+check@{s\+\_\+access\+\_\+check}}
+\index{s\+\_\+access\+\_\+check@{s\+\_\+access\+\_\+check}!Ctrl\+Comm@{Ctrl\+Comm}}
+\subsubsection{\texorpdfstring{s\+\_\+access\+\_\+check()}{s\_access\_check()}}
+{\footnotesize\ttfamily static int Ctrl\+Comm\+::s\+\_\+access\+\_\+check (\begin{DoxyParamCaption}\item[{char $\ast$}]{host,  }\item[{char $\ast$}]{user }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+callback\+: check if host is allowed to talk to this meter instance 
+
+\begin{DoxyReturn}{Returns}
+0 if allowed, -\/1 else 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCtrlComm_a90fc85f6b20a5fd41f70049efdb4ac7a}\label{classCtrlComm_a90fc85f6b20a5fd41f70049efdb4ac7a}} 
+\index{Ctrl\+Comm@{Ctrl\+Comm}!xml\+Quote@{xml\+Quote}}
+\index{xml\+Quote@{xml\+Quote}!Ctrl\+Comm@{Ctrl\+Comm}}
+\subsubsection{\texorpdfstring{xml\+Quote()}{xmlQuote()}}
+{\footnotesize\ttfamily string Ctrl\+Comm\+::xml\+Quote (\begin{DoxyParamCaption}\item[{string}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+convert string to new string with $<$ $>$ \& replaced by X\+ML representation 
+
+\begin{DoxyItemize}
+\item {\ttfamily s} -\/ the string to convert \begin{DoxyReturn}{Returns}
+a new string which represents s but has $<$ $>$ \& characters replaced by \&...; 
+\end{DoxyReturn}
+\end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Ctrl\+Comm.\+h\item 
+src/Ctrl\+Comm.\+cpp\end{DoxyCompactItemize}

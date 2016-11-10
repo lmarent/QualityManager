@@ -1,0 +1,89 @@
+\hypertarget{Rule_8h}{}\section{include/\+Rule.h File Reference}
+\label{Rule_8h}\index{include/\+Rule.\+h@{include/\+Rule.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Logger.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Perf\+Timer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Config\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Filter\+Value.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Filter\+Def\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Proc\+Module\+Interface.\+h\char`\"{}}\newline
+Include dependency graph for Rule.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Rule_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Rule_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structaction__t}{action\+\_\+t}
+\begin{DoxyCompactList}\small\item\em F\+I\+X\+ME document! \end{DoxyCompactList}\item 
+class \hyperlink{classRule}{Rule}
+\begin{DoxyCompactList}\small\item\em parse and store a complete rule description \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}\label{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}} 
+typedef list$<$ \hyperlink{structaction__t}{action\+\_\+t} $>$ \hyperlink{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}{action\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em action list (only push\+\_\+back \& sequential access) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Rule_8h_aa1249e883685adfcae34bb928968274d}\label{Rule_8h_aa1249e883685adfcae34bb928968274d}} 
+typedef list$<$ \hyperlink{structaction__t}{action\+\_\+t} $>$\+::iterator {\bfseries action\+List\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}\label{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}} 
+typedef map$<$ string, \hyperlink{structconfigItem}{config\+Item\+\_\+t} $>$ \hyperlink{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}{misc\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em misc list (random access based on name required) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Rule_8h_a1ac6aa2816b15d5acb1c7b9cbb19d0a3}\label{Rule_8h_a1ac6aa2816b15d5acb1c7b9cbb19d0a3}} 
+typedef map$<$ string, \hyperlink{structconfigItem}{config\+Item\+\_\+t} $>$\+::iterator {\bfseries misc\+List\+Iter\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Rule_8h_ada0a7cd6abaa37b395765b856cf63077}\label{Rule_8h_ada0a7cd6abaa37b395765b856cf63077}} 
+enum {\bfseries rule\+Flags\+\_\+t} \{ {\bfseries R\+U\+L\+E\+\_\+\+A\+U\+T\+O\+\_\+\+F\+L\+O\+WS} = 0x04
+ \}
+\item 
+\mbox{\Hypertarget{Rule_8h_ada0a7708a8188fca42891bcefcc55322}\label{Rule_8h_ada0a7708a8188fca42891bcefcc55322}} 
+enum \hyperlink{Rule_8h_ada0a7708a8188fca42891bcefcc55322}{rule\+State\+\_\+t} \{ \newline
+{\bfseries R\+S\+\_\+\+N\+EW} = 0, 
+{\bfseries R\+S\+\_\+\+V\+A\+L\+ID}, 
+{\bfseries R\+S\+\_\+\+S\+C\+H\+E\+D\+U\+L\+ED}, 
+{\bfseries R\+S\+\_\+\+A\+C\+T\+I\+VE}, 
+\newline
+{\bfseries R\+S\+\_\+\+D\+O\+NE}, 
+{\bfseries R\+S\+\_\+\+E\+R\+R\+OR}
+ \}\begin{DoxyCompactList}\small\item\em rule states during lifecycle \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Rule_8h_a0df706063d34742d9038697e12a7954d}\label{Rule_8h_a0df706063d34742d9038697e12a7954d}} 
+ostream \& \hyperlink{Rule_8h_a0df706063d34742d9038697e12a7954d}{operator$<$$<$} (ostream \&os, \hyperlink{classRule}{Rule} \&ri)
+\begin{DoxyCompactList}\small\item\em overload for $<$$<$, so that a \hyperlink{classRule}{Rule} object can be thrown into an iostream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia.
+
+This file is part of Network Quality Manager System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: container class for rule Code based on Netmate
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{Rule_8h}{Rule.\+h} 748 2015-\/03-\/03 17\+:23\+:00 amarentes 
+\end{DoxyParagraph}

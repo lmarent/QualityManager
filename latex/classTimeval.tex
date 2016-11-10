@@ -1,0 +1,64 @@
+\hypertarget{classTimeval}{}\section{Timeval Struct Reference}
+\label{classTimeval}\index{Timeval@{Timeval}}
+
+
+Inheritance diagram for Timeval\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{classTimeval__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Timeval\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{classTimeval__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classTimeval_acda4495a9c75a5bb80949942f0ffc4a8}{cmp} (struct timeval t1, struct timeval t2)
+\begin{DoxyCompactList}\small\item\em compare t1 and t2 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classTimeval_ac6bccadd9a389836cd233abea19d638a}\label{classTimeval_ac6bccadd9a389836cd233abea19d638a}} 
+static struct timeval \hyperlink{classTimeval_ac6bccadd9a389836cd233abea19d638a}{add} (struct timeval a, struct timeval b)
+\begin{DoxyCompactList}\small\item\em add timval a and b and return the result \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classTimeval_ab7aa37a041b6d357827af7df8ce18e14}\label{classTimeval_ab7aa37a041b6d357827af7df8ce18e14}} 
+static struct timeval \hyperlink{classTimeval_ab7aa37a041b6d357827af7df8ce18e14}{sub0} (struct timeval num, struct timeval sub)
+\begin{DoxyCompactList}\small\item\em subtract timval sub from timeval num and return result; if result $<$ 0 return 0 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classTimeval_a337f03858c741d8cf77d7a75ca538613}\label{classTimeval_a337f03858c741d8cf77d7a75ca538613}} 
+static int \hyperlink{classTimeval_a337f03858c741d8cf77d7a75ca538613}{gettimeofday} (struct timeval $\ast$tv, struct timezone $\ast$tz)
+\begin{DoxyCompactList}\small\item\em function for reading the current time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classTimeval_a847e219f1d9a929c64023ff38b52da91}\label{classTimeval_a847e219f1d9a929c64023ff38b52da91}} 
+static time\+\_\+t {\bfseries time} (time\+\_\+t $\ast$t)
+\item 
+\mbox{\Hypertarget{classTimeval_a6527fdc78ecf3563d37cccd4e4ec670c}\label{classTimeval_a6527fdc78ecf3563d37cccd4e4ec670c}} 
+static int \hyperlink{classTimeval_a6527fdc78ecf3563d37cccd4e4ec670c}{settimeofday} (const struct timeval $\ast$tv)
+\begin{DoxyCompactList}\small\item\em set the time (used when reading the time from a pcap file) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classTimeval_acda4495a9c75a5bb80949942f0ffc4a8}\label{classTimeval_acda4495a9c75a5bb80949942f0ffc4a8}} 
+\index{Timeval@{Timeval}!cmp@{cmp}}
+\index{cmp@{cmp}!Timeval@{Timeval}}
+\subsubsection{\texorpdfstring{cmp()}{cmp()}}
+{\footnotesize\ttfamily int Timeval\+::cmp (\begin{DoxyParamCaption}\item[{struct timeval}]{t1,  }\item[{struct timeval}]{t2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+compare t1 and t2 
+
+\begin{DoxyReturn}{Returns}
+-\/1 if t1$<$t2, 0 if t1=t2 or +1 if t1$>$t2 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Timeval_8h}{Timeval.\+h}\item 
+src/\hyperlink{Timeval_8cpp}{Timeval.\+cpp}\end{DoxyCompactItemize}

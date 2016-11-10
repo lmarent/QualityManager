@@ -1,0 +1,122 @@
+\hypertarget{classModule}{}\section{Module Class Reference}
+\label{classModule}\index{Module@{Module}}
+
+
+super class for the loadable modules (for processing and export)  
+
+
+
+
+{\ttfamily \#include $<$Module.\+h$>$}
+
+
+
+Inheritance diagram for Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{classModule__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classModule_a2b4410ea8c8158eb4ccd32621ac3ac44}\label{classModule_a2b4410ea8c8158eb4ccd32621ac3ac44}} 
+int \hyperlink{classModule_a2b4410ea8c8158eb4ccd32621ac3ac44}{link} ()
+\begin{DoxyCompactList}\small\item\em increase module usage counter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModule_a77961c31e38eed0460678e58b815ca9d}\label{classModule_a77961c31e38eed0460678e58b815ca9d}} 
+int \hyperlink{classModule_a77961c31e38eed0460678e58b815ca9d}{unlink} ()
+\begin{DoxyCompactList}\small\item\em decrease module usage counter \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModule_ae15cbc8e4cc023389220f6bc1573e79a}\label{classModule_ae15cbc8e4cc023389220f6bc1573e79a}} 
+\hyperlink{Module_8h_acbeb44869400b78e5f4097d5c49fc093}{lib\+Handle\+\_\+t} {\bfseries get\+Lib} ()
+\item 
+\mbox{\Hypertarget{classModule_a94c2adde5e84aa06271287caa52582fd}\label{classModule_a94c2adde5e84aa06271287caa52582fd}} 
+string {\bfseries get\+Mod\+Name} ()
+\item 
+\mbox{\Hypertarget{classModule_a17cd6df369ee653ebda1a7dd98ac80bd}\label{classModule_a17cd6df369ee653ebda1a7dd98ac80bd}} 
+string {\bfseries get\+File\+Name} ()
+\item 
+\mbox{\Hypertarget{classModule_a88fb093ef0a9a2689d35c2a2df7903a9}\label{classModule_a88fb093ef0a9a2689d35c2a2df7903a9}} 
+string {\bfseries get\+Own\+Name} ()
+\item 
+\mbox{\Hypertarget{classModule_a2cf459f20fb61bb1fde784852c0b4ae8}\label{classModule_a2cf459f20fb61bb1fde784852c0b4ae8}} 
+void {\bfseries set\+Own\+Name} (string name)
+\item 
+\mbox{\Hypertarget{classModule_a86d4d45174189e9ee7226ec366a4ab4e}\label{classModule_a86d4d45174189e9ee7226ec366a4ab4e}} 
+int {\bfseries get\+Refs} ()
+\item 
+\mbox{\Hypertarget{classModule_a658eb3f9f97a6ea60d5c21c73c711d3e}\label{classModule_a658eb3f9f97a6ea60d5c21c73c711d3e}} 
+virtual int {\bfseries get\+Version} ()
+\item 
+\mbox{\Hypertarget{classModule_a0a0a9e897515df7ac9ab031015e3d352}\label{classModule_a0a0a9e897515df7ac9ab031015e3d352}} 
+virtual string {\bfseries get\+Module\+Type} ()
+\item 
+\hyperlink{classModule_a431b07620991847651303e0f252e8285}{Module} (string libname, string filename, \hyperlink{Module_8h_acbeb44869400b78e5f4097d5c49fc093}{lib\+Handle\+\_\+t} libhandle)
+\begin{DoxyCompactList}\small\item\em construct and initialize a \hyperlink{classModule}{Module} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModule_a7c9d9c096786d127590fdd8aa2b7d681}\label{classModule_a7c9d9c096786d127590fdd8aa2b7d681}} 
+virtual \hyperlink{classModule_a7c9d9c096786d127590fdd8aa2b7d681}{$\sim$\+Module} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classModule}{Module} object, to be overloaded \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{classModule_a4a9a9aa2518c2486e9bcb309277a1bf1}{load\+A\+PI} (string api\+Name)
+\begin{DoxyCompactList}\small\item\em load A\+PI (block of module function references) \end{DoxyCompactList}\item 
+void \hyperlink{classModule_a3394d69c34f70e6d54fcebcb22c2a2c2}{check\+Magic} (int magic)
+\begin{DoxyCompactList}\small\item\em check magic number in module tries to read magic number from module lib file and check for correctness \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModule_a6f0917a69ba21d691c6b20a65369c6c6}\label{classModule_a6f0917a69ba21d691c6b20a65369c6c6}} 
+void \hyperlink{classModule_a6f0917a69ba21d691c6b20a65369c6c6}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classModule}{Module} object \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+super class for the loadable modules (for processing and export) 
+
+super class -\/ stores information about an loadbale module such as name, libhandle and reference counter 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classModule_a431b07620991847651303e0f252e8285}\label{classModule_a431b07620991847651303e0f252e8285}} 
+\index{Module@{Module}!Module@{Module}}
+\index{Module@{Module}!Module@{Module}}
+\subsubsection{\texorpdfstring{Module()}{Module()}}
+{\footnotesize\ttfamily Module\+::\+Module (\begin{DoxyParamCaption}\item[{string}]{libname,  }\item[{string}]{filename,  }\item[{\hyperlink{Module_8h_acbeb44869400b78e5f4097d5c49fc093}{lib\+Handle\+\_\+t}}]{libhandle }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a \hyperlink{classModule}{Module} object 
+
+take the library handle of an evaluation module and retrieve all the other information (name, uid, function list) via this handle
+
+\begin{DoxyItemize}
+\item {\ttfamily libname} -\/ name of the evaluation module \item {\ttfamily filename} -\/ name of module including path and extension \item {\ttfamily libhandle} -\/ system handle for loaded library (see dlopen) \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classModule_a3394d69c34f70e6d54fcebcb22c2a2c2}\label{classModule_a3394d69c34f70e6d54fcebcb22c2a2c2}} 
+\index{Module@{Module}!check\+Magic@{check\+Magic}}
+\index{check\+Magic@{check\+Magic}!Module@{Module}}
+\subsubsection{\texorpdfstring{check\+Magic()}{checkMagic()}}
+{\footnotesize\ttfamily void Module\+::check\+Magic (\begin{DoxyParamCaption}\item[{int}]{magic }\end{DoxyParamCaption})}
+
+
+
+check magic number in module tries to read magic number from module lib file and check for correctness 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classError}{Error}} & in case magic number is not present or is wrong \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classModule_a4a9a9aa2518c2486e9bcb309277a1bf1}\label{classModule_a4a9a9aa2518c2486e9bcb309277a1bf1}} 
+\index{Module@{Module}!load\+A\+PI@{load\+A\+PI}}
+\index{load\+A\+PI@{load\+A\+PI}!Module@{Module}}
+\subsubsection{\texorpdfstring{load\+A\+P\+I()}{loadAPI()}}
+{\footnotesize\ttfamily void $\ast$ Module\+::load\+A\+PI (\begin{DoxyParamCaption}\item[{string}]{api\+Name }\end{DoxyParamCaption})}
+
+
+
+load A\+PI (block of module function references) 
+
+this function queries the module for the block of module functions ( a struct storing function pointers to the module\textquotesingle{}s methods ) 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Module_8h}{Module.\+h}\item 
+src/\hyperlink{Module_8cc}{Module.\+cc}\end{DoxyCompactItemize}

@@ -1,0 +1,82 @@
+\hypertarget{classProcError}{}\section{Proc\+Error Class Reference}
+\label{classProcError}\index{Proc\+Error@{Proc\+Error}}
+
+
+generic error exception  
+
+
+
+
+{\ttfamily \#include $<$Proc\+Error.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classProcError_af2f56765e672178cba7f8105bd3347eb}{Proc\+Error} ()
+\begin{DoxyCompactList}\small\item\em $<$ create unnamed error exception \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_ab9d1e4acf156799d955b080ea6e19fe0}\label{classProcError_ab9d1e4acf156799d955b080ea6e19fe0}} 
+\hyperlink{classProcError_ab9d1e4acf156799d955b080ea6e19fe0}{Proc\+Error} (const std\+::string new\+\_\+error=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em create named error exception \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_af69e2425daf414e2ca77835e9849ba0f}\label{classProcError_af69e2425daf414e2ca77835e9849ba0f}} 
+\hyperlink{classProcError_af69e2425daf414e2ca77835e9849ba0f}{Proc\+Error} (const int err\+\_\+no=0, const std\+::string err\+\_\+str=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em printf-\/style constructor \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_a8c58217001468841f21a73473836b931}\label{classProcError_a8c58217001468841f21a73473836b931}} 
+\hyperlink{classProcError_a8c58217001468841f21a73473836b931}{Proc\+Error} (const int err\+\_\+no, const char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em printf-\/style constructor \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_ade1a00fb8c459df2f1fd9d04db346092}\label{classProcError_ade1a00fb8c459df2f1fd9d04db346092}} 
+\hyperlink{classProcError_ade1a00fb8c459df2f1fd9d04db346092}{Proc\+Error} (const char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em get error msg from exception \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_a3cd2078d3ab4794921b86e1b4cd69519}\label{classProcError_a3cd2078d3ab4794921b86e1b4cd69519}} 
+std\+::string {\bfseries get\+Error} ()
+\item 
+\mbox{\Hypertarget{classProcError_a73c98b8bad445fcb90c6011e93edecb2}\label{classProcError_a73c98b8bad445fcb90c6011e93edecb2}} 
+int \hyperlink{classProcError_a73c98b8bad445fcb90c6011e93edecb2}{get\+Error\+No} ()
+\begin{DoxyCompactList}\small\item\em get error number \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_a8415fe24bf03c639866cfc04a3dce64e}\label{classProcError_a8415fe24bf03c639866cfc04a3dce64e}} 
+void {\bfseries dump} (std\+::ostream \&os)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classProcError_a0bd2a883852f733b07b6b896f5a51d0c}{error\+No}
+\begin{DoxyCompactList}\small\item\em error number \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcError_a35664f060a696d177230840b0b248080}\label{classProcError_a35664f060a696d177230840b0b248080}} 
+std\+::string {\bfseries error}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+generic error exception 
+
+\hyperlink{classError}{Error} represents an exception that can be thrown. It includes a string that can be used to further specify the error encountered. Optionally it also includes a number. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classProcError_af2f56765e672178cba7f8105bd3347eb}\label{classProcError_af2f56765e672178cba7f8105bd3347eb}} 
+\index{Proc\+Error@{Proc\+Error}!Proc\+Error@{Proc\+Error}}
+\index{Proc\+Error@{Proc\+Error}!Proc\+Error@{Proc\+Error}}
+\subsubsection{\texorpdfstring{Proc\+Error()}{ProcError()}}
+{\footnotesize\ttfamily Proc\+Error\+::\+Proc\+Error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+$<$ create unnamed error exception 
+
+create named error exception 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classProcError_a0bd2a883852f733b07b6b896f5a51d0c}\label{classProcError_a0bd2a883852f733b07b6b896f5a51d0c}} 
+\index{Proc\+Error@{Proc\+Error}!error\+No@{error\+No}}
+\index{error\+No@{error\+No}!Proc\+Error@{Proc\+Error}}
+\subsubsection{\texorpdfstring{error\+No}{errorNo}}
+{\footnotesize\ttfamily int Proc\+Error\+::error\+No\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+error number 
+
+error string 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{ProcError_8h}{Proc\+Error.\+h}\item 
+proc\+\_\+modules/\hyperlink{ProcError_8cpp}{Proc\+Error.\+cpp}\end{DoxyCompactItemize}

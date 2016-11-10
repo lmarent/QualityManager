@@ -72,15 +72,9 @@ class QualityManager
     //! log file name
     string logFileName;
 
-    auto_ptr<Logger>          log;
     auto_ptr<CommandLineArgs> args;
     auto_ptr<PerfTimer>       perf;
     auto_ptr<ConfigManager>   conf;
-    auto_ptr<RuleManager>     rulm;
-    auto_ptr<EventScheduler>  evnt;
-
-    auto_ptr<QOSProcessor> 	  proc;    
-    auto_ptr<CtrlComm>        comm;
 
     //! logging channel number used by objects of this class
     int ch;
@@ -111,7 +105,19 @@ class QualityManager
     string getHelloMsg();
 
     string getQualityManagerInfo(infoList_t *i);
+ 
+  protected:
 
+    auto_ptr<Logger>          log;
+
+    auto_ptr<EventScheduler>  evnt;
+
+    auto_ptr<RuleManager>     rulm;
+
+    auto_ptr<QOSProcessor> 	  proc;    
+
+    auto_ptr<CtrlComm>        comm;
+  
   public:
 
     /*! \short   construct and initialize a Quality Manager object
@@ -187,6 +193,16 @@ class QualityManager
     
     //! handle the reponse from an event delete rules coming from the QoS processor.
     void handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fds);
+    
+    //! schedule events within the vector given as parameter.
+    void scheduleEvents(eventVec_t *retEvents);
+
+    //! check for all descriptor events given.
+    int checkFileDescriptorEvents(eventVec_t *retEvents, fd_set *rset, fd_set *wset, fd_sets_t *fds);
+    
+    //! Process events staged in the file descriptor.
+    int processOverdueEvents(eventVec_t *retEvents, fd_set *rset, fd_set *wset, fd_sets_t *fds);
+    
 };
 
 

@@ -1,0 +1,64 @@
+\hypertarget{structActionModule__t}{}\section{Action\+Module\+\_\+t Struct Reference}
+\label{structActionModule__t}\index{Action\+Module\+\_\+t@{Action\+Module\+\_\+t}}
+
+
+struct that stores data for a loaded dynamic library  
+
+
+
+
+{\ttfamily \#include $<$Module\+Loader.\+h$>$}
+
+
+
+Collaboration diagram for Action\+Module\+\_\+t\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=271pt]{structActionModule__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{structActionModule__t_a94e6e256f50f4348101c7a9fb442b4b7}{libhandle}
+\begin{DoxyCompactList}\small\item\em $<$ library handle from dlopen call \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structActionModule__t_a1f9db14fee22694497154dfb3e6cb08a}\label{structActionModule__t_a1f9db14fee22694497154dfb3e6cb08a}} 
+\hyperlink{structProcModuleInterface__t}{Proc\+Module\+Interface\+\_\+t} $\ast$ \hyperlink{structActionModule__t_a1f9db14fee22694497154dfb3e6cb08a}{func\+List}
+\begin{DoxyCompactList}\small\item\em runtime type information list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structActionModule__t_af7980386654dffc270e2c654e08c84d7}\label{structActionModule__t_af7980386654dffc270e2c654e08c84d7}} 
+\hyperlink{structtypeInfo__t}{type\+Info\+\_\+t} $\ast$ {\bfseries type\+Info}
+\item 
+\mbox{\Hypertarget{structActionModule__t_ad44b68b4bc09f4aa4a4cb6348fab449e}\label{structActionModule__t_ad44b68b4bc09f4aa4a4cb6348fab449e}} 
+string \hyperlink{structActionModule__t_ad44b68b4bc09f4aa4a4cb6348fab449e}{name}
+\begin{DoxyCompactList}\small\item\em name supplied by module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structActionModule__t_abf46b1d8d1c8101e30a3ea22420c61f5}\label{structActionModule__t_abf46b1d8d1c8101e30a3ea22420c61f5}} 
+int \hyperlink{structActionModule__t_abf46b1d8d1c8101e30a3ea22420c61f5}{uid}
+\begin{DoxyCompactList}\small\item\em unique id number supplied by module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structActionModule__t_a0ce7424ee92422bc9533fae56021fcfe}\label{structActionModule__t_a0ce7424ee92422bc9533fae56021fcfe}} 
+int \hyperlink{structActionModule__t_a0ce7424ee92422bc9533fae56021fcfe}{ref}
+\begin{DoxyCompactList}\small\item\em reference (link) counter \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+struct that stores data for a loaded dynamic library 
+
+this struct is used by a \hyperlink{classModuleLoader}{Module\+Loader} object to store information about a dynamically loaded library 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structActionModule__t_a94e6e256f50f4348101c7a9fb442b4b7}\label{structActionModule__t_a94e6e256f50f4348101c7a9fb442b4b7}} 
+\index{Action\+Module\+\_\+t@{Action\+Module\+\_\+t}!libhandle@{libhandle}}
+\index{libhandle@{libhandle}!Action\+Module\+\_\+t@{Action\+Module\+\_\+t}}
+\subsubsection{\texorpdfstring{libhandle}{libhandle}}
+{\footnotesize\ttfamily void$\ast$ Action\+Module\+\_\+t\+::libhandle}
+
+
+
+$<$ library handle from dlopen call 
+
+struct of functions pointers for library 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{ModuleLoader_8h}{Module\+Loader.\+h}\end{DoxyCompactItemize}

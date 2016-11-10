@@ -1,0 +1,76 @@
+\hypertarget{classEventScheduler}{}\section{Event\+Scheduler Class Reference}
+\label{classEventScheduler}\index{Event\+Scheduler@{Event\+Scheduler}}
+
+
+schedule timed events and execute the corresponding function at the correct time  
+
+
+
+
+{\ttfamily \#include $<$Event\+Scheduler.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classEventScheduler_a5d0af0bdbbb5948ab06075ef12fc8aa0}\label{classEventScheduler_a5d0af0bdbbb5948ab06075ef12fc8aa0}} 
+\hyperlink{classEventScheduler_a5d0af0bdbbb5948ab06075ef12fc8aa0}{Event\+Scheduler} ()
+\begin{DoxyCompactList}\small\item\em construct and initialize an \hyperlink{classEventScheduler}{Event\+Scheduler} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEventScheduler_a30d88ffd8a9c7956947ccf0dc58e20ac}\label{classEventScheduler_a30d88ffd8a9c7956947ccf0dc58e20ac}} 
+\hyperlink{classEventScheduler_a30d88ffd8a9c7956947ccf0dc58e20ac}{$\sim$\+Event\+Scheduler} ()
+\begin{DoxyCompactList}\small\item\em destroy an \hyperlink{classEventScheduler}{Event\+Scheduler} object \end{DoxyCompactList}\item 
+void \hyperlink{classEventScheduler_aa0ece0b48922f1712e0d1057841e1c0f}{add\+Event} (\hyperlink{classEvent}{Event} $\ast$ev)
+\begin{DoxyCompactList}\small\item\em add an \hyperlink{classEvent}{Event} to the event queue \end{DoxyCompactList}\item 
+void \hyperlink{classEventScheduler_a2f6d1f0ef1f8ef3b073f99ae9ecc1f35}{del\+Rule\+Events} (int uid)
+\begin{DoxyCompactList}\small\item\em delete all events for a given rule \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEventScheduler_a8c920197e971dc108bfa5847d68696d0}\label{classEventScheduler_a8c920197e971dc108bfa5847d68696d0}} 
+\hyperlink{classEvent}{Event} $\ast$ {\bfseries get\+Next\+Event} ()
+\item 
+\mbox{\Hypertarget{classEventScheduler_a44080cd7623b245afdabb2ddfcf7c6a3}\label{classEventScheduler_a44080cd7623b245afdabb2ddfcf7c6a3}} 
+void \hyperlink{classEventScheduler_a44080cd7623b245afdabb2ddfcf7c6a3}{resched\+Next\+Event} (\hyperlink{classEvent}{Event} $\ast$ev)
+\begin{DoxyCompactList}\small\item\em requeus (if recurring) the event ev advancing its expiry time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEventScheduler_ad77fed3420f8ef0c07a2dbb8e7ccfd3b}\label{classEventScheduler_ad77fed3420f8ef0c07a2dbb8e7ccfd3b}} 
+struct timeval \hyperlink{classEventScheduler_ad77fed3420f8ef0c07a2dbb8e7ccfd3b}{get\+Next\+Event\+Time} ()
+\begin{DoxyCompactList}\small\item\em return the time of the next event due \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEventScheduler_ac479416f6764531401c2ca21b774ea52}\label{classEventScheduler_ac479416f6764531401c2ca21b774ea52}} 
+void \hyperlink{classEventScheduler_ac479416f6764531401c2ca21b774ea52}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump an \hyperlink{classEventScheduler}{Event\+Scheduler} object \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+schedule timed events and execute the corresponding function at the correct time 
+
+The \hyperlink{classEventScheduler}{Event\+Scheduler}\textquotesingle{}s task is to schedule and execute timed events in the meter system such as timed addition/removal of tasks (rules). A number of different events that are derived from the basic event class can be put into the Event\+Schedulers event queue. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classEventScheduler_aa0ece0b48922f1712e0d1057841e1c0f}\label{classEventScheduler_aa0ece0b48922f1712e0d1057841e1c0f}} 
+\index{Event\+Scheduler@{Event\+Scheduler}!add\+Event@{add\+Event}}
+\index{add\+Event@{add\+Event}!Event\+Scheduler@{Event\+Scheduler}}
+\subsubsection{\texorpdfstring{add\+Event()}{addEvent()}}
+{\footnotesize\ttfamily void Event\+Scheduler\+::add\+Event (\begin{DoxyParamCaption}\item[{\hyperlink{classEvent}{Event} $\ast$}]{ev }\end{DoxyParamCaption})}
+
+
+
+add an \hyperlink{classEvent}{Event} to the event queue 
+
+\begin{DoxyItemize}
+\item {\ttfamily ev} -\/ an event (or an object derived from \hyperlink{classEvent}{Event}) that is schdeuled for a particular time (possibly repeatedly at a given interval) \end{DoxyItemize}
+\mbox{\Hypertarget{classEventScheduler_a2f6d1f0ef1f8ef3b073f99ae9ecc1f35}\label{classEventScheduler_a2f6d1f0ef1f8ef3b073f99ae9ecc1f35}} 
+\index{Event\+Scheduler@{Event\+Scheduler}!del\+Rule\+Events@{del\+Rule\+Events}}
+\index{del\+Rule\+Events@{del\+Rule\+Events}!Event\+Scheduler@{Event\+Scheduler}}
+\subsubsection{\texorpdfstring{del\+Rule\+Events()}{delRuleEvents()}}
+{\footnotesize\ttfamily void Event\+Scheduler\+::del\+Rule\+Events (\begin{DoxyParamCaption}\item[{int}]{uid }\end{DoxyParamCaption})}
+
+
+
+delete all events for a given rule 
+
+delete all Events related to the specified rule from the list of events
+
+\begin{DoxyItemize}
+\item {\ttfamily uid} -\/ the unique identification number of the rule\end{DoxyItemize}
+deleting is costly but it should occur much less than exporting data or flow timeouts assuming the lifetimes of rules are reasonably large 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{EventScheduler_8h}{Event\+Scheduler.\+h}\item 
+src/Event\+Scheduler.\+cpp\end{DoxyCompactItemize}

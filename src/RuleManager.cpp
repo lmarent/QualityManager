@@ -218,14 +218,18 @@ ruleDB_t *RuleManager::parseRules(string fname)
 
     ruleDB_t *new_rules = new ruleDB_t();
 
-    try {	
-        // load the filter def list
-        loadFilterDefs(fname);
+    // load the filter def list
+    loadFilterDefs(fname);
 	
-        // load the filter val list
-        loadFilterVals(fname);
+    // load the filter val list
+    loadFilterVals(fname);
 	
-        RuleFileParser rfp = RuleFileParser(fname);
+    RuleFileParser rfp = RuleFileParser(fname);
+    
+    
+    try
+    {
+
         rfp.parse(&filterDefs, &filterVals, new_rules, &idSource);
 
 #ifdef DEBUG
@@ -289,26 +293,28 @@ void RuleManager::addRules(ruleDB_t *rules, EventScheduler *e)
     ruleTimeIndexIter_t iter2;
     time_t              now = time(NULL);
     
-    // add rules
+    // add valid rules.
     for (iter = rules->begin(); iter != rules->end(); iter++) {
         Rule *r = (*iter);
         
-        try {
-            addRule(r);
+        if (r->getState()  == RS_VALID) {
+        
+            try {
+                addRule(r);
 
-            start[r->getStart()].push_back(r);
-            if (r->getStop()) {
-                stop[r->getStop()].push_back(r);
+                start[r->getStart()].push_back(r);
+                if (r->getStop()) {
+                    stop[r->getStop()].push_back(r);
+                }
+            } catch (Error &e ) {
+                saveDelete(r);
+                // if only one rule, then return error
+                if (rules->size() == 1) {
+                    throw e;
+                }
+                // FIXME else return number of successively installed rules
             }
-        } catch (Error &e ) {
-            saveDelete(r);
-            // if only one rule return error
-            if (rules->size() == 1) {
-                throw e;
-            }
-            // FIXME else return number of successively installed rules
         }
-      
     }
     
 #ifdef DEBUG    
@@ -347,16 +353,15 @@ void RuleManager::addRule(Rule *r)
     if (getRule(r->getSetName(), r->getRuleName())) {
         log->elog(ch, "task %s.%s already installed",
                   r->getSetName().c_str(), r->getRuleName().c_str());
+                  
+        r->setState(RS_ERROR);
         throw Error(408, "task with this name is already installed");
     }
 
     try {
-        // could do some more checks here
-        r->setState(RS_VALID);
 
 #ifdef DEBUG    
-    log->dlog(ch, "Rule Id = '%d'",
-              r->getUId());
+    log->dlog(ch, "Rule Id = '%d'", r->getUId());
 #endif 
 
         // resize vector if necessary
@@ -387,40 +392,6 @@ void RuleManager::addRule(Rule *r)
         throw e;
     }
 }
-
-void RuleManager::activateRules(ruleDB_t *rules, EventScheduler *e)
-{
-    ruleDBIter_t             iter;
-
-    for (iter = rules->begin(); iter != rules->end(); iter++) {
-        Rule *r = (*iter);
-        log->dlog(ch, "activate rule with name = '%s'", r->getRuleName().c_str());
-        r->setState(RS_ACTIVE);
-	 
-        /* TODO AM: Evaluate this code to understand if it has to be adjusted or not
-        // set flow timeout
-        if (r->isFlagEnabled(RULE_FLOW_TIMEOUT)) {
-            unsigned long timeout = r->getFlowTimeout();
-            if (timeout == 0) {
-                // use the default
-                timeout = FLOW_IDLE_TIMEOUT;
-            }
-            // flow timeout for flow based reporting (1 event per rule!)
-			if (r->isFlagEnabled(RULE_AUTO_FLOWS)) {
-				// check every second because we don't wanna readjust the event based on the
-				// auto flows last packets, this would potentially mean lots of timeout events
-				// expiring each second (however with this approach we might have an error of almost 1 s)
-				e->addEvent(new FlowTimeoutEvent((unsigned long)1, r->getUId(), timeout, (unsigned long)1000));
-			} else {
-				// try to optimize the timeout checking, only check every timeout seconds
-				// and readjust event based on last packet timestamp
-				e->addEvent(new FlowTimeoutEvent(timeout, r->getUId(), timeout, timeout*1000));
-			}
-        }*/
-    }
-
-}
-
 
 /* ------------------------- getInfo ------------------------- */
 

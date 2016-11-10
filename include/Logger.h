@@ -147,6 +147,11 @@ public:
     //! \short  flush all logging channels (does not close files)
     void flush();
 
+    //! \short get the log level configured
+    inline int getLogLevel(){
+        return logLevel;
+    }
+
     //! set the maximum logging level, higher levels will not be shown
     void setLogLevel( int level );
 

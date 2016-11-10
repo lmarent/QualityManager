@@ -1,0 +1,4 @@
+<map id="GetModInfoEvent" name="GetModInfoEvent">
+<area shape="rect" id="node2" href="$classCtrlCommEvent.html" title="base class for all ctrlcomm events, contains pointer to request " alt="" coords="9,80,124,107"/>
+<area shape="rect" id="node3" href="$classEvent.html" title="basic event element that is the base class of all other events that can be stored in the event queue ..." alt="" coords="39,5,93,32"/>
+</map>

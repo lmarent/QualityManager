@@ -109,6 +109,11 @@ class EventScheduler
     //! dump an EventScheduler object
     void dump(ostream &os);
 
+    //! get the number of events registered
+    inline int getNumEvents()
+    {
+        return (int) events.size();
+    }
 };
 
 

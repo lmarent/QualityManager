@@ -1,0 +1,142 @@
+\hypertarget{classRule}{}\section{Rule Class Reference}
+\label{classRule}\index{Rule@{Rule}}
+
+
+parse and store a complete rule description  
+
+
+
+
+{\ttfamily \#include $<$Rule.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classRule_ab3da1447204ec745c198b78a45f58f5a}\label{classRule_ab3da1447204ec745c198b78a45f58f5a}} 
+void {\bfseries set\+State} (\hyperlink{Rule_8h_ada0a7708a8188fca42891bcefcc55322}{rule\+State\+\_\+t} s)
+\item 
+\mbox{\Hypertarget{classRule_a77a8c310ca705429a6d083b8dcd81043}\label{classRule_a77a8c310ca705429a6d083b8dcd81043}} 
+\hyperlink{Rule_8h_ada0a7708a8188fca42891bcefcc55322}{rule\+State\+\_\+t} {\bfseries get\+State} ()
+\item 
+\mbox{\Hypertarget{classRule_ae4709d88a7fe42b30488def531652b7d}\label{classRule_ae4709d88a7fe42b30488def531652b7d}} 
+int {\bfseries is\+Flag\+Enabled} (rule\+Flags\+\_\+t f)
+\item 
+\mbox{\Hypertarget{classRule_abda94111e2d42e0719ff22f961de64a6}\label{classRule_abda94111e2d42e0719ff22f961de64a6}} 
+int {\bfseries get\+U\+Id} ()
+\item 
+\mbox{\Hypertarget{classRule_ac7a9ed77e78ecd7bd35887fba4ad44d0}\label{classRule_ac7a9ed77e78ecd7bd35887fba4ad44d0}} 
+void {\bfseries set\+U\+Id} (int nuid)
+\item 
+\mbox{\Hypertarget{classRule_a9e442e10cbbb90ea94de2bf931120662}\label{classRule_a9e442e10cbbb90ea94de2bf931120662}} 
+string {\bfseries get\+Set\+Name} ()
+\item 
+\mbox{\Hypertarget{classRule_a4fb86d5cc62efdd5c6dd44dfde8fbdba}\label{classRule_a4fb86d5cc62efdd5c6dd44dfde8fbdba}} 
+string {\bfseries get\+Rule\+Name} ()
+\item 
+\mbox{\Hypertarget{classRule_ae2d8226afc17d3f0d661b2d462d4c7eb}\label{classRule_ae2d8226afc17d3f0d661b2d462d4c7eb}} 
+string {\bfseries get\+Rule\+Source} ()
+\item 
+\mbox{\Hypertarget{classRule_ab6751b839ab0a0538fc2d29d85cf2fff}\label{classRule_ab6751b839ab0a0538fc2d29d85cf2fff}} 
+string {\bfseries get\+Rule\+Id} ()
+\item 
+\mbox{\Hypertarget{classRule_ab3f161d40bc42df2be8886ba0c4d0b6b}\label{classRule_ab3f161d40bc42df2be8886ba0c4d0b6b}} 
+time\+\_\+t {\bfseries get\+Start} ()
+\item 
+\mbox{\Hypertarget{classRule_a49feb39c6002b2522d042c21f5c8afcd}\label{classRule_a49feb39c6002b2522d042c21f5c8afcd}} 
+time\+\_\+t {\bfseries get\+Stop} ()
+\item 
+\mbox{\Hypertarget{classRule_a80e16da3df683cb2777511fd98cfdec2}\label{classRule_a80e16da3df683cb2777511fd98cfdec2}} 
+int {\bfseries is\+Bidir} ()
+\item 
+\mbox{\Hypertarget{classRule_ad6eb30b824e19044b1190beae6febebe}\label{classRule_ad6eb30b824e19044b1190beae6febebe}} 
+int {\bfseries sep\+Paths} ()
+\item 
+\mbox{\Hypertarget{classRule_af9b6211b0c4cdcbf84450718d2c65457}\label{classRule_af9b6211b0c4cdcbf84450718d2c65457}} 
+void {\bfseries set\+Bidir} ()
+\item 
+\mbox{\Hypertarget{classRule_af550df52b67018330bfad8b7fabd3210}\label{classRule_af550df52b67018330bfad8b7fabd3210}} 
+unsigned long {\bfseries get\+Flow\+Timeout} ()
+\item 
+\hyperlink{classRule_af5a5d5dedcf5fce8b376e1041df916f6}{Rule} (int \+\_\+uid, time\+\_\+t now, string sname, string rname, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} \&f, \hyperlink{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}{action\+List\+\_\+t} \&a, \hyperlink{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}{misc\+List\+\_\+t} \&m)
+\begin{DoxyCompactList}\small\item\em construct and initialize a \hyperlink{classRule}{Rule} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRule_a92760fc705b3da696f86e42b77943c21}\label{classRule_a92760fc705b3da696f86e42b77943c21}} 
+\hyperlink{classRule_a92760fc705b3da696f86e42b77943c21}{$\sim$\+Rule} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classRule}{Rule} object \end{DoxyCompactList}\item 
+\hyperlink{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}{action\+List\+\_\+t} $\ast$ \hyperlink{classRule_a2537cf47f367282809a66f9bfb733020}{get\+Actions} ()
+\begin{DoxyCompactList}\small\item\em get names and values (parameters) of configured actions \end{DoxyCompactList}\item 
+\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$ \hyperlink{classRule_ad247112cb17b723d048dadf4afe34fa6}{get\+Filter} ()
+\begin{DoxyCompactList}\small\item\em get names and values (parameters) of configured filter rule \end{DoxyCompactList}\item 
+\hyperlink{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}{misc\+List\+\_\+t} $\ast$ \hyperlink{classRule_a37927201f07b2990cdd342162c7ddf96}{get\+Misc} ()
+\begin{DoxyCompactList}\small\item\em get names and values (parameters) of misc. attributes \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRule_ac88b5cc900b2e39dc3c674bb259f1e86}\label{classRule_ac88b5cc900b2e39dc3c674bb259f1e86}} 
+void \hyperlink{classRule_ac88b5cc900b2e39dc3c674bb259f1e86}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classRule}{Rule} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRule_ac67bda46af62221c2e02e5338b47cc6a}\label{classRule_ac67bda46af62221c2e02e5338b47cc6a}} 
+string \hyperlink{classRule_ac67bda46af62221c2e02e5338b47cc6a}{get\+Info} (void)
+\begin{DoxyCompactList}\small\item\em get rule info string \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+parse and store a complete rule description 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classRule_af5a5d5dedcf5fce8b376e1041df916f6}\label{classRule_af5a5d5dedcf5fce8b376e1041df916f6}} 
+\index{Rule@{Rule}!Rule@{Rule}}
+\index{Rule@{Rule}!Rule@{Rule}}
+\subsubsection{\texorpdfstring{Rule()}{Rule()}}
+{\footnotesize\ttfamily Rule\+::\+Rule (\begin{DoxyParamCaption}\item[{int}]{\+\_\+uid,  }\item[{time\+\_\+t}]{now,  }\item[{string}]{sname,  }\item[{string}]{rname,  }\item[{\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} \&}]{f,  }\item[{\hyperlink{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}{action\+List\+\_\+t} \&}]{a,  }\item[{\hyperlink{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}{misc\+List\+\_\+t} \&}]{m }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a \hyperlink{classRule}{Rule} object 
+
+\begin{DoxyItemize}
+\item {\ttfamily now} current timestamp \item {\ttfamily sname} rule set name \item {\ttfamily s} rname rule name \item {\ttfamily f} list of filters \item {\ttfamily a} list of actions \item {\ttfamily e} list of exports \item {\ttfamily m} list of misc parameters \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classRule_a2537cf47f367282809a66f9bfb733020}\label{classRule_a2537cf47f367282809a66f9bfb733020}} 
+\index{Rule@{Rule}!get\+Actions@{get\+Actions}}
+\index{get\+Actions@{get\+Actions}!Rule@{Rule}}
+\subsubsection{\texorpdfstring{get\+Actions()}{getActions()}}
+{\footnotesize\ttfamily \hyperlink{Rule_8h_acdc7809742ec5b554bf13b4c12053a6a}{action\+List\+\_\+t} $\ast$ Rule\+::get\+Actions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get names and values (parameters) of configured actions 
+
+\begin{DoxyReturn}{Returns}
+a pointer (link) to a list that contains the configured actions for this rule 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classRule_ad247112cb17b723d048dadf4afe34fa6}\label{classRule_ad247112cb17b723d048dadf4afe34fa6}} 
+\index{Rule@{Rule}!get\+Filter@{get\+Filter}}
+\index{get\+Filter@{get\+Filter}!Rule@{Rule}}
+\subsubsection{\texorpdfstring{get\+Filter()}{getFilter()}}
+{\footnotesize\ttfamily \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$ Rule\+::get\+Filter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get names and values (parameters) of configured filter rule 
+
+\begin{DoxyReturn}{Returns}
+a pointer (link) to a Parameter\+Set object that contains the configured filter rule description for this rule 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classRule_a37927201f07b2990cdd342162c7ddf96}\label{classRule_a37927201f07b2990cdd342162c7ddf96}} 
+\index{Rule@{Rule}!get\+Misc@{get\+Misc}}
+\index{get\+Misc@{get\+Misc}!Rule@{Rule}}
+\subsubsection{\texorpdfstring{get\+Misc()}{getMisc()}}
+{\footnotesize\ttfamily \hyperlink{Rule_8h_a9fb303c0fc85a5e78d6d35728fe7fe74}{misc\+List\+\_\+t} $\ast$ Rule\+::get\+Misc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get names and values (parameters) of misc. attributes 
+
+\begin{DoxyReturn}{Returns}
+a pointer (link) to a Parameter\+Set object that contains the miscanellenous attributes of a configured filter rule 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Rule_8h}{Rule.\+h}\item 
+src/\hyperlink{Rule_8cpp}{Rule.\+cpp}\end{DoxyCompactItemize}

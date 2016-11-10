@@ -9,7 +9,7 @@
     <!-- pid file location -->
     <PREF NAME="PidFile">/usr/local/var/run/netqos.pid</PREF>
     <!-- rule file to load at start -->
-    <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
+    <!--PREF NAME="RuleFile">/home/luis/QualityManager/etc/example_rules3.xml</PREF> -->
     <!-- filter attribute definition file -->
     <PREF NAME="FilterDefFile">/home/luis/QualityManager/etc/filterdef.xml</PREF>
     <!-- filter constant file -->
@@ -25,7 +25,7 @@
     <!-- port for control connections -->
     <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
     <!-- use SSL encryption -->
-    <PREF NAME="UseSSL" TYPE="Bool">yes</PREF>
+    <PREF NAME="UseSSL" TYPE="Bool">no</PREF>
     <!-- use IPv6 (if no IPv6 interface present IP4 will be used) -->
     <PREF NAME="UseIPv6" TYPE="Bool">no</PREF>
     <!-- log all incoming control requests -->
@@ -41,7 +41,7 @@
   </CONTROL>
   <QOS_PROCESSOR>
     <!-- run as separate thread -->
-    <PREF NAME="Thread" TYPE="Bool">no</PREF>
+    <PREF NAME="Thread" TYPE="Bool">yes</PREF>
     <!-- directory where the processing modules are located -->
     <PREF NAME="ModuleDir">/home/luis/QualityManager/proc_modules</PREF>
     <!-- allow on-demand loading i.e. when new module is used in rule definition --> 

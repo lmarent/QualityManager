@@ -339,7 +339,6 @@ void Logger::elog(int channel, ProcError &e )
 
 void Logger::dlog(int channel, const char *fmt, ...)
 {
-#ifdef DEBUG
     if (fmt == NULL) {
         return;
     } 
@@ -348,7 +347,6 @@ void Logger::dlog(int channel, const char *fmt, ...)
     va_start(argp, fmt);
     _write(L_DEBUG, channel, 1, fmt, argp);
     va_end(argp);
-#endif
 }
 
 
@@ -357,7 +355,7 @@ void Logger::dlog(int channel, const char *fmt, ...)
 void Logger::_write( int lvl, int ch, int nl, const char *fmt, va_list argp )
 {
     time_t now;
-    char buf[300];
+    char buf[80];
 
     // lvl 0 is most important, >0 less impo.
     if (canlog == 0 || lvl > logLevel) { 
@@ -372,10 +370,14 @@ void Logger::_write( int lvl, int ch, int nl, const char *fmt, va_list argp )
             throw Error("No log file for channel %d", ch);
         }
 
-        struct tm tm;
-        now = time(NULL);
-        strftime(buf, sizeof(buf), "%b %d %H:%M:%S", localtime_r(&now,&tm));
-        if (fprintf(file, "%s  %s  ", buf, LogLevel[lvl]) < 0) {
+        timeval curTime;
+        gettimeofday(&curTime, NULL);
+        int milli = curTime.tv_usec / 1000;
+        strftime(buf, sizeof(buf), "%b %d %H:%M:%S", localtime(&curTime.tv_sec));
+        char currentTime[84] = "";
+        sprintf(currentTime, "%s:%d", buf, milli);
+
+        if (fprintf(file, "%s  %s  ", currentTime, LogLevel[lvl]) < 0) {
             throw Error("Writing log mesage (Logger::_write#strftime)");
         }
 

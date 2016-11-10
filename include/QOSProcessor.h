@@ -164,19 +164,19 @@ class QOSProcessor : public QualityManagerComponent
     virtual void checkRules( ruleDB_t *rules, EventScheduler *e  );
 
     //! check a ruleset (the action part) - to be used in the scenario of threads.
-    virtual void checkRules( ruleDB_t *rules );
+    virtual void checkRules( ruleDB_t *rules, Event *evt );
 
     //! add rules - to be used in the scenario of no threads.
     virtual void addRules( ruleDB_t *rules, EventScheduler *e );
 
 	//! add rules - to be used in the scenario of thread enable.
-	virtual void addRules( ruleDB_t *rules );
+	virtual void addRules( ruleDB_t *rules, Event *evt );
 
     //! delete rules - to be used in the scenario of no threads.
     virtual void delRules( ruleDB_t *rules, EventScheduler *e );
 
     //! delete rules - to be used in the scenario of no threads.
-    virtual void delRules( ruleDB_t *rules );
+    virtual void delRules( ruleDB_t *rules, Event *evt );
 
     //! check a single rule
     int checkRule(Rule *r);
@@ -222,6 +222,11 @@ class QOSProcessor : public QualityManagerComponent
     //! dump a PacketProcessor object
     void dump( ostream &os );
 
+    int getNumRules()
+    {
+        return (int) rules.size();
+    }
+    
     //! get the number of action modules currently in use
     int numModules() 
     { 

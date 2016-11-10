@@ -1,0 +1,63 @@
+\hypertarget{EventScheduler_8h}{}\section{include/\+Event\+Scheduler.h File Reference}
+\label{EventScheduler_8h}\index{include/\+Event\+Scheduler.\+h@{include/\+Event\+Scheduler.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Logger.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Rule.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Event.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Timeval.\+h\char`\"{}}\newline
+Include dependency graph for Event\+Scheduler.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{EventScheduler_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{EventScheduler_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlttv}{lttv}
+\begin{DoxyCompactList}\small\item\em comparison operator for events \end{DoxyCompactList}\item 
+class \hyperlink{classEventScheduler}{Event\+Scheduler}
+\begin{DoxyCompactList}\small\item\em schedule timed events and execute the corresponding function at the correct time \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{EventScheduler_8h_ab1b87139da9a1ddbe3b978a4c3c9121f}\label{EventScheduler_8h_ab1b87139da9a1ddbe3b978a4c3c9121f}} 
+typedef multimap$<$ struct timeval, \hyperlink{classEvent}{Event} $\ast$, \hyperlink{structlttv}{lttv} $>$ \hyperlink{EventScheduler_8h_ab1b87139da9a1ddbe3b978a4c3c9121f}{event\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em event list definition (sorted by expiry time) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{EventScheduler_8h_a3735f229b95fe46c4d8a1f40eb72ace1}\label{EventScheduler_8h_a3735f229b95fe46c4d8a1f40eb72ace1}} 
+typedef multimap$<$ struct timeval, \hyperlink{classEvent}{Event} $\ast$, \hyperlink{structlttv}{lttv} $>$\+::iterator {\bfseries event\+List\+Iter\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{EventScheduler_8h_a69a388db82e3b584b8df1a5c2cf9d8fd}\label{EventScheduler_8h_a69a388db82e3b584b8df1a5c2cf9d8fd}} 
+ostream \& \hyperlink{EventScheduler_8h_a69a388db82e3b584b8df1a5c2cf9d8fd}{operator$<$$<$} (ostream \&os, \hyperlink{classEventScheduler}{Event\+Scheduler} \&es)
+\begin{DoxyCompactList}\small\item\em overload for $<$$<$ so that a \hyperlink{classEventScheduler}{Event\+Scheduler} object can be thrown into an ostream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia
+
+This file is part of Network Quality Manager System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: event scheduling Code based on Netmate Implementation
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{EventScheduler_8h}{Event\+Scheduler.\+h} 748 2015-\/03-\/03 13\+:00\+:03 amarentes 
+\end{DoxyParagraph}

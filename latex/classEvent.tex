@@ -1,0 +1,108 @@
+\hypertarget{classEvent}{}\section{Event Class Reference}
+\label{classEvent}\index{Event@{Event}}
+
+
+basic event element that is the base class of all other events that can be stored in the event queue of \hyperlink{classEventScheduler}{Event\+Scheduler}  
+
+
+
+
+{\ttfamily \#include $<$Event.\+h$>$}
+
+
+
+Inheritance diagram for Event\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classEvent__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classEvent_acd3f54caeb58e6375e51a044c0ee2616}{Event} (\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t} type, struct timeval time, unsigned long ival=0, int align=0)
+\begin{DoxyCompactList}\small\item\em create an event at an absolute time \end{DoxyCompactList}\item 
+\hyperlink{classEvent_a0b28a5ecf2af747c56b9cdcd2e26642b}{Event} (\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t} type, time\+\_\+t offs\+\_\+sec, time\+\_\+t offs\+\_\+usec=0, unsigned long ival=0, int align=0)
+\begin{DoxyCompactList}\small\item\em create an event relative to current time \end{DoxyCompactList}\item 
+\hyperlink{classEvent_a9fa90b8cff91b5d58a7fbd690e1bcfaa}{Event} (\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t} type, unsigned long ival=0, int align=0)
+\begin{DoxyCompactList}\small\item\em create an event at the current time (now) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_a7682b6c4066b0733a61bae0a4c7110da}\label{classEvent_a7682b6c4066b0733a61bae0a4c7110da}} 
+\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t} \hyperlink{classEvent_a7682b6c4066b0733a61bae0a4c7110da}{get\+Type} ()
+\begin{DoxyCompactList}\small\item\em get event type \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_a197eb389db5c5e98fd6f4fa762f1f23e}\label{classEvent_a197eb389db5c5e98fd6f4fa762f1f23e}} 
+int {\bfseries is\+Type} (\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t} atype)
+\item 
+\mbox{\Hypertarget{classEvent_acee8c5f11e9706148029e7cc78db3f7f}\label{classEvent_acee8c5f11e9706148029e7cc78db3f7f}} 
+struct timeval \hyperlink{classEvent_acee8c5f11e9706148029e7cc78db3f7f}{get\+Time} ()
+\begin{DoxyCompactList}\small\item\em get expiry time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_ab3c5d8d6c110eb033389638746a02ddd}\label{classEvent_ab3c5d8d6c110eb033389638746a02ddd}} 
+unsigned long \hyperlink{classEvent_ab3c5d8d6c110eb033389638746a02ddd}{get\+Ival} ()
+\begin{DoxyCompactList}\small\item\em get interval \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_aab363fcc2a278a4c58e2d0d4bd61b4c4}\label{classEvent_aab363fcc2a278a4c58e2d0d4bd61b4c4}} 
+void \hyperlink{classEvent_aab363fcc2a278a4c58e2d0d4bd61b4c4}{set\+Interval} (unsigned long ival)
+\begin{DoxyCompactList}\small\item\em set interval \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_aa539db91725efa367bc51bd20c6f6527}\label{classEvent_aa539db91725efa367bc51bd20c6f6527}} 
+void \hyperlink{classEvent_aa539db91725efa367bc51bd20c6f6527}{set\+Time} (struct timeval new\+Time)
+\begin{DoxyCompactList}\small\item\em set expiry time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_a1b15a8aed3a94f247adb883ecebc5cbd}\label{classEvent_a1b15a8aed3a94f247adb883ecebc5cbd}} 
+void \hyperlink{classEvent_a1b15a8aed3a94f247adb883ecebc5cbd}{set\+Time} (time\+\_\+t new\+Time\+Sec)
+\begin{DoxyCompactList}\small\item\em set expiry time (full sec) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_ac401a0dcd7f2dd526015285ac827f61b}\label{classEvent_ac401a0dcd7f2dd526015285ac827f61b}} 
+void \hyperlink{classEvent_ac401a0dcd7f2dd526015285ac827f61b}{advance} ()
+\begin{DoxyCompactList}\small\item\em get next expiry time (recurrent events) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEvent_a1a0e50aa2d50ba782fb78c369c40762f}\label{classEvent_a1a0e50aa2d50ba782fb78c369c40762f}} 
+virtual void {\bfseries dump} (ostream \&os)
+\item 
+\mbox{\Hypertarget{classEvent_a1784b321b36147c83c469435629db298}\label{classEvent_a1784b321b36147c83c469435629db298}} 
+virtual int \hyperlink{classEvent_a1784b321b36147c83c469435629db298}{delete\+Rule} (int uid)
+\begin{DoxyCompactList}\small\item\em delete rules stored in this event \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+basic event element that is the base class of all other events that can be stored in the event queue of \hyperlink{classEventScheduler}{Event\+Scheduler} 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classEvent_acd3f54caeb58e6375e51a044c0ee2616}\label{classEvent_acd3f54caeb58e6375e51a044c0ee2616}} 
+\index{Event@{Event}!Event@{Event}}
+\index{Event@{Event}!Event@{Event}}
+\subsubsection{\texorpdfstring{Event()}{Event()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Event\+::\+Event (\begin{DoxyParamCaption}\item[{\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t}}]{type,  }\item[{struct timeval}]{time,  }\item[{unsigned long}]{ival = {\ttfamily 0},  }\item[{int}]{align = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+create an event at an absolute time 
+
+\begin{DoxyItemize}
+\item {\ttfamily type} type of the event \item {\ttfamily time} absolute timestamp when the event is due \item {\ttfamily ival} interval (in ms) if the event is recurrent \item {\ttfamily align} align the event on the next ival \end{DoxyItemize}
+\mbox{\Hypertarget{classEvent_a0b28a5ecf2af747c56b9cdcd2e26642b}\label{classEvent_a0b28a5ecf2af747c56b9cdcd2e26642b}} 
+\index{Event@{Event}!Event@{Event}}
+\index{Event@{Event}!Event@{Event}}
+\subsubsection{\texorpdfstring{Event()}{Event()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Event\+::\+Event (\begin{DoxyParamCaption}\item[{\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t}}]{type,  }\item[{time\+\_\+t}]{offs\+\_\+sec,  }\item[{time\+\_\+t}]{offs\+\_\+usec = {\ttfamily 0},  }\item[{unsigned long}]{ival = {\ttfamily 0},  }\item[{int}]{align = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+create an event relative to current time 
+
+\begin{DoxyItemize}
+\item {\ttfamily type} type of the event \item {\ttfamily offs\+\_\+sec} sec offset from now when the event is due \item {\ttfamily offs\+\_\+used} usec offset from now when the event is due \item {\ttfamily ival} interval (in ms) if the event is recurrent \item {\ttfamily align} align the event on the next ival \end{DoxyItemize}
+\mbox{\Hypertarget{classEvent_a9fa90b8cff91b5d58a7fbd690e1bcfaa}\label{classEvent_a9fa90b8cff91b5d58a7fbd690e1bcfaa}} 
+\index{Event@{Event}!Event@{Event}}
+\index{Event@{Event}!Event@{Event}}
+\subsubsection{\texorpdfstring{Event()}{Event()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Event\+::\+Event (\begin{DoxyParamCaption}\item[{\hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t}}]{type,  }\item[{unsigned long}]{ival = {\ttfamily 0},  }\item[{int}]{align = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+create an event at the current time (now) 
+
+\begin{DoxyItemize}
+\item {\ttfamily type} type of the event \item {\ttfamily ival} interval (in ms) if the event is recurrent \item {\ttfamily align} align the event on the next ival \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Event_8h}{Event.\+h}\item 
+src/\hyperlink{Event_8cpp}{Event.\+cpp}\end{DoxyCompactItemize}

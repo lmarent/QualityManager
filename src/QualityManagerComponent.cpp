@@ -49,13 +49,17 @@ QualityManagerComponent::QualityManagerComponent(ConfigManager *_cnf, string nam
 
 QualityManagerComponent::~QualityManagerComponent()
 {
+    log->dlog(ch, "finishing QualityManagerComponent");
+    
 #ifdef ENABLE_THREADS
     if (threaded) {
         mutexLock(&maccess);
         stop();
         mutexUnlock(&maccess);
-        mutexDestroy(&maccess);
+        log->dlog(ch, "waiting done work for thread destroy");
 		threadCondDestroy(&doneCond);
+        log->dlog(ch,"to destroy mutex");
+        mutexDestroy(&maccess);
     }
 #endif
 }
@@ -83,6 +87,7 @@ void QualityManagerComponent::stop(void)
 		threadCancel(thread);
 		threadJoin(thread);
 		running = 0;
+        log->log(ch, "Thread stopped");
     }
 #endif
 }

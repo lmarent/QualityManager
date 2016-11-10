@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classModule.html" title="super class for the loadable modules (for processing and export) " alt="" coords="5,5,69,32"/>
+<area shape="rect" id="node2" href="$classProcModule.html" title="container class that stores information about an evaluation module " alt="" coords="117,5,208,32"/>
+</map>

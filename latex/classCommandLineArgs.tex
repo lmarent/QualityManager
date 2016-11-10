@@ -1,0 +1,35 @@
+\hypertarget{classCommandLineArgs}{}\section{Command\+Line\+Args Class Reference}
+\label{classCommandLineArgs}\index{Command\+Line\+Args@{Command\+Line\+Args}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCommandLineArgs_adf3473a1701ad5b5945b1ad5fbe0db9b}\label{classCommandLineArgs_adf3473a1701ad5b5945b1ad5fbe0db9b}} 
+\hyperlink{classCommandLineArgs_adf3473a1701ad5b5945b1ad5fbe0db9b}{Command\+Line\+Args} ()
+\begin{DoxyCompactList}\small\item\em construct a new \hyperlink{classCommandLineArgs}{Command\+Line\+Args} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_a11bbea9577ad97fa8ccb024a9869e4c5}\label{classCommandLineArgs_a11bbea9577ad97fa8ccb024a9869e4c5}} 
+void \hyperlink{classCommandLineArgs_a11bbea9577ad97fa8ccb024a9869e4c5}{add} (char opt, string name, string param=\char`\"{}\char`\"{}, string help=\char`\"{}\char`\"{}, string group=\char`\"{}\char`\"{}, string longname=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em add a command line argument expecting a value \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_aae885cc296df2013e8e30eeba30d1483}\label{classCommandLineArgs_aae885cc296df2013e8e30eeba30d1483}} 
+void \hyperlink{classCommandLineArgs_aae885cc296df2013e8e30eeba30d1483}{add\+Flag} (char opt, string name, string help=\char`\"{}\char`\"{}, string group=\char`\"{}\char`\"{}, string longname=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em add a command line argument flag (yes/no) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_a673c25d7b7c3cbb3d243b5ee4f65f76c}\label{classCommandLineArgs_a673c25d7b7c3cbb3d243b5ee4f65f76c}} 
+string \hyperlink{classCommandLineArgs_a673c25d7b7c3cbb3d243b5ee4f65f76c}{get\+Arg\+Value} (char opt)
+\begin{DoxyCompactList}\small\item\em get the value for an argument \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_a26e8d3a0e201d0c2808ef212a7a6e6f8}\label{classCommandLineArgs_a26e8d3a0e201d0c2808ef212a7a6e6f8}} 
+int \hyperlink{classCommandLineArgs_a26e8d3a0e201d0c2808ef212a7a6e6f8}{parse\+Args} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em parse the command line args supplied to main \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_a2f9280db1c9b8cd7644537c111ee0787}\label{classCommandLineArgs_a2f9280db1c9b8cd7644537c111ee0787}} 
+\hyperlink{CommandLineArgs_8h_a092e791e8505f700f627414f125dcd6e}{command\+Line\+Arg\+Val\+List\+\_\+t} $\ast$ \hyperlink{classCommandLineArgs_a2f9280db1c9b8cd7644537c111ee0787}{get\+Arg\+Vals} ()
+\begin{DoxyCompactList}\small\item\em get pointer to argument values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_ad04d8c3fa544cd7f3a070a181675ae71}\label{classCommandLineArgs_ad04d8c3fa544cd7f3a070a181675ae71}} 
+\hyperlink{CommandLineArgs_8h_aaee5f0d903dd3ebb586b68e0cd4d5594}{command\+Line\+Arg\+List\+\_\+t} $\ast$ \hyperlink{classCommandLineArgs_ad04d8c3fa544cd7f3a070a181675ae71}{get\+Arg\+List} ()
+\begin{DoxyCompactList}\small\item\em get pointer to argument definition list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCommandLineArgs_acb1dd9919009b2a61a9416efd9583d7f}\label{classCommandLineArgs_acb1dd9919009b2a61a9416efd9583d7f}} 
+string \hyperlink{classCommandLineArgs_acb1dd9919009b2a61a9416efd9583d7f}{get\+Usage} ()
+\begin{DoxyCompactList}\small\item\em get usage string (is build from options description) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{CommandLineArgs_8h}{Command\+Line\+Args.\+h}\item 
+src/Command\+Line\+Args.\+cpp\end{DoxyCompactItemize}

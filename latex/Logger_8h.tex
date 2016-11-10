@@ -1,0 +1,105 @@
+\hypertarget{Logger_8h}{}\section{include/\+Logger.h File Reference}
+\label{Logger_8h}\index{include/\+Logger.\+h@{include/\+Logger.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Proc\+Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Threads.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}constants.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}constants\+\_\+qos.\+h\char`\"{}}\newline
+Include dependency graph for Logger.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Logger_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Logger_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classLogger}{Logger}
+\begin{DoxyCompactList}\small\item\em provides logging of text messages to logging channels (files) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10}{log\+Level\+\_\+t} \{ \newline
+\hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10ae580867d0ddde34905fea2f8669839b7}{L\+\_\+\+I\+N\+FO} = 0, 
+\hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10afd89df4963c80f51f3a4133eed55578f}{L\+\_\+\+C\+R\+IT} = 1, 
+\hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a5aa6d01f59e4b628af96f650fc5ecc15}{L\+\_\+\+E\+R\+R\+OR} = 2, 
+\hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a393ce3ed9796f091c30df9f3e3c73114}{L\+\_\+\+W\+A\+RN} = 3, 
+\newline
+\hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10abef96148470abb1ed19980e5b5c40ad4}{L\+\_\+\+D\+E\+B\+UG} = 4, 
+\hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a6c69d067579a960c447629ab0f0dc687}{L\+\_\+\+M\+A\+X\+L\+E\+V\+EL} = 4
+ \}\begin{DoxyCompactList}\small\item\em symbolic ids for logging levels \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Logger_8h_ab7bc8414549b9e56fddbe75eb74701db}\label{Logger_8h_ab7bc8414549b9e56fddbe75eb74701db}} 
+ostream \& \hyperlink{Logger_8h_ab7bc8414549b9e56fddbe75eb74701db}{operator$<$$<$} (ostream \&os, \hyperlink{classLogger}{Logger} \&ml)
+\begin{DoxyCompactList}\small\item\em overload $<$$<$ for use on \hyperlink{classLogger}{Logger} objects \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2003-\/2004 Fraunhofer Institute for Open Communication Systems (F\+O\+K\+US), Berlin, Germany
+
+This file is part of Network Measurement and Accounting System (N\+E\+T\+M\+A\+TE).
+
+N\+E\+T\+M\+A\+TE is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+M\+A\+TE is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: generate log file messages
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{Logger_8h}{Logger.\+h} 748 2009-\/09-\/10 02\+:54\+:03Z szander 
+\end{DoxyParagraph}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10}} 
+\index{Logger.\+h@{Logger.\+h}!log\+Level\+\_\+t@{log\+Level\+\_\+t}}
+\index{log\+Level\+\_\+t@{log\+Level\+\_\+t}!Logger.\+h@{Logger.\+h}}
+\subsubsection{\texorpdfstring{log\+Level\+\_\+t}{logLevel\_t}}
+{\footnotesize\ttfamily enum \hyperlink{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10}{log\+Level\+\_\+t}}
+
+
+
+symbolic ids for logging levels 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+\_\+\+I\+N\+FO@{L\+\_\+\+I\+N\+FO}!Logger.\+h@{Logger.\+h}}\index{Logger.\+h@{Logger.\+h}!L\+\_\+\+I\+N\+FO@{L\+\_\+\+I\+N\+FO}}}\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10ae580867d0ddde34905fea2f8669839b7}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10ae580867d0ddde34905fea2f8669839b7}} 
+L\+\_\+\+I\+N\+FO&log level id for logging of \mbox{[}I\+N\+FO\mbox{]} messages \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+\_\+\+C\+R\+IT@{L\+\_\+\+C\+R\+IT}!Logger.\+h@{Logger.\+h}}\index{Logger.\+h@{Logger.\+h}!L\+\_\+\+C\+R\+IT@{L\+\_\+\+C\+R\+IT}}}\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10afd89df4963c80f51f3a4133eed55578f}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10afd89df4963c80f51f3a4133eed55578f}} 
+L\+\_\+\+C\+R\+IT&log level id for logging of \mbox{[}C\+R\+I\+T\+I\+C\+AL\mbox{]} messages \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+\_\+\+E\+R\+R\+OR@{L\+\_\+\+E\+R\+R\+OR}!Logger.\+h@{Logger.\+h}}\index{Logger.\+h@{Logger.\+h}!L\+\_\+\+E\+R\+R\+OR@{L\+\_\+\+E\+R\+R\+OR}}}\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a5aa6d01f59e4b628af96f650fc5ecc15}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a5aa6d01f59e4b628af96f650fc5ecc15}} 
+L\+\_\+\+E\+R\+R\+OR&log level id for logging of \mbox{[}E\+R\+R\+OR\mbox{]} messages \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+\_\+\+W\+A\+RN@{L\+\_\+\+W\+A\+RN}!Logger.\+h@{Logger.\+h}}\index{Logger.\+h@{Logger.\+h}!L\+\_\+\+W\+A\+RN@{L\+\_\+\+W\+A\+RN}}}\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a393ce3ed9796f091c30df9f3e3c73114}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a393ce3ed9796f091c30df9f3e3c73114}} 
+L\+\_\+\+W\+A\+RN&log level id for logging of \mbox{[}W\+A\+RN\mbox{]} messages \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+\_\+\+D\+E\+B\+UG@{L\+\_\+\+D\+E\+B\+UG}!Logger.\+h@{Logger.\+h}}\index{Logger.\+h@{Logger.\+h}!L\+\_\+\+D\+E\+B\+UG@{L\+\_\+\+D\+E\+B\+UG}}}\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10abef96148470abb1ed19980e5b5c40ad4}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10abef96148470abb1ed19980e5b5c40ad4}} 
+L\+\_\+\+D\+E\+B\+UG&log level id for logging of \mbox{[}D\+E\+B\+UG\mbox{]} messages \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\+\_\+\+M\+A\+X\+L\+E\+V\+EL@{L\+\_\+\+M\+A\+X\+L\+E\+V\+EL}!Logger.\+h@{Logger.\+h}}\index{Logger.\+h@{Logger.\+h}!L\+\_\+\+M\+A\+X\+L\+E\+V\+EL@{L\+\_\+\+M\+A\+X\+L\+E\+V\+EL}}}\mbox{\Hypertarget{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a6c69d067579a960c447629ab0f0dc687}\label{Logger_8h_a50d819fb34f0fe61a753751ac3bf5e10a6c69d067579a960c447629ab0f0dc687}} 
+L\+\_\+\+M\+A\+X\+L\+E\+V\+EL&maximal log level id for logging of messages \\
+\hline
+
+\end{DoxyEnumFields}

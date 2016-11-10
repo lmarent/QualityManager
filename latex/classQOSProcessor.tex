@@ -1,0 +1,156 @@
+\hypertarget{classQOSProcessor}{}\section{Q\+O\+S\+Processor Class Reference}
+\label{classQOSProcessor}\index{Q\+O\+S\+Processor@{Q\+O\+S\+Processor}}
+
+
+manage and apply Action Modules, retrieve flow data  
+
+
+
+
+{\ttfamily \#include $<$Q\+O\+S\+Processor.\+h$>$}
+
+
+
+Inheritance diagram for Q\+O\+S\+Processor\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classQOSProcessor__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Q\+O\+S\+Processor\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{classQOSProcessor__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classQOSProcessor_a27b56d900e42f99fea52c93e8a720bf5}{Q\+O\+S\+Processor} (\hyperlink{classConfigManager}{Config\+Manager} $\ast$\hyperlink{classQualityManagerComponent_a021f9991b72d52f295b87d8a5b02046a}{cnf}, int \hyperlink{classQualityManagerComponent_add2cffa903c310563f8b999cdecd1953}{threaded}, string module\+Dir=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em construct and initialize a Packet\+Processor object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a78d0a0c0dde203f9deb4120feae114c3}\label{classQOSProcessor_a78d0a0c0dde203f9deb4120feae114c3}} 
+virtual \hyperlink{classQOSProcessor_a78d0a0c0dde203f9deb4120feae114c3}{$\sim$\+Q\+O\+S\+Processor} ()
+\begin{DoxyCompactList}\small\item\em destroy a Packet\+Processor object, to be overloaded \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_ab9b3ef050bdc595e6096baac0d466955}\label{classQOSProcessor_ab9b3ef050bdc595e6096baac0d466955}} 
+virtual void \hyperlink{classQOSProcessor_ab9b3ef050bdc595e6096baac0d466955}{check\+Rules} (\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$rules)
+\begin{DoxyCompactList}\small\item\em check a ruleset (the action part) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a6370d2653a88ce6dc4df275b8279605e}\label{classQOSProcessor_a6370d2653a88ce6dc4df275b8279605e}} 
+virtual void \hyperlink{classQOSProcessor_a6370d2653a88ce6dc4df275b8279605e}{add\+Rules} (\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$rules, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\begin{DoxyCompactList}\small\item\em add rules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_ab873474a8a86af31723c1a9c7bcd6efb}\label{classQOSProcessor_ab873474a8a86af31723c1a9c7bcd6efb}} 
+virtual void \hyperlink{classQOSProcessor_ab873474a8a86af31723c1a9c7bcd6efb}{del\+Rules} (\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$rules)
+\begin{DoxyCompactList}\small\item\em delete rules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_ab929839bf92971682861fb8784f177c9}\label{classQOSProcessor_ab929839bf92971682861fb8784f177c9}} 
+int \hyperlink{classQOSProcessor_ab929839bf92971682861fb8784f177c9}{check\+Rule} (\hyperlink{classRule}{Rule} $\ast$r)
+\begin{DoxyCompactList}\small\item\em check a single rule \end{DoxyCompactList}\item 
+int \hyperlink{classQOSProcessor_a6378d7fdd049553ad9a449d5c206c865}{add\+Rule} (\hyperlink{classRule}{Rule} $\ast$r, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\begin{DoxyCompactList}\small\item\em add a \hyperlink{classRule}{Rule} and its associated actions to rule list \end{DoxyCompactList}\item 
+int \hyperlink{classQOSProcessor_a4b287dd7fd9b024b841649a929fe80de}{del\+Rule} (\hyperlink{classRule}{Rule} $\ast$r)
+\begin{DoxyCompactList}\small\item\em delete a \hyperlink{classRule}{Rule} from the rule list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a96048b3439c2200ed3766cd009c41ed5}\label{classQOSProcessor_a96048b3439c2200ed3766cd009c41ed5}} 
+virtual int \hyperlink{classQOSProcessor_a96048b3439c2200ed3766cd009c41ed5}{handle\+F\+D\+Event} (\hyperlink{QualityManagerComponent_8h_acd67c59a21d5c694ab882c8905db0a2a}{event\+Vec\+\_\+t} $\ast$e, fd\+\_\+set $\ast$rset, fd\+\_\+set $\ast$wset, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds)
+\begin{DoxyCompactList}\small\item\em handle file descriptor event \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_aa8c0438112f94a3ac43a67897dc5031b}\label{classQOSProcessor_aa8c0438112f94a3ac43a67897dc5031b}} 
+void \hyperlink{classQOSProcessor_aa8c0438112f94a3ac43a67897dc5031b}{main} ()
+\begin{DoxyCompactList}\small\item\em thread main function \end{DoxyCompactList}\item 
+unsigned long \hyperlink{classQOSProcessor_a5c5fe6cac6644de9a8ef1f767ceab078}{rule\+Timeout} (int rule\+ID, unsigned long ival, time\+\_\+t now)
+\begin{DoxyCompactList}\small\item\em return -\/1 (no packet seen), 0 (timeout), $>$0 (no timeout; adjust last time) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a28dc4f55ef2a7f9ce115e89cbc961725}\label{classQOSProcessor_a28dc4f55ef2a7f9ce115e89cbc961725}} 
+string \hyperlink{classQOSProcessor_a28dc4f55ef2a7f9ce115e89cbc961725}{get\+Info} ()
+\begin{DoxyCompactList}\small\item\em get information about loaded modules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a8b82498d97f1c971442fa91554916aa8}\label{classQOSProcessor_a8b82498d97f1c971442fa91554916aa8}} 
+void \hyperlink{classQOSProcessor_a8b82498d97f1c971442fa91554916aa8}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a Packet\+Processor object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a75d32434a5b264d1d25e1d4e047bfbcc}\label{classQOSProcessor_a75d32434a5b264d1d25e1d4e047bfbcc}} 
+int \hyperlink{classQOSProcessor_a75d32434a5b264d1d25e1d4e047bfbcc}{num\+Modules} ()
+\begin{DoxyCompactList}\small\item\em get the number of action modules currently in use \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_ac40c582964aa24aa2bc4feb028eaa2b0}\label{classQOSProcessor_ac40c582964aa24aa2bc4feb028eaa2b0}} 
+void {\bfseries timeout} (int rid, int actid, unsigned int tm\+ID)
+\item 
+\mbox{\Hypertarget{classQOSProcessor_ad294917f7d2690fd755067bf36104cac}\label{classQOSProcessor_ad294917f7d2690fd755067bf36104cac}} 
+string \hyperlink{classQOSProcessor_ad294917f7d2690fd755067bf36104cac}{get\+Module\+Info\+X\+ML} (string modname)
+\begin{DoxyCompactList}\small\item\em get xml info for a specific module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_a8c7e40e85fa1b02b61a6218281ccb736}\label{classQOSProcessor_a8c7e40e85fa1b02b61a6218281ccb736}} 
+virtual string \hyperlink{classQOSProcessor_a8c7e40e85fa1b02b61a6218281ccb736}{get\+Config\+Group} ()
+\begin{DoxyCompactList}\small\item\em return the config group of the component \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classQOSProcessor_afdc5230a402875b43ed3633621b151e2}\label{classQOSProcessor_afdc5230a402875b43ed3633621b151e2}} 
+virtual void {\bfseries wait\+Until\+Done} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+manage and apply Action Modules, retrieve flow data 
+
+the Packet\+Processor class allows to manage filter rules and their associated actions and apply those actions to incoming packets, manage and retrieve flow data 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classQOSProcessor_a27b56d900e42f99fea52c93e8a720bf5}\label{classQOSProcessor_a27b56d900e42f99fea52c93e8a720bf5}} 
+\index{Q\+O\+S\+Processor@{Q\+O\+S\+Processor}!Q\+O\+S\+Processor@{Q\+O\+S\+Processor}}
+\index{Q\+O\+S\+Processor@{Q\+O\+S\+Processor}!Q\+O\+S\+Processor@{Q\+O\+S\+Processor}}
+\subsubsection{\texorpdfstring{Q\+O\+S\+Processor()}{QOSProcessor()}}
+{\footnotesize\ttfamily Q\+O\+S\+Processor\+::\+Q\+O\+S\+Processor (\begin{DoxyParamCaption}\item[{\hyperlink{classConfigManager}{Config\+Manager} $\ast$}]{cnf,  }\item[{int}]{threaded,  }\item[{string}]{module\+Dir = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a Packet\+Processor object 
+
+\begin{DoxyItemize}
+\item {\ttfamily cnf} config manager \item {\ttfamily threaded} run as separate thread \item {\ttfamily module\+Dir} action module directory \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classQOSProcessor_a6378d7fdd049553ad9a449d5c206c865}\label{classQOSProcessor_a6378d7fdd049553ad9a449d5c206c865}} 
+\index{Q\+O\+S\+Processor@{Q\+O\+S\+Processor}!add\+Rule@{add\+Rule}}
+\index{add\+Rule@{add\+Rule}!Q\+O\+S\+Processor@{Q\+O\+S\+Processor}}
+\subsubsection{\texorpdfstring{add\+Rule()}{addRule()}}
+{\footnotesize\ttfamily int Q\+O\+S\+Processor\+::add\+Rule (\begin{DoxyParamCaption}\item[{\hyperlink{classRule}{Rule} $\ast$}]{r,  }\item[{\hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$}]{e }\end{DoxyParamCaption})}
+
+
+
+add a \hyperlink{classRule}{Rule} and its associated actions to rule list 
+
+\begin{DoxyItemize}
+\item {\ttfamily r} pointer to rule \item {\ttfamily e} pointer to event scheduler (timer events) \begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classQOSProcessor_a4b287dd7fd9b024b841649a929fe80de}\label{classQOSProcessor_a4b287dd7fd9b024b841649a929fe80de}} 
+\index{Q\+O\+S\+Processor@{Q\+O\+S\+Processor}!del\+Rule@{del\+Rule}}
+\index{del\+Rule@{del\+Rule}!Q\+O\+S\+Processor@{Q\+O\+S\+Processor}}
+\subsubsection{\texorpdfstring{del\+Rule()}{delRule()}}
+{\footnotesize\ttfamily int Q\+O\+S\+Processor\+::del\+Rule (\begin{DoxyParamCaption}\item[{\hyperlink{classRule}{Rule} $\ast$}]{r }\end{DoxyParamCaption})}
+
+
+
+delete a \hyperlink{classRule}{Rule} from the rule list 
+
+\begin{DoxyItemize}
+\item {\ttfamily r} pointer to rule \begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classQOSProcessor_a5c5fe6cac6644de9a8ef1f767ceab078}\label{classQOSProcessor_a5c5fe6cac6644de9a8ef1f767ceab078}} 
+\index{Q\+O\+S\+Processor@{Q\+O\+S\+Processor}!rule\+Timeout@{rule\+Timeout}}
+\index{rule\+Timeout@{rule\+Timeout}!Q\+O\+S\+Processor@{Q\+O\+S\+Processor}}
+\subsubsection{\texorpdfstring{rule\+Timeout()}{ruleTimeout()}}
+{\footnotesize\ttfamily unsigned long Q\+O\+S\+Processor\+::rule\+Timeout (\begin{DoxyParamCaption}\item[{int}]{rule\+ID,  }\item[{unsigned long}]{ival,  }\item[{time\+\_\+t}]{now }\end{DoxyParamCaption})}
+
+
+
+return -\/1 (no packet seen), 0 (timeout), $>$0 (no timeout; adjust last time) 
+
+\begin{DoxyItemize}
+\item {\ttfamily rule\+Id} -\/ number indicating matching rule for packet \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{QOSProcessor_8h}{Q\+O\+S\+Processor.\+h}\item 
+src/\hyperlink{QOSProcessor_8cpp}{Q\+O\+S\+Processor.\+cpp}\end{DoxyCompactItemize}

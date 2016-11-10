@@ -117,7 +117,7 @@ class RuleManager
 
   public:
 
-    int getNumTasks() 
+    int getNumRules() 
     { 
         return tasks; 
     }
@@ -181,9 +181,6 @@ class RuleManager
 
     //! add a single rule
     void addRule(Rule *r);
-
-    //! activate/execute rules
-    void activateRules(ruleDB_t *rules, EventScheduler *e);
 
     /*! \short   delete a filter rule description 
 

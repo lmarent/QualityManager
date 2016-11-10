@@ -1,0 +1,167 @@
+\hypertarget{structREQUEST}{}\section{R\+E\+Q\+U\+E\+ST Struct Reference}
+\label{structREQUEST}\index{R\+E\+Q\+U\+E\+ST@{R\+E\+Q\+U\+E\+ST}}
+
+
+Collaboration diagram for R\+E\+Q\+U\+E\+ST\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{structREQUEST__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structREQUEST_a3b485c5abe81292e92ff442727806754}\label{structREQUEST_a3b485c5abe81292e92ff442727806754}} 
+int {\bfseries fd}
+\item 
+\mbox{\Hypertarget{structREQUEST_ab9c9075cfcd3cd495d6e9d5426d145b6}\label{structREQUEST_ab9c9075cfcd3cd495d6e9d5426d145b6}} 
+int {\bfseries state}
+\item 
+\mbox{\Hypertarget{structREQUEST_a2ba16f180a16587e066bd3c2d16d0355}\label{structREQUEST_a2ba16f180a16587e066bd3c2d16d0355}} 
+time\+\_\+t {\bfseries ping}
+\item 
+\mbox{\Hypertarget{structREQUEST_a2c10c0657fe0fad2b7573ecf0e433bb1}\label{structREQUEST_a2c10c0657fe0fad2b7573ecf0e433bb1}} 
+int {\bfseries keep\+\_\+alive}
+\item 
+\mbox{\Hypertarget{structREQUEST_a140da8d7b77f43baa5316923d585b105}\label{structREQUEST_a140da8d7b77f43baa5316923d585b105}} 
+int {\bfseries tcp\+\_\+cork}
+\item 
+\mbox{\Hypertarget{structREQUEST_ad11be9186bf532496418f165541f56bb}\label{structREQUEST_ad11be9186bf532496418f165541f56bb}} 
+struct sockaddr\+\_\+storage {\bfseries peer}
+\item 
+\mbox{\Hypertarget{structREQUEST_a546a43cb69b2526ab8b02f1ece5d7366}\label{structREQUEST_a546a43cb69b2526ab8b02f1ece5d7366}} 
+char {\bfseries peerhost} \mbox{[}65\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a365b52befb639c4196ce9817da283d8f}\label{structREQUEST_a365b52befb639c4196ce9817da283d8f}} 
+char {\bfseries peerserv} \mbox{[}9\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_ad5dce0327433b4185779266aee5f2800}\label{structREQUEST_ad5dce0327433b4185779266aee5f2800}} 
+char {\bfseries hreq} \mbox{[}M\+A\+X\+\_\+\+R\+EQ+1\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_add195bdbe3e2fbd270d7a51c79f5f505}\label{structREQUEST_add195bdbe3e2fbd270d7a51c79f5f505}} 
+int {\bfseries lreq}
+\item 
+\mbox{\Hypertarget{structREQUEST_a0b0b64b6be75f50ee5fe2200e9ec0fd4}\label{structREQUEST_a0b0b64b6be75f50ee5fe2200e9ec0fd4}} 
+int {\bfseries hdata}
+\item 
+\mbox{\Hypertarget{structREQUEST_a4c62253b04825c33b5584e7dc0e68f80}\label{structREQUEST_a4c62253b04825c33b5584e7dc0e68f80}} 
+char {\bfseries type} \mbox{[}16\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a6f4e6fd5433a9ebc38138ebf50a31227}\label{structREQUEST_a6f4e6fd5433a9ebc38138ebf50a31227}} 
+char {\bfseries hostname} \mbox{[}65\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a67348c69ead30df6e151012b8a6d52b7}\label{structREQUEST_a67348c69ead30df6e151012b8a6d52b7}} 
+char {\bfseries uri} \mbox{[}2049\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_ab1720a44b923d21100cc1d3262eba0d4}\label{structREQUEST_ab1720a44b923d21100cc1d3262eba0d4}} 
+char {\bfseries path} \mbox{[}2049\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a00ac50761cc623b6fabbe328d30fbb40}\label{structREQUEST_a00ac50761cc623b6fabbe328d30fbb40}} 
+char {\bfseries query} \mbox{[}2049\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a2a2e887e5f6ec1ef31e4763e3160f654}\label{structREQUEST_a2a2e887e5f6ec1ef31e4763e3160f654}} 
+int {\bfseries major}
+\item 
+\mbox{\Hypertarget{structREQUEST_a1d5635001426c8387fb15aad289c9555}\label{structREQUEST_a1d5635001426c8387fb15aad289c9555}} 
+int {\bfseries minor}
+\item 
+\mbox{\Hypertarget{structREQUEST_acc1a0354ce44eb5d49aef39f4dba0054}\label{structREQUEST_acc1a0354ce44eb5d49aef39f4dba0054}} 
+char {\bfseries auth} \mbox{[}64\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a9c01c1d5a6f76abe93383a520e60bcd7}\label{structREQUEST_a9c01c1d5a6f76abe93383a520e60bcd7}} 
+struct \hyperlink{structstrlist}{strlist} $\ast$ {\bfseries header}
+\item 
+\mbox{\Hypertarget{structREQUEST_af3af7f2a9bcd3a10dff0ac2192ff7be8}\label{structREQUEST_af3af7f2a9bcd3a10dff0ac2192ff7be8}} 
+time\+\_\+t {\bfseries if\+\_\+modified}
+\item 
+\mbox{\Hypertarget{structREQUEST_a7d53b97936ae2860024df2f034366863}\label{structREQUEST_a7d53b97936ae2860024df2f034366863}} 
+time\+\_\+t {\bfseries if\+\_\+unmodified}
+\item 
+\mbox{\Hypertarget{structREQUEST_aa947afcf73e435e6d06dcfca3ac73d7f}\label{structREQUEST_aa947afcf73e435e6d06dcfca3ac73d7f}} 
+time\+\_\+t {\bfseries if\+\_\+range}
+\item 
+\mbox{\Hypertarget{structREQUEST_a9ba7fb3102d52bd98b10474c3c03d270}\label{structREQUEST_a9ba7fb3102d52bd98b10474c3c03d270}} 
+char $\ast$ {\bfseries range\+\_\+hdr}
+\item 
+\mbox{\Hypertarget{structREQUEST_a47997d3f103255c08e0c71f429e8b941}\label{structREQUEST_a47997d3f103255c08e0c71f429e8b941}} 
+int {\bfseries ranges}
+\item 
+\mbox{\Hypertarget{structREQUEST_a015d2ced0aa1c92aca72047275ba229e}\label{structREQUEST_a015d2ced0aa1c92aca72047275ba229e}} 
+off\+\_\+t $\ast$ {\bfseries r\+\_\+start}
+\item 
+\mbox{\Hypertarget{structREQUEST_a8d59a3471b45399b088c7535c6ac5306}\label{structREQUEST_a8d59a3471b45399b088c7535c6ac5306}} 
+off\+\_\+t $\ast$ {\bfseries r\+\_\+end}
+\item 
+\mbox{\Hypertarget{structREQUEST_a9bcd9126993728e972739bd895ce352d}\label{structREQUEST_a9bcd9126993728e972739bd895ce352d}} 
+char $\ast$ {\bfseries r\+\_\+head}
+\item 
+\mbox{\Hypertarget{structREQUEST_a0286f94c25843e6cc550cf876eb742b5}\label{structREQUEST_a0286f94c25843e6cc550cf876eb742b5}} 
+int $\ast$ {\bfseries r\+\_\+hlen}
+\item 
+\mbox{\Hypertarget{structREQUEST_a52e3a0ae061025ce739d3c4e579824ea}\label{structREQUEST_a52e3a0ae061025ce739d3c4e579824ea}} 
+char $\ast$ {\bfseries ctype}
+\item 
+\mbox{\Hypertarget{structREQUEST_ab990887c4c5749f38b672367157a2bc4}\label{structREQUEST_ab990887c4c5749f38b672367157a2bc4}} 
+int {\bfseries clen}
+\item 
+\mbox{\Hypertarget{structREQUEST_a467d59c8ac16e1293d8a2f3ed07fb98f}\label{structREQUEST_a467d59c8ac16e1293d8a2f3ed07fb98f}} 
+char $\ast$ {\bfseries breq}
+\item 
+\mbox{\Hypertarget{structREQUEST_ab0f360fe64122a0dc53c3a95cce99316}\label{structREQUEST_ab0f360fe64122a0dc53c3a95cce99316}} 
+char {\bfseries post\+\_\+body} \mbox{[}M\+A\+X\+\_\+\+R\+EQ+1\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_af73bf0e294b1ce30907a69d4429ed71a}\label{structREQUEST_af73bf0e294b1ce30907a69d4429ed71a}} 
+int {\bfseries lbreq}
+\item 
+\mbox{\Hypertarget{structREQUEST_a50b812806152011a8b5bd0e703e01129}\label{structREQUEST_a50b812806152011a8b5bd0e703e01129}} 
+int {\bfseries status}
+\item 
+\mbox{\Hypertarget{structREQUEST_a6f3abdf2f81ee491fc435a8d2cc6d950}\label{structREQUEST_a6f3abdf2f81ee491fc435a8d2cc6d950}} 
+int {\bfseries bc}
+\item 
+\mbox{\Hypertarget{structREQUEST_a7148a81a780b72b65c7765d3367b90f2}\label{structREQUEST_a7148a81a780b72b65c7765d3367b90f2}} 
+char {\bfseries hres} \mbox{[}M\+A\+X\+\_\+\+H\+E\+A\+D\+ER+1\mbox{]}
+\item 
+\mbox{\Hypertarget{structREQUEST_a51431e4cd1a57b66a56a114b130d89e8}\label{structREQUEST_a51431e4cd1a57b66a56a114b130d89e8}} 
+int {\bfseries lres}
+\item 
+\mbox{\Hypertarget{structREQUEST_a1a5829da8a6051d7d86fdb454880a842}\label{structREQUEST_a1a5829da8a6051d7d86fdb454880a842}} 
+char $\ast$ {\bfseries mime}
+\item 
+\mbox{\Hypertarget{structREQUEST_ac18f1048932b4f5b2d14b07e76bc594e}\label{structREQUEST_ac18f1048932b4f5b2d14b07e76bc594e}} 
+char $\ast$ {\bfseries body}
+\item 
+\mbox{\Hypertarget{structREQUEST_a6de2692999bdfe8bb560a6ac55bf4f0a}\label{structREQUEST_a6de2692999bdfe8bb560a6ac55bf4f0a}} 
+int {\bfseries lbody}
+\item 
+\mbox{\Hypertarget{structREQUEST_a00f3b53e23090d93f1fdc3dd2b3f89fd}\label{structREQUEST_a00f3b53e23090d93f1fdc3dd2b3f89fd}} 
+int {\bfseries bfd}
+\item 
+\mbox{\Hypertarget{structREQUEST_a52eb8dbd37dcb50d6f4cbe07afa1b5a7}\label{structREQUEST_a52eb8dbd37dcb50d6f4cbe07afa1b5a7}} 
+struct stat {\bfseries bst}
+\item 
+\mbox{\Hypertarget{structREQUEST_a71ec0a2a0f63900cbe4f55c9d34998bd}\label{structREQUEST_a71ec0a2a0f63900cbe4f55c9d34998bd}} 
+off\+\_\+t {\bfseries written}
+\item 
+\mbox{\Hypertarget{structREQUEST_a45f97d1b901a6cf20b8c1afda8b6f544}\label{structREQUEST_a45f97d1b901a6cf20b8c1afda8b6f544}} 
+int {\bfseries head\+\_\+only}
+\item 
+\mbox{\Hypertarget{structREQUEST_aae5661c09d2e7ca38d55ea5b30f1a291}\label{structREQUEST_aae5661c09d2e7ca38d55ea5b30f1a291}} 
+int {\bfseries rh}
+\item 
+\mbox{\Hypertarget{structREQUEST_a2fc7edc7016483efbbaf9bc15d9962a7}\label{structREQUEST_a2fc7edc7016483efbbaf9bc15d9962a7}} 
+int {\bfseries rb}
+\item 
+\mbox{\Hypertarget{structREQUEST_a3499889dcb97dce4efe1afa465479121}\label{structREQUEST_a3499889dcb97dce4efe1afa465479121}} 
+int {\bfseries lifespan}
+\item 
+\mbox{\Hypertarget{structREQUEST_a89dad1805a6338683086a0c11e9bf57a}\label{structREQUEST_a89dad1805a6338683086a0c11e9bf57a}} 
+struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$ {\bfseries next}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/httpd/\hyperlink{httpd_8h}{httpd.\+h}\end{DoxyCompactItemize}

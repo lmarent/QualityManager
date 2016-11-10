@@ -372,16 +372,16 @@ int CtrlComm::handleFDEvent(eventVec_t *e, fd_set *rset, fd_set *wset, fd_sets_t
     retEventVec = e;
     retEvent = NULL;
 
-    std::cout << "CntrlComm handleFDEvent" << std::endl;
-    
+	
     // check for incoming message
-    if (httpd_handle_event(rset, wset, fds) < 0) {
+    int http_handle = httpd_handle_event(rset, wset, fds);
+    
+    if (http_handle < 0) {
 		cout << "ERROR HANDLING THE EVENT" << endl;
-        throw Error("ctrlcomm handle event error");
-    }
-	
-	std::cout << "Finish httpd_handle_event" << std::endl;
-	
+		throw Error("ctrlcomm handle event error");
+	}	
+
+    		
     // processCmd callback funtion is called in case of new request
 
     // return resulting event (freed by event scheduler)
@@ -396,22 +396,27 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
     parseReq_t preq;
 
     preq.comm = req->path;
-
+    
+    cout << "parsing request" << endl;
+    
     // parse headers
     struct strlist *hdr = req->header;
     while (hdr) {
         string l = hdr->line;
+        cout << l << endl;
         int p = l.find(":");
         if (p > 0) {
             preq.params[l.substr(0,p)] = l.substr(p+1, l.length());
         }
         hdr = hdr->next;
     }
-
+    
+    cout << "parsing url parameters" << endl;
+    
     // parse URL parameters
     if (req->query != NULL) {
         string q = req->query;
-    
+        cout << q << endl;
         int p1 = 0, p2 = q.length(), p3 = 0;
         while((p2 = q.find("&",p1)) > 0) {
             cerr << p2 << endl;
@@ -428,11 +433,14 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
         }
     
     }
-
+    
+    cout << "parsing post parameters in body" << endl;
+    
     // parse POST parameters in body
     if (req->lbreq != 0) {
         string q = req->post_body;
-    
+        cout << q << endl;
+        
         int p1 = 0, p2 = q.length(), p3 = 0;
         while((p2 = q.find("&",p1)) > 0) {
             p3 = q.find("=",p1);
@@ -471,10 +479,8 @@ int CtrlComm::processCmd(struct REQUEST *req)
     ini = PerfTimer::readTSC();
 #endif
 
-#ifdef DEBUG
-    log->log(ch, "client requested cmd:%s Params: %s Body:%s", 
+    log->dlog(ch, "client requested cmd:%s Params: %s Body:%s", 
 						req->path, req->query, req->post_body);
-#endif
 		
     if (isEnabled(LOG_COMMAND)) {
         log->log(ch, "client requested cmd: '%s' and params '%s%s'", req->path, req->query,
@@ -490,15 +496,12 @@ int CtrlComm::processCmd(struct REQUEST *req)
     // try lookup in repository of static meter pages
     string page = pcache.getPage(preq.comm); 
 
-#ifdef DEBUG
-    log->log(ch, "Command:%s Page:%s", (preq.comm).c_str(), page.c_str() );
-#endif			
-
 
     try {
-        if (page != "") {
 
-			
+        log->dlog(ch, "Command:%s Page:%s", (preq.comm).c_str(), page.c_str() );
+
+        if (page != "") {
             // send page
             req->body = strdup(page.c_str());  // FIXME not very performant
             req->mime = get_mime((char *) pcache.getFileName(preq.comm).c_str());
@@ -531,9 +534,11 @@ int CtrlComm::processCmd(struct REQUEST *req)
     cerr << "parse cmd in " << PerfTimer::ticks2ns(end-ini) << " ns" << endl;
 #endif
 
-    if (retEvent != NULL) {
+    if (retEvent != NULL) 
+    {
         retEvent->setReq(req);
         retEventVec->push_back(retEvent);
+        log->dlog(ch, "New Event Control Command");
     }
 
     return 0;
@@ -546,18 +551,16 @@ char *CtrlComm::processAddTask(parseReq_t *preq)
 {
     paramListIter_t rule = preq->params.find("Rule");
 
+    log->dlog(ch, "starting processAddTask rule:%s", rule->second.c_str());
+
     if (rule == preq->params.end()) {
         throw Error("add_task: missing parameter 'Rule'" );
     }
 
-    // FIXME sufficient?
-    if (rule->second.find("!DOCTYPE RULESET") <= rule->second.length()) {
-        // assume xml rule def
-        retEvent = new AddRulesCtrlEvent((char *) rule->second.c_str(), rule->second.size());
-    } else {
-        retEvent = new AddRulesCtrlEvent((char *) rule->second.c_str(), rule->second.size(), 1);
-    }
+    retEvent = new AddRulesCtrlEvent((char *) rule->second.c_str(), rule->second.size(), 0);
 
+    log->dlog(ch, "ending processAddTask");
+    
     return NULL;
 }
 

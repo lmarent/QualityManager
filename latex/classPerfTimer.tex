@@ -1,0 +1,158 @@
+\hypertarget{classPerfTimer}{}\section{Perf\+Timer Class Reference}
+\label{classPerfTimer}\index{Perf\+Timer@{Perf\+Timer}}
+
+
+the \hyperlink{classPerfTimer}{Perf\+Timer} class stores timestamps for performance measurements  
+
+
+
+
+{\ttfamily \#include $<$Perf\+Timer.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPerfTimer_ab35a935e243bc23052a9ff1762537a41}\label{classPerfTimer_ab35a935e243bc23052a9ff1762537a41}} 
+\hyperlink{classPerfTimer_ab35a935e243bc23052a9ff1762537a41}{$\sim$\+Perf\+Timer} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classPerfTimer}{Perf\+Timer} object \end{DoxyCompactList}\item 
+double \hyperlink{classPerfTimer_ada7ba72a813fdb2b0dad40894e06660f}{get\+Clock\+Speed} ()
+\begin{DoxyCompactList}\small\item\em //!$<$ get system clock speed in M\+Hz \end{DoxyCompactList}\item 
+void \hyperlink{classPerfTimer_a5ffdaeb63f13089d49c6be96c8d82304}{start} (int slot)
+\begin{DoxyCompactList}\small\item\em start measurement for one slot \end{DoxyCompactList}\item 
+void \hyperlink{classPerfTimer_afaad955880deb107074bf3f477528aa9}{stop} (int slot)
+\begin{DoxyCompactList}\small\item\em end measurement for one slot and record number of ticks \end{DoxyCompactList}\item 
+void \hyperlink{classPerfTimer_afda4ca8efb7e0546908a47857d5e3f87}{account} (int slot, unsigned long long ticks)
+\begin{DoxyCompactList}\small\item\em account measurement with \textquotesingle{}ticks\textquotesingle{} clock ticks for slot \textquotesingle{}slot\textquotesingle{} \end{DoxyCompactList}\item 
+unsigned long long \hyperlink{classPerfTimer_a5eef9b392152d13af1359c9bfd13c436}{latest} (int slot)
+\begin{DoxyCompactList}\small\item\em calculate number of nsec taken for latest measurements for one specific slot \end{DoxyCompactList}\item 
+unsigned long long \hyperlink{classPerfTimer_a1802fc2d85ce5c7ac9489d7a145099d9}{avg} (int slot)
+\begin{DoxyCompactList}\small\item\em calculate average number of nsec taken for measurements for one slot \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPerfTimer_a9aa64aa9c7e22d925595650d783cdb41}\label{classPerfTimer_a9aa64aa9c7e22d925595650d783cdb41}} 
+void \hyperlink{classPerfTimer_a9aa64aa9c7e22d925595650d783cdb41}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classPerfTimer}{Perf\+Timer} object \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \+\_\+\+\_\+inline\+\_\+\+\_\+ unsigned long long \hyperlink{classPerfTimer_aaef17f123debaf55d86bd3eb4ed0de0e}{read\+T\+SC} ()
+\begin{DoxyCompactList}\small\item\em read system clock tick counter from cpu \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPerfTimer_a617b22bf368f30ad5664b531f019dcc0}\label{classPerfTimer_a617b22bf368f30ad5664b531f019dcc0}} 
+static \hyperlink{classPerfTimer}{Perf\+Timer} $\ast$ \hyperlink{classPerfTimer_a617b22bf368f30ad5664b531f019dcc0}{get\+Instance} ()
+\begin{DoxyCompactList}\small\item\em access the one and only \hyperlink{classPerfTimer}{Perf\+Timer} instance \end{DoxyCompactList}\item 
+static unsigned long long \hyperlink{classPerfTimer_a8da85ffde4f6f94a12c1fd9b789ded74}{ticks2ns} (unsigned int runs, unsigned long long ticks)
+\begin{DoxyCompactList}\small\item\em convert number of clock ticks into number of nanoseconds \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPerfTimer_a44ee31ec0675f205d160d691fed6532b}\label{classPerfTimer_a44ee31ec0675f205d160d691fed6532b}} 
+static unsigned long long {\bfseries ticks2ns} (unsigned long long ticks)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+the \hyperlink{classPerfTimer}{Perf\+Timer} class stores timestamps for performance measurements 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classPerfTimer_afda4ca8efb7e0546908a47857d5e3f87}\label{classPerfTimer_afda4ca8efb7e0546908a47857d5e3f87}} 
+\index{Perf\+Timer@{Perf\+Timer}!account@{account}}
+\index{account@{account}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{account()}{account()}}
+{\footnotesize\ttfamily void Perf\+Timer\+::account (\begin{DoxyParamCaption}\item[{int}]{slot,  }\item[{unsigned long long}]{ticks }\end{DoxyParamCaption})}
+
+
+
+account measurement with \textquotesingle{}ticks\textquotesingle{} clock ticks for slot \textquotesingle{}slot\textquotesingle{} 
+
+\begin{DoxyItemize}
+\item {\ttfamily slot} -\/ number of measurement slot \item {\ttfamily ticks} -\/ number of C\+PU clock ticks from independant measurement \end{DoxyItemize}
+\mbox{\Hypertarget{classPerfTimer_a1802fc2d85ce5c7ac9489d7a145099d9}\label{classPerfTimer_a1802fc2d85ce5c7ac9489d7a145099d9}} 
+\index{Perf\+Timer@{Perf\+Timer}!avg@{avg}}
+\index{avg@{avg}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{avg()}{avg()}}
+{\footnotesize\ttfamily unsigned long long Perf\+Timer\+::avg (\begin{DoxyParamCaption}\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+calculate average number of nsec taken for measurements for one slot 
+
+\begin{DoxyItemize}
+\item {\ttfamily slot} -\/ number of measurement slot \end{DoxyItemize}
+\mbox{\Hypertarget{classPerfTimer_ada7ba72a813fdb2b0dad40894e06660f}\label{classPerfTimer_ada7ba72a813fdb2b0dad40894e06660f}} 
+\index{Perf\+Timer@{Perf\+Timer}!get\+Clock\+Speed@{get\+Clock\+Speed}}
+\index{get\+Clock\+Speed@{get\+Clock\+Speed}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{get\+Clock\+Speed()}{getClockSpeed()}}
+{\footnotesize\ttfamily double Perf\+Timer\+::get\+Clock\+Speed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+//!$<$ get system clock speed in M\+Hz 
+
+\begin{DoxyReturn}{Returns}
+system clock speed in M\+Hz, -\/1.\+0 if not available 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPerfTimer_a5eef9b392152d13af1359c9bfd13c436}\label{classPerfTimer_a5eef9b392152d13af1359c9bfd13c436}} 
+\index{Perf\+Timer@{Perf\+Timer}!latest@{latest}}
+\index{latest@{latest}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{latest()}{latest()}}
+{\footnotesize\ttfamily unsigned long long Perf\+Timer\+::latest (\begin{DoxyParamCaption}\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+calculate number of nsec taken for latest measurements for one specific slot 
+
+\begin{DoxyItemize}
+\item {\ttfamily slot} -\/ number of measurement slot \end{DoxyItemize}
+\mbox{\Hypertarget{classPerfTimer_aaef17f123debaf55d86bd3eb4ed0de0e}\label{classPerfTimer_aaef17f123debaf55d86bd3eb4ed0de0e}} 
+\index{Perf\+Timer@{Perf\+Timer}!read\+T\+SC@{read\+T\+SC}}
+\index{read\+T\+SC@{read\+T\+SC}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{read\+T\+S\+C()}{readTSC()}}
+{\footnotesize\ttfamily static \+\_\+\+\_\+inline\+\_\+\+\_\+ unsigned long long Perf\+Timer\+::read\+T\+SC (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+read system clock tick counter from cpu 
+
+\begin{DoxyReturn}{Returns}
+number of C\+PU clock ticks since last reboot 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classPerfTimer_a5ffdaeb63f13089d49c6be96c8d82304}\label{classPerfTimer_a5ffdaeb63f13089d49c6be96c8d82304}} 
+\index{Perf\+Timer@{Perf\+Timer}!start@{start}}
+\index{start@{start}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void Perf\+Timer\+::start (\begin{DoxyParamCaption}\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+start measurement for one slot 
+
+\begin{DoxyItemize}
+\item {\ttfamily slot} -\/ number of measurement slot \end{DoxyItemize}
+\mbox{\Hypertarget{classPerfTimer_afaad955880deb107074bf3f477528aa9}\label{classPerfTimer_afaad955880deb107074bf3f477528aa9}} 
+\index{Perf\+Timer@{Perf\+Timer}!stop@{stop}}
+\index{stop@{stop}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Perf\+Timer\+::stop (\begin{DoxyParamCaption}\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+end measurement for one slot and record number of ticks 
+
+\begin{DoxyItemize}
+\item {\ttfamily slot} -\/ number of measurement slot \end{DoxyItemize}
+\mbox{\Hypertarget{classPerfTimer_a8da85ffde4f6f94a12c1fd9b789ded74}\label{classPerfTimer_a8da85ffde4f6f94a12c1fd9b789ded74}} 
+\index{Perf\+Timer@{Perf\+Timer}!ticks2ns@{ticks2ns}}
+\index{ticks2ns@{ticks2ns}!Perf\+Timer@{Perf\+Timer}}
+\subsubsection{\texorpdfstring{ticks2ns()}{ticks2ns()}}
+{\footnotesize\ttfamily unsigned long long Perf\+Timer\+::ticks2ns (\begin{DoxyParamCaption}\item[{unsigned int}]{runs,  }\item[{unsigned long long}]{ticks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+convert number of clock ticks into number of nanoseconds 
+
+\begin{DoxyItemize}
+\item {\ttfamily runs} -\/ number of measurements that accumulated the clock ticks \item {\ttfamily ticks} -\/ number of accumulated clock ticks \begin{DoxyReturn}{Returns}
+number of nanoseconds elapsed during one measurement on average
+\end{DoxyReturn}
+warning\+: this function assumes the measurement overhead is still included in the number of clock ticks spent and subtracts runs$\ast$overhead ! \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{PerfTimer_8h}{Perf\+Timer.\+h}\item 
+src/Perf\+Timer.\+cpp\end{DoxyCompactItemize}

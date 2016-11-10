@@ -1,0 +1,168 @@
+\hypertarget{classRuleManager}{}\section{Rule\+Manager Class Reference}
+\label{classRuleManager}\index{Rule\+Manager@{Rule\+Manager}}
+
+
+manage adding/deleting of complete rule descriptions  
+
+
+
+
+{\ttfamily \#include $<$Rule\+Manager.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classRuleManager_a21d68fb7fdaa507fafd5ff6099381cc1}\label{classRuleManager_a21d68fb7fdaa507fafd5ff6099381cc1}} 
+int {\bfseries get\+Num\+Tasks} ()
+\item 
+\mbox{\Hypertarget{classRuleManager_abea1764880229293d1f864fb0748657f}\label{classRuleManager_abea1764880229293d1f864fb0748657f}} 
+filter\+Def\+List\+\_\+t $\ast$ {\bfseries get\+Filter\+Defs} ()
+\item 
+\mbox{\Hypertarget{classRuleManager_a838212711c14ca2708c861c8a5791807}\label{classRuleManager_a838212711c14ca2708c861c8a5791807}} 
+string {\bfseries get\+Info} (int uid)
+\item 
+\hyperlink{classRuleManager_a31bcd41f979a78dcdeb9dcfc2460aa15}{Rule\+Manager} (string fdname, string fvname)
+\begin{DoxyCompactList}\small\item\em construct and initialize a \hyperlink{classRuleManager}{Rule\+Manager} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_a5c957ab5466f026a427727655c2f577c}\label{classRuleManager_a5c957ab5466f026a427727655c2f577c}} 
+\hyperlink{classRuleManager_a5c957ab5466f026a427727655c2f577c}{$\sim$\+Rule\+Manager} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classRuleManager}{Rule\+Manager} object \end{DoxyCompactList}\item 
+\hyperlink{classRule}{Rule} $\ast$ \hyperlink{classRuleManager_ab081c7bea7b31ff32059c1b470b6208d}{get\+Rule} (int uid)
+\begin{DoxyCompactList}\small\item\em lookup the rule info data for a given rule\+Id or name \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_aa7ce90c80d7c6e167d5fe396b9310985}\label{classRuleManager_aa7ce90c80d7c6e167d5fe396b9310985}} 
+\hyperlink{classRule}{Rule} $\ast$ \hyperlink{classRuleManager_aa7ce90c80d7c6e167d5fe396b9310985}{get\+Rule} (string sname, string rname)
+\begin{DoxyCompactList}\small\item\em get rule rname from ruleset sname \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_abe81485b01b2db580370da44f0d86f37}\label{classRuleManager_abe81485b01b2db580370da44f0d86f37}} 
+rule\+Index\+\_\+t $\ast$ \hyperlink{classRuleManager_abe81485b01b2db580370da44f0d86f37}{get\+Rules} (string sname)
+\begin{DoxyCompactList}\small\item\em get all rules in ruleset with name sname \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_ac2968da0034fbf6603f08b8b83817a0a}\label{classRuleManager_ac2968da0034fbf6603f08b8b83817a0a}} 
+\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} \hyperlink{classRuleManager_ac2968da0034fbf6603f08b8b83817a0a}{get\+Rules} ()
+\begin{DoxyCompactList}\small\item\em get all rules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_a90df59d4ab10d4e31e239c1a136bd410}\label{classRuleManager_a90df59d4ab10d4e31e239c1a136bd410}} 
+\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$ \hyperlink{classRuleManager_a90df59d4ab10d4e31e239c1a136bd410}{parse\+Rules} (string fname)
+\begin{DoxyCompactList}\small\item\em parse X\+ML rules from file \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_a79c110f6566aab42fbab44d9efbc449f}\label{classRuleManager_a79c110f6566aab42fbab44d9efbc449f}} 
+\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$ \hyperlink{classRuleManager_a79c110f6566aab42fbab44d9efbc449f}{parse\+Rules\+Buffer} (char $\ast$buf, int len, int mapi)
+\begin{DoxyCompactList}\small\item\em parse X\+ML or Meter A\+PI rules from buffer \end{DoxyCompactList}\item 
+void \hyperlink{classRuleManager_ae1d3a7b7e4ccf47a992e8239d3f643a4}{add\+Rules} (\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$rules, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\begin{DoxyCompactList}\small\item\em add a filter rule description \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_a40a2dd1e2f15f37c2237079b431bccd8}\label{classRuleManager_a40a2dd1e2f15f37c2237079b431bccd8}} 
+void \hyperlink{classRuleManager_a40a2dd1e2f15f37c2237079b431bccd8}{add\+Rule} (\hyperlink{classRule}{Rule} $\ast$r)
+\begin{DoxyCompactList}\small\item\em add a single rule \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_a7318810cdd95a602ce890afe2b603320}\label{classRuleManager_a7318810cdd95a602ce890afe2b603320}} 
+void \hyperlink{classRuleManager_a7318810cdd95a602ce890afe2b603320}{activate\+Rules} (\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$rules, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\begin{DoxyCompactList}\small\item\em activate/execute rules \end{DoxyCompactList}\item 
+void \hyperlink{classRuleManager_ab01b6ffe72edce8b9d8b8d3ff5baf55b}{del\+Rule} (int uid, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\begin{DoxyCompactList}\small\item\em delete a filter rule description \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_ac1b0013d3bb1d153ff5eaee4974ea275}\label{classRuleManager_ac1b0013d3bb1d153ff5eaee4974ea275}} 
+void {\bfseries del\+Rule} (string rname, string sname, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\item 
+\mbox{\Hypertarget{classRuleManager_aee617ae038c13cd8a0aa292b6a16c325}\label{classRuleManager_aee617ae038c13cd8a0aa292b6a16c325}} 
+void {\bfseries del\+Rules} (string sname, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\item 
+\mbox{\Hypertarget{classRuleManager_aebb5b47bca52719f5741039002d7a9f8}\label{classRuleManager_aebb5b47bca52719f5741039002d7a9f8}} 
+void {\bfseries del\+Rule} (\hyperlink{classRule}{Rule} $\ast$r, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\item 
+\mbox{\Hypertarget{classRuleManager_ac6780adf74bf7918005086a594aa1df0}\label{classRuleManager_ac6780adf74bf7918005086a594aa1df0}} 
+void {\bfseries del\+Rules} (\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$rules, \hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$e)
+\item 
+string \hyperlink{classRuleManager_a15995aaed6daab992a46aeeac5d54e06}{get\+Info} (void)
+\begin{DoxyCompactList}\small\item\em get information from the rule manager \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classRuleManager_a4202560315a439c6359587b08fe4df97}\label{classRuleManager_a4202560315a439c6359587b08fe4df97}} 
+string {\bfseries get\+Info} (\hyperlink{classRule}{Rule} $\ast$r)
+\item 
+\mbox{\Hypertarget{classRuleManager_aceef53a03385cd8ea5ee84c679f8cb82}\label{classRuleManager_aceef53a03385cd8ea5ee84c679f8cb82}} 
+string {\bfseries get\+Info} (string sname, string rname)
+\item 
+\mbox{\Hypertarget{classRuleManager_aa7b8b1de53715c8a63d88812f858c9ee}\label{classRuleManager_aa7b8b1de53715c8a63d88812f858c9ee}} 
+string {\bfseries get\+Info} (string sname)
+\item 
+\mbox{\Hypertarget{classRuleManager_a09bd92aa70fdd885ee877d1e2a108d11}\label{classRuleManager_a09bd92aa70fdd885ee877d1e2a108d11}} 
+void \hyperlink{classRuleManager_a09bd92aa70fdd885ee877d1e2a108d11}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classRuleManager}{Rule\+Manager} object \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+manage adding/deleting of complete rule descriptions 
+
+the \hyperlink{classRuleManager}{Rule\+Manager} class allows to add and remove rules in the Meters core system. \hyperlink{classRule}{Rule} data are a set of ascii strings that are parsed and syntax checked by the \hyperlink{classRuleManager}{Rule\+Manager} and then their respective settings are used to configure the other Meter\+Core components. The rule will then be stored in the rule\+Database inside the \hyperlink{classRuleManager}{Rule\+Manager} 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classRuleManager_a31bcd41f979a78dcdeb9dcfc2460aa15}\label{classRuleManager_a31bcd41f979a78dcdeb9dcfc2460aa15}} 
+\index{Rule\+Manager@{Rule\+Manager}!Rule\+Manager@{Rule\+Manager}}
+\index{Rule\+Manager@{Rule\+Manager}!Rule\+Manager@{Rule\+Manager}}
+\subsubsection{\texorpdfstring{Rule\+Manager()}{RuleManager()}}
+{\footnotesize\ttfamily Rule\+Manager\+::\+Rule\+Manager (\begin{DoxyParamCaption}\item[{string}]{fdname,  }\item[{string}]{fvname }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a \hyperlink{classRuleManager}{Rule\+Manager} object 
+
+\begin{DoxyItemize}
+\item {\ttfamily fdname} filter definition file name \item {\ttfamily fvname} filter value definition name \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classRuleManager_ae1d3a7b7e4ccf47a992e8239d3f643a4}\label{classRuleManager_ae1d3a7b7e4ccf47a992e8239d3f643a4}} 
+\index{Rule\+Manager@{Rule\+Manager}!add\+Rules@{add\+Rules}}
+\index{add\+Rules@{add\+Rules}!Rule\+Manager@{Rule\+Manager}}
+\subsubsection{\texorpdfstring{add\+Rules()}{addRules()}}
+{\footnotesize\ttfamily void Rule\+Manager\+::add\+Rules (\begin{DoxyParamCaption}\item[{\hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $\ast$}]{rules,  }\item[{\hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$}]{e }\end{DoxyParamCaption})}
+
+
+
+add a filter rule description 
+
+adding new rules to the metering system will parse and syntax check the given rule specifications, lookup the rule database for already installed rules and store the rule into the database
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em an} & \hyperlink{classError}{Error} exception if the given rule description is not syntactically correct or does not contain the mandatory fields or if a rule with the given identification is already present in the rule\+Database \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classRuleManager_ab01b6ffe72edce8b9d8b8d3ff5baf55b}\label{classRuleManager_ab01b6ffe72edce8b9d8b8d3ff5baf55b}} 
+\index{Rule\+Manager@{Rule\+Manager}!del\+Rule@{del\+Rule}}
+\index{del\+Rule@{del\+Rule}!Rule\+Manager@{Rule\+Manager}}
+\subsubsection{\texorpdfstring{del\+Rule()}{delRule()}}
+{\footnotesize\ttfamily void Rule\+Manager\+::del\+Rule (\begin{DoxyParamCaption}\item[{int}]{uid,  }\item[{\hyperlink{classEventScheduler}{Event\+Scheduler} $\ast$}]{e }\end{DoxyParamCaption})}
+
+
+
+delete a filter rule description 
+
+deletion of a filter rule will parse and syntax check the identification string, test the presence of the given filter rule in the rule\+Database, remove the rule from the rule\+Database
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em an} & \hyperlink{classError}{Error} exception if the given rule identification is not syntactically correct or does not contain the mandatory fields or if a rule with the given identification is currently not present in the rule\+Database \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classRuleManager_a15995aaed6daab992a46aeeac5d54e06}\label{classRuleManager_a15995aaed6daab992a46aeeac5d54e06}} 
+\index{Rule\+Manager@{Rule\+Manager}!get\+Info@{get\+Info}}
+\index{get\+Info@{get\+Info}!Rule\+Manager@{Rule\+Manager}}
+\subsubsection{\texorpdfstring{get\+Info()}{getInfo()}}
+{\footnotesize\ttfamily string Rule\+Manager\+::get\+Info (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+get information from the rule manager 
+
+these functions can be used to get information for a single rule, or a set of rules or all rules \mbox{\Hypertarget{classRuleManager_ab081c7bea7b31ff32059c1b470b6208d}\label{classRuleManager_ab081c7bea7b31ff32059c1b470b6208d}} 
+\index{Rule\+Manager@{Rule\+Manager}!get\+Rule@{get\+Rule}}
+\index{get\+Rule@{get\+Rule}!Rule\+Manager@{Rule\+Manager}}
+\subsubsection{\texorpdfstring{get\+Rule()}{getRule()}}
+{\footnotesize\ttfamily \hyperlink{classRule}{Rule} $\ast$ Rule\+Manager\+::get\+Rule (\begin{DoxyParamCaption}\item[{int}]{uid }\end{DoxyParamCaption})}
+
+
+
+lookup the rule info data for a given rule\+Id or name 
+
+lookup the database of installed filter rules for a specific rule and return a link (pointer) to the \hyperlink{classRule}{Rule} data associated with it do not store this pointer, its contents will be destroyed upon rule deletion. do not free this pointer as it is a link to the \hyperlink{classRule}{Rule} and not a copy.
+
+\begin{DoxyItemize}
+\item {\ttfamily rule\+Id} -\/ unique rule id \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{RuleManager_8h}{Rule\+Manager.\+h}\item 
+src/\hyperlink{RuleManager_8cpp}{Rule\+Manager.\+cpp}\end{DoxyCompactItemize}

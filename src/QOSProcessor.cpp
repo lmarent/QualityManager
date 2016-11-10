@@ -35,6 +35,7 @@
 #include "QOSProcessor.h"
 #include "Module.h"
 #include "ParserFcts.h"
+#include "QualityManager.h"
 
 
 ppaction_t& ppaction_t::operator=( ppaction_t const& rhs)
@@ -113,20 +114,27 @@ QOSProcessor::~QOSProcessor()
     
     log->log(ch, "Active rules:%d", (int) rules.size());
     
-    ruleActionListIter_t it;
-    for ( it = rules.begin(); it != rules.end(); it++) 
+    ruleActionListIter_t it = rules.begin();
+    while ( it != rules.end()) 
     {
         Rule *r = NULL;
         r = (it->second).rule;
         
-        if (r == NULL)    
+        if (r == NULL){
 			log->log(ch, "ruleId:%d with Null rule", it->first ) ;
-		else
+            it++;
+        }
+		else{
+            // To avoid making the iterator invalid, we increase it before deleting.
+            ++it; 
 			delRule(r);
+        }
     }
 	
     // discard the Module Loader
     saveDelete(loader);
+
+    log->log(ch,"End Shutdown");
 
 }
 
@@ -142,7 +150,6 @@ void QOSProcessor::addEvent(Event *ev)
 
     AUTOLOCK(threaded, &maccess);
     in_events.push_back(ev);
-    
     log->log(ch, "Adding event NumEventsIn:%d", (int) in_events.size() );
 }
 
@@ -187,9 +194,12 @@ void QOSProcessor::delRuleEvents(int uid)
 Event *QOSProcessor::getNextEvent()
 {
     
-    AUTOLOCK(threaded, &maccess);
-    
     Event *ev;
+    
+    
+#ifdef ENABLE_THREADS
+    mutexLock(&maccess);
+#endif
     
     if (in_events.begin() != in_events.end()) {
         ev = in_events.front();
@@ -197,10 +207,16 @@ Event *QOSProcessor::getNextEvent()
         in_events.erase(in_events.begin());
         // the receiver is responsible for
         // returning or freeing the event
+#ifdef ENABLE_THREADS
+        mutexUnlock(&maccess);
+#endif
         return ev;
     } 
     else 
     {
+#ifdef ENABLE_THREADS
+        mutexUnlock(&maccess);
+#endif
         return NULL;
     }
 }
@@ -223,7 +239,7 @@ void QOSProcessor::checkRules(ruleDB_t *_rules, EventScheduler *e)
 
 
 // check a ruleset (the filter part) - By the QoS processor interface
-void QOSProcessor::checkRules(ruleDB_t *_rules)
+void QOSProcessor::checkRules(ruleDB_t *_rules, Event *evt)
 {
     
     ruleDBIter_t iter;
@@ -242,8 +258,12 @@ void QOSProcessor::checkRules(ruleDB_t *_rules)
         response.push_back(rule);
     }
 
-    AUTOLOCK(threaded, &maccess);    
-    out_events.push_back( new respCheckRulesQoSProcessorEvent(response) );
+    AUTOLOCK(threaded, &maccess);
+    Event * newEvt = new respCheckRulesQoSProcessorEvent(response);
+    newEvt->setParent( evt->getParent());
+    out_events.push_back( newEvt );
+    const char c = 'P';
+    write(QualityManager::s_sigpipe[1], &c, 1);
     
     log->log(ch, "ending checking rules");
 }
@@ -277,7 +297,7 @@ void QOSProcessor::addRules( ruleDB_t *_rules, EventScheduler *e )
 
 
 // add rules by the Qos Processor Event Interface.
-void QOSProcessor::addRules( ruleDB_t *rules )
+void QOSProcessor::addRules( ruleDB_t *rules, Event *evt )
 {
     
     log->log(ch, "starting add rules");
@@ -297,7 +317,11 @@ void QOSProcessor::addRules( ruleDB_t *rules )
     }
     
     AUTOLOCK(threaded, &maccess);
-    out_events.push_back( new respAddRulesQoSProcesorEvent(response) );
+    Event *newEvt = new respAddRulesQoSProcesorEvent(response);
+    newEvt->setParent(evt->getParent());
+    out_events.push_back( newEvt );
+    const char c = 'P';
+    write(QualityManager::s_sigpipe[1], &c, 1);
     
     log->log(ch, "ending add rules NumEvents:%d", (int) out_events.size() );
 }
@@ -315,7 +339,7 @@ void QOSProcessor::delRules(ruleDB_t *_rules, EventScheduler *e)
 }
 
 // delete rules by the Qos Processor Event Interface.
-void QOSProcessor::delRules(ruleDB_t *_rules)
+void QOSProcessor::delRules( ruleDB_t *_rules, Event *evt )
 {
     ruleDBIter_t iter;
     ruleDB_t response;
@@ -326,9 +350,16 @@ void QOSProcessor::delRules(ruleDB_t *_rules)
     }
     
     AUTOLOCK(threaded, &maccess);
-    out_events.push_back( new respDelRulesQoSProcesorEvent(response) );
-}
+    Event *newEvt = new respDelRulesQoSProcesorEvent(response);
+    newEvt->setParent(evt->getParent());
+    out_events.push_back( newEvt );
 
+    const char c = 'P';
+    write(QualityManager::s_sigpipe[1], &c, 1);
+
+    log->log(ch, "ending add rules NumEvents:%d", (int) out_events.size() );
+
+}
 
 
 int QOSProcessor::checkRule(Rule *r)
@@ -746,8 +777,6 @@ int QOSProcessor::delRule( Rule *r )
 
 	}
 
-
-
     // now free flow data and release used Modules
     for (ppactionListIter_t i = ra->actions.begin(); i != ra->actions.end(); i++) {
 		
@@ -794,7 +823,11 @@ int QOSProcessor::delRule( Rule *r )
     ra->seppaths = 0;
     ra->rule = NULL;
 
-	r->setState(RS_DONE);
+    // Remove the rule from the container
+    rules.erase(ruleId);  
+
+	// Set the rule as done.
+    r->setState(RS_DONE);
 	
     return 0;
 }
@@ -813,10 +846,9 @@ int QOSProcessor::handleFDEvent(eventVec_t *e, fd_set *rset, fd_set *wset, fd_se
 
 	}
 	
-	AUTOLOCK(threaded, &maccess);
-	log->log(ch, "returning NumEvents:%d", (int) out_events.size() );
 	// This part returns the events created during execution.
 	if (e != NULL){
+        AUTOLOCK(threaded, &maccess);
 		eventVecIter_t it;
 		for (it = out_events.begin(); it != out_events.end(); it++){
 			evn = *it;
@@ -846,7 +878,6 @@ void QOSProcessor::main()
     for (;;) {
         handleFDEvent(NULL, NULL,NULL, NULL);
         usleep(microseconds);
-
     }
 }       
 
@@ -983,7 +1014,7 @@ void QOSProcessor::handleEvent(Event *e)
         ruleDB_t *rules = ((addRulesQoSProcesorEvent *)e)->getRules();
 	  	  
         // now check rules.
-        addRules(rules);
+        addRules(rules, e);
 		
       }
       break;
@@ -995,7 +1026,7 @@ void QOSProcessor::handleEvent(Event *e)
         ruleDB_t *rules = ((checkRulesQoSProcessorEvent *)e)->getRules();
 	  	  
         // now check rules.
-        checkRules(rules);
+        checkRules(rules, e);
 
 
 	  }
@@ -1008,7 +1039,7 @@ void QOSProcessor::handleEvent(Event *e)
           ruleDB_t *rules = ((delRulesQoSProcesorEvent *)e)->getRules();
 	  	  
           // now get rid of the expired rule
-          delRules(rules);
+          delRules(rules, e);
           
       }
       break;

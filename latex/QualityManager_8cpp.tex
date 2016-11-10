@@ -1,0 +1,77 @@
+\hypertarget{QualityManager_8cpp}{}\section{src/\+Quality\+Manager.cpp File Reference}
+\label{QualityManager_8cpp}\index{src/\+Quality\+Manager.\+cpp@{src/\+Quality\+Manager.\+cpp}}
+{\ttfamily \#include \char`\"{}Quality\+Manager.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Parser\+Fcts.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}constants\+\_\+qos.\+h\char`\"{}}\newline
+Include dependency graph for Quality\+Manager.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{QualityManager_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{QualityManager_8cpp_ad5054a5f48f05615628aa47618f845d9}\label{QualityManager_8cpp_ad5054a5f48f05615628aa47618f845d9}} 
+ostream \& {\bfseries operator$<$$<$} (ostream \&os, \hyperlink{classQualityManager}{Quality\+Manager} \&obj)
+\item 
+\mbox{\Hypertarget{QualityManager_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{QualityManager_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+int {\bfseries main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{QualityManager_8cpp_a4c5a4fa538b147b003b2aebc79e63fab}\label{QualityManager_8cpp_a4c5a4fa538b147b003b2aebc79e63fab}} 
+int {\bfseries g\+\_\+timeout} = 0
+\item 
+\mbox{\Hypertarget{QualityManager_8cpp_a38758708340b95a585fc548daf0dda55}\label{QualityManager_8cpp_a38758708340b95a585fc548daf0dda55}} 
+const char $\ast$ {\bfseries N\+E\+T\+Q\+O\+S\+\_\+\+V\+E\+R\+S\+I\+ON} = \char`\"{}Net\+QoS version \char`\"{} V\+E\+R\+S\+I\+ON \char`\"{}, (c) 2014-\/2015 Universidad de los Andes, Colombia\char`\"{}
+\item 
+const char $\ast$ {\bfseries N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia
+
+This file is part of Network Quality Manager System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Code based on Netmate
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{QualityManager_8cpp}{Quality\+Manager.\+cpp} 748 2015-\/03-\/05 11\+:01\+:01 amarentes 
+\end{DoxyParagraph}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{QualityManager_8cpp_a8f1cd77ce168d3e950db950cc5301d53}\label{QualityManager_8cpp_a8f1cd77ce168d3e950db950cc5301d53}} 
+\index{Quality\+Manager.\+cpp@{Quality\+Manager.\+cpp}!N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS@{N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS}}
+\index{N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS@{N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS}!Quality\+Manager.\+cpp@{Quality\+Manager.\+cpp}}
+\subsubsection{\texorpdfstring{N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS}{NETQOS\_OPTIONS}}
+{\footnotesize\ttfamily const char$\ast$ N\+E\+T\+Q\+O\+S\+\_\+\+O\+P\+T\+I\+O\+NS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \textcolor{stringliteral}{"compile options: "}
+\textcolor{stringliteral}{"multi-threading support = "}
+
+
+
+\textcolor{stringliteral}{"[NO]"}
+
+\textcolor{stringliteral}{", secure sockets (SSL) support = "}
+
+
+
+\textcolor{stringliteral}{"[NO]"}
+
+\textcolor{stringliteral}{" "}
+\end{DoxyCode}

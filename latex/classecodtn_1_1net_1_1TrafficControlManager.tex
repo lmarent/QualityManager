@@ -1,0 +1,35 @@
+\hypertarget{classecodtn_1_1net_1_1TrafficControlManager}{}\section{ecodtn\+:\+:net\+:\+:Traffic\+Control\+Manager Class Reference}
+\label{classecodtn_1_1net_1_1TrafficControlManager}\index{ecodtn\+::net\+::\+Traffic\+Control\+Manager@{ecodtn\+::net\+::\+Traffic\+Control\+Manager}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_aaeddbdab5efbc664edd163f8158fe69f}\label{classecodtn_1_1net_1_1TrafficControlManager_aaeddbdab5efbc664edd163f8158fe69f}} 
+{\bfseries Traffic\+Control\+Manager} (std\+::string intfc\+\_\+name)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_ad8a9f1042bb6612d0837e48ac51ae0de}\label{classecodtn_1_1net_1_1TrafficControlManager_ad8a9f1042bb6612d0837e48ac51ae0de}} 
+void {\bfseries add\+Sub\+Network\+Interface} (Poco\+::\+Net\+::\+Network\+Interface intf, uint32\+\_\+t parent\+Maj, uint32\+\_\+t parent\+Min, uint32\+\_\+t child\+Maj, uint32\+\_\+t child\+Min)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_ac58245ce8bcb88d86c638881e857147d}\label{classecodtn_1_1net_1_1TrafficControlManager_ac58245ce8bcb88d86c638881e857147d}} 
+void {\bfseries delete\+Sub\+Network\+Interface} (Poco\+::\+Net\+::\+Network\+Interface intf)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_a713beb350e2b2ea9d0e7ce2010443f9e}\label{classecodtn_1_1net_1_1TrafficControlManager_a713beb350e2b2ea9d0e7ce2010443f9e}} 
+void {\bfseries add\+Qdisc\+Root\+H\+TB} (void)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_a16ac6a43fcdd374ab3aff22f62c778c7}\label{classecodtn_1_1net_1_1TrafficControlManager_a16ac6a43fcdd374ab3aff22f62c778c7}} 
+void {\bfseries delete\+Qdisc\+Root\+H\+TB} (void)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_a023dc5dabeba55b2071cc0bfc6d53cfc}\label{classecodtn_1_1net_1_1TrafficControlManager_a023dc5dabeba55b2071cc0bfc6d53cfc}} 
+void {\bfseries add\+Class\+Root\+H\+TB} (uint64\+\_\+t rate, uint64\+\_\+t ceil, uint32\+\_\+t burst, uint32\+\_\+t cburst)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_a84f5f3e62ed693a1207cf102351ff4e3}\label{classecodtn_1_1net_1_1TrafficControlManager_a84f5f3e62ed693a1207cf102351ff4e3}} 
+void {\bfseries add\+Class\+H\+TB} (Poco\+::\+Net\+::\+I\+P\+Address ipaddr, Poco\+::\+Net\+::\+I\+P\+Address submask, uint64\+\_\+t rate, uint64\+\_\+t ceil, uint32\+\_\+t burst, uint32\+\_\+t cburst, uint32\+\_\+t prio, int quantum, int limit, int perturb)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1TrafficControlManager_a1c2cb3cddd5824390bbf08d448cb47d8}\label{classecodtn_1_1net_1_1TrafficControlManager_a1c2cb3cddd5824390bbf08d448cb47d8}} 
+void {\bfseries delete\+Class\+H\+TB} (Poco\+::\+Net\+::\+I\+P\+Address ipaddr, uint64\+\_\+t rate, Poco\+::\+Net\+::\+I\+P\+Address submask)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Traffic\+Control\+Manager.\+h\item 
+src/Traffic\+Control\+Manager.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,91 @@
+\hypertarget{response_8c}{}\section{lib/httpd/response.c File Reference}
+\label{response_8c}\index{lib/httpd/response.\+c@{lib/httpd/response.\+c}}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$syslog.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$sys/time.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/tcp.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}httpd.\+h\char`\"{}}\newline
+Include dependency graph for response.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{response_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries H\+T\+T\+P\+\_\+\+S\+T\+A\+T\+US}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{response_8c_aeca034f67218340ecb2261a22c2f3dcd}\label{response_8c_aeca034f67218340ecb2261a22c2f3dcd}} 
+\#define {\bfseries B\+U\+F\+S\+I\+ZE}~16384
+\item 
+\#define {\bfseries R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT}
+\item 
+\mbox{\Hypertarget{response_8c_a04c9d7a3cb2ccbac71a97269a377228e}\label{response_8c_a04c9d7a3cb2ccbac71a97269a377228e}} 
+\#define {\bfseries R\+F\+C\+T\+I\+ME}~\char`\"{}\%a, \%d \%b \%Y \%H\+:\%M\+:\%S G\+MT\char`\"{}
+\item 
+\mbox{\Hypertarget{response_8c_a985bae7b67bcb96c5565a24a5f6d4cba}\label{response_8c_a985bae7b67bcb96c5565a24a5f6d4cba}} 
+\#define {\bfseries B\+O\+U\+N\+D\+A\+RY}~\char`\"{}X\+X\+X\+\_\+\+C\+U\+T\+\_\+\+H\+E\+R\+E\+\_\+\%ld\+\_\+\+X\+XX\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{response_8c_af4d0c1dedfe40af97893b7d788cbb84a}\label{response_8c_af4d0c1dedfe40af97893b7d788cbb84a}} 
+void {\bfseries mkerror} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int status, int ka)
+\item 
+\mbox{\Hypertarget{response_8c_a1bd5e7400bd6e545981d5d90deb60a96}\label{response_8c_a1bd5e7400bd6e545981d5d90deb60a96}} 
+void {\bfseries mkredirect} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int tcp\+\_\+port)
+\item 
+\mbox{\Hypertarget{response_8c_ac8ba897b8224551630f783f30aebab46}\label{response_8c_ac8ba897b8224551630f783f30aebab46}} 
+void {\bfseries mkheader} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int status, time\+\_\+t mtime)
+\item 
+\mbox{\Hypertarget{response_8c_a2b725f75bb8e0976da48def13324456b}\label{response_8c_a2b725f75bb8e0976da48def13324456b}} 
+void {\bfseries write\+\_\+request} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Based on webfs Copyright (C) 1999-\/2001 Gerd Knorr
+
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License with the Debian G\+N\+U/\+Linux distribution in file /usr/share/common-\/licenses/\+G\+PL; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: http response handling
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{response_8c}{response.\+c} 748 2009-\/09-\/10 02\+:54\+:03Z szander 
+\end{DoxyParagraph}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{response_8c_ace50b64705dc2e4ba28f8b7037374dc3}\label{response_8c_ace50b64705dc2e4ba28f8b7037374dc3}} 
+\index{response.\+c@{response.\+c}!R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT@{R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT}}
+\index{R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT@{R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT}!response.\+c@{response.\+c}}
+\subsubsection{\texorpdfstring{R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT}{RESPONSE\_START}}
+{\footnotesize\ttfamily \#define R\+E\+S\+P\+O\+N\+S\+E\+\_\+\+S\+T\+A\+RT}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{stringliteral}{"HTTP/1.1 %s\(\backslash\)r\(\backslash\)n"}       \(\backslash\)
+    \textcolor{stringliteral}{"Server: %s\(\backslash\)r\(\backslash\)n"}        \(\backslash\)
+    \textcolor{stringliteral}{"Connection: %s\(\backslash\)r\(\backslash\)n"}        \(\backslash\)
+    \textcolor{stringliteral}{"Accept-Ranges: bytes\(\backslash\)r\(\backslash\)n"}
+\end{DoxyCode}

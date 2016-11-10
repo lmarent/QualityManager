@@ -1,0 +1,90 @@
+\hypertarget{RuleManager_8h}{}\section{include/\+Rule\+Manager.h File Reference}
+\label{RuleManager_8h}\index{include/\+Rule\+Manager.\+h@{include/\+Rule\+Manager.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Logger.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Rule\+Id\+Source.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Rule.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Filter\+Def\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Filter\+Val\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Rule\+File\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}M\+A\+P\+I\+Rule\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Event\+Scheduler.\+h\char`\"{}}\newline
+Include dependency graph for Rule\+Manager.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{RuleManager_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{RuleManager_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classRuleManager}{Rule\+Manager}
+\begin{DoxyCompactList}\small\item\em manage adding/deleting of complete rule descriptions \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_afc40dc2b0b48164dda81020774aaba31}\label{RuleManager_8h_afc40dc2b0b48164dda81020774aaba31}} 
+typedef map$<$ string, int $>$ {\bfseries rule\+Index\+\_\+t}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_a25f7f23b165b293a7256c4ecf17f2603}\label{RuleManager_8h_a25f7f23b165b293a7256c4ecf17f2603}} 
+typedef map$<$ string, int $>$\+::iterator {\bfseries rule\+Index\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_a3d827bae31a5ac11571445ebfb1fedd8}\label{RuleManager_8h_a3d827bae31a5ac11571445ebfb1fedd8}} 
+typedef map$<$ string, rule\+Index\+\_\+t $>$ {\bfseries rule\+Set\+Index\+\_\+t}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_af13c2b244ff744ba9bc1c8f25a30c064}\label{RuleManager_8h_af13c2b244ff744ba9bc1c8f25a30c064}} 
+typedef map$<$ string, rule\+Index\+\_\+t $>$\+::iterator {\bfseries rule\+Set\+Index\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_a4e5701f125745d5aa90a24d237e1c44d}\label{RuleManager_8h_a4e5701f125745d5aa90a24d237e1c44d}} 
+typedef list$<$ \hyperlink{classRule}{Rule} $\ast$ $>$ \hyperlink{RuleManager_8h_a4e5701f125745d5aa90a24d237e1c44d}{rule\+Done\+\_\+t}
+\begin{DoxyCompactList}\small\item\em list of done rules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{RuleManager_8h_aef07789e9559a19d531993c9cf960853}\label{RuleManager_8h_aef07789e9559a19d531993c9cf960853}} 
+typedef list$<$ \hyperlink{classRule}{Rule} $\ast$ $>$\+::iterator {\bfseries rule\+Done\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_ac7a18b05e8db2eaa6483881f9a3b0793}\label{RuleManager_8h_ac7a18b05e8db2eaa6483881f9a3b0793}} 
+typedef map$<$ time\+\_\+t, \hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $>$ \hyperlink{RuleManager_8h_ac7a18b05e8db2eaa6483881f9a3b0793}{rule\+Time\+Index\+\_\+t}
+\begin{DoxyCompactList}\small\item\em index rules by time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{RuleManager_8h_ad90d914ebe7afe1626c284d20063fc82}\label{RuleManager_8h_ad90d914ebe7afe1626c284d20063fc82}} 
+typedef map$<$ time\+\_\+t, \hyperlink{RuleFileParser_8h_a7d5bb94bb17a8a1d92db2a89a0cc96d1}{rule\+D\+B\+\_\+t} $>$\+::iterator {\bfseries rule\+Time\+Index\+Iter\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_ab02157281c704e6de3f65d1ae45dbb45}\label{RuleManager_8h_ab02157281c704e6de3f65d1ae45dbb45}} 
+ostream \& \hyperlink{RuleManager_8h_ab02157281c704e6de3f65d1ae45dbb45}{operator$<$$<$} (ostream \&os, \hyperlink{classRuleManager}{Rule\+Manager} \&rm)
+\begin{DoxyCompactList}\small\item\em overload for $<$$<$, so that a \hyperlink{classRuleManager}{Rule\+Manager} object can be thrown into an iostream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{RuleManager_8h_a36da8ce858d29ab1c7a4e76f3420e892}\label{RuleManager_8h_a36da8ce858d29ab1c7a4e76f3420e892}} 
+const time\+\_\+t {\bfseries F\+L\+O\+W\+\_\+\+I\+D\+L\+E\+\_\+\+T\+I\+M\+E\+O\+UT} = 30
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia
+
+This file is part of Network Quality Manager System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: rule db Code based on Netmate Implementation
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{RuleManager_8h}{Rule\+Manager.\+h} 748 2015-\/03-\/03 13\+:00\+:03 amarentes 
+\end{DoxyParagraph}

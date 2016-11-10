@@ -1,0 +1,270 @@
+\hypertarget{httpd_8h}{}\section{lib/httpd/httpd.h File Reference}
+\label{httpd_8h}\index{lib/httpd/httpd.\+h@{lib/httpd/httpd.\+h}}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$syslog.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$pwd.\+h$>$}\newline
+{\ttfamily \#include $<$grp.\+h$>$}\newline
+{\ttfamily \#include $<$sys/time.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$sys/wait.\+h$>$}\newline
+{\ttfamily \#include $<$sys/signal.\+h$>$}\newline
+{\ttfamily \#include $<$sys/utsname.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$sys/un.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/tcp.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$netdb.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+Include dependency graph for httpd.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{httpd_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{httpd_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST}
+\item 
+struct \hyperlink{structstrlist}{strlist}
+\item 
+struct \hyperlink{structfd__t}{fd\+\_\+t}
+\item 
+struct \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{httpd_8h_a67342e827eb13c069cf1864d10e99335}\label{httpd_8h_a67342e827eb13c069cf1864d10e99335}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+\_\+\+H\+E\+A\+D\+ER}~1
+\item 
+\mbox{\Hypertarget{httpd_8h_ac4b3fc17adc9971bb0d541691d946248}\label{httpd_8h_ac4b3fc17adc9971bb0d541691d946248}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+P\+A\+R\+S\+E\+\_\+\+H\+E\+A\+D\+ER}~2
+\item 
+\mbox{\Hypertarget{httpd_8h_adea72d0d7d65c4153aeeb4e8efdb5770}\label{httpd_8h_adea72d0d7d65c4153aeeb4e8efdb5770}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+R\+E\+A\+D\+\_\+\+B\+O\+DY}~3
+\item 
+\mbox{\Hypertarget{httpd_8h_a9274776a93650d9c4c5c0e0c4ba2b908}\label{httpd_8h_a9274776a93650d9c4c5c0e0c4ba2b908}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+P\+A\+R\+S\+E\+\_\+\+B\+O\+DY}~4
+\item 
+\mbox{\Hypertarget{httpd_8h_ad816e18bf3a245e0f096de258c06c3ac}\label{httpd_8h_ad816e18bf3a245e0f096de258c06c3ac}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+P\+R\+O\+C\+E\+SS}~5
+\item 
+\mbox{\Hypertarget{httpd_8h_a77402d4c9a87aefca17b17454ba06e2e}\label{httpd_8h_a77402d4c9a87aefca17b17454ba06e2e}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+W\+R\+I\+T\+E\+\_\+\+H\+E\+A\+D\+ER}~6
+\item 
+\mbox{\Hypertarget{httpd_8h_a658b8f64e672f9ff7027b106a3726553}\label{httpd_8h_a658b8f64e672f9ff7027b106a3726553}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+W\+R\+I\+T\+E\+\_\+\+B\+O\+DY}~7
+\item 
+\mbox{\Hypertarget{httpd_8h_ab57d3662615d20f9c552eb831f97c6ce}\label{httpd_8h_ab57d3662615d20f9c552eb831f97c6ce}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+W\+R\+I\+T\+E\+\_\+\+F\+I\+LE}~8
+\item 
+\mbox{\Hypertarget{httpd_8h_ac0bc6b2bc155c4962fb5983428d713f3}\label{httpd_8h_ac0bc6b2bc155c4962fb5983428d713f3}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+W\+R\+I\+T\+E\+\_\+\+R\+A\+N\+G\+ES}~9
+\item 
+\mbox{\Hypertarget{httpd_8h_a6c67f1d584b1176e47ffd0671a59cafb}\label{httpd_8h_a6c67f1d584b1176e47ffd0671a59cafb}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+F\+I\+N\+I\+S\+H\+ED}~10
+\item 
+\mbox{\Hypertarget{httpd_8h_a506cce409be4717df379bbe274877823}\label{httpd_8h_a506cce409be4717df379bbe274877823}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+K\+E\+E\+P\+A\+L\+I\+VE}~11
+\item 
+\mbox{\Hypertarget{httpd_8h_a57aca709a33690cd4fb73fe199fa1bdd}\label{httpd_8h_a57aca709a33690cd4fb73fe199fa1bdd}} 
+\#define {\bfseries S\+T\+A\+T\+E\+\_\+\+C\+L\+O\+SE}~12
+\item 
+\mbox{\Hypertarget{httpd_8h_ab400cc7c8787796a32ff06fb899a9ac2}\label{httpd_8h_ab400cc7c8787796a32ff06fb899a9ac2}} 
+\#define {\bfseries M\+A\+X\+\_\+\+H\+E\+A\+D\+ER}~4096
+\item 
+\mbox{\Hypertarget{httpd_8h_a60d6a5ff7d7c74135c525acb9e8ee7a1}\label{httpd_8h_a60d6a5ff7d7c74135c525acb9e8ee7a1}} 
+\#define {\bfseries M\+A\+X\+\_\+\+R\+EQ}~128000
+\item 
+\mbox{\Hypertarget{httpd_8h_aad048f4a20dffbb40e0e16efde8e0baa}\label{httpd_8h_aad048f4a20dffbb40e0e16efde8e0baa}} 
+\#define {\bfseries B\+R\+\_\+\+H\+E\+A\+D\+ER}~512
+\item 
+\mbox{\Hypertarget{httpd_8h_adce9cd782a5cf937879cfd6e972b4408}\label{httpd_8h_adce9cd782a5cf937879cfd6e972b4408}} 
+\#define {\bfseries I\+N\+I\+T\+\_\+\+L\+O\+CK}(mutex)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_afb6dc7773dbbc4eeb7bd8e3596b49796}\label{httpd_8h_afb6dc7773dbbc4eeb7bd8e3596b49796}} 
+\#define {\bfseries F\+R\+E\+E\+\_\+\+L\+O\+CK}(mutex)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_afbe4dcf0d90e2a188cf80bc6a9674926}\label{httpd_8h_afbe4dcf0d90e2a188cf80bc6a9674926}} 
+\#define {\bfseries D\+O\+\_\+\+L\+O\+CK}(mutex)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_ade02d00b8301e48cbff8fb60f2056133}\label{httpd_8h_ade02d00b8301e48cbff8fb60f2056133}} 
+\#define {\bfseries D\+O\+\_\+\+U\+N\+L\+O\+CK}(mutex)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_af16d75c95404e3b8af2c49723961dbcc}\label{httpd_8h_af16d75c95404e3b8af2c49723961dbcc}} 
+\#define {\bfseries I\+N\+I\+T\+\_\+\+C\+O\+ND}(cond)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_af05fbb4a75a24b185e48a87a20529f14}\label{httpd_8h_af05fbb4a75a24b185e48a87a20529f14}} 
+\#define {\bfseries F\+R\+E\+E\+\_\+\+C\+O\+ND}(cond)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_a5bb9bd09ec8d9271b321b3f05989036a}\label{httpd_8h_a5bb9bd09ec8d9271b321b3f05989036a}} 
+\#define {\bfseries B\+C\+A\+S\+T\+\_\+\+C\+O\+ND}(cond)~/$\ast$ nothing $\ast$/
+\item 
+\mbox{\Hypertarget{httpd_8h_ad64c9d0ac5c470d69ba65c0063b23b5e}\label{httpd_8h_ad64c9d0ac5c470d69ba65c0063b23b5e}} 
+\#define {\bfseries W\+A\+I\+T\+\_\+\+C\+O\+ND}(cond,  mutex)~/$\ast$ nothing $\ast$/
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{httpd_8h_a7662d9fa7c9032a5a427c71d4e9393d6}\label{httpd_8h_a7662d9fa7c9032a5a427c71d4e9393d6}} 
+typedef int($\ast$ {\bfseries access\+\_\+check\+\_\+func\+\_\+t}) (char $\ast$host, char $\ast$user)
+\item 
+\mbox{\Hypertarget{httpd_8h_a3c6afeced48e3d62b51d4c79e7f1fc3d}\label{httpd_8h_a3c6afeced48e3d62b51d4c79e7f1fc3d}} 
+typedef int($\ast$ {\bfseries parse\+\_\+request\+\_\+func\+\_\+t}) (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\item 
+\mbox{\Hypertarget{httpd_8h_ade7a09762e29cf7a59744b45a2fd6217}\label{httpd_8h_ade7a09762e29cf7a59744b45a2fd6217}} 
+typedef int($\ast$ {\bfseries log\+\_\+request\+\_\+func\+\_\+t}) (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, time\+\_\+t now)
+\item 
+\mbox{\Hypertarget{httpd_8h_a25f7ae173addaaa37503824b23a3986b}\label{httpd_8h_a25f7ae173addaaa37503824b23a3986b}} 
+typedef int($\ast$ {\bfseries log\+\_\+error\+\_\+func\+\_\+t}) (int eno, int loglevel, char $\ast$txt, char $\ast$peerhost)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{httpd_8h_a1a6b6fb557d8d37d59700faf4e4c9167}\label{httpd_8h_a1a6b6fb557d8d37d59700faf4e4c9167}} 
+enum {\bfseries mode} \{ {\bfseries F\+D\+\_\+\+RD} = 0x01, 
+{\bfseries F\+D\+\_\+\+WT} = 0x02, 
+{\bfseries F\+D\+\_\+\+RW} = 0x03
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{httpd_8h_a728ef1a9caba2a78c4efec09097c6644}\label{httpd_8h_a728ef1a9caba2a78c4efec09097c6644}} 
+int {\bfseries httpd\+\_\+register\+\_\+access\+\_\+check} (access\+\_\+check\+\_\+func\+\_\+t f)
+\item 
+\mbox{\Hypertarget{httpd_8h_af1789b13ed4b8337881cc314ec83d531}\label{httpd_8h_af1789b13ed4b8337881cc314ec83d531}} 
+int {\bfseries httpd\+\_\+register\+\_\+log\+\_\+request} (log\+\_\+request\+\_\+func\+\_\+t f)
+\item 
+\mbox{\Hypertarget{httpd_8h_a72f0808cd8a0ed398957170cd91d503d}\label{httpd_8h_a72f0808cd8a0ed398957170cd91d503d}} 
+int {\bfseries httpd\+\_\+register\+\_\+log\+\_\+error} (log\+\_\+error\+\_\+func\+\_\+t f)
+\item 
+\mbox{\Hypertarget{httpd_8h_ae33c294df435d240547abe2ed6b61d58}\label{httpd_8h_ae33c294df435d240547abe2ed6b61d58}} 
+int {\bfseries httpd\+\_\+register\+\_\+parse\+\_\+request} (parse\+\_\+request\+\_\+func\+\_\+t f)
+\item 
+\mbox{\Hypertarget{httpd_8h_a6710769b5f14f7f50f348c87dffefced}\label{httpd_8h_a6710769b5f14f7f50f348c87dffefced}} 
+int {\bfseries httpd\+\_\+get\+\_\+keepalive} ()
+\item 
+\mbox{\Hypertarget{httpd_8h_a80bd5a7fe664de0176cd3127b7ae0468}\label{httpd_8h_a80bd5a7fe664de0176cd3127b7ae0468}} 
+int {\bfseries httpd\+\_\+uses\+\_\+ssl} ()
+\item 
+\mbox{\Hypertarget{httpd_8h_a4279f20793f2de5ef334c2c247e88833}\label{httpd_8h_a4279f20793f2de5ef334c2c247e88833}} 
+int {\bfseries httpd\+\_\+init} (int sport, char $\ast$sname, int use\+\_\+ssl, const char $\ast$certificate, const char $\ast$password, int use\+\_\+v6)
+\item 
+\mbox{\Hypertarget{httpd_8h_a876d75fdb22deaeabab8c37fa98b4cf1}\label{httpd_8h_a876d75fdb22deaeabab8c37fa98b4cf1}} 
+int {\bfseries httpd\+\_\+handle\+\_\+event} (fd\+\_\+set $\ast$rset, fd\+\_\+set $\ast$wset, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds)
+\item 
+\mbox{\Hypertarget{httpd_8h_a86614158713892e875628d5965cba336}\label{httpd_8h_a86614158713892e875628d5965cba336}} 
+int {\bfseries httpd\+\_\+send\+\_\+response} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, \hyperlink{structfd__sets__t}{fd\+\_\+sets\+\_\+t} $\ast$fds)
+\item 
+\mbox{\Hypertarget{httpd_8h_ab0a0444f817ecee1f1daf01bb77a181e}\label{httpd_8h_ab0a0444f817ecee1f1daf01bb77a181e}} 
+int {\bfseries httpd\+\_\+send\+\_\+immediate\+\_\+response} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\item 
+\mbox{\Hypertarget{httpd_8h_aa1b86f788ebb4821d31d40ec5c8432ca}\label{httpd_8h_aa1b86f788ebb4821d31d40ec5c8432ca}} 
+void {\bfseries httpd\+\_\+shutdown} ()
+\item 
+\mbox{\Hypertarget{httpd_8h_a1739eeec042d349eb6594fae6ed568cf}\label{httpd_8h_a1739eeec042d349eb6594fae6ed568cf}} 
+int {\bfseries read\+\_\+header} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int pipelined)
+\item 
+\mbox{\Hypertarget{httpd_8h_ad952d5a0c8beeb2c54cc959aa1cc8918}\label{httpd_8h_ad952d5a0c8beeb2c54cc959aa1cc8918}} 
+int {\bfseries read\+\_\+body} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int pipelined)
+\item 
+\mbox{\Hypertarget{httpd_8h_aad15ad3b7f5abcc692c32da0bb26e637}\label{httpd_8h_aad15ad3b7f5abcc692c32da0bb26e637}} 
+void {\bfseries parse\+\_\+request} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, char $\ast$server\+\_\+host)
+\item 
+\mbox{\Hypertarget{httpd_8h_ace953b6751229d6cb114379fb6aa0bfc}\label{httpd_8h_ace953b6751229d6cb114379fb6aa0bfc}} 
+void {\bfseries parse\+\_\+request\+\_\+body} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\item 
+\mbox{\Hypertarget{httpd_8h_af4d0c1dedfe40af97893b7d788cbb84a}\label{httpd_8h_af4d0c1dedfe40af97893b7d788cbb84a}} 
+void {\bfseries mkerror} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int status, int ka)
+\item 
+\mbox{\Hypertarget{httpd_8h_a1bd5e7400bd6e545981d5d90deb60a96}\label{httpd_8h_a1bd5e7400bd6e545981d5d90deb60a96}} 
+void {\bfseries mkredirect} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int tcp\+\_\+port)
+\item 
+\mbox{\Hypertarget{httpd_8h_ac8ba897b8224551630f783f30aebab46}\label{httpd_8h_ac8ba897b8224551630f783f30aebab46}} 
+void {\bfseries mkheader} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req, int status, time\+\_\+t mtime)
+\item 
+\mbox{\Hypertarget{httpd_8h_a2b725f75bb8e0976da48def13324456b}\label{httpd_8h_a2b725f75bb8e0976da48def13324456b}} 
+void {\bfseries write\+\_\+request} (struct \hyperlink{structREQUEST}{R\+E\+Q\+U\+E\+ST} $\ast$req)
+\item 
+\mbox{\Hypertarget{httpd_8h_ae7e67dff79dd3980802eaf4a6df26894}\label{httpd_8h_ae7e67dff79dd3980802eaf4a6df26894}} 
+void {\bfseries init\+\_\+quote} (void)
+\item 
+\mbox{\Hypertarget{httpd_8h_a7bae06af248870fa437f4c4fb23c1d02}\label{httpd_8h_a7bae06af248870fa437f4c4fb23c1d02}} 
+char $\ast$ {\bfseries quote} (unsigned char $\ast$path, int maxlength)
+\item 
+\mbox{\Hypertarget{httpd_8h_a4a0f1e3b9bd5899f999ebb065e1a0f17}\label{httpd_8h_a4a0f1e3b9bd5899f999ebb065e1a0f17}} 
+void {\bfseries unquote} (unsigned char $\ast$path, unsigned char $\ast$qs, unsigned char $\ast$src)
+\item 
+\mbox{\Hypertarget{httpd_8h_a5c64d58d12ecd05a22e105d9c3eb0691}\label{httpd_8h_a5c64d58d12ecd05a22e105d9c3eb0691}} 
+void {\bfseries unquote2} (unsigned char $\ast$dst, unsigned char $\ast$src)
+\item 
+\mbox{\Hypertarget{httpd_8h_a74cfe4024ba03178eabe16bfe2e8dbc8}\label{httpd_8h_a74cfe4024ba03178eabe16bfe2e8dbc8}} 
+char $\ast$ {\bfseries get\+\_\+mime} (char $\ast$file)
+\item 
+\mbox{\Hypertarget{httpd_8h_a379ca8bd27d346158fddf4237ee50657}\label{httpd_8h_a379ca8bd27d346158fddf4237ee50657}} 
+void {\bfseries init\+\_\+mime} (char $\ast$file, char $\ast$def)
+\item 
+\mbox{\Hypertarget{httpd_8h_a1246ac8ecc37d78de4655517e0dc50ba}\label{httpd_8h_a1246ac8ecc37d78de4655517e0dc50ba}} 
+void {\bfseries shutdown\+\_\+mime} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{httpd_8h_a4c5a4fa538b147b003b2aebc79e63fab}\label{httpd_8h_a4c5a4fa538b147b003b2aebc79e63fab}} 
+int {\bfseries g\+\_\+timeout}
+\item 
+\mbox{\Hypertarget{httpd_8h_aa932f119ded1e2cafe98ea155445cf34}\label{httpd_8h_aa932f119ded1e2cafe98ea155445cf34}} 
+access\+\_\+check\+\_\+func\+\_\+t {\bfseries access\+\_\+check\+\_\+func}
+\item 
+\mbox{\Hypertarget{httpd_8h_aa085cd804834f04b4928c0442a3ec318}\label{httpd_8h_aa085cd804834f04b4928c0442a3ec318}} 
+parse\+\_\+request\+\_\+func\+\_\+t {\bfseries parse\+\_\+request\+\_\+func}
+\item 
+\mbox{\Hypertarget{httpd_8h_a1337a6e9ce16550f176cf8865a6df162}\label{httpd_8h_a1337a6e9ce16550f176cf8865a6df162}} 
+log\+\_\+request\+\_\+func\+\_\+t {\bfseries log\+\_\+request\+\_\+func}
+\item 
+\mbox{\Hypertarget{httpd_8h_a82938d90e000d6852ace4d692908ec7d}\label{httpd_8h_a82938d90e000d6852ace4d692908ec7d}} 
+log\+\_\+error\+\_\+func\+\_\+t {\bfseries log\+\_\+error\+\_\+func}
+\item 
+\mbox{\Hypertarget{httpd_8h_a4e06dd572147d48785afd0439576487a}\label{httpd_8h_a4e06dd572147d48785afd0439576487a}} 
+char $\ast$ {\bfseries server\+\_\+name}
+\item 
+\mbox{\Hypertarget{httpd_8h_a3c3ca8cc859a31aec6578f0dcf1b32a5}\label{httpd_8h_a3c3ca8cc859a31aec6578f0dcf1b32a5}} 
+time\+\_\+t {\bfseries now}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Based on webfs Copyright (C) 1999-\/2001 Gerd Knorr
+
+This program is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License with the Debian G\+N\+U/\+Linux distribution in file /usr/share/common-\/licenses/\+G\+PL; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: http server public interface
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{httpd_8h}{httpd.\+h} 748 2009-\/09-\/10 02\+:54\+:03Z szander 
+\end{DoxyParagraph}

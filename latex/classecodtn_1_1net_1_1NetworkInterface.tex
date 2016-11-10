@@ -1,0 +1,58 @@
+\hypertarget{classecodtn_1_1net_1_1NetworkInterface}{}\section{ecodtn\+:\+:net\+:\+:Network\+Interface Class Reference}
+\label{classecodtn_1_1net_1_1NetworkInterface}\index{ecodtn\+::net\+::\+Network\+Interface@{ecodtn\+::net\+::\+Network\+Interface}}
+Inheritance diagram for ecodtn\+:\+:net\+:\+:Network\+Interface\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classecodtn_1_1net_1_1NetworkInterface}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_a594c49624551938d58f1c778721afc66}\label{classecodtn_1_1net_1_1NetworkInterface_a594c49624551938d58f1c778721afc66}} 
+{\bfseries Network\+Interface} (std\+::string intfc\+\_\+name, uint32\+\_\+t Handler\+Maj\+\_\+, uint32\+\_\+t Handler\+Min\+\_\+)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_a711935dd346faea7fe49de76e794b2a0}\label{classecodtn_1_1net_1_1NetworkInterface_a711935dd346faea7fe49de76e794b2a0}} 
+std\+::string {\bfseries get\+Name} ()
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_ade78ecb04ed45000f0a72eac13550d28}\label{classecodtn_1_1net_1_1NetworkInterface_ade78ecb04ed45000f0a72eac13550d28}} 
+uint32\+\_\+t {\bfseries get\+Major\+Handler} ()
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_aa7ffda86dc44bf229800d8c57f8f575a}\label{classecodtn_1_1net_1_1NetworkInterface_aa7ffda86dc44bf229800d8c57f8f575a}} 
+uint32\+\_\+t {\bfseries get\+Minor\+Handler} ()
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_a79b9620fd7b6e23e1b4b8116b29cff99}\label{classecodtn_1_1net_1_1NetworkInterface_a79b9620fd7b6e23e1b4b8116b29cff99}} 
+void {\bfseries add\+Sub\+Network\+Interface} (Poco\+::\+Net\+::\+Network\+Interface intf)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_ace1d9bcb9fc4e45d91626a758d554ddc}\label{classecodtn_1_1net_1_1NetworkInterface_ace1d9bcb9fc4e45d91626a758d554ddc}} 
+void {\bfseries delete\+Sub\+Network\+Interface} (Poco\+::\+Net\+::\+Network\+Interface intf)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_a163e4128de30153e342e9e8d2229c2eb}\label{classecodtn_1_1net_1_1NetworkInterface_a163e4128de30153e342e9e8d2229c2eb}} 
+void {\bfseries add\+Qdisc\+Root\+H\+TB} (void)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_aeb9ec7bc95f27a394a8f64aaec41a2e5}\label{classecodtn_1_1net_1_1NetworkInterface_aeb9ec7bc95f27a394a8f64aaec41a2e5}} 
+void {\bfseries delete\+Qdisc\+Root\+H\+TB} (void)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_a694a118abca1f19ad76ade749d3daf29}\label{classecodtn_1_1net_1_1NetworkInterface_a694a118abca1f19ad76ade749d3daf29}} 
+void \hyperlink{classecodtn_1_1net_1_1NetworkInterface_a694a118abca1f19ad76ade749d3daf29}{add\+Class\+Root\+H\+TB} (uint64\+\_\+t rate, uint64\+\_\+t ceil, uint32\+\_\+t burst, uint32\+\_\+t cburst)
+\begin{DoxyCompactList}\small\item\em The exceptions must be handled by the caller procedure. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_acd38e3cea5a6335c8af386d0e6c40140}\label{classecodtn_1_1net_1_1NetworkInterface_acd38e3cea5a6335c8af386d0e6c40140}} 
+void {\bfseries add\+Class\+H\+TB} (Poco\+::\+Net\+::\+I\+P\+Address ipaddr, Poco\+::\+Net\+::\+I\+P\+Address submask, uint64\+\_\+t rate, uint64\+\_\+t ceil, uint32\+\_\+t burst, uint32\+\_\+t cburst, uint32\+\_\+t prio, int quantum, int limit, int perturb)
+\item 
+void \hyperlink{classecodtn_1_1net_1_1NetworkInterface_a9d71d2d606c03848732fe980544e733c}{delete\+Class\+H\+TB} (Poco\+::\+Net\+::\+I\+P\+Address ipaddr, uint64\+\_\+t rate)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classecodtn_1_1net_1_1NetworkInterface_a9d71d2d606c03848732fe980544e733c}\label{classecodtn_1_1net_1_1NetworkInterface_a9d71d2d606c03848732fe980544e733c}} 
+\index{ecodtn\+::net\+::\+Network\+Interface@{ecodtn\+::net\+::\+Network\+Interface}!delete\+Class\+H\+TB@{delete\+Class\+H\+TB}}
+\index{delete\+Class\+H\+TB@{delete\+Class\+H\+TB}!ecodtn\+::net\+::\+Network\+Interface@{ecodtn\+::net\+::\+Network\+Interface}}
+\subsubsection{\texorpdfstring{delete\+Class\+H\+T\+B()}{deleteClassHTB()}}
+{\footnotesize\ttfamily void ecodtn\+::net\+::\+Network\+Interface\+::delete\+Class\+H\+TB (\begin{DoxyParamCaption}\item[{Poco\+::\+Net\+::\+I\+P\+Address}]{ipaddr,  }\item[{uint64\+\_\+t}]{rate }\end{DoxyParamCaption})}
+
+The value keyoff means what part of the octec to read in order to compare, value 12 means source IP ; value 16 means destination IP If we put the mask 255.\+255.\+255.\+0 it will match all ip that start with 10.\+100.\+1. If we put the mask 255.\+255.\+0.\+0 it will match all ip that start with 10.\+100. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Network\+Interface.\+h\item 
+src/Network\+Interface.\+cpp\end{DoxyCompactItemize}

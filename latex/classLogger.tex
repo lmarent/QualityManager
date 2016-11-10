@@ -1,0 +1,127 @@
+\hypertarget{classLogger}{}\section{Logger Class Reference}
+\label{classLogger}\index{Logger@{Logger}}
+
+
+provides logging of text messages to logging channels (files)  
+
+
+
+
+{\ttfamily \#include $<$Logger.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLogger_a5a9c615a5e76e3ddd46825aa6d70bb79}\label{classLogger_a5a9c615a5e76e3ddd46825aa6d70bb79}} 
+void \hyperlink{classLogger_a5a9c615a5e76e3ddd46825aa6d70bb79}{set\+Default\+Logfile} (string fname)
+\begin{DoxyCompactList}\small\item\em set the log file which is used if no log file in explicitly given when opening a new channel \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLogger_acb668a9e186a25fbaad2e4af6d1ed00a}\label{classLogger_acb668a9e186a25fbaad2e4af6d1ed00a}} 
+\hyperlink{classLogger_acb668a9e186a25fbaad2e4af6d1ed00a}{$\sim$\+Logger} ()
+\begin{DoxyCompactList}\small\item\em destroys a message logger object, closes all open message channels (files) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLogger_aa2e69cea8f4c129980f843c02e2279dd}\label{classLogger_aa2e69cea8f4c129980f843c02e2279dd}} 
+void \hyperlink{classLogger_aa2e69cea8f4c129980f843c02e2279dd}{set\+Threaded} (int thr)
+\begin{DoxyCompactList}\small\item\em set value of threading flag (see above) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLogger_a5cc08473729523bb4bde48459f2ac468}\label{classLogger_a5cc08473729523bb4bde48459f2ac468}} 
+void \hyperlink{classLogger_a5cc08473729523bb4bde48459f2ac468}{flush} ()
+\begin{DoxyCompactList}\small\item\em flush all logging channels (does not close files) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLogger_a76737728e58470cc99536839d6fbd631}\label{classLogger_a76737728e58470cc99536839d6fbd631}} 
+void \hyperlink{classLogger_a76737728e58470cc99536839d6fbd631}{set\+Log\+Level} (int level)
+\begin{DoxyCompactList}\small\item\em set the maximum logging level, higher levels will not be shown \end{DoxyCompactList}\item 
+int \hyperlink{classLogger_a61e5d07bd9b1fd3296e737063d9e1809}{create\+Channel} (const string prefix=string(\char`\"{}\char`\"{}), const string name=string(\char`\"{}\char`\"{}), int newlog=1)
+\begin{DoxyCompactList}\small\item\em assign a channel number to a file \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLogger_ae0584bd848e6f8beefbdad3f5f1d614c}\label{classLogger_ae0584bd848e6f8beefbdad3f5f1d614c}} 
+int \hyperlink{classLogger_ae0584bd848e6f8beefbdad3f5f1d614c}{move\+Channels} (string ofname, string nfname, int newlog=1)
+\begin{DoxyCompactList}\small\item\em rename (move) the currently used default logfile \end{DoxyCompactList}\item 
+void \hyperlink{classLogger_a3277d0171f23be48ef40d86a01786284}{log} (int level, int channel, const char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em logs a textual message to a channel \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLogger_a5156a9f382bb302b678e484c0ed7f2ef}\label{classLogger_a5156a9f382bb302b678e484c0ed7f2ef}} 
+void {\bfseries log} (int channel, const char $\ast$fmt,...)
+\item 
+\mbox{\Hypertarget{classLogger_a07a7ccd017f70af90b52440c8c4b6a19}\label{classLogger_a07a7ccd017f70af90b52440c8c4b6a19}} 
+void {\bfseries clog} (int channel, const char $\ast$fmt,...)
+\item 
+\mbox{\Hypertarget{classLogger_a87d34dedccbfbd0526cb1e0f352dfca2}\label{classLogger_a87d34dedccbfbd0526cb1e0f352dfca2}} 
+void {\bfseries wlog} (int channel, const char $\ast$fmt,...)
+\item 
+\mbox{\Hypertarget{classLogger_aced539367fd2e477df2b78ab92e22e7f}\label{classLogger_aced539367fd2e477df2b78ab92e22e7f}} 
+void {\bfseries elog} (int channel, const char $\ast$fmt,...)
+\item 
+\mbox{\Hypertarget{classLogger_a33ee464177bc7939cca0ae3ee28985d6}\label{classLogger_a33ee464177bc7939cca0ae3ee28985d6}} 
+void {\bfseries dlog} (int channel, const char $\ast$fmt,...)
+\item 
+\mbox{\Hypertarget{classLogger_a44533b6fdd9f1f0d7730d77449e87985}\label{classLogger_a44533b6fdd9f1f0d7730d77449e87985}} 
+void {\bfseries elog} (int channel, \hyperlink{classError}{Error} \&e)
+\item 
+\mbox{\Hypertarget{classLogger_a4477567175a3d8eb76130faf42ec865d}\label{classLogger_a4477567175a3d8eb76130faf42ec865d}} 
+void {\bfseries elog} (int channel, \hyperlink{classProcError}{Proc\+Error} \&e)
+\item 
+\mbox{\Hypertarget{classLogger_afad2d6ca4c0725fa66e8d61e741d5776}\label{classLogger_afad2d6ca4c0725fa66e8d61e741d5776}} 
+void \hyperlink{classLogger_afad2d6ca4c0725fa66e8d61e741d5776}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump \hyperlink{classLogger}{Logger} object \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLogger_afec28ae6d7bdf8f6a0734cb20756de10}\label{classLogger_afec28ae6d7bdf8f6a0734cb20756de10}} 
+static \hyperlink{classLogger}{Logger} $\ast$ \hyperlink{classLogger_afec28ae6d7bdf8f6a0734cb20756de10}{get\+Instance} ()
+\begin{DoxyCompactList}\small\item\em get access to the one and only \hyperlink{classLogger}{Logger} instance \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+provides logging of text messages to logging channels (files) 
+
+the \hyperlink{classLogger}{Logger} class is used to hold a number of F\+I\+L\+E$\ast$ for files in which logging of messages is to be done ~\newline
+so you only need to have one global \hyperlink{classLogger}{Logger} object lying around ~\newline
+~\newline
+usage\+: ~\newline
+create a \hyperlink{classLogger}{Logger} object ~\newline
+assign a logging channel (number) to a file (filename) ~\newline
+log messages to that channel (fprintf like syntax) 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classLogger_a61e5d07bd9b1fd3296e737063d9e1809}\label{classLogger_a61e5d07bd9b1fd3296e737063d9e1809}} 
+\index{Logger@{Logger}!create\+Channel@{create\+Channel}}
+\index{create\+Channel@{create\+Channel}!Logger@{Logger}}
+\subsubsection{\texorpdfstring{create\+Channel()}{createChannel()}}
+{\footnotesize\ttfamily int Logger\+::create\+Channel (\begin{DoxyParamCaption}\item[{const string}]{prefix = {\ttfamily string(\char`\"{}\char`\"{})},  }\item[{const string}]{name = {\ttfamily string(\char`\"{}\char`\"{})},  }\item[{int}]{newlog = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+assign a channel number to a file 
+
+the file will be opened for appending text and each message logged to that channel will be written to that file ~\newline
+the file will be opened for appending in line buffered mode
+
+\begin{DoxyItemize}
+\item {\ttfamily prefix} -\/ text to prepend to each message logged via this channel \item {\ttfamily name} -\/ name of file to appends messages to (optional), if unspecified default log file is used \item {\ttfamily newlog} -\/ remove log file first if =1, else append to file \end{DoxyItemize}
+\mbox{\Hypertarget{classLogger_a3277d0171f23be48ef40d86a01786284}\label{classLogger_a3277d0171f23be48ef40d86a01786284}} 
+\index{Logger@{Logger}!log@{log}}
+\index{log@{log}!Logger@{Logger}}
+\subsubsection{\texorpdfstring{log()}{log()}}
+{\footnotesize\ttfamily void Logger\+::log (\begin{DoxyParamCaption}\item[{int}]{level,  }\item[{int}]{channel,  }\item[{const char $\ast$}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+logs a textual message to a channel 
+
+the given text will be written to the file associated with the specified channel prefixed with that channels prefix string ~\newline
+arguments after the format string are treated in a printf manner ~\newline
+a newline written after the format string
+
+\begin{DoxyItemize}
+\item {\ttfamily channel} -\/ number of logging channel \item {\ttfamily fmt} -\/ printf like format string \item {\ttfamily }... -\/ additional arguments for printing\end{DoxyItemize}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classError}{Error},get\+Error()} & can result in\+:
+\begin{DoxyItemize}
+\item \char`\"{}illegal channel number\char`\"{}
+\item \char`\"{}channel not yet assigned\char`\"{}
+\item \char`\"{}error writing to file\char`\"{} 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Logger_8h}{Logger.\+h}\item 
+src/Logger.\+cpp\end{DoxyCompactItemize}

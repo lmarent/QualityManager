@@ -1,0 +1,36 @@
+\hypertarget{classecodtn_1_1net_1_1ConnectionHandler}{}\section{ecodtn\+:\+:net\+:\+:Connection\+Handler Class Reference}
+\label{classecodtn_1_1net_1_1ConnectionHandler}\index{ecodtn\+::net\+::\+Connection\+Handler@{ecodtn\+::net\+::\+Connection\+Handler}}
+
+
+{\ttfamily \#include $<$Connection\+Handler.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1ConnectionHandler_a7d641a5d3e910829a73b52a6cd673581}\label{classecodtn_1_1net_1_1ConnectionHandler_a7d641a5d3e910829a73b52a6cd673581}} 
+{\bfseries Connection\+Handler} (Poco\+::\+Net\+::\+Stream\+Socket \&socket, Poco\+::\+Net\+::\+Socket\+Reactor \&reactor)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1ConnectionHandler_acc1d8cea5d182f88d5582f9067d2ec56}\label{classecodtn_1_1net_1_1ConnectionHandler_acc1d8cea5d182f88d5582f9067d2ec56}} 
+void {\bfseries on\+F\+I\+F\+O\+Out\+Readable} (bool \&b)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1ConnectionHandler_a41bdb6e4ddf0bcc542fb104e40a99fdc}\label{classecodtn_1_1net_1_1ConnectionHandler_a41bdb6e4ddf0bcc542fb104e40a99fdc}} 
+void {\bfseries on\+F\+I\+F\+O\+In\+Writable} (bool \&b)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1ConnectionHandler_a3aeb5e1a1e517e1ba390deb01d99f552}\label{classecodtn_1_1net_1_1ConnectionHandler_a3aeb5e1a1e517e1ba390deb01d99f552}} 
+void {\bfseries on\+Socket\+Readable} (const Poco\+::\+Auto\+Ptr$<$ Poco\+::\+Net\+::\+Readable\+Notification $>$ \&p\+Nf)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1ConnectionHandler_a4c70d922ccfee97e01c1b97f6ba545b8}\label{classecodtn_1_1net_1_1ConnectionHandler_a4c70d922ccfee97e01c1b97f6ba545b8}} 
+void {\bfseries on\+Socket\+Writable} (const Poco\+::\+Auto\+Ptr$<$ Poco\+::\+Net\+::\+Writable\+Notification $>$ \&p\+Nf)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1ConnectionHandler_ab168c7adc40e4320105c360cf31c10d0}\label{classecodtn_1_1net_1_1ConnectionHandler_ab168c7adc40e4320105c360cf31c10d0}} 
+void {\bfseries on\+Socket\+Shutdown} (const Poco\+::\+Auto\+Ptr$<$ Poco\+::\+Net\+::\+Shutdown\+Notification $>$ \&p\+Nf)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I/O handler class. This class (un)registers handlers for I/O based on data availability. To ensure non-\/blocking behavior and alleviate spurious socket writability callback triggering when no data to be sent is available, F\+I\+FO buffers are used. I/O F\+I\+F\+O\+Buffer sends notifications on transitions from \mbox{[}1\mbox{]} non-\/readable (i.\+e. empty) to readable, \mbox{[}2\mbox{]} writable to non-\/writable (i.\+e. full) and \mbox{[}3\mbox{]} non-\/writable (i.\+e. full) to writable. Based on these notifications, the handler member functions react by enabling/disabling respective reactor framework notifications. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Connection\+Handler.\+h\item 
+src/Connection\+Handler.\+cpp\end{DoxyCompactItemize}

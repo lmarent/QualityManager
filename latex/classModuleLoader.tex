@@ -1,0 +1,179 @@
+\hypertarget{classModuleLoader}{}\section{Module\+Loader Class Reference}
+\label{classModuleLoader}\index{Module\+Loader@{Module\+Loader}}
+
+
+load dynamic libraries and extract function pointers  
+
+
+
+
+{\ttfamily \#include $<$Module\+Loader.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classModuleLoader_ab7ab1224836096260ae1a325941fe24c}{Module\+Loader} (\hyperlink{classConfigManager}{Config\+Manager} $\ast$cnf, string basedir=\char`\"{}./\char`\"{}, string modules=\char`\"{}\char`\"{}, string channel\+Prefix=\char`\"{}\char`\"{}, string group=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em construct and initialize a \hyperlink{classModuleLoader}{Module\+Loader} object \end{DoxyCompactList}\item 
+\hyperlink{classModuleLoader_a79d95bc9360ee001972bb1990d37b1a5}{$\sim$\+Module\+Loader} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classModuleLoader}{Module\+Loader} object \end{DoxyCompactList}\item 
+\hyperlink{classModule}{Module} $\ast$ \hyperlink{classModuleLoader_a494036ae2850f065ea0676f5b2351093}{load\+Module} (string libname, int preload)
+\begin{DoxyCompactList}\small\item\em load a metric module and make its functions available \end{DoxyCompactList}\item 
+\hyperlink{classModule}{Module} $\ast$ \hyperlink{classModuleLoader_ac39cac913d2201252c2501664c9926f7}{get\+Module} (string libname)
+\begin{DoxyCompactList}\small\item\em get the info block for a loaded metric module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModuleLoader_a6768a60b55dc11cb5cc5aea2d7bb2a8d}\label{classModuleLoader_a6768a60b55dc11cb5cc5aea2d7bb2a8d}} 
+string \hyperlink{classModuleLoader_a6768a60b55dc11cb5cc5aea2d7bb2a8d}{get\+Module\+Info\+X\+ML} (string modname)
+\begin{DoxyCompactList}\small\item\em get xml description of module \end{DoxyCompactList}\item 
+int \hyperlink{classModuleLoader_aa9dd4cbeb24b4a413a270c192bce95b4}{release\+Module} (\hyperlink{classModule}{Module} $\ast$minfo)
+\begin{DoxyCompactList}\small\item\em decrement reference count to a loaded dynamic lobrary \end{DoxyCompactList}\item 
+\hyperlink{structtypeInfo__t}{type\+Info\+\_\+t} $\ast$ \hyperlink{classModuleLoader_ac9828e3ed8c3ffa0b6bfb54dc43d5be3}{get\+Type\+Info} (string modname)
+\begin{DoxyCompactList}\small\item\em get the runtime type information for a module \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModuleLoader_aeec24847fe646ce612720c657185e420}\label{classModuleLoader_aeec24847fe646ce612720c657185e420}} 
+int {\bfseries get\+Version} (string modname)
+\item 
+void \hyperlink{classModuleLoader_ac3ddb6d3909749301dea325f1e820f2d}{write\+Type\+Info} (string modname)
+\begin{DoxyCompactList}\small\item\em print export data type information \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModuleLoader_a6b23900d6a7316a3df2583854f41b1ed}\label{classModuleLoader_a6b23900d6a7316a3df2583854f41b1ed}} 
+int \hyperlink{classModuleLoader_a6b23900d6a7316a3df2583854f41b1ed}{fetch\+Magic} (\hyperlink{Module_8h_acbeb44869400b78e5f4097d5c49fc093}{lib\+Handle\+\_\+t} lib\+Handle)
+\begin{DoxyCompactList}\small\item\em fetch magic number from module lib file \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModuleLoader_af3bc48297a382f05a39d0f63adc7afe4}\label{classModuleLoader_af3bc48297a382f05a39d0f63adc7afe4}} 
+string \hyperlink{classModuleLoader_af3bc48297a382f05a39d0f63adc7afe4}{get\+Info} ()
+\begin{DoxyCompactList}\small\item\em F\+I\+X\+ME missing documentation. \end{DoxyCompactList}\item 
+void \hyperlink{classModuleLoader_a863d9c602af7d21714d0096c57780af7}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classModuleLoader}{Module\+Loader} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classModuleLoader_a216786f53c44b08506a26e595ab40d38}\label{classModuleLoader_a216786f53c44b08506a26e595ab40d38}} 
+int \hyperlink{classModuleLoader_a216786f53c44b08506a26e595ab40d38}{num\+Modules} ()
+\begin{DoxyCompactList}\small\item\em return number of currently loaded modules \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+load dynamic libraries and extract function pointers 
+
+the \hyperlink{classModuleLoader}{Module\+Loader} class allows requesting of a dynamic library that is to be used. That Library will be loaded and it\textquotesingle{}s functions made available to the caller using the \hyperlink{classModuleLoader}{Module\+Loader} object. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classModuleLoader_ab7ab1224836096260ae1a325941fe24c}\label{classModuleLoader_ab7ab1224836096260ae1a325941fe24c}} 
+\index{Module\+Loader@{Module\+Loader}!Module\+Loader@{Module\+Loader}}
+\index{Module\+Loader@{Module\+Loader}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{Module\+Loader()}{ModuleLoader()}}
+{\footnotesize\ttfamily Module\+Loader\+::\+Module\+Loader (\begin{DoxyParamCaption}\item[{\hyperlink{classConfigManager}{Config\+Manager} $\ast$}]{cnf,  }\item[{string}]{basedir = {\ttfamily \char`\"{}./\char`\"{}},  }\item[{string}]{modules = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{channel\+Prefix = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a \hyperlink{classModuleLoader}{Module\+Loader} object 
+
+\begin{DoxyItemize}
+\item {\ttfamily basedir} -\/ directory that contains libraries that can by loaded with subsequent calls to \hyperlink{classModuleLoader_ac39cac913d2201252c2501664c9926f7}{get\+Module()} \item {\ttfamily modules} -\/ names of metric modules separated by \char`\"{} \char`\"{} \end{DoxyItemize}
+\mbox{\Hypertarget{classModuleLoader_a79d95bc9360ee001972bb1990d37b1a5}\label{classModuleLoader_a79d95bc9360ee001972bb1990d37b1a5}} 
+\index{Module\+Loader@{Module\+Loader}!````~Module\+Loader@{$\sim$\+Module\+Loader}}
+\index{````~Module\+Loader@{$\sim$\+Module\+Loader}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{$\sim$\+Module\+Loader()}{~ModuleLoader()}}
+{\footnotesize\ttfamily Module\+Loader\+::$\sim$\+Module\+Loader (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+destroy a \hyperlink{classModuleLoader}{Module\+Loader} object 
+
+this will close all dynamic libraries used by this \hyperlink{classModuleLoader}{Module\+Loader} (or at least decrement their reference counter if they are used otherwise) 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classModuleLoader_a863d9c602af7d21714d0096c57780af7}\label{classModuleLoader_a863d9c602af7d21714d0096c57780af7}} 
+\index{Module\+Loader@{Module\+Loader}!dump@{dump}}
+\index{dump@{dump}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{dump()}{dump()}}
+{\footnotesize\ttfamily void Module\+Loader\+::dump (\begin{DoxyParamCaption}\item[{ostream \&}]{os }\end{DoxyParamCaption})}
+
+
+
+dump a \hyperlink{classModuleLoader}{Module\+Loader} object 
+
+display names of loaded libraries and the number of times they have been requested \mbox{\Hypertarget{classModuleLoader_ac39cac913d2201252c2501664c9926f7}\label{classModuleLoader_ac39cac913d2201252c2501664c9926f7}} 
+\index{Module\+Loader@{Module\+Loader}!get\+Module@{get\+Module}}
+\index{get\+Module@{get\+Module}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{get\+Module()}{getModule()}}
+{\footnotesize\ttfamily \hyperlink{classModule}{Module} $\ast$ Module\+Loader\+::get\+Module (\begin{DoxyParamCaption}\item[{string}]{libname }\end{DoxyParamCaption})}
+
+
+
+get the info block for a loaded metric module 
+
+looks for a metric module with the specified name and returns an info block for this module
+
+\begin{DoxyItemize}
+\item {\ttfamily libname} -\/ name of the library \begin{DoxyReturn}{Returns}
+a reference to a struct with pointers to all the functions of the Action \hyperlink{classModule}{Module} 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em My\+Err} & in case the module is not available \\
+\hline
+\end{DoxyExceptions}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classModuleLoader_ac9828e3ed8c3ffa0b6bfb54dc43d5be3}\label{classModuleLoader_ac9828e3ed8c3ffa0b6bfb54dc43d5be3}} 
+\index{Module\+Loader@{Module\+Loader}!get\+Type\+Info@{get\+Type\+Info}}
+\index{get\+Type\+Info@{get\+Type\+Info}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{get\+Type\+Info()}{getTypeInfo()}}
+{\footnotesize\ttfamily \hyperlink{structtypeInfo__t}{type\+Info\+\_\+t} $\ast$ Module\+Loader\+::get\+Type\+Info (\begin{DoxyParamCaption}\item[{string}]{modname }\end{DoxyParamCaption})}
+
+
+
+get the runtime type information for a module 
+
+\begin{DoxyItemize}
+\item {\ttfamily modname} -\/ name of the evaluation module \begin{DoxyReturn}{Returns}
+the type information for the data exported by the requested evaluation module 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classModuleLoader_a494036ae2850f065ea0676f5b2351093}\label{classModuleLoader_a494036ae2850f065ea0676f5b2351093}} 
+\index{Module\+Loader@{Module\+Loader}!load\+Module@{load\+Module}}
+\index{load\+Module@{load\+Module}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{load\+Module()}{loadModule()}}
+{\footnotesize\ttfamily \hyperlink{classModule}{Module} $\ast$ Module\+Loader\+::load\+Module (\begin{DoxyParamCaption}\item[{string}]{libname,  }\item[{int}]{preload }\end{DoxyParamCaption})}
+
+
+
+load a metric module and make its functions available 
+
+tries to open a module and return a list of functions from it. The library has to include \textquotesingle{}Action\+Module.\+h\textquotesingle{} and needs to implement all functions given in \textquotesingle{}\hyperlink{ProcModuleInterface_8h}{Proc\+Module\+Interface.\+h}\textquotesingle{}
+
+\begin{DoxyItemize}
+\item {\ttfamily modname} -\/ name of the module \item {\ttfamily preload} -\/ load module instantly (not only on demand) if ==1 \begin{DoxyReturn}{Returns}
+a reference to a struct with pointers to all the functions of the module 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classError}{Error}} & in case the module is not available \\
+\hline
+\end{DoxyExceptions}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classModuleLoader_aa9dd4cbeb24b4a413a270c192bce95b4}\label{classModuleLoader_aa9dd4cbeb24b4a413a270c192bce95b4}} 
+\index{Module\+Loader@{Module\+Loader}!release\+Module@{release\+Module}}
+\index{release\+Module@{release\+Module}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{release\+Module()}{releaseModule()}}
+{\footnotesize\ttfamily int Module\+Loader\+::release\+Module (\begin{DoxyParamCaption}\item[{\hyperlink{classModule}{Module} $\ast$}]{minfo }\end{DoxyParamCaption})}
+
+
+
+decrement reference count to a loaded dynamic lobrary 
+
+reduce the link count of the given library by one. If the link count reaches zero by doing so, the library is unloaded.
+
+\begin{DoxyItemize}
+\item {\ttfamily minfo} -\/ pointer to module \end{DoxyItemize}
+\mbox{\Hypertarget{classModuleLoader_ac3ddb6d3909749301dea325f1e820f2d}\label{classModuleLoader_ac3ddb6d3909749301dea325f1e820f2d}} 
+\index{Module\+Loader@{Module\+Loader}!write\+Type\+Info@{write\+Type\+Info}}
+\index{write\+Type\+Info@{write\+Type\+Info}!Module\+Loader@{Module\+Loader}}
+\subsubsection{\texorpdfstring{write\+Type\+Info()}{writeTypeInfo()}}
+{\footnotesize\ttfamily void Module\+Loader\+::write\+Type\+Info (\begin{DoxyParamCaption}\item[{string}]{modname }\end{DoxyParamCaption})}
+
+
+
+print export data type information 
+
+\begin{DoxyItemize}
+\item {\ttfamily modname} -\/ name of the proc module \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{ModuleLoader_8h}{Module\+Loader.\+h}\item 
+src/\hyperlink{ModuleLoader_8cpp}{Module\+Loader.\+cpp}\end{DoxyCompactItemize}

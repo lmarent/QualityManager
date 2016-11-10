@@ -1,0 +1,103 @@
+\hypertarget{classProcModule}{}\section{Proc\+Module Class Reference}
+\label{classProcModule}\index{Proc\+Module@{Proc\+Module}}
+
+
+container class that stores information about an evaluation module  
+
+
+
+
+{\ttfamily \#include $<$Proc\+Module.\+h$>$}
+
+
+
+Inheritance diagram for Proc\+Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{classProcModule__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Proc\+Module\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{classProcModule__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classProcModule_a780d31e8458d25ea9ba7004d044509dd}\label{classProcModule_a780d31e8458d25ea9ba7004d044509dd}} 
+\hyperlink{structtypeInfo__t}{type\+Info\+\_\+t} $\ast$ {\bfseries get\+Type\+Info} ()
+\item 
+\mbox{\Hypertarget{classProcModule_a3bba66dde9395f27cc4f8982282e2b54}\label{classProcModule_a3bba66dde9395f27cc4f8982282e2b54}} 
+\hyperlink{structProcModuleInterface__t}{Proc\+Module\+Interface\+\_\+t} $\ast$ {\bfseries get\+A\+PI} ()
+\item 
+\mbox{\Hypertarget{classProcModule_a7b53fc4aab791ebf29caf709720b95f2}\label{classProcModule_a7b53fc4aab791ebf29caf709720b95f2}} 
+virtual string {\bfseries get\+Module\+Type} ()
+\item 
+\mbox{\Hypertarget{classProcModule_aedb442504493c7d4b910ba7cc4a9c346}\label{classProcModule_aedb442504493c7d4b910ba7cc4a9c346}} 
+virtual int {\bfseries get\+Version} ()
+\item 
+\mbox{\Hypertarget{classProcModule_aef74018a555606e63d4703fc7be4b1af}\label{classProcModule_aef74018a555606e63d4703fc7be4b1af}} 
+const char $\ast$ {\bfseries get\+Module\+Info} (int i)
+\item 
+\hyperlink{classProcModule_a3dcb3d64eae9628446986b254073cb4f}{Proc\+Module} (\hyperlink{classConfigManager}{Config\+Manager} $\ast$\+\_\+cnf, string libname, string libfile, \hyperlink{Module_8h_acbeb44869400b78e5f4097d5c49fc093}{lib\+Handle\+\_\+t} libhandle, string confgroup)
+\begin{DoxyCompactList}\small\item\em construct and initialize a \hyperlink{classProcModule}{Proc\+Module} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcModule_a8f2ee6251014ab5b53e81f8f40db0205}\label{classProcModule_a8f2ee6251014ab5b53e81f8f40db0205}} 
+\hyperlink{classProcModule_a8f2ee6251014ab5b53e81f8f40db0205}{$\sim$\+Proc\+Module} ()
+\begin{DoxyCompactList}\small\item\em destroy a \hyperlink{classProcModule}{Proc\+Module} object \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcModule_ad0559892993237ae19152400da9216e6}\label{classProcModule_ad0559892993237ae19152400da9216e6}} 
+string \hyperlink{classProcModule_ad0559892993237ae19152400da9216e6}{make\+Module\+Info\+X\+ML} ()
+\begin{DoxyCompactList}\small\item\em generate textual module description in X\+ML format from text data stored in module itself, writes module\+Info\+X\+ML \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcModule_a7274ea6967f8a29e74b3f15460d2f7d7}\label{classProcModule_a7274ea6967f8a29e74b3f15460d2f7d7}} 
+string \hyperlink{classProcModule_a7274ea6967f8a29e74b3f15460d2f7d7}{get\+Module\+Info\+X\+ML} ()
+\begin{DoxyCompactList}\small\item\em return textual module description in X\+ML format \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcModule_a3be2709976cf53033187b6dcf8c773ef}\label{classProcModule_a3be2709976cf53033187b6dcf8c773ef}} 
+string \hyperlink{classProcModule_a3be2709976cf53033187b6dcf8c773ef}{get\+Type\+Info\+Text} ()
+\begin{DoxyCompactList}\small\item\em return a textual representation of this modules export info structure \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcModule_af465814c2e6d29c1a0b5d0612766a3b6}\label{classProcModule_af465814c2e6d29c1a0b5d0612766a3b6}} 
+void \hyperlink{classProcModule_af465814c2e6d29c1a0b5d0612766a3b6}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump a \hyperlink{classProcModule}{Proc\+Module} object \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classProcModule_a9403c5e74c333c1885087dc577d07e22}\label{classProcModule_a9403c5e74c333c1885087dc577d07e22}} 
+static string \hyperlink{classProcModule_a9403c5e74c333c1885087dc577d07e22}{info\+Label} (int i)
+\begin{DoxyCompactList}\small\item\em get text label for type property i \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProcModule_a8e1f0c83dbe077e57d3b9990ee3308db}\label{classProcModule_a8e1f0c83dbe077e57d3b9990ee3308db}} 
+static string \hyperlink{classProcModule_a8e1f0c83dbe077e57d3b9990ee3308db}{type\+Label} (int i)
+\begin{DoxyCompactList}\small\item\em get text label for type property i \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+container class that stores information about an evaluation module 
+
+container class -\/ stores information about an evaluation module such as name, uid, function list, libhandle and reference counter 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classProcModule_a3dcb3d64eae9628446986b254073cb4f}\label{classProcModule_a3dcb3d64eae9628446986b254073cb4f}} 
+\index{Proc\+Module@{Proc\+Module}!Proc\+Module@{Proc\+Module}}
+\index{Proc\+Module@{Proc\+Module}!Proc\+Module@{Proc\+Module}}
+\subsubsection{\texorpdfstring{Proc\+Module()}{ProcModule()}}
+{\footnotesize\ttfamily Proc\+Module\+::\+Proc\+Module (\begin{DoxyParamCaption}\item[{\hyperlink{classConfigManager}{Config\+Manager} $\ast$}]{\+\_\+cnf,  }\item[{string}]{libname,  }\item[{string}]{libfile,  }\item[{\hyperlink{Module_8h_acbeb44869400b78e5f4097d5c49fc093}{lib\+Handle\+\_\+t}}]{libhandle,  }\item[{string}]{confgroup }\end{DoxyParamCaption})}
+
+
+
+construct and initialize a \hyperlink{classProcModule}{Proc\+Module} object 
+
+take the library handle of an evaluation module and retrieve all the other information (name, uid, function list) via this handle
+
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+cnf} -\/ link to configuration manager (for cfg file query) \item {\ttfamily libname} -\/ name of the evaluation module \item {\ttfamily filename} -\/ name of module including path and extension \item {\ttfamily libhandle} -\/ system handle for loaded library (see dlopen) \item {\ttfamily confgroup} -\/ Configuration group for the module. \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Proc\+Module.\+h\item 
+src/Proc\+Module.\+cpp\end{DoxyCompactItemize}

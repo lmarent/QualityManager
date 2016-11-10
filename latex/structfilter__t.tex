@@ -1,0 +1,82 @@
+\hypertarget{structfilter__t}{}\section{filter\+\_\+t Struct Reference}
+\label{structfilter__t}\index{filter\+\_\+t@{filter\+\_\+t}}
+
+
+definition of a filter  
+
+
+
+
+{\ttfamily \#include $<$Proc\+Module\+Interface.\+h$>$}
+
+
+
+Collaboration diagram for filter\+\_\+t\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{structfilter__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfilter__t_a7d320a6a351d09f1d5720edfff374361}\label{structfilter__t_a7d320a6a351d09f1d5720edfff374361}} 
+string {\bfseries name}
+\item 
+\mbox{\Hypertarget{structfilter__t_ad52f66e4ab62c0043d4d7c38256386f2}\label{structfilter__t_ad52f66e4ab62c0043d4d7c38256386f2}} 
+string {\bfseries rname}
+\item 
+\mbox{\Hypertarget{structfilter__t_a1a4367c07a7777feada9689d5086d4af}\label{structfilter__t_a1a4367c07a7777feada9689d5086d4af}} 
+string {\bfseries type}
+\item 
+\mbox{\Hypertarget{structfilter__t_a59ee5af195722a38a7e349a683964815}\label{structfilter__t_a59ee5af195722a38a7e349a683964815}} 
+\hyperlink{ProcModuleInterface_8h_ad660177f0843f6899357d549c92d206c}{filter\+Type\+\_\+t} {\bfseries mtype}
+\item 
+\mbox{\Hypertarget{structfilter__t_a46615dc949298c13405fc055d6d2836b}\label{structfilter__t_a46615dc949298c13405fc055d6d2836b}} 
+refer\+\_\+t {\bfseries refer}
+\item 
+\mbox{\Hypertarget{structfilter__t_a3ff8b57dcc7fabd31253c8db83869a10}\label{structfilter__t_a3ff8b57dcc7fabd31253c8db83869a10}} 
+refer\+\_\+t {\bfseries rrefer}
+\item 
+\mbox{\Hypertarget{structfilter__t_a5cc076209cea0cc04bd787c4dfea7403}\label{structfilter__t_a5cc076209cea0cc04bd787c4dfea7403}} 
+unsigned short {\bfseries offs}
+\item 
+\mbox{\Hypertarget{structfilter__t_a116abdf5ab9853b15745c63555f9843d}\label{structfilter__t_a116abdf5ab9853b15745c63555f9843d}} 
+unsigned short {\bfseries roffs}
+\item 
+\mbox{\Hypertarget{structfilter__t_a1d8299db10770218540bf68b5a99dc61}\label{structfilter__t_a1d8299db10770218540bf68b5a99dc61}} 
+unsigned short {\bfseries len}
+\item 
+\mbox{\Hypertarget{structfilter__t_a31622b173ff184f93fb72ca5330929eb}\label{structfilter__t_a31622b173ff184f93fb72ca5330929eb}} 
+unsigned short \hyperlink{structfilter__t_a31622b173ff184f93fb72ca5330929eb}{cnt}
+\begin{DoxyCompactList}\small\item\em number of values \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structfilter__t_ac228e14b328ecffc695a47dbdc4e7c72}\label{structfilter__t_ac228e14b328ecffc695a47dbdc4e7c72}} 
+\hyperlink{classFilterValue}{Filter\+Value} \hyperlink{structfilter__t_ac228e14b328ecffc695a47dbdc4e7c72}{fdmask}
+\begin{DoxyCompactList}\small\item\em mask from filter definition \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structfilter__t_a42fe28ebb94afd681d5e495916e4a71d}\label{structfilter__t_a42fe28ebb94afd681d5e495916e4a71d}} 
+unsigned char \hyperlink{structfilter__t_a42fe28ebb94afd681d5e495916e4a71d}{fdshift}
+\begin{DoxyCompactList}\small\item\em position of lowest set bit in fdmask (only set when len == 1) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structfilter__t_a8b06d443a853adc1606cfae366ee9e80}\label{structfilter__t_a8b06d443a853adc1606cfae366ee9e80}} 
+\hyperlink{classFilterValue}{Filter\+Value} \hyperlink{structfilter__t_a8b06d443a853adc1606cfae366ee9e80}{mask}
+\begin{DoxyCompactList}\small\item\em mask for the filter value \end{DoxyCompactList}\item 
+\hyperlink{classFilterValue}{Filter\+Value} \hyperlink{structfilter__t_a360ab1655062e64bbebdefd3acb749b6}{value} \mbox{[}M\+A\+X\+\_\+\+F\+I\+L\+T\+E\+R\+\_\+\+S\+E\+T\+\_\+\+S\+I\+ZE\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+definition of a filter 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structfilter__t_a360ab1655062e64bbebdefd3acb749b6}\label{structfilter__t_a360ab1655062e64bbebdefd3acb749b6}} 
+\index{filter\+\_\+t@{filter\+\_\+t}!value@{value}}
+\index{value@{value}!filter\+\_\+t@{filter\+\_\+t}}
+\subsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \hyperlink{classFilterValue}{Filter\+Value} filter\+\_\+t\+::value\mbox{[}M\+A\+X\+\_\+\+F\+I\+L\+T\+E\+R\+\_\+\+S\+E\+T\+\_\+\+S\+I\+ZE\mbox{]}}
+
+value definition\+: E\+X\+A\+CT -\/$>$ value\mbox{[}0\mbox{]} R\+A\+N\+GE -\/$>$ min in value\mbox{[}0\mbox{]}, max in value\mbox{[}1\mbox{]} S\+ET -\/$>$ value\mbox{[}0-\/n\mbox{]} where value.\+len$>$0 W\+I\+LD -\/$>$ no value 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{ProcModuleInterface_8h}{Proc\+Module\+Interface.\+h}\end{DoxyCompactItemize}

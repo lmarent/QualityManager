@@ -1,0 +1,73 @@
+\hypertarget{QualityManagerComponent_8h}{}\section{include/\+Quality\+Manager\+Component.h File Reference}
+\label{QualityManagerComponent_8h}\index{include/\+Quality\+Manager\+Component.\+h@{include/\+Quality\+Manager\+Component.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Logger.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Perf\+Timer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Command\+Line\+Args.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Config\+Manager.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Event.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Threads.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}httpd.\+h\char`\"{}}\newline
+Include dependency graph for Quality\+Manager\+Component.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{QualityManagerComponent_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{QualityManagerComponent_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structltfd}{ltfd}
+\begin{DoxyCompactList}\small\item\em reverse sort operator according to fd \end{DoxyCompactList}\item 
+class \hyperlink{classQualityManagerComponent}{Quality\+Manager\+Component}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{QualityManagerComponent_8h_af42271cb30f9491a19b978393507b162}\label{QualityManagerComponent_8h_af42271cb30f9491a19b978393507b162}} 
+typedef map$<$ \hyperlink{structfd__t}{fd\+\_\+t}, \hyperlink{classQualityManagerComponent}{Quality\+Manager\+Component} $\ast$, \hyperlink{structltfd}{ltfd} $>$ \hyperlink{QualityManagerComponent_8h_af42271cb30f9491a19b978393507b162}{fd\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em file descriptor list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{QualityManagerComponent_8h_a32bc1e699b9d6ced97b0e221dac88afd}\label{QualityManagerComponent_8h_a32bc1e699b9d6ced97b0e221dac88afd}} 
+typedef map$<$ \hyperlink{structfd__t}{fd\+\_\+t}, \hyperlink{classQualityManagerComponent}{Quality\+Manager\+Component} $\ast$, \hyperlink{structltfd}{ltfd} $>$\+::iterator {\bfseries fd\+List\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{QualityManagerComponent_8h_acd67c59a21d5c694ab882c8905db0a2a}\label{QualityManagerComponent_8h_acd67c59a21d5c694ab882c8905db0a2a}} 
+typedef vector$<$ \hyperlink{classEvent}{Event} $\ast$ $>$ \hyperlink{QualityManagerComponent_8h_acd67c59a21d5c694ab882c8905db0a2a}{event\+Vec\+\_\+t}
+\begin{DoxyCompactList}\small\item\em event vector list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{QualityManagerComponent_8h_a3c5b060eef254b932e561b2deb760d05}\label{QualityManagerComponent_8h_a3c5b060eef254b932e561b2deb760d05}} 
+typedef vector$<$ \hyperlink{classEvent}{Event} $\ast$ $>$\+::iterator {\bfseries event\+Vec\+Iter\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{QualityManagerComponent_8h_a9f15ec669f95150323627d93583d699b}\label{QualityManagerComponent_8h_a9f15ec669f95150323627d93583d699b}} 
+\hyperlink{structfd__t}{fd\+\_\+t} \hyperlink{QualityManagerComponent_8h_a9f15ec669f95150323627d93583d699b}{make\+\_\+fd} (int fd, int mode)
+\begin{DoxyCompactList}\small\item\em make an ft\+\_\+t from fd and mode \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia
+
+This file is part of Network Measurement and Accounting System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: meter component base class, provides common functionality for all meter components (e.\+g. threads, fd handling, ...)
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{QualityManagerComponent_8h}{Quality\+Manager\+Component.\+h} 748 2015-\/03-\/05 18\+:19\+:00 amarentes 
+\end{DoxyParagraph}

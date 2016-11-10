@@ -198,7 +198,6 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
 
                 /* host auth callback */
                 if (access_check_func != NULL) {
-					fprintf(stdout, "WE ARE IN ACCESS CHECK FUNC");
 					fprintf(stdout, "parameter:" );
 					fprintf(stdout, req->peerhost );
                     if (access_check_func(req->peerhost, NULL) < 0) {
@@ -272,11 +271,13 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
       parsing:
       
         if (req->state == STATE_PARSE_HEADER) {
+            fprintf(stderr,"In State Parse Header");
             parse_request(req, server_host);
         }
 
         /* body parsing */
         if (req->state == STATE_PARSE_BODY) {
+            fprintf(stderr,"In State Parse Body");
             parse_request_body(req);
         }
 
@@ -444,7 +445,9 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             req = req->next;
         }
     }
-
+    
+    fprintf(stdout, "end httpd_handle_event abc \n");
+    
     return 0;
 }
 

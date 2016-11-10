@@ -1,0 +1,180 @@
+\hypertarget{classConfigManager}{}\section{Config\+Manager Class Reference}
+\label{classConfigManager}\index{Config\+Manager@{Config\+Manager}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classConfigManager_a1676cfe00c3b4e794fdc258d935347a1}{Config\+Manager} (string filename, string binary)
+\item 
+\mbox{\Hypertarget{classConfigManager_a7fa65fdff98bdd5bbbf72196bd9ccf17}\label{classConfigManager_a7fa65fdff98bdd5bbbf72196bd9ccf17}} 
+\hyperlink{classConfigManager_a7fa65fdff98bdd5bbbf72196bd9ccf17}{$\sim$\+Config\+Manager} ()
+\begin{DoxyCompactList}\small\item\em destroys a \hyperlink{classConfigManager}{Config\+Manager} object \end{DoxyCompactList}\item 
+void \hyperlink{classConfigManager_af4ffb3955f672a1dd0fb1db39d231c2a}{reread} (const string fname)
+\begin{DoxyCompactList}\small\item\em reads config strings from file into object\textquotesingle{}s string table \end{DoxyCompactList}\item 
+string \hyperlink{classConfigManager_ae6ad7a04fbbc00fa5f5297daed17e4df}{get\+Value} (string name, string group=\char`\"{}\char`\"{}, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em get configured item\textquotesingle{}s value \end{DoxyCompactList}\item 
+\hyperlink{structconfigItem}{config\+Item\+\_\+t} $\ast$ \hyperlink{classConfigManager_a3cdebcc0fc8ce6148943963ba64ba342}{get\+Item} (string name, string group=\char`\"{}\char`\"{}, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em get a pointer to an item definition \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classConfigManager_acd83de4b0766edde05c4b3f93afedccc}\label{classConfigManager_acd83de4b0766edde05c4b3f93afedccc}} 
+\hyperlink{classconfigItemList__t}{config\+Item\+List\+\_\+t} \hyperlink{classConfigManager_acd83de4b0766edde05c4b3f93afedccc}{get\+Items} (string group, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em get all items for the specified module \end{DoxyCompactList}\item 
+int \hyperlink{classConfigManager_ae065527722202c0c34d2e775774e27b0}{is\+Configured} (string name, string group=\char`\"{}\char`\"{}, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em query if item is configured at all \end{DoxyCompactList}\item 
+int \hyperlink{classConfigManager_af39ad88f6a49f537c1660aa186f4f4eb}{is\+True} (string name, string group=\char`\"{}\char`\"{}, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em check if item is configured to be true \end{DoxyCompactList}\item 
+int \hyperlink{classConfigManager_a217e3864c2c7afe3a340df6405d56a55}{is\+False} (string name, string group=\char`\"{}\char`\"{}, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em check if item is configured to be false \end{DoxyCompactList}\item 
+void \hyperlink{classConfigManager_a63619a561041c0d5e11c7751b5d999e8}{set\+Item} (string name, string value, string group=\char`\"{}\char`\"{}, string module=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em set configured item\textquotesingle{}s value to a specified string \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classConfigManager_a806bb8edd47dcdd24633a057f5952502}\label{classConfigManager_a806bb8edd47dcdd24633a057f5952502}} 
+config\+A\+D\+List\+\_\+t \& \hyperlink{classConfigManager_a806bb8edd47dcdd24633a057f5952502}{get\+Access\+List} ()
+\begin{DoxyCompactList}\small\item\em get a pointer to the access list \end{DoxyCompactList}\item 
+void \hyperlink{classConfigManager_aa8cff61a46545834f88553cfb00beefd}{merge\+Args} (\hyperlink{CommandLineArgs_8h_aaee5f0d903dd3ebb586b68e0cd4d5594}{command\+Line\+Arg\+List\+\_\+t} $\ast$args, \hyperlink{CommandLineArgs_8h_a092e791e8505f700f627414f125dcd6e}{command\+Line\+Arg\+Val\+List\+\_\+t} $\ast$arg\+Vals)
+\item 
+\mbox{\Hypertarget{classConfigManager_abc8efd3c2dd742b3a5fc461eab9d32fc}\label{classConfigManager_abc8efd3c2dd742b3a5fc461eab9d32fc}} 
+void \hyperlink{classConfigManager_abc8efd3c2dd742b3a5fc461eab9d32fc}{dump} (ostream \&os)
+\begin{DoxyCompactList}\small\item\em dump object (list of configured items) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classConfigManager_a64a3c942890179cba28b86e07a3805a8}\label{classConfigManager_a64a3c942890179cba28b86e07a3805a8}} 
+static \hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$ \hyperlink{classConfigManager_a64a3c942890179cba28b86e07a3805a8}{get\+Param\+List} (\hyperlink{classconfigItemList__t}{config\+Item\+List\+\_\+t} \&list)
+\begin{DoxyCompactList}\small\item\em create a C-\/style param list for the proc modules \end{DoxyCompactList}\item 
+static \hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$ \hyperlink{classConfigManager_af019debefe1c024dc6e222fd0cbd63ef}{merge\+Param\+List} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$list\+\_\+a, \hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$list\+\_\+b)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classConfigManager_a1676cfe00c3b4e794fdc258d935347a1}\label{classConfigManager_a1676cfe00c3b4e794fdc258d935347a1}} 
+\index{Config\+Manager@{Config\+Manager}!Config\+Manager@{Config\+Manager}}
+\index{Config\+Manager@{Config\+Manager}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{Config\+Manager()}{ConfigManager()}}
+{\footnotesize\ttfamily Config\+Manager\+::\+Config\+Manager (\begin{DoxyParamCaption}\item[{string}]{filename,  }\item[{string}]{binary }\end{DoxyParamCaption})}
+
+creates and initializes a \hyperlink{classConfigManager}{Config\+Manager} \begin{DoxyItemize}
+\item {\ttfamily filename} -\/ name of config file \item {\ttfamily binary} -\/ location of binary file, i.\+e. argv\mbox{[}0\mbox{]} \end{DoxyItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classConfigManager_a3cdebcc0fc8ce6148943963ba64ba342}\label{classConfigManager_a3cdebcc0fc8ce6148943963ba64ba342}} 
+\index{Config\+Manager@{Config\+Manager}!get\+Item@{get\+Item}}
+\index{get\+Item@{get\+Item}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{get\+Item()}{getItem()}}
+{\footnotesize\ttfamily \hyperlink{structconfigItem}{config\+Item\+\_\+t} $\ast$ Config\+Manager\+::get\+Item (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{module = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+get a pointer to an item definition 
+
+\begin{DoxyItemize}
+\item {\ttfamily name} -\/ name of the item \begin{DoxyReturn}{Returns}
+a pointer to the item definition or N\+U\+LL if item is not set 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classConfigManager_ae6ad7a04fbbc00fa5f5297daed17e4df}\label{classConfigManager_ae6ad7a04fbbc00fa5f5297daed17e4df}} 
+\index{Config\+Manager@{Config\+Manager}!get\+Value@{get\+Value}}
+\index{get\+Value@{get\+Value}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{get\+Value()}{getValue()}}
+{\footnotesize\ttfamily string Config\+Manager\+::get\+Value (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{module = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+get configured item\textquotesingle{}s value 
+
+\begin{DoxyItemize}
+\item {\ttfamily name} -\/ name of the item \begin{DoxyReturn}{Returns}
+the value for the queried item or \char`\"{}\char`\"{} if item is not set 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classConfigManager_ae065527722202c0c34d2e775774e27b0}\label{classConfigManager_ae065527722202c0c34d2e775774e27b0}} 
+\index{Config\+Manager@{Config\+Manager}!is\+Configured@{is\+Configured}}
+\index{is\+Configured@{is\+Configured}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{is\+Configured()}{isConfigured()}}
+{\footnotesize\ttfamily int Config\+Manager\+::is\+Configured (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{module = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+query if item is configured at all 
+
+\begin{DoxyItemize}
+\item {\ttfamily name} -\/ name of queried item \begin{DoxyReturn}{Returns}
+a value !=0 if item has been configured, else 0 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classConfigManager_a217e3864c2c7afe3a340df6405d56a55}\label{classConfigManager_a217e3864c2c7afe3a340df6405d56a55}} 
+\index{Config\+Manager@{Config\+Manager}!is\+False@{is\+False}}
+\index{is\+False@{is\+False}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{is\+False()}{isFalse()}}
+{\footnotesize\ttfamily int Config\+Manager\+::is\+False (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{module = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+check if item is configured to be false 
+
+this will lookup the given item in the list of configured items and return true if the item is either set to be \textquotesingle{}0\textquotesingle{}, \textquotesingle{}false\textquotesingle{} or \textquotesingle{}no\textquotesingle{}. Items which are configured but do not have a value are considered false.
+
+\begin{DoxyItemize}
+\item {\ttfamily name} -\/ name of queried item \begin{DoxyReturn}{Returns}
+a value !=0 if item is configured to one of \textquotesingle{}0\textquotesingle{},\textquotesingle{}false\textquotesingle{},\textquotesingle{}no\textquotesingle{} 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classConfigManager_af39ad88f6a49f537c1660aa186f4f4eb}\label{classConfigManager_af39ad88f6a49f537c1660aa186f4f4eb}} 
+\index{Config\+Manager@{Config\+Manager}!is\+True@{is\+True}}
+\index{is\+True@{is\+True}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{is\+True()}{isTrue()}}
+{\footnotesize\ttfamily int Config\+Manager\+::is\+True (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{module = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+check if item is configured to be true 
+
+this will lookup the given item in the list of configured items and return true if the item is either set to be \textquotesingle{}1\textquotesingle{}, \textquotesingle{}true\textquotesingle{} or \textquotesingle{}yes\textquotesingle{}.
+
+\begin{DoxyItemize}
+\item {\ttfamily name} -\/ name of queried item \begin{DoxyReturn}{Returns}
+a value !=0 if item is configured to one of \textquotesingle{}1\textquotesingle{},\textquotesingle{}true\textquotesingle{},\textquotesingle{}yes\textquotesingle{} or \textquotesingle{}\textquotesingle{} 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{classConfigManager_aa8cff61a46545834f88553cfb00beefd}\label{classConfigManager_aa8cff61a46545834f88553cfb00beefd}} 
+\index{Config\+Manager@{Config\+Manager}!merge\+Args@{merge\+Args}}
+\index{merge\+Args@{merge\+Args}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{merge\+Args()}{mergeArgs()}}
+{\footnotesize\ttfamily void Config\+Manager\+::merge\+Args (\begin{DoxyParamCaption}\item[{\hyperlink{CommandLineArgs_8h_aaee5f0d903dd3ebb586b68e0cd4d5594}{command\+Line\+Arg\+List\+\_\+t} $\ast$}]{args,  }\item[{\hyperlink{CommandLineArgs_8h_a092e791e8505f700f627414f125dcd6e}{command\+Line\+Arg\+Val\+List\+\_\+t} $\ast$}]{arg\+Vals }\end{DoxyParamCaption})}
+
+merge command line args into config database command line args overrule existing configuration \mbox{\Hypertarget{classConfigManager_af019debefe1c024dc6e222fd0cbd63ef}\label{classConfigManager_af019debefe1c024dc6e222fd0cbd63ef}} 
+\index{Config\+Manager@{Config\+Manager}!merge\+Param\+List@{merge\+Param\+List}}
+\index{merge\+Param\+List@{merge\+Param\+List}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{merge\+Param\+List()}{mergeParamList()}}
+{\footnotesize\ttfamily \hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$ Config\+Manager\+::merge\+Param\+List (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{list\+\_\+a,  }\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{list\+\_\+b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+merge two C-\/style param list for the proc modules \mbox{\Hypertarget{classConfigManager_af4ffb3955f672a1dd0fb1db39d231c2a}\label{classConfigManager_af4ffb3955f672a1dd0fb1db39d231c2a}} 
+\index{Config\+Manager@{Config\+Manager}!reread@{reread}}
+\index{reread@{reread}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{reread()}{reread()}}
+{\footnotesize\ttfamily void Config\+Manager\+::reread (\begin{DoxyParamCaption}\item[{const string}]{fname }\end{DoxyParamCaption})}
+
+
+
+reads config strings from file into object\textquotesingle{}s string table 
+
+if used more than once, new items and values will be added to those already set. Old items may be overwritten.
+
+\begin{DoxyItemize}
+\item {\ttfamily fname} -\/ name of file to read configuration from \end{DoxyItemize}
+\mbox{\Hypertarget{classConfigManager_a63619a561041c0d5e11c7751b5d999e8}\label{classConfigManager_a63619a561041c0d5e11c7751b5d999e8}} 
+\index{Config\+Manager@{Config\+Manager}!set\+Item@{set\+Item}}
+\index{set\+Item@{set\+Item}!Config\+Manager@{Config\+Manager}}
+\subsubsection{\texorpdfstring{set\+Item()}{setItem()}}
+{\footnotesize\ttfamily void Config\+Manager\+::set\+Item (\begin{DoxyParamCaption}\item[{string}]{name,  }\item[{string}]{value,  }\item[{string}]{group = {\ttfamily \char`\"{}\char`\"{}},  }\item[{string}]{module = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+set configured item\textquotesingle{}s value to a specified string 
+
+\begin{DoxyItemize}
+\item {\ttfamily name} name of the item \item {\ttfamily value} string value to be set \item {\ttfamily group} group of the item (optional) \item {\ttfamily module} module of the item (optional) \end{DoxyItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{ConfigManager_8h}{Config\+Manager.\+h}\item 
+src/Config\+Manager.\+cpp\end{DoxyCompactItemize}

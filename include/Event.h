@@ -541,14 +541,10 @@ class AddRulesCtrlEvent : public CtrlCommEvent
   public:
 
     AddRulesCtrlEvent(char *b, int l, int mapi=0)
-      : CtrlCommEvent(ADD_RULES_CTRLCOMM), type(0), len(l) 
+      : CtrlCommEvent(ADD_RULES_CTRLCOMM), type(mapi), len(l) 
     {
         buf = new char[len+1];
-        memcpy(buf, b, len+1);
-          
-        if (mapi) {
-            type |= ADD_RULES_MAPI;
-        }
+        memcpy(buf, b, len+1);          
     }
 
     ~AddRulesCtrlEvent()
@@ -558,7 +554,7 @@ class AddRulesCtrlEvent : public CtrlCommEvent
 
     int isMAPI()
     {
-        return (type & ADD_RULES_MAPI);
+        return type;
     }
 
     char *getBuf()

@@ -1,0 +1,6 @@
+<map id="QOSProcessor" name="QOSProcessor">
+<area shape="rect" id="node2" href="$classQualityManagerComponent.html" title="QualityManagerComponent" alt="" coords="89,96,268,123"/>
+<area shape="rect" id="node3" href="$classConfigManager.html" title="ConfigManager" alt="" coords="5,5,115,32"/>
+<area shape="rect" id="node4" href="$classPerfTimer.html" title="the PerfTimer class stores timestamps for performance measurements " alt="" coords="139,5,217,32"/>
+<area shape="rect" id="node5" href="$classLogger.html" title="provides logging of text messages to logging channels (files) " alt="" coords="243,5,304,32"/>
+</map>

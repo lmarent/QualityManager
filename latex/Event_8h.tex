@@ -1,0 +1,128 @@
+\hypertarget{Event_8h}{}\section{include/\+Event.h File Reference}
+\label{Event_8h}\index{include/\+Event.\+h@{include/\+Event.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Rule\+File\+Parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Quality\+Manager\+Info.\+h\char`\"{}}\newline
+Include dependency graph for Event.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Event_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Event_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classEvent}{Event}
+\begin{DoxyCompactList}\small\item\em basic event element that is the base class of all other events that can be stored in the event queue of \hyperlink{classEventScheduler}{Event\+Scheduler} \end{DoxyCompactList}\item 
+class \hyperlink{classCtrlCommEvent}{Ctrl\+Comm\+Event}
+\begin{DoxyCompactList}\small\item\em base class for all ctrlcomm events, contains pointer to request \end{DoxyCompactList}\item 
+class \hyperlink{classTestEvent}{Test\+Event}
+\begin{DoxyCompactList}\small\item\em test event \end{DoxyCompactList}\item 
+class \hyperlink{classAddRulesEvent}{Add\+Rules\+Event}
+\item 
+class \hyperlink{classActivateRulesEvent}{Activate\+Rules\+Event}
+\item 
+class \hyperlink{classRemoveRulesEvent}{Remove\+Rules\+Event}
+\item 
+class \hyperlink{classProcTimerEvent}{Proc\+Timer\+Event}
+\item 
+class \hyperlink{classCtrlCommTimerEvent}{Ctrl\+Comm\+Timer\+Event}
+\item 
+class \hyperlink{classGetInfoEvent}{Get\+Info\+Event}
+\item 
+class \hyperlink{classGetModInfoEvent}{Get\+Mod\+Info\+Event}
+\item 
+class \hyperlink{classAddRulesCtrlEvent}{Add\+Rules\+Ctrl\+Event}
+\item 
+class \hyperlink{classRemoveRulesCtrlEvent}{Remove\+Rules\+Ctrl\+Event}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}\label{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}} 
+enum \hyperlink{Event_8h_a2fb9b58e4e5f14f40af8b4a1425841f8}{event\+\_\+t} \{ \newline
+{\bfseries A\+D\+D\+\_\+\+R\+U\+L\+ES} = 0, 
+{\bfseries R\+E\+M\+O\+V\+E\+\_\+\+R\+U\+L\+ES}, 
+{\bfseries A\+C\+T\+I\+V\+A\+T\+E\+\_\+\+R\+U\+L\+ES}, 
+{\bfseries G\+E\+T\+\_\+\+I\+N\+FO}, 
+\newline
+{\bfseries G\+E\+T\+\_\+\+M\+O\+D\+I\+N\+FO}, 
+{\bfseries T\+E\+ST}, 
+{\bfseries R\+E\+M\+O\+V\+E\+\_\+\+R\+U\+L\+E\+S\+\_\+\+C\+T\+R\+L\+C\+O\+MM}, 
+{\bfseries A\+D\+D\+\_\+\+R\+U\+L\+E\+S\+\_\+\+C\+T\+R\+L\+C\+O\+MM}, 
+\newline
+{\bfseries P\+R\+O\+C\+\_\+\+M\+O\+D\+U\+L\+E\+\_\+\+T\+I\+M\+ER}, 
+{\bfseries C\+T\+R\+L\+C\+O\+M\+M\+\_\+\+T\+I\+M\+ER}
+ \}\begin{DoxyCompactList}\small\item\em event numbers \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Event_8h_ae2bb5609553f8249529c24c39b257683}\label{Event_8h_ae2bb5609553f8249529c24c39b257683}} 
+ostream \& \hyperlink{Event_8h_ae2bb5609553f8249529c24c39b257683}{operator$<$$<$} (ostream \&os, \hyperlink{classEvent}{Event} \&ev)
+\begin{DoxyCompactList}\small\item\em overload for $<$$<$ so that an \hyperlink{classEvent}{Event} object can be thrown into an ostream \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const string \hyperlink{Event_8h_a010efd71cb300aad5d727e8e8ecedb8e}{event\+Names} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em event names for dump method \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Event_8h_a4693261c20489ad5a11497a79b7fdd83}\label{Event_8h_a4693261c20489ad5a11497a79b7fdd83}} 
+const int \hyperlink{Event_8h_a4693261c20489ad5a11497a79b7fdd83}{A\+D\+D\+\_\+\+R\+U\+L\+E\+S\+\_\+\+M\+A\+PI} = 0x1
+\begin{DoxyCompactList}\small\item\em add rules flags \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogotá, Colombia
+
+This file is part of Network Quality Manager System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: event classes for all events handled by meter Code based on Netmate Implementation
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{Event_8h}{Event.\+h} 748 2015-\/03-\/03 13\+:00\+:03 amarentes 
+\end{DoxyParagraph}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{Event_8h_a010efd71cb300aad5d727e8e8ecedb8e}\label{Event_8h_a010efd71cb300aad5d727e8e8ecedb8e}} 
+\index{Event.\+h@{Event.\+h}!event\+Names@{event\+Names}}
+\index{event\+Names@{event\+Names}!Event.\+h@{Event.\+h}}
+\subsubsection{\texorpdfstring{event\+Names}{eventNames}}
+{\footnotesize\ttfamily const string event\+Names\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= 
+\{
+      \textcolor{stringliteral}{"Add-rules"},
+      \textcolor{stringliteral}{"Remove-rules"},
+      \textcolor{stringliteral}{"Activate-rules"},
+      \textcolor{stringliteral}{"Get-info"},
+      \textcolor{stringliteral}{"Get-module-info"},
+      \textcolor{stringliteral}{"Test"},
+      \textcolor{stringliteral}{"Remove-rules-ctrlcomm"},
+      \textcolor{stringliteral}{"Add-rules-ctrlcomm"},
+      \textcolor{stringliteral}{"Proc-module-timer"},
+      \textcolor{stringliteral}{"Ctrlcomm-timer"},      
+\}
+\end{DoxyCode}
+
+
+event names for dump method 
+

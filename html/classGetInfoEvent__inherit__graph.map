@@ -1,0 +1,4 @@
+<map id="GetInfoEvent" name="GetInfoEvent">
+<area shape="rect" id="node2" href="$classCtrlCommEvent.html" title="base class for all ctrlcomm events, contains pointer to request " alt="" coords="5,80,120,107"/>
+<area shape="rect" id="node3" href="$classEvent.html" title="basic event element that is the base class of all other events that can be stored in the event queue ..." alt="" coords="35,5,89,32"/>
+</map>

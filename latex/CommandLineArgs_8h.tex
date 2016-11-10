@@ -1,0 +1,67 @@
+\hypertarget{CommandLineArgs_8h}{}\section{include/\+Command\+Line\+Args.h File Reference}
+\label{CommandLineArgs_8h}\index{include/\+Command\+Line\+Args.\+h@{include/\+Command\+Line\+Args.\+h}}
+{\ttfamily \#include \char`\"{}stdincpp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}getopt\+\_\+long.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Logger.\+h\char`\"{}}\newline
+Include dependency graph for Command\+Line\+Args.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{CommandLineArgs_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{CommandLineArgs_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcommandLineArg__t}{command\+Line\+Arg\+\_\+t}
+\begin{DoxyCompactList}\small\item\em command line arg \end{DoxyCompactList}\item 
+struct \hyperlink{structltarg}{ltarg}
+\begin{DoxyCompactList}\small\item\em sort command line options alphabetically\+: a,A,b,B,c,D etc. \end{DoxyCompactList}\item 
+class \hyperlink{classCommandLineArgs}{Command\+Line\+Args}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{CommandLineArgs_8h_aaee5f0d903dd3ebb586b68e0cd4d5594}\label{CommandLineArgs_8h_aaee5f0d903dd3ebb586b68e0cd4d5594}} 
+typedef map$<$ char, \hyperlink{structcommandLineArg__t}{command\+Line\+Arg\+\_\+t}, \hyperlink{structltarg}{ltarg} $>$ \hyperlink{CommandLineArgs_8h_aaee5f0d903dd3ebb586b68e0cd4d5594}{command\+Line\+Arg\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em command line argument list \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{CommandLineArgs_8h_a15f31e6a1543886834f15b1278efd9dd}\label{CommandLineArgs_8h_a15f31e6a1543886834f15b1278efd9dd}} 
+typedef map$<$ char, \hyperlink{structcommandLineArg__t}{command\+Line\+Arg\+\_\+t}, \hyperlink{structltarg}{ltarg} $>$\+::iterator {\bfseries command\+Line\+Arg\+List\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{CommandLineArgs_8h_a092e791e8505f700f627414f125dcd6e}\label{CommandLineArgs_8h_a092e791e8505f700f627414f125dcd6e}} 
+typedef map$<$ char, string $>$ \hyperlink{CommandLineArgs_8h_a092e791e8505f700f627414f125dcd6e}{command\+Line\+Arg\+Val\+List\+\_\+t}
+\begin{DoxyCompactList}\small\item\em list of values for each argument \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{CommandLineArgs_8h_a13ad28214bbb28a75842927787237a55}\label{CommandLineArgs_8h_a13ad28214bbb28a75842927787237a55}} 
+typedef map$<$ char, string $>$\+::iterator {\bfseries command\+Line\+Arg\+Val\+List\+Iter\+\_\+t}
+\item 
+\mbox{\Hypertarget{CommandLineArgs_8h_a57d22209d004bba06cb5aed37795d0d1}\label{CommandLineArgs_8h_a57d22209d004bba06cb5aed37795d0d1}} 
+typedef struct \hyperlink{structoption}{option} \hyperlink{CommandLineArgs_8h_a57d22209d004bba06cb5aed37795d0d1}{option\+\_\+t}
+\begin{DoxyCompactList}\small\item\em from getopt.\+h \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2003-\/2004 Fraunhofer Institute for Open Communication Systems (F\+O\+K\+US), Berlin, Germany
+
+This file is part of Network Measurement and Accounting System (N\+E\+T\+M\+A\+TE).
+
+N\+E\+T\+M\+A\+TE is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+M\+A\+TE is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: parses command line args and puts values in config db
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{CommandLineArgs_8h}{Command\+Line\+Args.\+h} 748 2009-\/09-\/10 02\+:54\+:03Z szander 
+\end{DoxyParagraph}

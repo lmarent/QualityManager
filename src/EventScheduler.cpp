@@ -75,9 +75,7 @@ EventScheduler::~EventScheduler()
 
 void EventScheduler::addEvent(Event *ev)
 {
-	
-	cout << "in event scheduler add event" << endl;
-	
+		
 #ifdef DEBUG
     log->dlog(ch,"new event %s", eventNames[ev->getType()].c_str());
 #endif

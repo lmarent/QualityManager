@@ -1,0 +1,63 @@
+\hypertarget{classecodtn_1_1net_1_1RouteException}{}\section{ecodtn\+:\+:net\+:\+:Route\+Exception Class Reference}
+\label{classecodtn_1_1net_1_1RouteException}\index{ecodtn\+::net\+::\+Route\+Exception@{ecodtn\+::net\+::\+Route\+Exception}}
+
+
+Base class for all Route Exceptions.  
+
+
+
+
+{\ttfamily \#include $<$Route\+Exception.\+h$>$}
+
+Inheritance diagram for ecodtn\+:\+:net\+:\+:Route\+Exception\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classecodtn_1_1net_1_1RouteException}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_a61440abb4fa31d5b97233bff13f33c71}\label{classecodtn_1_1net_1_1RouteException_a61440abb4fa31d5b97233bff13f33c71}} 
+{\bfseries Route\+Exception} (const std\+::string \&msg, int code=0)
+\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_ae9094b16405fb0f971413e17a103b331}\label{classecodtn_1_1net_1_1RouteException_ae9094b16405fb0f971413e17a103b331}} 
+\hyperlink{classecodtn_1_1net_1_1RouteException_ae9094b16405fb0f971413e17a103b331}{Route\+Exception} (const \hyperlink{classecodtn_1_1net_1_1RouteException}{Route\+Exception} \&exc)
+\begin{DoxyCompactList}\small\item\em Creates My\+S\+Q\+L\+Exception. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_a8a7541dda78efcbc4665d06419c358ac}\label{classecodtn_1_1net_1_1RouteException_a8a7541dda78efcbc4665d06419c358ac}} 
+\hyperlink{classecodtn_1_1net_1_1RouteException_a8a7541dda78efcbc4665d06419c358ac}{$\sim$\+Route\+Exception} ()  throw ()
+\begin{DoxyCompactList}\small\item\em Creates \hyperlink{classecodtn_1_1net_1_1RouteException}{Route\+Exception}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_a9f53c17f77c7919c9671ee5c90905e22}\label{classecodtn_1_1net_1_1RouteException_a9f53c17f77c7919c9671ee5c90905e22}} 
+\hyperlink{classecodtn_1_1net_1_1RouteException}{Route\+Exception} \& \hyperlink{classecodtn_1_1net_1_1RouteException_a9f53c17f77c7919c9671ee5c90905e22}{operator=} (const \hyperlink{classecodtn_1_1net_1_1RouteException}{Route\+Exception} \&exc)
+\begin{DoxyCompactList}\small\item\em Destroys \hyperlink{classecodtn_1_1net_1_1RouteException}{Route\+Exception}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_aa15e125ab1895ae1fc8aee79ffc82175}\label{classecodtn_1_1net_1_1RouteException_aa15e125ab1895ae1fc8aee79ffc82175}} 
+const char $\ast$ \hyperlink{classecodtn_1_1net_1_1RouteException_aa15e125ab1895ae1fc8aee79ffc82175}{name} () const  throw ()
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_a70ba439510724fd890b5189f54b689d8}\label{classecodtn_1_1net_1_1RouteException_a70ba439510724fd890b5189f54b689d8}} 
+const char $\ast$ \hyperlink{classecodtn_1_1net_1_1RouteException_a70ba439510724fd890b5189f54b689d8}{class\+Name} () const  throw ()
+\begin{DoxyCompactList}\small\item\em Returns exception name. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_a7fa2b7e08cd208a717b63c24370ecf1c}\label{classecodtn_1_1net_1_1RouteException_a7fa2b7e08cd208a717b63c24370ecf1c}} 
+Poco\+::\+Exception $\ast$ \hyperlink{classecodtn_1_1net_1_1RouteException_a7fa2b7e08cd208a717b63c24370ecf1c}{clone} () const
+\begin{DoxyCompactList}\small\item\em Returns the name of the exception class. \end{DoxyCompactList}\item 
+void \hyperlink{classecodtn_1_1net_1_1RouteException_aea7a52fb632b2ad24b0d8cd04dfb08d3}{rethrow} () const
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for all Route Exceptions. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classecodtn_1_1net_1_1RouteException_aea7a52fb632b2ad24b0d8cd04dfb08d3}\label{classecodtn_1_1net_1_1RouteException_aea7a52fb632b2ad24b0d8cd04dfb08d3}} 
+\index{ecodtn\+::net\+::\+Route\+Exception@{ecodtn\+::net\+::\+Route\+Exception}!rethrow@{rethrow}}
+\index{rethrow@{rethrow}!ecodtn\+::net\+::\+Route\+Exception@{ecodtn\+::net\+::\+Route\+Exception}}
+\subsubsection{\texorpdfstring{rethrow()}{rethrow()}}
+{\footnotesize\ttfamily void ecodtn\+::net\+::\+Route\+Exception\+::rethrow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Creates an exact copy of the exception.
+
+The copy can later be thrown again by invoking \hyperlink{classecodtn_1_1net_1_1RouteException_aea7a52fb632b2ad24b0d8cd04dfb08d3}{rethrow()} on it. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Route\+Exception.\+h\item 
+src/Route\+Exception.\+cpp\end{DoxyCompactItemize}

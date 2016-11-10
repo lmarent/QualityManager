@@ -1,0 +1,82 @@
+\hypertarget{classError}{}\section{Error Class Reference}
+\label{classError}\index{Error@{Error}}
+
+
+generic error exception  
+
+
+
+
+{\ttfamily \#include $<$Error.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classError_aca339d00ad8481fb4c184f0ece42698b}{Error} ()
+\begin{DoxyCompactList}\small\item\em $<$ create unnamed error exception \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_a33c9f1966a27831eb49342ae02107fe5}\label{classError_a33c9f1966a27831eb49342ae02107fe5}} 
+\hyperlink{classError_a33c9f1966a27831eb49342ae02107fe5}{Error} (const std\+::string new\+\_\+error=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em create named error exception \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_ae83a1b2e22001c74cb433c9db4b06c59}\label{classError_ae83a1b2e22001c74cb433c9db4b06c59}} 
+\hyperlink{classError_ae83a1b2e22001c74cb433c9db4b06c59}{Error} (const int err\+\_\+no=0, const std\+::string err\+\_\+str=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em printf-\/style constructor \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_a3c4ebf23ad22025f4c3144318a4ccd3b}\label{classError_a3c4ebf23ad22025f4c3144318a4ccd3b}} 
+\hyperlink{classError_a3c4ebf23ad22025f4c3144318a4ccd3b}{Error} (const int err\+\_\+no, const char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em printf-\/style constructor \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_a04b610b88a09921231dbfd10f41b3d11}\label{classError_a04b610b88a09921231dbfd10f41b3d11}} 
+\hyperlink{classError_a04b610b88a09921231dbfd10f41b3d11}{Error} (const char $\ast$fmt,...)
+\begin{DoxyCompactList}\small\item\em get error msg from exception \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_aa2aec02f62fb7e8325c5bb793da64a90}\label{classError_aa2aec02f62fb7e8325c5bb793da64a90}} 
+std\+::string {\bfseries get\+Error} ()
+\item 
+\mbox{\Hypertarget{classError_a74ba8bd7fd5b5361be11daee8b5c6b1c}\label{classError_a74ba8bd7fd5b5361be11daee8b5c6b1c}} 
+int \hyperlink{classError_a74ba8bd7fd5b5361be11daee8b5c6b1c}{get\+Error\+No} ()
+\begin{DoxyCompactList}\small\item\em get error number \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_a1a2e5f78dedac07786fe06969672eea7}\label{classError_a1a2e5f78dedac07786fe06969672eea7}} 
+void {\bfseries dump} (std\+::ostream \&os)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classError_aca10c20ddc3769ff18c87d98052bbc3e}{error\+No}
+\begin{DoxyCompactList}\small\item\em error number \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classError_a7ca1958fd4898587d70b88c0c0dc0695}\label{classError_a7ca1958fd4898587d70b88c0c0dc0695}} 
+std\+::string {\bfseries error}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+generic error exception 
+
+\hyperlink{classError}{Error} represents an exception that can be thrown. It includes a string that can be used to further specify the error encountered. Optionally it also includes a number. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classError_aca339d00ad8481fb4c184f0ece42698b}\label{classError_aca339d00ad8481fb4c184f0ece42698b}} 
+\index{Error@{Error}!Error@{Error}}
+\index{Error@{Error}!Error@{Error}}
+\subsubsection{\texorpdfstring{Error()}{Error()}}
+{\footnotesize\ttfamily Error\+::\+Error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+$<$ create unnamed error exception 
+
+create named error exception 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classError_aca10c20ddc3769ff18c87d98052bbc3e}\label{classError_aca10c20ddc3769ff18c87d98052bbc3e}} 
+\index{Error@{Error}!error\+No@{error\+No}}
+\index{error\+No@{error\+No}!Error@{Error}}
+\subsubsection{\texorpdfstring{error\+No}{errorNo}}
+{\footnotesize\ttfamily int Error\+::error\+No\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+error number 
+
+error string 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Error_8h}{Error.\+h}\item 
+src/Error.\+cpp\end{DoxyCompactItemize}

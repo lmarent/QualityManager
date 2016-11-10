@@ -74,6 +74,7 @@ case "$target" in
         ;;
 esac
 
+
 # use our own defaults
 LDFLAGS="$LDFLAGS -L/lib -L/usr/local/lib -L/usr/lib "
 CFLAGS="$_CFLAGS -Wall"
@@ -397,6 +398,7 @@ AC_CONFIG_FILES([ Makefile \
 				  nqrsh/Makefile \
 				  proc_modules/Makefile \
                   src/Makefile \
-                  test/Makefile ] )
+                  test/Makefile \
+                  scalability_test/Makefile] )
 
 AC_OUTPUT

@@ -1,0 +1,317 @@
+\hypertarget{htb_8cpp}{}\section{proc\+\_\+modules/htb.cpp File Reference}
+\label{htb_8cpp}\index{proc\+\_\+modules/htb.\+cpp@{proc\+\_\+modules/htb.\+cpp}}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}arpa/inet.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}htb\+\_\+functions.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Proc\+Error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Proc\+Module.\+h\char`\"{}}\newline
+Include dependency graph for htb.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{htb_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structopt__map}{opt\+\_\+map}
+\item 
+struct \hyperlink{structpprot}{pprot}
+\item 
+struct \hyperlink{structaccData__t}{acc\+Data\+\_\+t}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{htb_8cpp_a768e5f2f2276c09d0dba9101626a0561}\label{htb_8cpp_a768e5f2f2276c09d0dba9101626a0561}} 
+enum {\bfseries def\+\_\+parameters} \{ \newline
+{\bfseries defp\+\_\+srcipmask}, 
+{\bfseries defp\+\_\+dstipmask}, 
+{\bfseries defp\+\_\+prot}, 
+{\bfseries defp\+\_\+iniface}, 
+\newline
+{\bfseries defp\+\_\+outiface}, 
+{\bfseries defp\+\_\+nlgroup}, 
+{\bfseries defp\+\_\+cprange}, 
+{\bfseries defp\+\_\+prefix}, 
+\newline
+{\bfseries defp\+\_\+qthreshold}, 
+{\bfseries defp\+\_\+match}, 
+{\bfseries defp\+\_\+bidir}
+ \}
+\item 
+\mbox{\Hypertarget{htb_8cpp_aeb54ceefb66eeb02277f3b3e794959cb}\label{htb_8cpp_aeb54ceefb66eeb02277f3b3e794959cb}} 
+enum {\bfseries Tc\+Filter\+Action\+\_\+e} \{ {\bfseries T\+C\+\_\+\+F\+I\+L\+T\+E\+R\+\_\+\+A\+DD} = 0, 
+{\bfseries T\+C\+\_\+\+F\+I\+L\+T\+E\+R\+\_\+\+D\+E\+L\+E\+TE}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{htb_8cpp_aa3ba5d162bf2411bdc8de85f01e0b768}\label{htb_8cpp_aa3ba5d162bf2411bdc8de85f01e0b768}} 
+int {\bfseries string\+\_\+to\+\_\+number} (const char $\ast$s, unsigned int min, unsigned int max, unsigned int $\ast$ret)
+\item 
+\mbox{\Hypertarget{htb_8cpp_a75a062ee1761c70a96d54a5ce0959599}\label{htb_8cpp_a75a062ee1761c70a96d54a5ce0959599}} 
+u\+\_\+int16\+\_\+t {\bfseries parse\+\_\+protocol} (const char $\ast$s)
+\item 
+\mbox{\Hypertarget{htb_8cpp_a7bc6f7709610583fb1bb8749e0cedd4e}\label{htb_8cpp_a7bc6f7709610583fb1bb8749e0cedd4e}} 
+u\+\_\+int16\+\_\+t {\bfseries parse\+\_\+protocol} (\hyperlink{classFilterValue}{Filter\+Value} \&value)
+\item 
+void \hyperlink{htb_8cpp_a9ec05f68c5198a7956d4126c632b0f66}{init\+Module} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em initialize the action module upon loading \end{DoxyCompactList}\item 
+void \hyperlink{htb_8cpp_ac247885bd82a1dca433c878d0dc2436f}{destroy\+Module} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em cleanup action module structures before it is unloaded \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{htb_8cpp_a38d219c6759f87ac502d6dd775f9c8c8}\label{htb_8cpp_a38d219c6759f87ac502d6dd775f9c8c8}} 
+int {\bfseries calculate\+Relative\+Off\+Set} (refer\+\_\+t refer)
+\item 
+\mbox{\Hypertarget{htb_8cpp_ab713afeada09919a64f0e67fe1de2f89}\label{htb_8cpp_ab713afeada09919a64f0e67fe1de2f89}} 
+int {\bfseries calculate\+Relative\+Mask\+Off\+Set} (refer\+\_\+t refer)
+\item 
+\mbox{\Hypertarget{htb_8cpp_a866fbad8a30f47498df3586f3f240004}\label{htb_8cpp_a866fbad8a30f47498df3586f3f240004}} 
+void {\bfseries reset\+Current} (\hyperlink{structaccData__t}{acc\+Data\+\_\+t} $\ast$data)
+\item 
+\mbox{\Hypertarget{htb_8cpp_af9006a58d1063470d5301f29816c4a51}\label{htb_8cpp_af9006a58d1063470d5301f29816c4a51}} 
+int {\bfseries create\+\_\+hask\+\_\+key} (\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters)
+\item 
+\mbox{\Hypertarget{htb_8cpp_a1425858cfc7e99fb1c20334ce0c6e8fe}\label{htb_8cpp_a1425858cfc7e99fb1c20334ce0c6e8fe}} 
+void {\bfseries modify\+\_\+filter} (int flow\+Id, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, int bidir, Tc\+Filter\+Action\+\_\+e action)
+\item 
+void \hyperlink{htb_8cpp_a6117f2101c7e55340844a8920ee60272}{init\+Flow\+Setup} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, void $\ast$$\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em initialize flow data record for a rule \end{DoxyCompactList}\item 
+void \hyperlink{htb_8cpp_a143c3b28e80d38c9bec70b3a5f10fac9}{reset\+Flow\+Setup} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em reset flow data record for a rule \end{DoxyCompactList}\item 
+int \hyperlink{htb_8cpp_a26ba4c718f9e86290c82f8b11342cc19}{check\+Band\+Width} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params)
+\begin{DoxyCompactList}\small\item\em check if bandwidth available for the rule is enought. \end{DoxyCompactList}\item 
+void \hyperlink{htb_8cpp_ade76bc6a679fbabc3e86dec946f87633}{destroy\+Flow\+Setup} (\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$params, \hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$filters, void $\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em dismantle router configuration for a Qos Task \end{DoxyCompactList}\item 
+const char $\ast$ \hyperlink{htb_8cpp_a21fc56684386fd77d1201775e7018d94}{get\+Module\+Info} (int i)
+\begin{DoxyCompactList}\small\item\em provide textual information about this action module \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{htb_8cpp_a6af52163f2fc971dda99bfd5faf9bd93}{get\+Error\+Msg} (int code)
+\begin{DoxyCompactList}\small\item\em return error message for last failed function \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{htb_8cpp_a1809a6ca107d4818b7d390703c8934b4}\label{htb_8cpp_a1809a6ca107d4818b7d390703c8934b4}} 
+void \hyperlink{htb_8cpp_a1809a6ca107d4818b7d390703c8934b4}{timeout} (int timer\+ID, void $\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em this function is called if the module supports a timeout callback function every x seconds and its invokation is configured to make use of the timeout feature \end{DoxyCompactList}\item 
+\hyperlink{structtimers__t}{timers\+\_\+t} $\ast$ \hyperlink{htb_8cpp_a486fa404e5b0a19219c7e0b2d80f98cd}{get\+Timers} (void $\ast$flowdata)
+\begin{DoxyCompactList}\small\item\em get list of default timers for this proc module \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{htb_8cpp_a0719a009744e8b2eeea7e62850b09b45}\label{htb_8cpp_a0719a009744e8b2eeea7e62850b09b45}} 
+const int {\bfseries C\+O\+U\+N\+T\+C\+H\+U\+NK} = 20
+\item 
+\mbox{\Hypertarget{htb_8cpp_ad083140b4c2f3ea2de618d2eda40d429}\label{htb_8cpp_ad083140b4c2f3ea2de618d2eda40d429}} 
+const int {\bfseries M\+O\+D\+\_\+\+I\+N\+I\+T\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+P\+A\+R\+A\+MS} = 4
+\item 
+\mbox{\Hypertarget{htb_8cpp_a751bfe16ff2c52a2fb58f52cb783e662}\label{htb_8cpp_a751bfe16ff2c52a2fb58f52cb783e662}} 
+const int {\bfseries M\+O\+D\+\_\+\+I\+N\+I\+\_\+\+F\+L\+O\+W\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+P\+A\+R\+A\+MS} = 6
+\item 
+\mbox{\Hypertarget{htb_8cpp_a21adb0b67f6401a8173689629237c13e}\label{htb_8cpp_a21adb0b67f6401a8173689629237c13e}} 
+const int {\bfseries M\+O\+D\+\_\+\+D\+E\+L\+\_\+\+F\+L\+O\+W\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+P\+A\+R\+A\+MS} = 2
+\item 
+\mbox{\Hypertarget{htb_8cpp_a051d0d00d757df92889969bb8483dc60}\label{htb_8cpp_a051d0d00d757df92889969bb8483dc60}} 
+uint64\+\_\+t \hyperlink{htb_8cpp_a051d0d00d757df92889969bb8483dc60}{bandwidth\+\_\+available} = 0
+\begin{DoxyCompactList}\small\item\em This variable maintains the available bandwidth on the interface. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{htb_8cpp_aed2790627d2c37c919fcbaede1841c59}\label{htb_8cpp_aed2790627d2c37c919fcbaede1841c59}} 
+struct nl\+\_\+sock $\ast$ {\bfseries sk}
+\item 
+\mbox{\Hypertarget{htb_8cpp_afcaee0d7359cde76594a3ecceb942567}\label{htb_8cpp_afcaee0d7359cde76594a3ecceb942567}} 
+struct nl\+\_\+cache $\ast$ {\bfseries link\+\_\+cache}
+\item 
+\mbox{\Hypertarget{htb_8cpp_a708f84ebe882941b1d01ab87cf8299e7}\label{htb_8cpp_a708f84ebe882941b1d01ab87cf8299e7}} 
+struct rtnl\+\_\+link $\ast$ {\bfseries nllink}
+\item 
+\mbox{\Hypertarget{htb_8cpp_a5f9c8f0a0ee72e45c8b59e20c29eae86}\label{htb_8cpp_a5f9c8f0a0ee72e45c8b59e20c29eae86}} 
+struct rtnl\+\_\+cls $\ast$ {\bfseries cls}
+\item 
+\hyperlink{structtimers__t}{timers\+\_\+t} {\bfseries timers} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\Hypertarget{htb_8cpp_a7a15e861cffa59fe7fed27cf150d5aa0}\label{htb_8cpp_a7a15e861cffa59fe7fed27cf150d5aa0}} 
+struct timeval {\bfseries zerotime} = \{0,0\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Copyright 2014-\/2015 Universidad de los Andes, Bogota, Colombia.
+
+This file is part of Network Measurement and Accounting System (N\+E\+T\+QoS).
+
+N\+E\+T\+QoS is free software; you can redistribute it and/or modify it under the terms of the G\+NU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+N\+E\+T\+QoS is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+UT A\+NY W\+A\+R\+R\+A\+N\+TY; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY or F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE. See the G\+NU General Public License for more details.
+
+You should have received a copy of the G\+NU General Public License along with this software; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-\/1307 U\+SA
+
+Description\+: action module for setting up bandwidth on a interface for a flow.
+
+\begin{DoxyParagraph}{Id}
+\hyperlink{htb_8cpp}{htb.\+cpp} 748 2015-\/03-\/09 11\+:22\+:00 amarentes 
+\end{DoxyParagraph}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{htb_8cpp_a26ba4c718f9e86290c82f8b11342cc19}\label{htb_8cpp_a26ba4c718f9e86290c82f8b11342cc19}} 
+\index{htb.\+cpp@{htb.\+cpp}!check\+Band\+Width@{check\+Band\+Width}}
+\index{check\+Band\+Width@{check\+Band\+Width}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{check\+Band\+Width()}{checkBandWidth()}}
+{\footnotesize\ttfamily int check\+Band\+Width (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+check if bandwidth available for the rule is enought. 
+
+\begin{DoxyItemize}
+\item {\ttfamily params} -\/ rule parameters \begin{DoxyReturn}{Returns}
+0 -\/ on success (bandwidth is valid), $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{htb_8cpp_ade76bc6a679fbabc3e86dec946f87633}\label{htb_8cpp_ade76bc6a679fbabc3e86dec946f87633}} 
+\index{htb.\+cpp@{htb.\+cpp}!destroy\+Flow\+Setup@{destroy\+Flow\+Setup}}
+\index{destroy\+Flow\+Setup@{destroy\+Flow\+Setup}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{destroy\+Flow\+Setup()}{destroyFlowSetup()}}
+{\footnotesize\ttfamily void destroy\+Flow\+Setup (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params,  }\item[{\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$}]{filters,  }\item[{void $\ast$}]{flowdata }\end{DoxyParamCaption})}
+
+
+
+dismantle router configuration for a Qos Task 
+
+attention\+: do N\+OT free this slice of memory itself \begin{DoxyItemize}
+\item {\ttfamily flowdata} -\/ place of action module specific data from flow table \begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{htb_8cpp_ac247885bd82a1dca433c878d0dc2436f}\label{htb_8cpp_ac247885bd82a1dca433c878d0dc2436f}} 
+\index{htb.\+cpp@{htb.\+cpp}!destroy\+Module@{destroy\+Module}}
+\index{destroy\+Module@{destroy\+Module}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{destroy\+Module()}{destroyModule()}}
+{\footnotesize\ttfamily void destroy\+Module (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+cleanup action module structures before it is unloaded 
+
+\begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\mbox{\Hypertarget{htb_8cpp_a6af52163f2fc971dda99bfd5faf9bd93}\label{htb_8cpp_a6af52163f2fc971dda99bfd5faf9bd93}} 
+\index{htb.\+cpp@{htb.\+cpp}!get\+Error\+Msg@{get\+Error\+Msg}}
+\index{get\+Error\+Msg@{get\+Error\+Msg}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{get\+Error\+Msg()}{getErrorMsg()}}
+{\footnotesize\ttfamily char$\ast$ get\+Error\+Msg (\begin{DoxyParamCaption}\item[{int}]{code }\end{DoxyParamCaption})}
+
+
+
+return error message for last failed function 
+
+\begin{DoxyItemize}
+\item {\ttfamily -\/} error number (return value from failed function) \begin{DoxyReturn}{Returns}
+0 -\/ textual description of error for logging purposes 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{htb_8cpp_a21fc56684386fd77d1201775e7018d94}\label{htb_8cpp_a21fc56684386fd77d1201775e7018d94}} 
+\index{htb.\+cpp@{htb.\+cpp}!get\+Module\+Info@{get\+Module\+Info}}
+\index{get\+Module\+Info@{get\+Module\+Info}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{get\+Module\+Info()}{getModuleInfo()}}
+{\footnotesize\ttfamily const char$\ast$ get\+Module\+Info (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+provide textual information about this action module 
+
+A string is returned that describes one property (e.\+g.\+author) of the action module in detail. ~\newline
+ A list of common properties follows in the argument list
+
+\begin{DoxyItemize}
+\item {\ttfamily I\+\_\+\+N\+A\+ME} -\/ name of the action module \item {\ttfamily I\+\_\+\+U\+ID} -\/ return unique module id number (as string) \item {\ttfamily I\+\_\+\+B\+R\+I\+EF} -\/ brief description of the action module functionality \item {\ttfamily I\+\_\+\+A\+U\+T\+H\+OR} -\/ name/e-\/mail of the author of this module \item {\ttfamily I\+\_\+\+C\+R\+E\+A\+TE} -\/ info about module creation (usually date and similar) \item {\ttfamily I\+\_\+\+D\+E\+T\+A\+IL} -\/ detailed module functionality description \item {\ttfamily I\+\_\+\+P\+A\+R\+AM} -\/ description of parameter(s) of module \item {\ttfamily I\+\_\+\+R\+E\+S\+U\+LT} -\/ information about nature and format of measurement results for this module \item {\ttfamily I\+\_\+\+R\+E\+S\+E\+RV} -\/ reserved info entry \item {\ttfamily I\+\_\+\+U\+S\+ER} -\/ entry open for free use \item {\ttfamily I\+\_\+\+U\+S\+E\+R+1} -\/ entry open for free use \item {\ttfamily I\+\_\+\+U\+S\+E\+R+2} -\/ entry open for free use \item {\ttfamily I\+\_\+\+U\+S\+E\+R+n} -\/ must return N\+U\+LL\end{DoxyItemize}
+\begin{DoxyReturn}{Returns}
+-\/ a string which contains textual information about a property of this action module ~\newline
+
+
+-\/ pointer to a \textquotesingle{}\textbackslash{}0\textquotesingle{} string if no information is available ~\newline
+
+
+-\/ N\+U\+LL for index after last stored info string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{htb_8cpp_a486fa404e5b0a19219c7e0b2d80f98cd}\label{htb_8cpp_a486fa404e5b0a19219c7e0b2d80f98cd}} 
+\index{htb.\+cpp@{htb.\+cpp}!get\+Timers@{get\+Timers}}
+\index{get\+Timers@{get\+Timers}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{get\+Timers()}{getTimers()}}
+{\footnotesize\ttfamily \hyperlink{structtimers__t}{timers\+\_\+t}$\ast$ get\+Timers (\begin{DoxyParamCaption}\item[{void $\ast$}]{flowdata }\end{DoxyParamCaption})}
+
+
+
+get list of default timers for this proc module 
+
+\begin{DoxyItemize}
+\item {\ttfamily flowdata} -\/ place for action module specific data from flow table \begin{DoxyReturn}{Returns}
+list of timer structs 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{htb_8cpp_a6117f2101c7e55340844a8920ee60272}\label{htb_8cpp_a6117f2101c7e55340844a8920ee60272}} 
+\index{htb.\+cpp@{htb.\+cpp}!init\+Flow\+Setup@{init\+Flow\+Setup}}
+\index{init\+Flow\+Setup@{init\+Flow\+Setup}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{init\+Flow\+Setup()}{initFlowSetup()}}
+{\footnotesize\ttfamily void init\+Flow\+Setup (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params,  }\item[{\hyperlink{ProcModuleInterface_8h_a2afc1e9fc63b2cfcd86ec2435f24e27c}{filter\+List\+\_\+t} $\ast$}]{filters,  }\item[{void $\ast$$\ast$}]{flowdata }\end{DoxyParamCaption})}
+
+
+
+initialize flow data record for a rule 
+
+The freshly allocated router configuration for a Qos task (for one module) is initialized here and the module parameter string can be parsed and checked
+
+\begin{DoxyItemize}
+\item {\ttfamily params} -\/ module parameter text from inside \textquotesingle{}( )\textquotesingle{} \item {\ttfamily flowdata} -\/ place for action module specific data from flow table \begin{DoxyReturn}{Returns}
+0 -\/ on success (parameters are valid), $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+\mbox{\Hypertarget{htb_8cpp_a9ec05f68c5198a7956d4126c632b0f66}\label{htb_8cpp_a9ec05f68c5198a7956d4126c632b0f66}} 
+\index{htb.\+cpp@{htb.\+cpp}!init\+Module@{init\+Module}}
+\index{init\+Module@{init\+Module}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{init\+Module()}{initModule()}}
+{\footnotesize\ttfamily void init\+Module (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+initialize the action module upon loading 
+
+\begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\mbox{\Hypertarget{htb_8cpp_a143c3b28e80d38c9bec70b3a5f10fac9}\label{htb_8cpp_a143c3b28e80d38c9bec70b3a5f10fac9}} 
+\index{htb.\+cpp@{htb.\+cpp}!reset\+Flow\+Setup@{reset\+Flow\+Setup}}
+\index{reset\+Flow\+Setup@{reset\+Flow\+Setup}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{reset\+Flow\+Setup()}{resetFlowSetup()}}
+{\footnotesize\ttfamily void reset\+Flow\+Setup (\begin{DoxyParamCaption}\item[{\hyperlink{structconfigParam__t}{config\+Param\+\_\+t} $\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+reset flow data record for a rule 
+
+\begin{DoxyItemize}
+\item {\ttfamily flowdata} -\/ place of action module specific data from flow table \begin{DoxyReturn}{Returns}
+0 -\/ on success, $<$0 -\/ else 
+\end{DoxyReturn}
+\end{DoxyItemize}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{htb_8cpp_a0351c7307379199ff47b67d60b9f988f}\label{htb_8cpp_a0351c7307379199ff47b67d60b9f988f}} 
+\index{htb.\+cpp@{htb.\+cpp}!timers@{timers}}
+\index{timers@{timers}!htb.\+cpp@{htb.\+cpp}}
+\subsubsection{\texorpdfstring{timers}{timers}}
+{\footnotesize\ttfamily \hyperlink{structtimers__t}{timers\+\_\+t} timers\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    
+    \{       1,  1000 * 0, TM\_RECURRING \},
+    
+    TIMER\_END
+\}
+\end{DoxyCode}
