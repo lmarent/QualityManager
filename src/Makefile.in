@@ -124,7 +124,8 @@ am_qualityManager_OBJECTS = qualityManager-Error.$(OBJEXT) \
 	qualityManager-PerfTimer.$(OBJEXT) \
 	qualityManager-QualityManager.$(OBJEXT) \
 	qualityManager-QOSProcessor.$(OBJEXT) \
-	qualityManager-ModuleLoader.$(OBJEXT)
+	qualityManager-ModuleLoader.$(OBJEXT) \
+	qualityManager-main.$(OBJEXT)
 qualityManager_OBJECTS = $(am_qualityManager_OBJECTS)
 qualityManager_DEPENDENCIES =  \
 	$(top_builddir)/lib/getopt_long/libgetopt_long.a \
@@ -351,6 +352,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
+ACLOCAL_AMFLAGS = -I m4
 @ENABLE_DEBUG_FALSE@AM_CXXFLAGS = -O2  
 @ENABLE_DEBUG_TRUE@AM_CXXFLAGS = -g -fno-inline -D_GLIBCXX_DEBUG -DDEBUG -DPROFILING
 qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
@@ -366,7 +368,7 @@ qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
 						 RuleIdSource.cpp MAPIRuleParser.cpp RuleManager.cpp \
 						 EventScheduler.cpp PerfTimer.cpp \
 						 QualityManager.cpp QOSProcessor.cpp \
-						 ModuleLoader.cpp
+						 ModuleLoader.cpp main.cpp
 
 qualityManager_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib/getopt_long \
 						  -I$(top_srcdir)/lib/httpd
@@ -504,6 +506,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-XMLParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-constants.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-constants_qos.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-main.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -948,6 +951,20 @@ qualityManager-ModuleLoader.obj: ModuleLoader.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ModuleLoader.cpp' object='qualityManager-ModuleLoader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qualityManager-ModuleLoader.obj `if test -f 'ModuleLoader.cpp'; then $(CYGPATH_W) 'ModuleLoader.cpp'; else $(CYGPATH_W) '$(srcdir)/ModuleLoader.cpp'; fi`
+
+qualityManager-main.o: main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qualityManager-main.o -MD -MP -MF $(DEPDIR)/qualityManager-main.Tpo -c -o qualityManager-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/qualityManager-main.Tpo $(DEPDIR)/qualityManager-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.cpp' object='qualityManager-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qualityManager-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
+
+qualityManager-main.obj: main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qualityManager-main.obj -MD -MP -MF $(DEPDIR)/qualityManager-main.Tpo -c -o qualityManager-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/qualityManager-main.Tpo $(DEPDIR)/qualityManager-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='main.cpp' object='qualityManager-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qualityManager-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
