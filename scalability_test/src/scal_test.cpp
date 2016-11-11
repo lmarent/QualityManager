@@ -198,30 +198,16 @@ std::string getNewRule(int rule)
     return convert.str();
 }
 
-std::string getAddress()
-{
-    int mask = 254;
-    std::string prefix("10.0.");
-
-    int next_part1 = nextRuleId / mask;
-    int next_part2 = nextRuleId % mask;
-
-    std::ostringstream convert;
-    convert << prefix;
-    convert << next_part1 << ".";
-    convert << next_part2;
-    return convert.str();
-
-}
-
 std::string getRate()
 {
 
-    int maxValue = 1500;
+    int maxValue = 15000;
 
     srand((unsigned int) time (NULL)); //activates the generator
     //...
     int rate = rand()%maxValue;        //gives a random from 0 to 9
+
+	rate = maxValue;
 
     std::ostringstream convert;
     convert << rate;
@@ -238,17 +224,16 @@ void replace_rule_set(std::string &str)
 
 }
 
-void replace_rule_id(int rate, std::string &str)
+void replace_rule_id(int rule, std::string &str)
 {
-     std::string rule_id = getNewRule(rate);
+     std::string rule_id = getNewRule(rule);
      std::size_t found = str.find("rule_id_param");
      if (found!=std::string::npos)
         str.replace(found, std::string("rule_id_param").size(), rule_id);
 }
 
-void replace_ip_address(std::string &str)
+void replace_ip_address(std::string ip_address, std::string &str)
 {
-     std::string ip_address = getAddress();
      std::size_t found = str.find("ip_address_param");
      if (found!=std::string::npos)
         str.replace(found, std::string("ip_address_param").size(), ip_address);
@@ -396,7 +381,7 @@ int delete_rule(std::string host, int host_port, int rule)
 
 }
 
-int post_rule(std::string host, int host_port, std::string ruleFile, int rule)
+int post_rule(std::string clientaddress, std::string host, int host_port, std::string ruleFile, int rule)
 {
 
   CURL *curl;
@@ -443,7 +428,7 @@ int post_rule(std::string host, int host_port, std::string ruleFile, int rule)
 
     std::string bodyStr = strFile;
     replace_rule_set(bodyStr);
-    replace_ip_address(bodyStr);
+    replace_ip_address(clientaddress, bodyStr);
     replace_rule_id(rule, bodyStr);
     replace_rate(bodyStr);
     replace_burst(bodyStr);
@@ -568,6 +553,9 @@ int main(int argc, char *argv[])
 		args->addFlag('x', "UseSSL", "use SSL for control communication",
 						  "MAIN", "usessl");
 #endif
+		args->add('C', "ClientAddres", "<clientAddres>", "use alternative client address",
+					  "MAIN", "caddr");
+
 		args->add('H', "HostAddres", "<hostAddres>", "use alternative host address",
 					  "MAIN", "haddr");
 
@@ -600,6 +588,12 @@ int main(int argc, char *argv[])
 			logfile = DEFAULT_LOG_FILE;
 		}
 
+		string clientaddress = args->getArgValue('C');
+		if (clientaddress.empty())
+		{
+			Error("Parameter clientaddress is required");
+		}
+
 		string hostaddress = args->getArgValue('H');
 		if (hostaddress.empty())
 		{
@@ -617,7 +611,7 @@ int main(int argc, char *argv[])
 			Error("Wrong port number is required");
 		}
 
-		int rule = 1;
+		int rule;
 
 		string ruleId = args->getArgValue('I');
 		if (ruleId.empty())
@@ -631,10 +625,14 @@ int main(int argc, char *argv[])
 			rule = rand()%maxRule;        //gives a random from 0 to 650000
 
 		}
+		else
+		{
+			rule = atoi(ruleId.c_str());
+		}
 
 		cout << rulefile << endl;
 
-		rule = post_rule(hostaddress, i_port, rulefile, rule);
+		rule = post_rule(clientaddress, hostaddress, i_port, rulefile, rule);
 	}
 	catch(Error &err){
 		cout << err << endl;
