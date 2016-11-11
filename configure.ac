@@ -401,6 +401,7 @@ AC_CONFIG_FILES([ Makefile \
 		  proc_modules/Makefile \
                   src/Makefile \
                   test/Makefile \
-                  scalability_test/src/Makefile] )
+                  scalability_test/src/Makefile \
+                  scalability_test/etc/Makefile ] )
 
 AC_OUTPUT

@@ -42,7 +42,7 @@ const string CERT_FILE = DEF_SYSCONFDIR "/netmate.pem";
 #endif
 
 // scal_test
-const string DEFAULT_RULE_FILE = DEF_STATEDIR "/etc/rule.xml";
+const string DEFAULT_RULE_FILE = DEF_SYSCONFDIR "/rule.xml";
 
 
 // help text in interactive shell

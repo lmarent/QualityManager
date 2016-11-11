@@ -5,18 +5,18 @@
 
     This file is part of Network QoS System (NETQOS).
 
-    NETQOS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQOS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQOS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQOS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 	Description:
@@ -38,10 +38,10 @@ XMLParser::XMLParser(string dtdname, string fname, string root)
     ch = log->createChannel("XMLParser" );
 
 #ifdef DEBUG
-    log->dlog(ch, "DTD file %s, XML file %s, root %s", 
+    log->dlog(ch, "DTD file %s, XML file %s, root %s",
                 dtdname.c_str(), fname.c_str(), root.c_str() );
 #endif
-    
+
     try {
         struct stat statbuf;
 
@@ -54,21 +54,21 @@ XMLParser::XMLParser(string dtdname, string fname, string root)
             throw Error("DTD %s file '%s' not accessible: %s",
                         root.c_str(), dtdName.c_str(), strerror(errno) );
         }
-        
+
         xmlInitParser();
 
         // set line numbering
         xmlLineNumbersDefault(1);
         // set error function
         xmlSetGenericErrorFunc(NULL, XMLParser::XMLErrorCB);
-		
-        XMLDoc = xmlParseFile(fileName.c_str()); 	    
+
+        XMLDoc = xmlParseFile(fileName.c_str());
         if (XMLDoc == NULL) {
             throw Error("XML document parse error in file %s", fileName.c_str());
         }
-                
+
         validate(root);
-		
+
 
     } catch (Error &e) {
         if (XMLDoc != NULL) {
@@ -79,20 +79,20 @@ XMLParser::XMLParser(string dtdname, string fname, string root)
         if (!warn.empty()) {
             log->wlog(ch, "%s", warn.c_str());
         }
-        
+
         if (!err.empty()) {
             log->elog(ch, "Error creating the XMLDOC - returned error:%s", err.c_str());
         }
 
         throw(e);
     }
-    
+
 }
 
 XMLParser::XMLParser(string dtdname, char *buf, int len, string root)
-    : dtdName(dtdname)
+    : dtdName(dtdname), XMLDoc(NULL), ns(NULL)
 {
-    
+
 
     log = Logger::getInstance();
     ch = log->createChannel("XMLParser" );
@@ -103,14 +103,14 @@ XMLParser::XMLParser(string dtdname, char *buf, int len, string root)
 
         xmlSetGenericErrorFunc(NULL, XMLParser::XMLErrorCB);
 
-        XMLDoc = xmlParseMemory(buf, len); 	    
-	
+        XMLDoc = xmlParseMemory(buf, len);
+
         if (XMLDoc == NULL) {
             throw Error("XML document parse error");
         }
 
         validate(root);
-	
+
     } catch (Error &e) {
         if (XMLDoc != NULL) {
             xmlFreeDoc(XMLDoc);
@@ -137,7 +137,7 @@ void XMLParser::validate(string root)
 
     try {
         dtd = xmlParseDTD(NULL, (const xmlChar *) dtdName.c_str());
-        if (dtd == NULL) 
+        if (dtd == NULL)
         {
             throw Error("Could not parse DTD %s", dtdName.c_str());
         } else {
@@ -145,12 +145,12 @@ void XMLParser::validate(string root)
             cvp.userData = this;
             cvp.error = (xmlValidityErrorFunc) XMLParser::XMLErrorCB;
             cvp.warning = (xmlValidityWarningFunc) XMLParser::XMLWarningCB;
-        
+
             if (!xmlValidateDtd(&cvp, XMLDoc, dtd)) {
                 throw Error("Document %s does not validate against %s",
                             fileName.c_str(), dtdName.c_str());
             }
-	    
+
             cur = xmlDocGetRootElement(XMLDoc);
             if (cur == NULL) {
                 throw Error("empty XML document");
@@ -185,7 +185,7 @@ void XMLParser::validate(string root)
         if (!err.empty()) {
             log->elog(ch, "%s", err.c_str());
         }
-		
+
         throw(e);
     }
 }
@@ -227,7 +227,7 @@ void XMLParser::XMLWarningCB(void *ctx, const char *msg, ...)
     va_list argp;
 
     va_start( argp, msg );
-    vsprintf(buf, msg, argp); 
+    vsprintf(buf, msg, argp);
     vfprintf(stderr, msg, argp);
     va_end( argp );
 
