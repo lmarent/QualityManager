@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE CONFIG SYSTEM "config.dtd"> 
+<!DOCTYPE CONFIG SYSTEM "netqos_conf.dtd"> 
 <CONFIG>
   <MAIN>
     <!-- verbose level for logging -->
@@ -10,6 +10,10 @@
     <PREF NAME="PidFile">@DEF_STATEDIR@/run/netqos.pid</PREF>
     <!-- rule file to load at start -->
     <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
+    <!-- filter attribute definition file -->    
+    <PREF NAME="FilterDefFile">@DEF_STATEDIR@/etc/filterdef.xml</PREF>
+    <!-- filter constant file -->
+    <PREF NAME="FilterConstFile">@DEF_STATEDIR@/etc/filterval.xml</PREF>
     <!-- interface to capture packets from -->
     <PREF NAME="NetInterface">eth0</PREF>
     <!-- don't use promiscuous interface -->
@@ -21,7 +25,7 @@
     <!-- port for control connections -->
     <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
     <!-- use SSL encryption -->
-    <PREF NAME="UseSSL" TYPE="Bool">yes</PREF>
+    <PREF NAME="UseSSL" TYPE="Bool">no</PREF>
     <!-- use IPv6 (if no IPv6 interface present IP4 will be used) -->
     <PREF NAME="UseIPv6" TYPE="Bool">no</PREF>
     <!-- log all incoming control requests -->
@@ -30,8 +34,33 @@
     <PREF NAME="LogMeterCommand" TYPE="Bool">yes</PREF>
     <!-- access list -->
     <ACCESS>
-      <ALLOW TYPE="Host">localhost</ALLOW>
+      <ALLOW TYPE="Host">All</ALLOW>
+      <ALLOW TYPE="User">admin:admin</ALLOW>
       <DENY>All</DENY>
     </ACCESS>
   </CONTROL>
+  <QOS_PROCESSOR>
+    <!-- run as separate thread -->
+    <PREF NAME="Thread" TYPE="Bool">yes</PREF>
+    <!-- directory where the processing modules are located -->
+    <PREF NAME="ModuleDir">@DEF_LIBDIR@</PREF>
+    <!-- allow on-demand loading i.e. when new module is used in rule definition --> 
+    <PREF NAME="ModuleDynamicLoad" TYPE="Bool">yes</PREF>
+    <!-- buffers in queue between classifier and packet processor -->
+    <PREF NAME="PacketQueueBuffers" TYPE="UInt32">20000</PREF>
+    <!-- module which is preloaded at startup, if the user put a list, the SW will only load the first module defined-->
+    <PREF NAME="Modules">htb tbf</PREF>
+    <MODULES>
+      <MODULE NAME="htb">
+		  <!-- Total interface Rate is on bytes  -->
+		  <PREF NAME="Rate" TYPE="UInt32">102400</PREF>
+		  <!-- Burst for the interface is on bytes -->
+		  <PREF NAME="Burst" TYPE="UInt32">1556</PREF>
+      </MODULE>
+      <MODULE NAME="tbf">
+		  <!-- Total interface Rate is on mbps -->
+		  <PREF NAME="Rate" TYPE="UInt32">1</PREF>
+      </MODULE>
+    </MODULES>
+  </QOS_PROCESSOR>    
 </CONFIG>

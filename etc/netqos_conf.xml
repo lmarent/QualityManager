@@ -9,11 +9,11 @@
     <!-- pid file location -->
     <PREF NAME="PidFile">/usr/local/var/run/netqos.pid</PREF>
     <!-- rule file to load at start -->
-    <!--PREF NAME="RuleFile">/home/luis/QualityManager/etc/example_rules3.xml</PREF> -->
-    <!-- filter attribute definition file -->
-    <PREF NAME="FilterDefFile">/home/luis/QualityManager/etc/filterdef.xml</PREF>
+    <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
+    <!-- filter attribute definition file -->    
+    <PREF NAME="FilterDefFile">/usr/local/var/etc/filterdef.xml</PREF>
     <!-- filter constant file -->
-    <PREF NAME="FilterConstFile">/home/luis/QualityManager/etc/filterval.xml</PREF>     
+    <PREF NAME="FilterConstFile">/usr/local/var/etc/filterval.xml</PREF>
     <!-- interface to capture packets from -->
     <PREF NAME="NetInterface">eth0</PREF>
     <!-- don't use promiscuous interface -->
@@ -21,7 +21,7 @@
   </MAIN>
   <CONTROL>
     <!-- enable remote control interface -->
-    <PREF NAME="Enable" TYPE="Bool">yes</PREF>
+    <PREF NAME="Enable" TYPE="Bool">no</PREF>
     <!-- port for control connections -->
     <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
     <!-- use SSL encryption -->
@@ -31,7 +31,7 @@
     <!-- log all incoming control requests -->
     <PREF NAME="LogOnConnect" TYPE="Bool">yes</PREF>
     <!-- log all meter commands -->
-    <PREF NAME="LogQoSCommand" TYPE="Bool">yes</PREF>
+    <PREF NAME="LogMeterCommand" TYPE="Bool">yes</PREF>
     <!-- access list -->
     <ACCESS>
       <ALLOW TYPE="Host">All</ALLOW>
@@ -43,7 +43,7 @@
     <!-- run as separate thread -->
     <PREF NAME="Thread" TYPE="Bool">yes</PREF>
     <!-- directory where the processing modules are located -->
-    <PREF NAME="ModuleDir">/home/luis/QualityManager/proc_modules</PREF>
+    <PREF NAME="ModuleDir">/usr/local/lib/qualitymanager</PREF>
     <!-- allow on-demand loading i.e. when new module is used in rule definition --> 
     <PREF NAME="ModuleDynamicLoad" TYPE="Bool">yes</PREF>
     <!-- buffers in queue between classifier and packet processor -->
@@ -62,5 +62,5 @@
 		  <PREF NAME="Rate" TYPE="UInt32">1</PREF>
       </MODULE>
     </MODULES>
-  </QOS_PROCESSOR>  
+  </QOS_PROCESSOR>    
 </CONFIG>
