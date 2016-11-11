@@ -15,13 +15,13 @@
     <!-- filter constant file -->
     <PREF NAME="FilterConstFile">@DEF_STATEDIR@/etc/filterval.xml</PREF>
     <!-- interface to capture packets from -->
-    <PREF NAME="NetInterface">eth0</PREF>
+    <PREF NAME="NetInterface">eth2</PREF>
     <!-- don't use promiscuous interface -->
     <PREF NAME="NoPromiscInt" TYPE="Bool">no</PREF>
   </MAIN>
   <CONTROL>
     <!-- enable remote control interface -->
-    <PREF NAME="Enable" TYPE="Bool">no</PREF>
+    <PREF NAME="Enable" TYPE="Bool">yes</PREF>
     <!-- port for control connections -->
     <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
     <!-- use SSL encryption -->
