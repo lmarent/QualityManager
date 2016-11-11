@@ -338,21 +338,21 @@ if test "${prefix}" = "NONE" ; then
 fi
 
 dnl # set default config directory for testing
-#sysconfdir="${sysconfdir}/$PACKAGE"
+sysconfdir="${sysconfdir}/$PACKAGE"
 
-sysconfdir="/home/luis/QualityManager/etc"
-
-#DEF_SYSCONFDIR=`eval echo ${sysconfdir}`
-DEF_SYSCONFDIR="/home/luis/QualityManager/etc"
+DEF_SYSCONFDIR=`eval echo ${sysconfdir}`
 AC_DEFINE_UNQUOTED(DEF_SYSCONFDIR, "$DEF_SYSCONFDIR", "sysconfig dir")
+
 
 DEF_STATEDIR=`eval echo ${localstatedir}`
 AC_DEFINE_UNQUOTED(DEF_STATEDIR, "$DEF_STATEDIR", "state dir")
+
 
 libdir="${libdir}/$PACKAGE"
 if test "${exec_prefix}" = "NONE" ; then
   exec_prefix=${prefix}
 fi
+
 DEF_LIBDIR=`eval echo ${libdir}`
 AC_DEFINE_UNQUOTED(DEF_LIBDIR, "$DEF_LIBDIR", "lib dir")
 
@@ -392,13 +392,13 @@ AC_SUBST(DOXY)
 
 
 AC_CONFIG_FILES([ Makefile \
-				  lib/getpass/Makefile \
-  				  lib/httpd/Makefile \
-				  lib/getopt_long/Makefile \
-				  nqrsh/Makefile \
-				  proc_modules/Makefile \
+		  lib/getpass/Makefile \
+  		  lib/httpd/Makefile \
+		  lib/getopt_long/Makefile \
+		  nqrsh/Makefile \
+		  proc_modules/Makefile \
                   src/Makefile \
                   test/Makefile \
-                  scalability_test/Makefile] )
+                  scalability_test/src/Makefile] )
 
 AC_OUTPUT
