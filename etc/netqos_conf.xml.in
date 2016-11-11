@@ -11,9 +11,9 @@
     <!-- rule file to load at start -->
     <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
     <!-- filter attribute definition file -->    
-    <PREF NAME="FilterDefFile">">@DEF_SYSCONFDIR@/filterdef.xml</PREF>
+    <PREF NAME="FilterDefFile">@DEF_SYSCONFDIR@/filterdef.xml</PREF>
     <!-- filter constant file -->
-    <PREF NAME="FilterConstFile">">@DEF_SYSCONFDIR@/filterval.xml</PREF>
+    <PREF NAME="FilterConstFile">@DEF_SYSCONFDIR@/filterval.xml</PREF>
     <!-- interface to capture packets from -->
     <PREF NAME="NetInterface">eth2</PREF>
     <!-- don't use promiscuous interface -->
