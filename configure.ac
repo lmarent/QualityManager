@@ -394,7 +394,8 @@ AC_SUBST(DOXY)
 AC_CONFIG_FILES([ Makefile \
 		  etc/Makefile \
 		  etc/netqos_conf.xml \
-		  lib/getpass/Makefile \
+                  lib/Makefile \
+                  lib/getpass/Makefile \
   		  lib/httpd/Makefile \
 		  lib/getopt_long/Makefile \
 		  nqrsh/Makefile \

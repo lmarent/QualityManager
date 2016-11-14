@@ -12,7 +12,7 @@
     <FILTER NAME="SrcIP">ip_address_param</FILTER>
     <ACTION NAME="htb">
 		<!-- match both directions of the flow -->
-		<PREF NAME="Bidir">yes</PREF>
+		<PREF NAME="Bidir">no</PREF>
 		
 		<!-- Rate is on bytes  -->
 		<PREF NAME="Rate" TYPE="Float64">rate_param</PREF>
