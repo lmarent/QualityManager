@@ -391,19 +391,7 @@ AC_SUBST(DOXY)
 
 
 
-AC_CONFIG_FILES([ Makefile \
-		  etc/Makefile \
-		  etc/netqos_conf.xml \
-                  lib/Makefile \
-                  lib/getpass/Makefile \
-  		  lib/httpd/Makefile \
-		  lib/getopt_long/Makefile \
-		  nqrsh/Makefile \
-		  proc_modules/Makefile \
-                  src/Makefile \
-                  test/Makefile \
-                  scalability_test/Makefile \
-                  scalability_test/src/Makefile \
-                  scalability_test/etc/Makefile ] )
+AC_CONFIG_FILES([ Makefile etc/Makefile etc/netqos_conf.xml lib/Makefile lib/getpass/Makefile lib/httpd/Makefile lib/getopt_long/Makefile nqrsh/Makefile proc_modules/Makefile src/Makefile test/Makefile scalability_test/Makefile \
+		scalability_test/src/Makefile scalability_test/etc/Makefile ] )
 
 AC_OUTPUT
