@@ -11,17 +11,17 @@
     <!-- rule file to load at start -->
     <!-- <PREF NAME="RuleFile">xxx</PREF>   -->
     <!-- filter attribute definition file -->    
-    <PREF NAME="FilterDefFile">/usr/local/var/etc/filterdef.xml</PREF>
+    <PREF NAME="FilterDefFile">">/usr/local/etc/qualitymanager/filterdef.xml</PREF>
     <!-- filter constant file -->
-    <PREF NAME="FilterConstFile">/usr/local/var/etc/filterval.xml</PREF>
+    <PREF NAME="FilterConstFile">">/usr/local/etc/qualitymanager/filterval.xml</PREF>
     <!-- interface to capture packets from -->
-    <PREF NAME="NetInterface">eth0</PREF>
+    <PREF NAME="NetInterface">eth2</PREF>
     <!-- don't use promiscuous interface -->
     <PREF NAME="NoPromiscInt" TYPE="Bool">no</PREF>
   </MAIN>
   <CONTROL>
     <!-- enable remote control interface -->
-    <PREF NAME="Enable" TYPE="Bool">no</PREF>
+    <PREF NAME="Enable" TYPE="Bool">yes</PREF>
     <!-- port for control connections -->
     <PREF NAME="ControlPort" TYPE="UInt16">12244</PREF>
     <!-- use SSL encryption -->

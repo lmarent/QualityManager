@@ -5,18 +5,18 @@
 
     This file is part of Network Quality Manager System (NETQoS).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 	Description:
@@ -30,11 +30,12 @@
 #include "RuleManager.h"
 #include "CtrlComm.h"
 #include "constants.h"
+#include <time.h>
 
 /* ------------------------- RuleManager ------------------------- */
 
-RuleManager::RuleManager( string fdname, string fvname) 
-    : tasks(0), filterDefFileName(fdname), filterValFileName(fvname), 
+RuleManager::RuleManager( string fdname, string fvname)
+    : tasks(0), filterDefFileName(fdname), filterValFileName(fvname),
 	  idSource(1)
 {
     log = Logger::getInstance();
@@ -60,7 +61,7 @@ RuleManager::~RuleManager()
         if (*iter != NULL) {
             // delete rule
             saveDelete(*iter);
-        } 
+        }
     }
 
     for (ruleDoneIter_t i = ruleDone.begin(); i != ruleDone.end(); i++) {
@@ -105,13 +106,13 @@ void RuleManager::loadFilterDefs(string fname)
             FilterDefParser f = FilterDefParser(fname.c_str());
             f.parse(&filterDefs);
         }
-    
+
     }else{
 #ifdef DEBUG
     log->dlog(ch, "filename %s is not readable", fname.c_str());
-#endif    
+#endif
     }
-    
+
 }
 
 
@@ -156,7 +157,7 @@ Rule *RuleManager::getRule(string sname, string rname)
     ruleIndexIter_t iter2;
 
     iter = ruleSetIndex.find(sname);
-    if (iter != ruleSetIndex.end()) {		
+    if (iter != ruleSetIndex.end()) {
         iter2 = iter->second.find(rname);
         if (iter2 != iter->second.end()) {
             return getRule(iter2->second);
@@ -165,15 +166,15 @@ Rule *RuleManager::getRule(string sname, string rname)
         {
 #ifdef DEBUG
     log->dlog(ch,"RuleId not found");
-#endif		
-			
+#endif
+
 		}
     }
     else
     {
 #ifdef DEBUG
     log->dlog(ch,"Ruleset not found");
-#endif		
+#endif
 	}
 
     return NULL;
@@ -220,13 +221,13 @@ ruleDB_t *RuleManager::parseRules(string fname)
 
     // load the filter def list
     loadFilterDefs(fname);
-	
+
     // load the filter val list
     loadFilterVals(fname);
-	
+
     RuleFileParser rfp = RuleFileParser(fname);
-    
-    
+
+
     try
     {
 
@@ -258,10 +259,10 @@ ruleDB_t *RuleManager::parseRulesBuffer(char *buf, int len, int mapi)
     try {
         // load the filter def list
         loadFilterDefs("");
-	
+
         // load the filter val list
         loadFilterVals("");
-	
+
         if (mapi) {
              MAPIRuleParser rfp = MAPIRuleParser(buf, len);
              rfp.parse(&filterDefs, &filterVals, new_rules, &idSource);
@@ -271,7 +272,7 @@ ruleDB_t *RuleManager::parseRulesBuffer(char *buf, int len, int mapi)
         }
 
         return new_rules;
-	
+
     } catch (Error &e) {
 
         for(ruleDBIter_t i=new_rules->begin(); i != new_rules->end(); i++) {
@@ -292,20 +293,27 @@ void RuleManager::addRules(ruleDB_t *rules, EventScheduler *e)
     ruleTimeIndex_t     stop;
     ruleTimeIndexIter_t iter2;
     time_t              now = time(NULL);
-    
+
     // add valid rules.
     for (iter = rules->begin(); iter != rules->end(); iter++) {
         Rule *r = (*iter);
-        
+
         if (r->getState()  == RS_VALID) {
-        
+
             try {
                 addRule(r);
 
                 start[r->getStart()].push_back(r);
-                if (r->getStop()) {
+                if (r->getStop())
+                {
+                    time_t stopt = r->getStop();
                     stop[r->getStop()].push_back(r);
+                    log->dlog(ch, "stop time: %s for rule: %d", ctime(&stopt), r->getUId());
                 }
+                else
+                {
+					log->log(ch, "undefined stop for rule: %d", r->getUId());
+				}
             } catch (Error &e ) {
                 saveDelete(r);
                 // if only one rule, then return error
@@ -316,24 +324,20 @@ void RuleManager::addRules(ruleDB_t *rules, EventScheduler *e)
             }
         }
     }
-    
-#ifdef DEBUG    
+
     log->dlog(ch, "Start all rules - it is going to activate them");
-#endif      
 
     // group rules with same start time
     for (iter2 = start.begin(); iter2 != start.end(); iter2++) {
         e->addEvent(new ActivateRulesEvent(iter2->first-now, iter2->second));
     }
-    
+
     // group rules with same stop time
     for (iter2 = stop.begin(); iter2 != stop.end(); iter2++) {
         e->addEvent(new RemoveRulesEvent(iter2->first-now, iter2->second));
     }
 
-#ifdef DEBUG    
     log->dlog(ch, "Finished adding rules");
-#endif      
 
 }
 
@@ -342,27 +346,27 @@ void RuleManager::addRules(ruleDB_t *rules, EventScheduler *e)
 
 void RuleManager::addRule(Rule *r)
 {
-  
-#ifdef DEBUG    
+
+#ifdef DEBUG
     log->dlog(ch, "adding new rule with name = '%s'",
               r->getRuleName().c_str());
-#endif  
+#endif
 
     // test for presence of ruleSource/ruleName combination
     // in ruleDatabase in particular set
     if (getRule(r->getSetName(), r->getRuleName())) {
         log->elog(ch, "task %s.%s already installed",
                   r->getSetName().c_str(), r->getRuleName().c_str());
-                  
+
         r->setState(RS_ERROR);
         throw Error(408, "task with this name is already installed");
     }
 
     try {
 
-#ifdef DEBUG    
+#ifdef DEBUG
     log->dlog(ch, "Rule Id = '%d'", r->getUId());
-#endif 
+#endif
 
         // resize vector if necessary
         if ((unsigned int)r->getUId() >= ruleDB.size()) {
@@ -371,24 +375,24 @@ void RuleManager::addRule(Rule *r)
         }
 
         // insert rule
-        ruleDB[r->getUId()] = r; 	
+        ruleDB[r->getUId()] = r;
 
         // add new entry in index
         ruleSetIndex[r->getSetName()][r->getRuleName()] = r->getUId();
-	
+
         tasks++;
 
-#ifdef DEBUG    
+#ifdef DEBUG
     log->dlog(ch, "finish adding new rule with name = '%s'",
               r->getRuleName().c_str());
-#endif  
+#endif
 
-    } catch (Error &e) { 
+    } catch (Error &e) {
 
         // adding new task failed in some component
         // something failed -> remove rule from database
         delRule(r->getSetName(), r->getRuleName(), NULL);
-	
+
         throw e;
     }
 }
@@ -404,7 +408,7 @@ string RuleManager::getInfo(Rule *r)
 #endif
 
     s << r->getInfo() << endl;
-    
+
     return s.str();
 }
 
@@ -416,7 +420,7 @@ string RuleManager::getInfo(string sname, string rname)
     ostringstream s;
     string info;
     Rule *r;
-  
+
     r = getRule(sname, rname);
 
     if (r == NULL) {
@@ -426,7 +430,7 @@ string RuleManager::getInfo(string sname, string rname)
                 info = (*i)->getInfo();
             }
         }
-        
+
         if (info.empty()) {
             throw Error("no rule with rule name '%s.%s'", sname.c_str(), rname.c_str());
         }
@@ -434,7 +438,7 @@ string RuleManager::getInfo(string sname, string rname)
         // rule with given identification is in database
         info = r->getInfo();
     }
-    
+
     s << info;
 
     return s.str();
@@ -457,7 +461,7 @@ string RuleManager::getInfo(string sname)
     } else {
         s << "No such ruleset" << endl;
     }
-    
+
     return s.str();
 }
 
@@ -472,7 +476,7 @@ string RuleManager::getInfo()
     for (iter = ruleSetIndex.begin(); iter != ruleSetIndex.end(); iter++) {
         s << getInfo(iter->first);
     }
-    
+
     return s.str();
 }
 
@@ -483,10 +487,10 @@ void RuleManager::delRule(string sname, string rname, EventScheduler *e)
 {
     Rule *r;
 
-#ifdef DEBUG    
+#ifdef DEBUG
     log->dlog(ch, "Deleting rule set= %s name = '%s'",
               sname.c_str(), rname.c_str());
-#endif  
+#endif
 
 
     if (sname.empty() && rname.empty()) {
@@ -535,7 +539,7 @@ void RuleManager::delRules(string sname, EventScheduler *e)
 
 void RuleManager::delRule(Rule *r, EventScheduler *e)
 {
-#ifdef DEBUG    
+#ifdef DEBUG
     log->dlog(ch, "removing rule with name = '%s'", r->getRuleName().c_str());
 #endif
 
@@ -548,7 +552,7 @@ void RuleManager::delRule(Rule *r, EventScheduler *e)
     if (ruleSetIndex[r->getSetName()].empty()) {
         ruleSetIndex.erase(r->getSetName());
     }
-    
+
     if (e != NULL) {
         e->delRuleEvents(r->getUId());
     }
@@ -573,7 +577,7 @@ void RuleManager::delRules(ruleDB_t *rules, EventScheduler *e)
 
 void RuleManager::storeRuleAsDone(Rule *r)
 {
-    
+
     r->setState(RS_DONE);
     ruleDone.push_back(r);
 
@@ -591,10 +595,10 @@ void RuleManager::storeRuleAsDone(Rule *r)
 
 void RuleManager::dump( ostream &os )
 {
-    
+
     os << "RuleManager dump :" << endl;
     os << getInfo() << endl;
-    
+
 }
 
 

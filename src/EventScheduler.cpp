@@ -5,18 +5,18 @@
 
     This file is part of Network Measurement and Accounting System (NETMATE).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     Description:
@@ -43,7 +43,7 @@ const int MIN_TIMEOUT = 10000;
 
 /* ------------------------- EventScheduler ------------------------- */
 
-EventScheduler::EventScheduler() 
+EventScheduler::EventScheduler()
 {
 
     log = Logger::getInstance();
@@ -75,11 +75,11 @@ EventScheduler::~EventScheduler()
 
 void EventScheduler::addEvent(Event *ev)
 {
-		
+
 #ifdef DEBUG
     log->dlog(ch,"new event %s", eventNames[ev->getType()].c_str());
 #endif
-    
+
     events.insert(make_pair(ev->getTime(),ev));
 }
 
@@ -97,13 +97,13 @@ void EventScheduler::delRuleEvents(int uid)
     while (iter != events.end()) {
         tmp = iter;
         iter++;
-        
+
         ret = tmp->second->deleteRule(uid);
         if (ret == 1) {
             // ret = 1 means rule was present in event but other rules are still in
             // the event
 #ifdef DEBUG
-            log->dlog(ch,"remove rule %d from event %s", uid, 
+            log->dlog(ch,"remove rule %d from event %s", uid,
                       eventNames[tmp->second->getType()].c_str());
 #endif
         } else if (ret == 2) {
@@ -111,10 +111,10 @@ void EventScheduler::delRuleEvents(int uid)
 #ifdef DEBUG
             log->dlog(ch,"remove event %s", eventNames[tmp->second->getType()].c_str());
 #endif
-           
+
             saveDelete(tmp->second);
             events.erase(tmp);
-        } 
+        }
     }
 }
 
@@ -122,7 +122,7 @@ void EventScheduler::delRuleEvents(int uid)
 Event *EventScheduler::getNextEvent()
 {
     Event *ev;
-    
+
     if (events.begin() != events.end()) {
         ev = events.begin()->second;
         // dequeue event
@@ -139,18 +139,18 @@ Event *EventScheduler::getNextEvent()
 void EventScheduler::reschedNextEvent(Event *ev)
 {
     assert(ev != NULL);
-   
+
     if (ev->getIval() > 0) {
 
 #ifdef DEBUG
         log->dlog(ch,"requeue event %s", eventNames[ev->getType()].c_str());
-#endif	
+#endif
         // recurring event so calculate next expiry time
         ev->advance();
 
 #ifdef TIME_GAP_HACK
 	struct timeval now;
-	Timeval::gettimeofday(&now, NULL);
+	Timeval::gettimeofdayown(&now, NULL);
 	struct timeval d = Timeval::sub0(now, ev->getTime());
 	if (d.tv_sec > 0) {
 	  ev->setTime(now);
@@ -164,7 +164,7 @@ void EventScheduler::reschedNextEvent(Event *ev)
         log->dlog(ch,"remove event %s", eventNames[ev->getType()].c_str());
 #endif
         saveDelete(ev);
-    } 
+    }
 }
 
 
@@ -174,19 +174,18 @@ struct timeval EventScheduler::getNextEventTime()
     struct timeval now;
     char c = 'A';
 
-    if (events.begin() != events.end()) {
+    if (events.begin() != events.end())
+    {
         Event *ev = events.begin()->second;
-		Timeval::gettimeofday(&now, NULL);
+		Timeval::gettimeofdayown(&now, NULL);
 
         rv = Timeval::sub0(ev->getTime(), now);
         // be 100us fuzzy
         if ((rv.tv_sec == 0) && (rv.tv_usec<100)) {
-#ifdef DEBUG
-            log->dlog(ch,"expired event %s", eventNames[ev->getType()].c_str());
-#endif
+            log->log(ch,"expired event %s", eventNames[ev->getType()].c_str());
             write(QualityManager::s_sigpipe[1], &c, 1);
         }
-    } 
+    }
     return rv;
 }
 
@@ -197,15 +196,15 @@ void EventScheduler::dump(ostream &os)
 {
     struct timeval now;
     eventListIter_t iter;
-    
+
     gettimeofday(&now, NULL);
-    
+
     os << "EventScheduler dump : \n";
-    
+
     // output all scheduled Events to ostream
     for (iter = events.begin(); iter != events.end(); iter++) {
         struct timeval rv = Timeval::sub0(iter->first, now);
-        os << "at t = " << rv.tv_sec * 1e6 + rv.tv_usec << " -> " 
+        os << "at t = " << rv.tv_sec * 1e6 + rv.tv_usec << " -> "
            << eventNames[iter->second->getType()] << endl;
     }
 }

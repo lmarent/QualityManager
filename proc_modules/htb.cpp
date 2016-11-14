@@ -121,7 +121,7 @@ static const struct pprot chain_protos[] = {
 
 timers_t timers[] = {
     /* handle, ival_msec, flags */
-    {       1,  1000 * 0, TM_RECURRING },
+    {       1,  1000 * 0, TM_ALIGNED },
     /*         ival == 0 means no timeout by default */
     TIMER_END
 };
@@ -371,13 +371,13 @@ void destroyModule( configParam_t *params)
 
 	if (!useIPv6){
 		if ((sk != NULL) and (nllink != NULL)){
-			err = delete_hash_configuration(sk, nllink,
-							prio, NET_ROOT_HANDLE_MAJOR, 0);
+			err = class_delete_HTB(sk, nllink, NET_DEFAULT_CLASS);
+
 			if (err != 0){
 // #ifdef DEBUG
-                fprintf( stdout, "Error creating the hash table for classifiers\n" );
+                fprintf( stdout, "Error deleting HTB root class\n" );
 // #endif
-				throw ProcError(err, "Error creating the hash table for classifiers");
+				throw ProcError(err, "Error deleting HTB root class");
 			}
 			qdisc_delete_root_HTB(sk, nllink);
 

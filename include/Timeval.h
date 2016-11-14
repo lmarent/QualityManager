@@ -5,18 +5,18 @@
 
     This file is part of Network Quality Manager System (NETQoS).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     Description:
@@ -52,8 +52,8 @@ class Timeval
     static struct timeval sub0(struct timeval num, struct timeval sub);
 
     //! function for reading the current time
-    static int gettimeofday(struct timeval *tv, struct timezone *tz); 
-    
+    static int gettimeofdayown(struct timeval *tv, struct timezone *tz);
+
     static time_t time(time_t *t);
 
     //! set the time (used when reading the time from a pcap file)

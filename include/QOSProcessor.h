@@ -5,18 +5,18 @@
 
     This file is part of Network Quality Manager System (NETQoS).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 	Description:
@@ -49,15 +49,15 @@ struct ppaction_t
     void *flowData;
     // config params for module
     configParam_t *params;
-    
-    
+
+
     ppaction_t& operator=( ppaction_t const& rhs);
-    
+
 };
 
 //! actions for each rule
-typedef vector<ppaction_t>            ppactionList_t;
-typedef vector<ppaction_t>::iterator  ppactionListIter_t;
+typedef std::map<int, ppaction_t>            ppactionList_t;
+typedef std::map<int, ppaction_t>::iterator  ppactionListIter_t;
 
 
 struct ruleActions_t
@@ -75,7 +75,7 @@ struct ruleActions_t
 
     //! 1 if flow autocreation enabled for rule
     int auto_flows;
-    
+
     //! 1 if this flow uses bidir matching (bidir autocreation flows)
     int bidir;
     int seppaths;
@@ -94,7 +94,7 @@ typedef map<int, ruleActions_t>::iterator  ruleActionListIter_t;
 /*! \short   manage and apply Action Modules, retrieve flow data
 
     the PacketProcessor class allows to manage filter rules and their
-    associated actions and apply those actions to incoming packets, 
+    associated actions and apply those actions to incoming packets,
     manage and retrieve flow data
 */
 
@@ -113,14 +113,14 @@ class QOSProcessor : public QualityManagerComponent
 
     //! add timer events to scheduler
     void addTimerEvents( int ruleID, int actID, ppaction_t &act, EventScheduler &es );
-    
+
     //! add timer events to the output queue
     void addTimerEvents( int ruleID, int actID, ppaction_t &act );
 
     void createFlowKey(unsigned char *mvalues, unsigned short len, ruleActions_t *ra);
 
   protected:
-  
+
 	eventVec_t in_events;  //!< Pending input event list (to be processes)
 	eventVec_t out_events;  //!< Pending output event list (response to events processed)
 
@@ -141,13 +141,13 @@ class QOSProcessor : public QualityManagerComponent
     /*! \short   add an Event to the event queue
 
         \arg \c ev - an event (or an object derived from Event) that is
-                     schdeuled for a particular time (possibly repeatedly 
+                     schdeuled for a particular time (possibly repeatedly
                      at a given interval)
     */
     void addEvent( Event *ev );
 
 
-    /*! \short   delete all events for a given rule 
+    /*! \short   delete all events for a given rule
 
         delete all Events related to the specified rule from the list of events
 
@@ -215,7 +215,7 @@ class QOSProcessor : public QualityManagerComponent
         \arg \c ruleId  - number indicating matching rule for packet
     */
     unsigned long ruleTimeout(int ruleID, unsigned long ival, time_t now);
-    
+
     //! get information about loaded modules
     string getInfo();
 
@@ -226,11 +226,11 @@ class QOSProcessor : public QualityManagerComponent
     {
         return (int) rules.size();
     }
-    
+
     //! get the number of action modules currently in use
-    int numModules() 
-    { 
-        return loader->numModules(); 
+    int numModules()
+    {
+        return loader->numModules();
     }
 
     // handle module timeouts
@@ -239,9 +239,9 @@ class QOSProcessor : public QualityManagerComponent
     //! get xml info for a specific module
     string getModuleInfoXML( string modname );
 
-    virtual string getConfigGroup() 
-    { 
-        return "QOS_PROCESSOR"; 
+    virtual string getConfigGroup()
+    {
+        return "QOS_PROCESSOR";
     }
 
     virtual void waitUntilDone();
