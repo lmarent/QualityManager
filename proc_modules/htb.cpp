@@ -307,12 +307,13 @@ void initModule( configParam_t *params )
 
             fprintf( stdout, "after creating the root htb \n");
 
-			err = class_add_HTB_root(sk, nllink, rate, rate, burst, burst);
+			uint32_t quantum = 10; // recommended for rates greater than 12kbps
+			err = class_add_HTB_root(sk, nllink, rate, rate, burst, burst, quantum);
 			if (err != 0)
 				throw ProcError(err, "Error creating the HTB root");
 
-			err = class_add_HTB(sk, nllink, NET_DEFAULT_CLASS, 1, 1,
-							 1, 1, 1000);
+			quantum = 1; // recommended for rates less than 12kbps
+			err = class_add_HTB(sk, nllink, NET_DEFAULT_CLASS, 1, 1, 1, 1, 1000, quantum);
 			if (err != 0)
 				throw ProcError(err, "Error creating the default root class");
 
@@ -709,8 +710,9 @@ void initFlowSetup( configParam_t *params,
 
 
 	 if ( numparams == MOD_INI_FLOW_REQUIRED_PARAMS ){
+		 uint32_t quantum = 10;
 		 err = class_add_HTB(sk, nllink, flowId, rate, rate,
-							 burst, burst, priority);
+							 burst, burst, priority, quantum);
 
 	     if ( err == NET_TC_SUCCESS ){
 			data->currTimers[0].ival_msec = 1000 * duration;
