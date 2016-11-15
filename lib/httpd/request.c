@@ -53,11 +53,11 @@ int read_header(struct REQUEST *req, int pipelined)
 
   restart:
 
-   
+
 #ifdef USE_SSL
     if (with_ssl) {
         rc = ssl_read(req, req->hreq + req->hdata, MAX_HEADER - req->hdata);
-    } else 
+    } else
 #endif
       {
           rc = read(req->fd, req->hreq + req->hdata, MAX_HEADER - req->hdata);
@@ -68,6 +68,7 @@ int read_header(struct REQUEST *req, int pipelined)
             if (pipelined) {
                 break; /* check if there is already a full request */
             } else {
+				fprintf(stdout,"Ending read_header In rc -1 err= EAGAIN \n");
                 return rc;
             }
         }
@@ -77,13 +78,16 @@ int read_header(struct REQUEST *req, int pipelined)
         log_error_func(1,LOG_INFO,"read",req->peerhost);
         /* fall through */
     case 0:
+    	fprintf(stdout,"Ending read_header In rc=0 \n");
         req->state = STATE_CLOSE;
         return rc;
     default:
+    	fprintf(stdout,"Ending read_header In rc:%d \n", rc);
         req->hdata += rc;
         req->hreq[req->hdata] = 0;
     }
-  
+
+	fprintf(stdout,"read_header data read:%s \n", req->hreq);
 
     /* check if this looks like a http request after
        the first few bytes... */
@@ -94,7 +98,7 @@ int read_header(struct REQUEST *req, int pipelined)
         mkerror(req,400,0);
         return -1;
     }
-    
+
     /* header complete ?? */
     if (NULL != (h = strstr(req->hreq,"\r\n\r\n")) ||
         NULL != (h = strstr(req->hreq,"\n\n"))) {
@@ -106,6 +110,7 @@ int read_header(struct REQUEST *req, int pipelined)
             *(h-1) = 0;
         }
 
+		fprintf(stdout,"Read header - header complete \n");
         /* header length */
         req->lreq  = h - req->hreq;
         req->state = STATE_PARSE_HEADER;
@@ -117,7 +122,7 @@ int read_header(struct REQUEST *req, int pipelined)
 
         return 0;
     }
-    
+
     if (req->hdata == MAX_REQ) {
         /* oops: buffer full, but found no complete request ... */
         mkerror(req,400,0);
@@ -130,11 +135,14 @@ int read_body(struct REQUEST *req, int pipelined)
 {
     int rc;
 
+	fprintf(stdout,"read body\n");
+
+
   restart:
 #ifdef USE_SSL
     if (with_ssl) {
         rc = ssl_read(req, req->hreq + req->hdata, MAX_REQ - req->hdata);
-    } else 
+    } else
 #endif
       {
           rc = read(req->fd, req->hreq + req->hdata, MAX_REQ - req->hdata);
@@ -145,6 +153,7 @@ int read_body(struct REQUEST *req, int pipelined)
             if (pipelined) {
                 break; /* check if there is already a full request */
             } else {
+				fprintf(stdout,"In errno == EAGAIN, return %d\n", rc);
                 return rc;
             }
         }
@@ -154,22 +163,27 @@ int read_body(struct REQUEST *req, int pipelined)
         log_error_func(1,LOG_INFO,"read",req->peerhost);
         /* fall through */
     case 0:
+    	fprintf(stdout,"Ending read_body In rc=0 \n");
         req->state = STATE_CLOSE;
         return rc;
     default:
+    	fprintf(stdout,"in read_body case default rc:%d\n", rc);
         req->hdata += rc;
         req->hreq[req->hdata] = 0;
     }
-    
-    /* body complete */ 
+
+	fprintf(stdout,"End reading the body, it is going to see if everthing is ok \n");
+
+    /* body complete */
     if ((req->hdata - req->lreq) == req->clen) {
+		fprintf(stderr,"Complete body\n");
         req->state = STATE_PARSE_BODY;
         req->breq[req->clen] = 0;
         req->lbreq = req->clen;
 
         return 0;
     }
-    
+
     if (req->hdata == MAX_REQ) {
         /* oops: buffer full, but found no complete request ... */
         mkerror(req,400,0);
@@ -341,14 +355,14 @@ static void fixpath(char *path)
 }
 
 static int base64_table[] = {
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 
-    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, 
-    -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 
-    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, 
-    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1, 
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
+    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,
+    -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
 };
 
 static void decode_base64(unsigned char *dest, unsigned char *src, int maxlen)
@@ -375,7 +389,9 @@ void parse_request(struct REQUEST *req, char *server_host)
     int  port,rc;
     time_t t;
     /*struct passwd *pw=NULL;*/
-    
+
+	fprintf(stdout,"starting parse_request \n");
+
 #ifdef DEBUG
 	fprintf(stderr,"%s\n",req->hreq);
 #endif
@@ -433,6 +449,8 @@ void parse_request(struct REQUEST *req, char *server_host)
         return;
     }
 
+	fprintf(stdout,"before parsing header lines \n");
+
     /* parse header lines */
     req->keep_alive = req->minor;
     for (h = req->hreq; h - req->hreq < req->lreq;) {
@@ -484,7 +502,7 @@ void parse_request(struct REQUEST *req, char *server_host)
 #ifdef DEBUG
             fprintf(stderr,"%03d/%d: auth: %s\n",req->fd,req->state,req->auth);
 #endif
-	    
+
         } else if (strncasecmp(h,"Range: bytes=",13) == 0) {
             /* parsing must be done after fstat, we need the file size
                for the boundary checks */
@@ -495,6 +513,8 @@ void parse_request(struct REQUEST *req, char *server_host)
             sscanf(h+16,"%d", &req->clen);
         }
     }
+
+	fprintf(stdout,"after parsing header lines \n");
 
     /* take care about the hostname */
     if (req->hostname[0] == '\0') {
@@ -517,17 +537,24 @@ void parse_request(struct REQUEST *req, char *server_host)
             return;
         }
     }
-   
+
+	fprintf(stdout,"access granted \n");
+
     /* generate the resource name */
     h = filename -1 +sprintf(filename,"%s", req->path);
 
+	fprintf(stdout, "It is going to read the body");
+
     /* immediatly read available body (part) */
     while (read_body(req, 0) > 0);
+
+	fprintf(stdout, "parse request - after reading the body");
 
     if (strcmp(req->type,"POST") == 0) {
         if (strcmp(req->ctype,"application/x-www-form-urlencoded") == 0) {
             if (req->lbreq < req->clen) {
                 /* read rest of body */
+                fprintf(stdout, "parse request - we need to read the rest of the body");
                 req->state = STATE_READ_BODY;
                 return;
             }
@@ -547,7 +574,7 @@ void parse_request(struct REQUEST *req, char *server_host)
         mkheader(req,304,t,-1);
         req->head_only = 1;
     }
-#endif 
+#endif
 
     if (req->range_hdr) {
         if (0 != (rc = parse_ranges(req))) {

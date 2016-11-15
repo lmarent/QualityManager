@@ -94,7 +94,7 @@ log_error_func_t log_error_func = NULL;
 
 
 /* queue a OK response for request req
-   
+
 */
 int httpd_send_response(struct REQUEST *req, fd_sets_t *fds)
 {
@@ -116,7 +116,7 @@ int httpd_send_response(struct REQUEST *req, fd_sets_t *fds)
     }
 
     return 0;
-}  
+}
 
 /* immediatly send back an OK response to request req
    can be used for short transactions which require no
@@ -136,17 +136,22 @@ int httpd_send_immediate_response(struct REQUEST *req)
     }
 
     return 0;
-}    
+}
 
 /* handle a file descriptor event */
 int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
 {
-   
+
     struct REQUEST      *req, *prev, *tmp;
     int                 length;
     int opt = 0;
-   
+
     now = time(NULL);
+
+    char buff[100];
+    strftime (buff, 100, "%Y-%m-%d %H:%M:%S.000", localtime (&now));
+    fprintf(stdout, "%s - Starting httpd_handle_event: \n", buff );
+
 
     /* new connection ? */
     if ((rset != NULL) && FD_ISSET(slisten, rset)) {
@@ -201,26 +206,27 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
 					fprintf(stdout, "parameter:" );
 					fprintf(stdout, req->peerhost );
                     if (access_check_func(req->peerhost, NULL) < 0) {
-						fprintf(stdout, "func return negative number");
+						fprintf(stdout, "func return negative number \n");
                         /* read request */
                         read_header(req,0);
                         req->ping = now;
                         /* reply with access denied and close connection */
                         mkerror(req,403,0);
-                        write_request(req);	     
+                        write_request(req);
                         req->state = STATE_CLOSE;
                     }
-                    fprintf(stdout, "func return a postive number");
+                    fprintf(stdout, "func return a postive number \n");
                 }
-	 
-                FD_SET(req->fd, &fds->rset); 
+
+				fprintf(stdout, "put the file descriptor ready to read \n");
+                FD_SET(req->fd, &fds->rset);
                 if (req->fd > fds->max) {
                     fds->max = req->fd;
                 }
             }
         }
     }
-    
+
     /* check active connections */
     for (req = conns, prev = NULL; req != NULL;) {
 
@@ -233,14 +239,15 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             if (req->state == STATE_READ_HEADER) {
                 while (read_header(req,0) > 0);
             }
-          
+
             if (req->state == STATE_READ_BODY) {
+                fprintf(stdout, "state read body - it is going to read the body \n");
                 while (read_body(req, 0) >0);
             }
-            
+
             req->ping = now;
         }
-      
+
         if ((wset != NULL) && FD_ISSET(req->fd, wset)) {
             write_request(req);
             req->ping = now;
@@ -269,15 +276,15 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
 
         /* parsing */
       parsing:
-      
+
         if (req->state == STATE_PARSE_HEADER) {
-            fprintf(stderr,"In State Parse Header");
+            fprintf(stdout,"In State Parse Header \n");
             parse_request(req, server_host);
         }
 
         /* body parsing */
         if (req->state == STATE_PARSE_BODY) {
-            fprintf(stderr,"In State Parse Body");
+            fprintf(stdout,"In State Parse Body \n");
             parse_request_body(req);
         }
 
@@ -285,10 +292,10 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             /* switch to writing */
             FD_CLR(req->fd, &fds->rset);
             FD_SET(req->fd, &fds->wset);
-            
+			fprintf(stdout,"In State Write header \n");
             write_request(req);
         }
-        
+
         fprintf(stdout, "parsing message abc \n");
 
         /* handle finished requests */
@@ -304,7 +311,7 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             /* switch to reading */
             FD_CLR(req->fd, &fds->wset);
             FD_SET(req->fd, &fds->rset);
-            
+
             /* cleanup */
             req->auth[0]       = 0;
             req->if_modified   = 0;
@@ -312,29 +319,29 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             req->if_range      = 0;
             req->range_hdr     = NULL;
             req->ranges        = 0;
-            if (req->r_start) { 
-                free(req->r_start); 
-                req->r_start = NULL; 
+            if (req->r_start) {
+                free(req->r_start);
+                req->r_start = NULL;
             }
-            if (req->r_end) { 
-                free(req->r_end);   
-                req->r_end   = NULL; 
+            if (req->r_end) {
+                free(req->r_end);
+                req->r_end   = NULL;
             }
-            if (req->r_head) { 
-                free(req->r_head);  
-                req->r_head  = NULL; 
+            if (req->r_head) {
+                free(req->r_head);
+                req->r_head  = NULL;
             }
-            if (req->r_hlen) { 
-                free(req->r_hlen);  
-                req->r_hlen  = NULL; 
+            if (req->r_hlen) {
+                free(req->r_hlen);
+                req->r_hlen  = NULL;
             }
             list_free(&req->header);
-	
+
             if (req->bfd != -1) {
                 close(req->bfd);
                 req->bfd  = -1;
             }
-	
+
             /* free memory of response body */
             if ((req->status<400) && (req->body != NULL)) {
                 free(req->body);
@@ -382,9 +389,9 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
                 goto parsing;
             }
         }
-      
+
         fprintf(stdout, "to close connection");
-      
+
         /* connections to close */
         if (req->state == STATE_CLOSE) {
             /* access log hook */
@@ -411,7 +418,7 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
                 }
 #endif
             }
-	
+
             curr_conn--;
 #ifdef DEBUG
             fprintf(stderr,"%03d/%d: done (%d)\n",req->fd,req->state,curr_conn);
@@ -429,13 +436,13 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             if (tmp->r_start) {
                 free(tmp->r_start);
             }
-            if (tmp->r_end) {  
+            if (tmp->r_end) {
                 free(tmp->r_end);
             }
-            if (tmp->r_head) { 
+            if (tmp->r_head) {
                 free(tmp->r_head);
             }
-            if (tmp->r_hlen) { 
+            if (tmp->r_hlen) {
                 free(tmp->r_hlen);
             }
             list_free(&tmp->header);
@@ -445,33 +452,33 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             req = req->next;
         }
     }
-    
+
     fprintf(stdout, "end httpd_handle_event abc \n");
-    
+
     return 0;
 }
 
 /* initialize http server */
 /* return file descriptor if success, <0 otherwise */
-int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate, 
+int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
                const char *password, int use_v6)
 {
-    
+
 	fprintf(stdout, "httpd_init");
     struct addrinfo ask,*res = NULL;
     struct sockaddr_storage  ss;
     int opt, rc, ss_len, v4 = 1, v6 = 0;
     char host[INET6_ADDRSTRLEN+1];
     char serv[16];
-    char listen_port[6];  
+    char listen_port[6];
     char *listen_ip = NULL;
- 
+
     /* set config */
     sprintf(listen_port, "%d", sport);
     server_name = sname;
     if (use_v6) {
         v6 = 1;
-    } 
+    }
 
 #ifdef USE_SSL
     with_ssl = use_ssl;
@@ -486,13 +493,13 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
         if (res->ai_canonname) {
             strcpy(server_host,res->ai_canonname);
         }
-	
+
         if (res != NULL) {
             freeaddrinfo(res);
             res = NULL;
         }
     }
-    
+
     /* bind to socket */
     slisten = -1;
     memset(&ask, 0, sizeof(ask));
@@ -510,7 +517,7 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
         alarm(2);
         rc = getaddrinfo(listen_ip, listen_port, &ask, &res);
         if (g_timeout) {
-            log_error_func(1, LOG_ERR,"getaddrinfo (ipv6): DNS timeout",NULL);  
+            log_error_func(1, LOG_ERR,"getaddrinfo (ipv6): DNS timeout",NULL);
         }
         alarm(0);
 
@@ -523,10 +530,10 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
             log_error_func(1, LOG_ERR, "getaddrinfo (ipv6)", NULL);
         }
     }
-	
+
     g_timeout = 0;
     alarm(2);
-    
+
     /* ... failing that try ipv4 */
     if (slisten == -1 &&  v4) {
         ask.ai_family = PF_INET;
@@ -535,7 +542,7 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
         alarm(1);
         rc = getaddrinfo(listen_ip, listen_port, &ask, &res);
         if (g_timeout) {
-            log_error_func(1, LOG_ERR,"getaddrinfo (ipv4): DNS timeout",NULL);  
+            log_error_func(1, LOG_ERR,"getaddrinfo (ipv4): DNS timeout",NULL);
             return -1;
         }
         alarm(0);
@@ -584,7 +591,7 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
     }
 #endif /* SO_ACCEPTFILTER */
 
-   
+
     if (bind(slisten, (struct sockaddr*) &ss, ss_len) == -1) {
         log_error_func(1, LOG_ERR,"bind",NULL);
         return -1;
@@ -598,14 +605,14 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
     /* init misc stuff */
     init_mime(mimetypes,"text/plain");
     init_quote();
-   
+
 #ifdef USE_SSL
     if (with_ssl) {
         init_ssl(certificate, password);
     }
 #endif
 
-#ifdef DEBUG  
+#ifdef DEBUG
 	fprintf(stderr,
             "http server started\n"
             "  ipv6  : %s\n"
@@ -623,7 +630,7 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
             server_host,host,tcp_port);
 #endif
 
-	    	
+
 	if (res != NULL) {
         freeaddrinfo(res);
 	}
@@ -639,7 +646,7 @@ int httpd_init(int sport, char *sname, int use_ssl,  const char *certificate,
         }
     }
 #endif
-  
+
     return slisten;
 }
 
@@ -659,17 +666,17 @@ void httpd_shutdown()
         if (req->body != NULL) {
             free(req->body);
         }
-        if (req->r_start) { 
-            free(req->r_start); 
+        if (req->r_start) {
+            free(req->r_start);
         }
-        if (req->r_end) { 
-            free(req->r_end);   
+        if (req->r_end) {
+            free(req->r_end);
         }
-        if (req->r_head) { 
-            free(req->r_head);  
+        if (req->r_head) {
+            free(req->r_head);
         }
-        if (req->r_hlen) { 
-            free(req->r_hlen);  
+        if (req->r_hlen) {
+            free(req->r_hlen);
         }
         list_free(&req->header);
 
@@ -685,7 +692,7 @@ int httpd_uses_ssl()
 {
 #ifdef USE_SSL
     return (with_ssl > 0);
-#else 
+#else
     return 0;
 #endif
 }
@@ -693,7 +700,7 @@ int httpd_uses_ssl()
 int httpd_register_access_check(access_check_func_t f)
 {
     access_check_func = f;
-  
+
     return 0;
 }
 

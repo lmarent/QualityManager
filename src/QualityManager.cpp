@@ -5,20 +5,20 @@
 
     This file is part of Network Quality Manager System (NETQoS).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    
+
     Code based on Netmate
 
     $Id: QualityManager.cpp 748 2015-03-05 11:01:01 amarentes $
@@ -62,19 +62,19 @@ QualityManager::QualityManager( int argc, char *argv[])
         if (pipe((int *)&s_sigpipe) < 0) {
             throw Error("failed to create signal pipe");
         }
-				
+
         fdList[make_fd(s_sigpipe[0], FD_RD)] = NULL;
 
         // the read fd must not block
         fcntl(s_sigpipe[0], F_SETFL, O_NONBLOCK);
-	
+
         // install signal handlers
         signal(SIGINT, sigint_handler);
         signal(SIGTERM, sigint_handler);
         signal(SIGUSR1, sigusr1_handler);
         signal(SIGALRM, sigalarm_handler);
         // FIXME sighup for log file rotation
-				
+
         auto_ptr<CommandLineArgs> _args(new CommandLineArgs());
         args = _args;
 
@@ -129,18 +129,18 @@ QualityManager::QualityManager( int argc, char *argv[])
 
         // register exit function
         atexit(exit_fct);
-				
-        auto_ptr<Logger> _log(Logger::getInstance()); 	
+
+        auto_ptr<Logger> _log(Logger::getInstance());
         log = _log;
         ch = log->createChannel("QualityManager");
 
         log->log(ch,"Initializing quality manager system");
         log->log(ch,"Program executable = %s", argv[0]);
         log->log(ch,"Started at %s", noNewline(ctime(&startTime)));
-				
+
         // parse config file
         configFileName = args->getArgValue('c');
-        if (configFileName.empty()) { 
+        if (configFileName.empty()) {
             // is no config file is given then use the default
             // file located in a relative location to the binary
             configFileName = NETQOS_DEFAULT_CONFIG_FILE;
@@ -197,17 +197,17 @@ QualityManager::QualityManager( int argc, char *argv[])
 									 "QOS_PROCESSOR")));
         pprocThread = conf->isTrue("Thread", "QOS_PROCESSOR");
 #else
-        
+
         auto_ptr<QOSProcessor> _proc(new QOSProcessor(conf.get(), 0));
         pprocThread = 0;
-				
+
         if (conf->isTrue("Thread", "QOS_PROCESSOR") ) {
             log->wlog(ch, "Threads enabled in config file but executable is compiled without thread support");
         }
 #endif
         proc = _proc;
         proc->mergeFDs(&fdList);
-		
+
 		// setup initial rules
 		string rfn = conf->getValue("RuleFile", "MAIN");
         if (!rfn.empty()) {
@@ -231,7 +231,7 @@ QualityManager::QualityManager( int argc, char *argv[])
     } catch (Error &e) {
         if (log.get()) {
             log->elog(ch, e);
-        }  
+        }
         throw e;
     }
 }
@@ -250,14 +250,14 @@ QualityManager::~QualityManager()
 string QualityManager::getHelloMsg()
 {
     ostringstream s;
-    
+
     static char name[128] = "\0";
 
     if (name[0] == '\0') { // first time
         gethostname(name, sizeof(name));
     }
 
-    s << "QualityManager build " << BUILD_TIME 
+    s << "QualityManager build " << BUILD_TIME
       << ", running at host \"" << name << "\"," << endl
       << "compile options: "
 #ifndef ENABLE_THREADS
@@ -269,7 +269,7 @@ string QualityManager::getHelloMsg()
 #endif
       << "secure sockets (SSL) support"
       << endl;
-    
+
     return s.str();
 }
 
@@ -277,10 +277,10 @@ string QualityManager::getHelloMsg()
 /* -------------------- getInfo -------------------- */
 
 string QualityManager::getInfo(infoType_t what, string param)
-{  
+{
     time_t uptime;
     ostringstream s;
-    
+
     s << "<info name=\"" << QualityManagerInfo::getInfoString(what) << "\" >";
 
     switch (what) {
@@ -324,7 +324,7 @@ string QualityManager::getInfo(infoType_t what, string param)
     }
 
     s << "</info>" << endl;
-    
+
     return s.str();
 }
 
@@ -333,7 +333,7 @@ string QualityManager::getQualityManagerInfo(infoList_t *i)
 {
     ostringstream s;
     infoListIter_t iter;
-   
+
     s << "<QualityManagerInfos>\n";
 
     for (iter = i->begin(); iter != i->end(); iter++) {
@@ -350,25 +350,25 @@ void QualityManager::handlerGetInfo(Event *e, fd_sets_t *fds)
 {
 
     // get info types from event
-    try 
+    try
     {
 
 #ifdef DEBUG
         log->dlog(ch,"processing event Get info" );
 #endif
 
-        infoList_t *i = ((GetInfoEvent *)e)->getInfos(); 
-        
+        infoList_t *i = ((GetInfoEvent *)e)->getInfos();
+
         // send meter info
         comm->sendMsg(getQualityManagerInfo(i), ((GetInfoEvent *)e)->getReq(), fds, 0 /* do not html quote */ );
-    } 
-    catch(Error &err) 
+    }
+    catch(Error &err)
     {
         comm->sendErrMsg(err.getError(), ((GetInfoEvent *)e)->getReq(), fds);
     }
-    
+
     e->setState(EV_DONE);
-    
+
 }
 
 
@@ -376,7 +376,7 @@ void QualityManager::handlerModInfo(Event *e, fd_sets_t *fds)
 {
 
     // get module information from loaded module (proc mods only now)
-    try 
+    try
     {
 
 #ifdef DEBUG
@@ -385,12 +385,12 @@ void QualityManager::handlerModInfo(Event *e, fd_sets_t *fds)
         string s = proc->getModuleInfoXML(((GetModInfoEvent *)e)->getModName());
         // send module info
         comm->sendMsg(s, ((GetModInfoEvent *)e)->getReq(), fds, 0);
-    } 
-    catch(Error &err) 
+    }
+    catch(Error &err)
     {
         comm->sendErrMsg(err.getError(), ((GetModInfoEvent *)e)->getReq(), fds);
     }
-    
+
     e->setState(EV_DONE);
 }
 
@@ -400,7 +400,7 @@ void QualityManager::handlerAddRulesNonThreaded(Event *e, fd_sets_t *fds)
 
     ruleDB_t *new_rules = NULL;
 
-    try 
+    try
     {
 
         log->dlog(ch,"processing event adding rules Non Threaded" );
@@ -408,8 +408,8 @@ void QualityManager::handlerAddRulesNonThreaded(Event *e, fd_sets_t *fds)
         new_rules = rulm->parseRules(((AddRulesEvent *)e)->getFileName());
 
         log->dlog(ch,"Rules sucessfully parsed " );
-             
-        // test rule spec 
+
+        // test rule spec
         proc->checkRules(new_rules, evnt.get());
 
         log->dlog(ch,"Rules sucessfully checked " );
@@ -419,20 +419,20 @@ void QualityManager::handlerAddRulesNonThreaded(Event *e, fd_sets_t *fds)
         rulm->addRules(new_rules, evnt.get());
 
         saveDelete(new_rules);
-        
+
         log->dlog(ch,"Ending event adding rules Non Threaded" );
 
-    } 
-    catch (Error &e) 
+    }
+    catch (Error &e)
     {
         // error in rule(s)
         if (new_rules) {
             saveDelete(new_rules);
         }
-        
+
         log->elog(ch,(string("error processing ADD_RULES") + e.getError()).c_str() );
     }
-    
+
     e->setState(EV_DONE);
 }
 
@@ -448,7 +448,7 @@ void QualityManager::handlerAddRulesThreaded(Event *e, fd_sets_t *fds)
 
         // support only XML rules from file
         new_rules = rulm->parseRules(((AddRulesEvent *)e)->getFileName());
-             
+
         ruleDB_t rules;
         ruleDBIter_t it;
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
@@ -456,11 +456,11 @@ void QualityManager::handlerAddRulesThreaded(Event *e, fd_sets_t *fds)
             rules.push_back(*it);
         }
 
-        // test rule spec 
+        // test rule spec
         Event * evt = new checkRulesQoSProcessorEvent(rules);
         evt->setParent(e);
         e->setState(EV_PROCESSING);
-        unsigned long ival = 1000; // Next revision interval 
+        unsigned long ival = 1000; // Next revision interval
         e->setInterval(ival);
 
         proc->addEvent(evt);
@@ -470,8 +470,8 @@ void QualityManager::handlerAddRulesThreaded(Event *e, fd_sets_t *fds)
 
         log->dlog(ch,"ending event adding rules - Threaded" );
 
-    } 
-    catch (Error &err) 
+    }
+    catch (Error &err)
     {
         // error in rule(s)
         if (new_rules) {
@@ -494,7 +494,7 @@ void QualityManager::handlerAddRulesThreaded(Event *e, fd_sets_t *fds)
 
 void QualityManager::handlerAddRulesCntrlCommNonThreads(Event *e, fd_sets_t *fds)
 {
-    
+
     ruleDB_t *new_rules = NULL;
 
     try {
@@ -502,78 +502,78 @@ void QualityManager::handlerAddRulesCntrlCommNonThreads(Event *e, fd_sets_t *fds
 #ifdef DEBUG
         log->dlog(ch,"processing event add rules by controlcomm" );
 #endif
-              
-        new_rules = rulm->parseRulesBuffer( 
+
+        new_rules = rulm->parseRulesBuffer(
                 ((AddRulesCtrlEvent *)e)->getBuf(),
                 ((AddRulesCtrlEvent *)e)->getLen(), ((AddRulesCtrlEvent *)e)->isMAPI());
 
 
-    } 
-    catch (Error &err) 
+    }
+    catch (Error &err)
     {
         // error in rule(s)
         if (new_rules) {
             saveDelete(new_rules);
         }
-        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds); 
+        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds);
         e->setState(EV_DONE);
         return;
     }
 
     try
     {
-        // test rule spec 
+        // test rule spec
         proc->checkRules(new_rules, evnt.get());
-	  
-        // no error so let's add the rules and 
+
+        // no error so let's add the rules and
         // schedule for activation and removal
         rulm->addRules(new_rules, evnt.get());
-        
+
         // Response to the entity triggering the event.
         comm->sendMsg("rule(s) added", ((AddRulesCtrlEvent *)e)->getReq(), fds);
         saveDelete(new_rules);
 
-    } 
-    catch (Error &err) 
+    }
+    catch (Error &err)
     {
         // error in rule(s)
         if (new_rules) {
             saveDelete(new_rules);
         }
-        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds); 
+        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds);
     }
-    
+
     e->setState(EV_DONE);
 }
 
 
 void QualityManager::handlerAddRulesCntrlCommThreaded(Event *e, fd_sets_t *fds)
 {
-    
+
     ruleDB_t *new_rules = NULL;
 
 
     try {
 
         log->dlog(ch,"processing event adding rules: isMAPI %d", ((AddRulesCtrlEvent *)e)->isMAPI() );
-        
+
         // support only XML rules from file
-        new_rules = rulm->parseRulesBuffer( 
+        new_rules = rulm->parseRulesBuffer(
                         ((AddRulesCtrlEvent *)e)->getBuf(),
                         ((AddRulesCtrlEvent *)e)->getLen(), ((AddRulesCtrlEvent *)e)->isMAPI());
 
     }
-    catch (Error &err) 
+    catch (Error &err)
     {
         e->setState(EV_DONE);
-        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds); 
+        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds);
         e->setState(EV_DONE);
         return;
     }
-    
+
     try
     {
-             
+
         ruleDB_t rules;
         ruleDBIter_t it;
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
@@ -581,20 +581,20 @@ void QualityManager::handlerAddRulesCntrlCommThreaded(Event *e, fd_sets_t *fds)
             rules.push_back(*it);
         }
 
-        // test rule spec 
+        // test rule spec
         Event * evt = new checkRulesQoSProcessorEvent(rules);
         evt->setParent(e);
         e->setState(EV_PROCESSING);
-        unsigned long ival = 1000; // Next revision interval 
+        unsigned long ival = 1000; // Next revision interval
         e->setInterval(ival);
-              
+
         proc->addEvent(evt);
 
         // Delete the container created by the parseRules function.
         saveDelete(new_rules);
 
-    } 
-    catch (Error &err) 
+    }
+    catch (Error &err)
     {
         // error in rule(s)
         if (new_rules) {
@@ -610,7 +610,7 @@ void QualityManager::handlerAddRulesCntrlCommThreaded(Event *e, fd_sets_t *fds)
             saveDelete(new_rules);
         }
         e->setState(EV_DONE);
-        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds); 
+        comm->sendErrMsg(err.getError(), ((AddRulesCtrlEvent *)e)->getReq(), fds);
     }
 }
 
@@ -625,16 +625,16 @@ void QualityManager::handlerActivateRulesNonThreaded(Event *e, fd_sets_t *fds)
 
         // get the rules from the event.
         ruleDB_t *rules = ((ActivateRulesEvent *)e)->getRules();
-        
+
         // execute rule activation on the QoS processor.
         proc->addRules(rules, evnt.get());
-        
+
     }
     catch(Error &err)
-    {        
+    {
         log->elog(ch, (string("error processing ACTIVATE_RULES") + err.getError()).c_str() );
     }
-    
+
     e->setState(EV_DONE);
 }
 
@@ -651,13 +651,13 @@ void QualityManager::handlerActivateRulesThreaded(Event *e, fd_sets_t *fds)
         Event * evt = new addRulesQoSProcesorEvent(*rules);
         evt->setParent(e);
         e->setState(EV_PROCESSING);
-        unsigned long ival = 1000; // Next revision interval 
+        unsigned long ival = 1000; // Next revision interval
         e->setInterval(ival);
-        
+
         proc->addEvent(evt);
     }
     catch(Error &err)
-    {        
+    {
         e->setState(EV_DONE);
         log->elog(ch, (string("error processing ACTIVATE_RULES") + err.getError()).c_str() );
     }
@@ -668,21 +668,21 @@ void QualityManager::handlerRemoveRulesNonThreaded(Event *e, fd_sets_t *fds)
 {
 
     log->dlog(ch,"processing event remove rules" );
-    
+
     try
     {
         ruleDB_t *rules = ((RemoveRulesEvent *)e)->getRules();
-	  	  
+
         // now get rid of the expired rule
         proc->delRules(rules, evnt.get());
-        rulm->delRules(rules, evnt.get());    
+        rulm->delRules(rules, evnt.get());
     }
 
     catch(Error &err)
-    {        
+    {
         log->elog(ch, (string("error processing REMOVE_RULES") + err.getError()).c_str() );
     }
-    
+
     e->setState(EV_DONE);
 }
 
@@ -691,24 +691,24 @@ void QualityManager::handlerRemoveRulesThreaded(Event *e, fd_sets_t *fds)
 {
 
     log->dlog(ch,"processing event remove rules" );
-    
+
     try
     {
         ruleDB_t *rules = ((RemoveRulesEvent *)e)->getRules();
-	  	  
+
 
         Event *evt = new delRulesQoSProcesorEvent(*rules);
         evt->setParent(e);
         e->setState(EV_PROCESSING);
-        unsigned long ival = 1000; // Next revision interval 
+        unsigned long ival = 1000; // Next revision interval
         e->setInterval(ival);
-        
+
         proc->addEvent(evt);
 
     }
 
     catch(Error &err)
-    {        
+    {
         e->setState(EV_DONE);
         log->elog(ch, (string("error processing REMOVE_RULES") + err.getError()).c_str() );
     }
@@ -724,14 +724,14 @@ void QualityManager::handlerRemoveRulesCntrlCommNonThreaded(Event *e, fd_sets_t 
 
     ruleDB_t rules;
 
-    try 
+    try
     {
 
          string r = ((RemoveRulesCtrlEvent *)e)->getRule();
          int n = r.find(".");
-         if (n > 0) 
+         if (n > 0)
          {
-             string sname = r.substr(0,n); 
+             string sname = r.substr(0,n);
 			 string rname = r.substr(n+1, r.length()-n);
 #ifdef DEBUG
              log->dlog(ch,"Deleting rule set=%s ruleId=%s", sname.c_str(), rname.c_str() );
@@ -744,13 +744,13 @@ void QualityManager::handlerRemoveRulesCntrlCommNonThreaded(Event *e, fd_sets_t 
              }
              rules.push_back(rptr);
 
-          } 
-          else 
+          }
+          else
           {
 
 #ifdef DEBUG
               log->dlog(ch,"Deleting rule set=%s ", r.c_str() );
-#endif				  
+#endif
               // delete rule set
               ruleIndex_t *ruleset = rulm->getRules(r);
               if (ruleset == NULL) {
@@ -762,17 +762,17 @@ void QualityManager::handlerRemoveRulesCntrlCommNonThreaded(Event *e, fd_sets_t 
                   rules.push_back(rptr);
               }
            }
-        
+
            proc->delRules(&rules, evnt.get());
            rulm->delRules(&rules, evnt.get());
 
            comm->sendMsg("rule(s) deleted", ((RemoveRulesCtrlEvent *)e)->getReq(), fds);
-    } 
-    catch (Error &err) 
+    }
+    catch (Error &err)
     {
         comm->sendErrMsg(err.getError(), ((RemoveRulesCtrlEvent *)e)->getReq(), fds);
     }
-    
+
     e->setState(EV_DONE);
 }
 
@@ -786,14 +786,14 @@ void QualityManager::handlerRemoveRulesCntrlCommThreaded(Event *e, fd_sets_t *fd
 
     ruleDB_t rules;
 
-    try 
+    try
     {
 
          string r = ((RemoveRulesCtrlEvent *)e)->getRule();
          int n = r.find(".");
-         if (n > 0) 
+         if (n > 0)
          {
-             string sname = r.substr(0,n); 
+             string sname = r.substr(0,n);
 			 string rname = r.substr(n+1, r.length()-n);
 #ifdef DEBUG
              log->dlog(ch,"Deleting rule set=%s ruleId=%s", sname.c_str(), rname.c_str() );
@@ -806,13 +806,13 @@ void QualityManager::handlerRemoveRulesCntrlCommThreaded(Event *e, fd_sets_t *fd
              }
              rules.push_back(rptr);
 
-         } 
-         else 
+         }
+         else
          {
 
 #ifdef DEBUG
               log->dlog(ch,"Deleting rule set=%s ", r.c_str() );
-#endif				  
+#endif
               // delete rule set
               ruleIndex_t *ruleset = rulm->getRules(r);
               if (ruleset == NULL) {
@@ -824,18 +824,18 @@ void QualityManager::handlerRemoveRulesCntrlCommThreaded(Event *e, fd_sets_t *fd
                   rules.push_back(rptr);
               }
          }
-        
+
         Event * evt = new delRulesQoSProcesorEvent(rules) ;
         evt->setParent(e);
         e->setState(EV_PROCESSING);
-        unsigned long ival = 1000; // Next revision interval 
+        unsigned long ival = 1000; // Next revision interval
         e->setInterval(ival);
-        e->advance();        
-        
+        e->advance();
+
         proc->addEvent(evt);
 
-    } 
-    catch (Error &err) 
+    }
+    catch (Error &err)
     {
         e->setState(EV_DONE);
         comm->sendErrMsg(err.getError(), ((RemoveRulesCtrlEvent *)e)->getReq(), fds);
@@ -849,18 +849,18 @@ void QualityManager::handlerProcTimerNonThreaded(Event *e, fd_sets_t *fds)
 #ifdef DEBUG
     log->dlog(ch,"processing event proc module timer" );
 #endif
-    
+
     try
     {
         proc->timeout(((ProcTimerEvent *)e)->getRID(), ((ProcTimerEvent *)e)->getAID(),
                       ((ProcTimerEvent *)e)->getTID());
-    
+
     }
     catch (Error &err)
     {
         log->elog(ch,(string("error processing PROC TIMER") + err.getError()).c_str() );
     }
-    
+
     e->setState(EV_DONE);
 }
 
@@ -871,9 +871,9 @@ void QualityManager::handlerProcTimerThreaded(Event *e, fd_sets_t *fds)
 #ifdef DEBUG
     log->dlog(ch,"processing event proc module timer" );
 #endif
-    
+
     // FIXME: Code not implemented yet.
-    
+
     e->setState(EV_DONE);
 }
 
@@ -890,7 +890,7 @@ void QualityManager::handlerResponseAddRulesQoSProcessor(Event *e, fd_sets_t *fd
         if (evtParent != NULL){
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
-        }        
+        }
     }
     catch (Error &err)
     {
@@ -912,23 +912,23 @@ void QualityManager::handlerResponseCheckRulesQoSProcessor(Event *e, fd_sets_t *
 {
 
     log->dlog(ch,"starting handler response check rules QoS Processor" );
-                
+
     respCheckRulesQoSProcessorEvent *evt = static_cast<respCheckRulesQoSProcessorEvent *>(e);
-                
+
     if (dynamic_cast<AddRulesEvent*>(evt->getParent()))
     {
 
         log->dlog(ch,"Previous event Add rules event");
 
         AddRulesEvent *evtParent= dynamic_cast<AddRulesEvent*>(evt->getParent());
-        
+
         try
         {
 
             // no error so lets add the rules and schedule for activation
             // and removal
             rulm->addRules(evt->getRules(), evnt.get());
-            
+
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
         }
@@ -939,14 +939,14 @@ void QualityManager::handlerResponseCheckRulesQoSProcessor(Event *e, fd_sets_t *
             log->elog(ch, (string("error processing ADD_RULES") + err.getError()).c_str() );
         }
     }
-    
+
     else if (dynamic_cast<AddRulesCtrlEvent*>(evt->getParent()))
     {
-        
+
         log->dlog(ch,"Previous event Add rules control event");
-        
+
         AddRulesCtrlEvent *evtParent = dynamic_cast<AddRulesCtrlEvent*>(evt->getParent());
-        
+
         try
         {
 
@@ -956,7 +956,7 @@ void QualityManager::handlerResponseCheckRulesQoSProcessor(Event *e, fd_sets_t *
 
             // Response to the entity triggering the event.
             comm->sendMsg("rule(s) added", evtParent->getReq(), fds);
-            
+
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
         }
@@ -964,12 +964,12 @@ void QualityManager::handlerResponseCheckRulesQoSProcessor(Event *e, fd_sets_t *
         {
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
-            comm->sendErrMsg(err.getError(), evtParent->getReq(), fds); 
+            comm->sendErrMsg(err.getError(), evtParent->getReq(), fds);
         }
     }
-            
+
     e->setState(EV_DONE);
-    
+
     log->dlog(ch,"ending handler response check rules QoS Processor" );
 
 }
@@ -981,21 +981,21 @@ void QualityManager::handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fd
 #ifdef DEBUG
     log->dlog(ch,"starting handler response delete rules QoS Processor" );
 #endif
-                
+
     respDelRulesQoSProcesorEvent *evt = static_cast<respDelRulesQoSProcesorEvent *>(e);
-        
-        
+
+
     if (dynamic_cast<RemoveRulesEvent*>(evt->getParent()))
     {
-        
+
         RemoveRulesEvent *evtParent= dynamic_cast<RemoveRulesEvent*>(evt->getParent());
-        
+
         try
         {
             // no error so lets add the rules and schedule for activation
             // and removal
             rulm->delRules(evt->getRules(), evnt.get());
-            
+
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
         }
@@ -1006,12 +1006,12 @@ void QualityManager::handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fd
             log->elog(ch,(string("error processing DELETE_RULES") + e.getError()).c_str() );
         }
     }
-    
+
     else if (dynamic_cast<RemoveRulesCtrlEvent*>(evt->getParent()))
     {
-        
+
         RemoveRulesCtrlEvent *evtParent = dynamic_cast<RemoveRulesCtrlEvent*>(evt->getParent());
-        
+
         try
         {
 
@@ -1021,7 +1021,7 @@ void QualityManager::handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fd
 
             // Response to the entity triggering the event.
             comm->sendMsg("rule(s) deleted", evtParent->getReq(), fds);
-            
+
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
         }
@@ -1029,12 +1029,12 @@ void QualityManager::handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fd
         {
             evtParent->setInterval(0);
             evtParent->setState(EV_DONE);
-            comm->sendErrMsg(e.getError(), evtParent->getReq(), fds); 
+            comm->sendErrMsg(e.getError(), evtParent->getReq(), fds);
         }
     }
-            
+
     e->setState(EV_DONE);
-    
+
 #ifdef DEBUG
     log->dlog(ch,"ending handler response delete rules QoS Processor" );
 #endif
@@ -1045,9 +1045,9 @@ void QualityManager::handlerResponseDelRulesQoSProcessor(Event *e, fd_sets_t *fd
 /* -------------------- handleEvent -------------------- */
 void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
 {
-   
+
     unsigned long ival = 0;
-   
+
     switch (e->getType()) {
     case TEST:
       {
@@ -1068,7 +1068,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               // EV_PROCESSING - Nothing to do.
           }
           else
-          { 
+          {
               e->setInterval(ival);
           }
       }
@@ -1087,7 +1087,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
           else
           {
               e->setInterval(ival);
-          }  
+          }
 
       }
       break;
@@ -1095,13 +1095,13 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
       {
 
           log->dlog(ch,"processing event add rules" );
-          
+
           if (e->getState() == EV_NEW)
           {
               if (pprocThread)
               {
                   handlerAddRulesThreaded(e, fds);
-              }    
+              }
               else
               {
                   handlerAddRulesNonThreaded(e, fds);
@@ -1112,7 +1112,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               // EV_PROCESSING - Nothing to do.
           }
           else
-          { 
+          {
               e->setInterval(ival);
           }
       }
@@ -1121,13 +1121,13 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
       {
 
           log->dlog(ch,"processing event add rules cntrl comm" );
-          
+
           if (e->getState() == EV_NEW)
           {
               if (pprocThread)
               {
                   handlerAddRulesCntrlCommThreaded(e, fds);
-              }    
+              }
               else
               {
                   handlerAddRulesCntrlCommNonThreads(e, fds);
@@ -1138,24 +1138,24 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               // EV_PROCESSING - Nothing to do.
           }
           else
-          { 
+          {
               e->setInterval(ival);
           }
-            
+
       }
-      break; 	
+      break;
 
     case ACTIVATE_RULES:
       {
 
           log->dlog(ch,"processing event activate rules" );
-          
+
           if (e->getState() == EV_NEW)
           {
               if (pprocThread)
               {
                   handlerActivateRulesThreaded(e, fds);
-              }    
+              }
               else
               {
                   handlerActivateRulesNonThreaded(e, fds);
@@ -1166,7 +1166,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               // EV_PROCESSING - Nothing to do.
           }
           else
-          { 
+          {
               e->setInterval(ival);
           }
 
@@ -1183,7 +1183,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               if (pprocThread)
               {
                   handlerRemoveRulesThreaded(e, fds);
-              }    
+              }
               else
               {
                   handlerRemoveRulesNonThreaded(e, fds);
@@ -1194,10 +1194,10 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               // EV_PROCESSING - Nothing to do.
           }
           else
-          { 
+          {
               e->setInterval(ival);
           }
-          
+
       }
       break;
 
@@ -1208,7 +1208,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
 
           if (e->getState() == EV_NEW)
           {
-          
+
               if (pprocThread)
               {
                   handlerRemoveRulesCntrlCommThreaded(e, fds);
@@ -1223,9 +1223,9 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               // EV_PROCESSING - Nothing to do.
           }
           else
-          {  
+          {
               e->setInterval(ival);
-          } 
+          }
 
       }
       break;
@@ -1234,7 +1234,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
       {
 
           log->dlog(ch,"processing event proc module timer" );
-          
+
           if (e->getState() == EV_NEW)
           {
               if (pprocThread)
@@ -1244,7 +1244,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
               else
               {
                   handlerProcTimerNonThreaded(e, fds);
-              }  
+              }
           }
           else if (e->getState() == EV_PROCESSING)
           {
@@ -1253,7 +1253,7 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
           else
           {
               e->setInterval(ival);
-          }  
+          }
 
       }
       break;
@@ -1261,28 +1261,28 @@ void QualityManager::handleEvent(Event *e, fd_sets_t *fds)
     case RESP_ADD_RULES_QOS_PROCESSOR:
       {
           log->dlog(ch,"processing event response add rule QoS processor" );
-          
+
           handlerResponseAddRulesQoSProcessor(e,fds);
       }
       break;
-    
+
     case RESP_CHECK_RULES_QOS_PROCESSOR:
       {
           log->dlog(ch,"processing event response check rules QoS processor" );
-          
+
           handlerResponseCheckRulesQoSProcessor(e,fds);
       }
-      break;    
+      break;
     case RESP_DEL_RULES_QOS_PROCESSOR:
       {
           log->dlog(ch,"processing event response delete rules QoS processor" );
-          
+
           handlerResponseDelRulesQoSProcessor(e,fds);
       }
       break;
-      
+
     default:
-        log->elog(ch,"Error Unknow event" );
+        log->elog(ch,"Error Unknow event %d", e->getType() );
     }
 }
 
@@ -1294,7 +1294,7 @@ void QualityManager::scheduleEvents(eventVec_t *retEvents)
         for (eventVecIter_t iter = retEvents->begin(); iter != retEvents->end(); iter++) {
              evnt->addEvent(*iter);
         }
-        retEvents->clear(); 
+        retEvents->clear();
     }
 }
 
@@ -1306,7 +1306,7 @@ int QualityManager::checkFileDescriptorEvents(eventVec_t *retEvents, fd_set *rse
 
     log->dlog(ch,"starting checkFileDescriptorEvents");
 
-    if (FD_ISSET( s_sigpipe[0], rset)) 
+    if (FD_ISSET( s_sigpipe[0], rset))
     {
         // handle sig action
         char c;
@@ -1323,93 +1323,48 @@ int QualityManager::checkFileDescriptorEvents(eventVec_t *retEvents, fd_set *rse
                     // check Event Scheduler events
                     e = evnt->getNextEvent();
                     if (e != NULL) {
-                        // FIXME hack
-                        if (e->getType() == CTRLCOMM_TIMER) 
+                        if (e->getType() == CTRLCOMM_TIMER)
                         {
+							log->dlog(ch,"handle comm FD event with null read and write file descriptors");
                             comm->handleFDEvent(retEvents, NULL, NULL, fds);
                             scheduleEvents(retEvents);
-                        } 
-                        else 
+                        }
+                        else
                         {
                             handleEvent(e, fds);
                         }
                         // reschedule the event
                         evnt->reschedNextEvent(e);
                         e = NULL;
-                    }		    
+                    }
                     break;
                 case 'P':
 #ifdef ENABLE_THREADS
                     proc->handleFDEvent(retEvents, NULL, NULL, NULL);
                     scheduleEvents(retEvents);
                     log->dlog(ch,"processed handle events from Qos Processor ");
-#endif                    
+#endif
                     break;
                 default:
                     throw Error("unknown signal");
-            } 
+            }
         }
-    } 
-    else 
+    }
+    else
     {
-        if (enableCtrl) 
+        if (enableCtrl)
         {
+            log->dlog(ch,"handle comm FD event with valid read and write file descriptors");
             comm->handleFDEvent(retEvents, rset, wset, fds);
             scheduleEvents(retEvents);
         }
     }
-    
+
     log->dlog(ch,"ending checkFileDescriptorEvents");
-    
+
     return stop;
 }
 
-int QualityManager::processOverdueEvents(eventVec_t *retEvents, fd_set *rset, fd_set *wset, fd_sets_t *fds)
-{ 
-
-    log->dlog(ch,"starting process overdue events");
-
-    Event         *e = NULL;
-    int            stop = 0;
-
-    // execute all due events
-    evnt->getNextEventTime();
-    char c;
-    while (read(s_sigpipe[0], &c, 1) > 0) 
-    {
-        switch (c) {
-            case 'S':
-                stop = 1;
-                break;
-            case 'D':
-                cerr << *this;
-                break;
-            case 'A':
-                // check Event Scheduler events
-                e = evnt->getNextEvent();
-                if (e != NULL) {
-                    handleEvent(e, fds);
-                    // reschedule the event
-                    evnt->reschedNextEvent(e);
-                    e = NULL;
-                }
-                break;
-            case 'P':
-#ifdef ENABLE_THREADS
-                proc->handleFDEvent(retEvents, NULL, NULL, NULL);
-                scheduleEvents(retEvents);
-#endif
-                break;
-            default:
-                throw Error("unknown signal");
-        }
-        evnt->getNextEventTime();
-    }
-    
-    log->dlog(ch,"ending process overdue events");
-    
-    return stop;
-}
 /* ----------------------- run ----------------------------- */
 
 void QualityManager::run()
@@ -1436,7 +1391,7 @@ void QualityManager::run()
             }
         }
         fds.max = fdList.begin()->first.fd;
-		
+
 
         // register a timer for ctrlcomm (only online capturing)
 		if (enableCtrl) {
@@ -1445,8 +1400,8 @@ void QualityManager::run()
 				evnt->addEvent(new CtrlCommTimerEvent(t, t * 1000));
 		  }
 		}
-		
-		
+
+
         // start threads (if threading is configured)
         proc->run();
 
@@ -1457,14 +1412,14 @@ void QualityManager::run()
 			// select
             rset = fds.rset;
             wset = fds.wset;
-	    
+
 			tv = evnt->getNextEventTime();
 
             //cerr << "timeout: " << tv.tv_sec*1e6+tv.tv_usec << endl;
 
             // note: under most unix the minimal sleep time of select is
             // 10ms which means an event may be executed 10ms after expiration!
-            if ((cnt = select(fds.max+1, &rset, &wset, NULL, &tv)) < 0) 
+            if ((cnt = select(fds.max+1, &rset, &wset, NULL, &tv)) < 0)
             {
                  if (errno != EINTR) {
 					throw Error("select error: %s", strerror(errno));
@@ -1474,17 +1429,15 @@ void QualityManager::run()
             // check FD events
             if (cnt > 0)  {
                 stop = checkFileDescriptorEvents(&retEvents, &rset, &wset, &fds);
-	        }	
+	        }
 
-            stop = processOverdueEvents(&retEvents, &rset, &wset, &fds);
-            
             if (!pprocThread) {
 				proc->handleFDEvent(&retEvents, NULL,NULL, NULL);
             }
-            
+
             // Schedule new events.
             scheduleEvents(&retEvents);
-            
+
         } while (!stop);
 
 		// wait for packet processor to handle all remaining packets (if threaded)
@@ -1498,11 +1451,11 @@ void QualityManager::run()
 
 
     } catch (Error &err) {
-        
+
         cout << "error in run() method" << err << endl;
         if (log.get()) { // Logger might not be available yet
             log->elog(ch, err);
-        }	   
+        }
 
         // in case an exception happens between get and reschedule event
         if (e != NULL) {
@@ -1545,7 +1498,7 @@ void QualityManager::sigint_handler(int i)
 void QualityManager::sigusr1_handler(int i)
 {
     char c = 'D';
-    
+
     write(s_sigpipe[1], &c,1);
 }
 
@@ -1571,10 +1524,10 @@ int QualityManager::alreadyRunning()
 	cout << NETQOS_LOCK_FILE.c_str() << endl;
 
     // do we have a lock file ?
-    if (stat(NETQOS_LOCK_FILE.c_str(), &stats ) == 0) { 
-		
-		
-		
+    if (stat(NETQOS_LOCK_FILE.c_str(), &stats ) == 0) {
+
+
+
         // read process ID from lock file
         file = fopen(NETQOS_LOCK_FILE.c_str(), "rt" );
         if (file == NULL) {
@@ -1597,9 +1550,9 @@ int QualityManager::alreadyRunning()
         // remove (old) pid file and proceed
         unlink(NETQOS_LOCK_FILE.c_str());
     }
-	
+
 	cout << NETQOS_LOCK_FILE.c_str() << endl;
-	
+
     // no lock file and no running meter process
     // write new lock file and continue
     file = fopen(NETQOS_LOCK_FILE.c_str(), "wt" );
@@ -1607,9 +1560,9 @@ int QualityManager::alreadyRunning()
         throw Error("cannot open pidfile '%s' for writing: %s\n",
                     NETQOS_LOCK_FILE.c_str(), strerror(errno));
     }
-    
+
     cout << NETQOS_LOCK_FILE.c_str() << endl;
-    
+
     fprintf(file, "%d\n", getpid());
     fclose(file);
 

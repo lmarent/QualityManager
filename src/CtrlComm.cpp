@@ -5,18 +5,18 @@
 
     This file is part of Network Measurement and Accounting System (NETQoS).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 	Description:
@@ -48,25 +48,25 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
 #ifdef DEBUG
     log->dlog(ch, "Starting" );
 #endif
-  
+
     portnum = DEF_PORT;
-	
+
     // get port number from config manager if available
     string txt = cnf->getValue("ControlPort", "CONTROL");
     if (txt != "") {
         portnum = atoi(txt.c_str());
     }
-	 
+
     if (portnum <= 1024 || portnum > 65536) {
         throw Error("CtrlComm: illegal port number %d "
                     "(must be 1023<x<65535)", portnum );
     }
-    
+
     log->log(ch, "listening on port number %d.", portnum);
 
     // set this *before* trying to start httpd
     s_instance = this;
-    
+
     // register callback functions
     httpd_register_access_check (s_access_check);
     httpd_register_log_request  (s_log_request);
@@ -75,16 +75,16 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
 
     // init server
 #ifdef USE_SSL
-    ret = httpd_init(portnum, "NetQoS", 
+    ret = httpd_init(portnum, "NetQoS",
                      cnf->isTrue("UseSSL", "CONTROL"),
-                     CERT_FILE.c_str(), SSL_PASSWD, 
+                     CERT_FILE.c_str(), SSL_PASSWD,
                      cnf->isTrue("UseIPv6", "CONTROL"));
 #else
-    ret = httpd_init(portnum, "NetQoS", 
-                     0, NULL, NULL, 
+    ret = httpd_init(portnum, "NetQoS",
+                     0, NULL, NULL,
                      cnf->isTrue("UseIPv6", "CONTROL"));
 #endif
-    
+
     if (ret < 0) {
         throw Error("CtrlComm: cannot init communication facilities" );
     }
@@ -92,15 +92,15 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
 
     // adds to accessList in CtrlComm all IP addr for hosts known by DNS
     checkHosts( cnf->getAccessList(), cnf->isTrue("UseIPv6", "CONTROL") );
-    
+
     if (cnf->isTrue("LogOnConnect", "CONTROL")) {
         flags |= LOG_CONNECT;
     }
-    
+
     if (cnf->isTrue("LogQoSCommand", "CONTROL")) {
         flags |= LOG_COMMAND;
     }
-    
+
     // load html/xsl files
     pcache.addPageFile("/",             MAIN_PAGE_FILE );
     pcache.addPageFile("/help",         MAIN_PAGE_FILE );
@@ -109,7 +109,7 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
     // load reply template
     string line;
     ifstream in(REPLY_TEMPLATE.c_str());
-    
+
     if (!in) {
         throw Error("cannot access/read file '%s'", REPLY_TEMPLATE.c_str());
     }
@@ -126,10 +126,7 @@ CtrlComm::CtrlComm(ConfigManager *cnf, int threaded)
 
 CtrlComm::~CtrlComm()
 {
-#ifdef DEBUG
     log->dlog(ch, "Shutdown" );
-#endif
-
     httpd_shutdown();
 }
 
@@ -139,9 +136,8 @@ CtrlComm::~CtrlComm()
 // this function is called either with host!=NULL OR user!=NULL
 int CtrlComm::accessCheck(char *host, char *user)
 {
-    // FIXME ugly structure - both, hosts and users stored in one access list member
-    
-    std::cout << "arrive accessCheck" << std::endl;
+
+    log->dlog(ch, "Starting arrive accessCheck" );
 
 #ifdef DEBUG
     if (host != NULL) {
@@ -152,7 +148,6 @@ int CtrlComm::accessCheck(char *host, char *user)
 #endif
 
     configADListIter_t iter;
-    std::cout << "entering in check user by host" << std::endl;
     // host check
     if (host != NULL) {
         for (iter = accessList.begin(); iter != accessList.end(); iter++) {
@@ -160,28 +155,32 @@ int CtrlComm::accessCheck(char *host, char *user)
                 ((iter->value == "All") ||
                  (!strcmp(iter->resolve_addr.c_str(), host)))) {
                 std::cout << "returning ok" << std::endl;
-                return ((iter->ad == ALLOW) ? 0 : -1);
-            }
-        }
-    }
-    
-    std::cout << "entering in check user by user" << std::endl;
-    
-    // user check
-    // FIXME no encrypted password support yet!
-    if (user != NULL) {
-        for (iter = accessList.begin(); iter != accessList.end(); iter++) {
-			
-			std::cout << "user:" << iter->value.c_str() << std::endl;
-            if ((iter->type == "User") &&
-                ((iter->value == "All") ||
-                 (!strncmp(iter->value.c_str(), user,
-                           strlen(iter->value.c_str()))))) {
+
+                log->dlog(ch, "Ending accessCheck - Host, %d", ((iter->ad == ALLOW) ? 0 : -1) );
                 return ((iter->ad == ALLOW) ? 0 : -1);
             }
         }
     }
 
+    std::cout << "entering in check user by user" << std::endl;
+
+    // user check
+    // FIXME no encrypted password support yet!
+    if (user != NULL) {
+        for (iter = accessList.begin(); iter != accessList.end(); iter++) {
+
+            if ((iter->type == "User") &&
+                ((iter->value == "All") ||
+                 (!strncmp(iter->value.c_str(), user,
+                           strlen(iter->value.c_str()))))) {
+
+				log->dlog(ch, "Ending accessCheck - User, %d", ((iter->ad == ALLOW) ? 0 : -1) );
+                return ((iter->ad == ALLOW) ? 0 : -1);
+            }
+        }
+    }
+
+    log->dlog(ch, "Ending accessCheck - DENY" );
     return -1; // no match found -> DENY
 }
 
@@ -194,13 +193,13 @@ void CtrlComm::checkHosts( configADList_t &list, bool useIPv6 )
     configADItem_t entry;
     configADListIter_t iter;
     struct addrinfo ask, *tmp, *res = NULL;
-    
+
     sethostent(1);
-    
+
     memset(&ask,0,sizeof(ask));
     ask.ai_socktype = SOCK_STREAM;
     ask.ai_flags = 0;
-    
+
     for (iter = list.begin(); iter != list.end(); iter++) {
         if (iter->type == "Host") {
             if (iter->value == "All") { // always copy if host name == 'All'
@@ -213,19 +212,19 @@ void CtrlComm::checkHosts( configADList_t &list, bool useIPv6 )
                 // if hostname = 'localhost' valgrind reports
                 // an uninitialized value error
                 rc = getaddrinfo((iter->value).c_str(), NULL, &ask, &res);
-                
+
                 alarm(0);
 
                 if (g_timeout) {
                     freeaddrinfo(res);
                     throw Error("check hosts on access list: DNS timeout");
                 }
-                
+
                 if (rc == 0) {
-                    configADItem_t entry = *iter;		    
+                    configADItem_t entry = *iter;
                     char host[65];
                     bool isIPv4addr;
-                    
+
                     tmp = res;
                     while(tmp) {
                         if (getnameinfo(tmp->ai_addr, tmp->ai_addrlen, host,
@@ -233,9 +232,9 @@ void CtrlComm::checkHosts( configADList_t &list, bool useIPv6 )
                             freeaddrinfo(res);
                             throw Error("getnameinfo");
                         }
-                        
+
                         isIPv4addr = strchr(host, '.') && !strchr(host, ':');
-                        
+
                         // check every cobination of isIPv4addr (false/true) and useIPv6 (false/true)
                         if (!useIPv6) {
                             if (isIPv4addr) { // isv4addr && usev4listen
@@ -252,7 +251,7 @@ void CtrlComm::checkHosts( configADList_t &list, bool useIPv6 )
                                 accessList.push_back(entry);
 #ifdef DEBUG
                                 if (!entry.resolve_addr.empty()) {
-                                    cerr << "adding allowed control host '" << entry.resolve_addr 
+                                    cerr << "adding allowed control host '" << entry.resolve_addr
                                          << "' to access list." << endl;
                                 }
 #endif
@@ -266,7 +265,7 @@ void CtrlComm::checkHosts( configADList_t &list, bool useIPv6 )
                         }
 #ifdef DEBUG
                         if (!entry.resolve_addr.empty()) {
-                            cerr << "adding allowed control host '" << entry.resolve_addr 
+                            cerr << "adding allowed control host '" << entry.resolve_addr
                                  << "' to access list." << endl;
                         }
 #endif
@@ -301,7 +300,7 @@ void CtrlComm::checkHosts( configADList_t &list, bool useIPv6 )
 string CtrlComm::xmlQuote(string s)
 {
     string res;
-   
+
     for( string::iterator i = s.begin(); i != s.end(); i++ ) {
         switch (*i) {
         case '<':
@@ -318,12 +317,12 @@ string CtrlComm::xmlQuote(string s)
               res.append( "<br/>" );
               break;
             */
-            
+
         default:
             res.push_back(*i);
         }
     }
-    
+
     return res;
 }
 
@@ -372,16 +371,16 @@ int CtrlComm::handleFDEvent(eventVec_t *e, fd_set *rset, fd_set *wset, fd_sets_t
     retEventVec = e;
     retEvent = NULL;
 
-	
+
     // check for incoming message
     int http_handle = httpd_handle_event(rset, wset, fds);
-    
+
     if (http_handle < 0) {
 		cout << "ERROR HANDLING THE EVENT" << endl;
 		throw Error("ctrlcomm handle event error");
-	}	
+	}
 
-    		
+
     // processCmd callback funtion is called in case of new request
 
     // return resulting event (freed by event scheduler)
@@ -396,9 +395,9 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
     parseReq_t preq;
 
     preq.comm = req->path;
-    
-    cout << "parsing request" << endl;
-    
+
+    log->dlog(ch, "parsing request");
+
     // parse headers
     struct strlist *hdr = req->header;
     while (hdr) {
@@ -410,9 +409,9 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
         }
         hdr = hdr->next;
     }
-    
-    cout << "parsing url parameters" << endl;
-    
+
+    log->dlog(ch, "parsing url parameters");
+
     // parse URL parameters
     if (req->query != NULL) {
         string q = req->query;
@@ -426,21 +425,21 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
             }
 
             p1 = p2+1;
-        } 
+        }
         p3 = q.find("=",p1);
         if (p3 > 0) {
             preq.params[q.substr(p1,p3-p1)] = q.substr(p3+1, p2-p3-1);
         }
-    
+
     }
-    
-    cout << "parsing post parameters in body" << endl;
-    
+
+    log->dlog(ch, "parsing post parameters in body");
+
     // parse POST parameters in body
     if (req->lbreq != 0) {
         string q = req->post_body;
         cout << q << endl;
-        
+
         int p1 = 0, p2 = q.length(), p3 = 0;
         while((p2 = q.find("&",p1)) > 0) {
             p3 = q.find("=",p1);
@@ -449,19 +448,17 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
             }
 
             p1 = p2+1;
-        } 
+        }
         p3 = q.find("=",p1);
         if (p3 > 0) {
             preq.params[q.substr(p1,p3-p1)] = q.substr(p3+1, p2-p3-1);
         }
-    
+
     }
 
-#ifdef DEBUG
     for (paramListIter_t iter=preq.params.begin(); iter != preq.params.end(); iter++) {
-        log->log(ch, "%s :: %s", (iter->first).c_str(), (iter->second).c_str());
+        log->dlog(ch, "%s :: %s", (iter->first).c_str(), (iter->second).c_str());
     }
-#endif
 
     return preq;
 }
@@ -470,7 +467,7 @@ parseReq_t CtrlComm::parseRequest(struct REQUEST *req)
 int CtrlComm::processCmd(struct REQUEST *req)
 {
     parseReq_t preq;
-    
+
 #ifdef PROFILING
     unsigned long long ini, end;
 #endif
@@ -479,9 +476,9 @@ int CtrlComm::processCmd(struct REQUEST *req)
     ini = PerfTimer::readTSC();
 #endif
 
-    log->dlog(ch, "client requested cmd:%s Params: %s Body:%s", 
+    log->dlog(ch, "client requested cmd:%s Params: %s Body:%s",
 						req->path, req->query, req->post_body);
-		
+
     if (isEnabled(LOG_COMMAND)) {
         log->log(ch, "client requested cmd: '%s' and params '%s%s'", req->path, req->query,
                  req->post_body);
@@ -494,7 +491,7 @@ int CtrlComm::processCmd(struct REQUEST *req)
     preq = parseRequest(req);
 
     // try lookup in repository of static meter pages
-    string page = pcache.getPage(preq.comm); 
+    string page = pcache.getPage(preq.comm);
 
 
     try {
@@ -509,7 +506,7 @@ int CtrlComm::processCmd(struct REQUEST *req)
             req->lifespan = EXPIRY_TIME;
             // immediatly send response
             httpd_send_immediate_response(req);
-            
+
             // FIXME  better register those callback funtions onto the command name
         } else if (preq.comm == "/get_info") {
             processGetInfo(&preq);
@@ -527,14 +524,14 @@ int CtrlComm::processCmd(struct REQUEST *req)
         sendErrMsg(e.getError(), req, NULL);
         return 0;
     }
-    
+
 #ifdef PROFILING
     end = PerfTimer::readTSC();
-   
+
     cerr << "parse cmd in " << PerfTimer::ticks2ns(end-ini) << " ns" << endl;
 #endif
 
-    if (retEvent != NULL) 
+    if (retEvent != NULL)
     {
         retEvent->setReq(req);
         retEventVec->push_back(retEvent);
@@ -560,7 +557,7 @@ char *CtrlComm::processAddTask(parseReq_t *preq)
     retEvent = new AddRulesCtrlEvent((char *) rule->second.c_str(), rule->second.size(), 0);
 
     log->dlog(ch, "ending processAddTask");
-    
+
     return NULL;
 }
 
@@ -574,9 +571,9 @@ char *CtrlComm::processDelTask(parseReq_t *preq )
     if (id == preq->params.end() ) {
         throw Error("rm_task: missing parameter 'RuleID'" );
     }
-    
+
     retEvent = new RemoveRulesCtrlEvent(id->second);
-  
+
     return NULL;
 }
 
@@ -589,19 +586,19 @@ char *CtrlComm::processGetInfo( parseReq_t *preq )
 
     paramListIter_t type = preq->params.find("IType");
     paramListIter_t param = preq->params.find("IParam");
-    
+
     if (type == preq->params.end()) {
         throw Error("get_info: missing parameter 'IType'" );
     }
-   
+
     if (param == preq->params.end()) {
         infos.addInfo(type->second);
-    } else { 
+    } else {
         infos.addInfo(type->second, param->second);
     }
 
     retEvent = new GetInfoEvent(infos.getList());
-    
+
     return NULL;
 }
 
@@ -611,11 +608,11 @@ char *CtrlComm::processGetInfo( parseReq_t *preq )
 char *CtrlComm::processGetModInfo( parseReq_t *preq )
 {
     paramListIter_t name = preq->params.find("IName");
-    
+
     if (name == preq->params.end()) {
         throw Error("get_modinfo: missing parameter 'IName'" );
     }
-   
+
     retEvent = new GetModInfoEvent(name->second);
 
     return NULL;
@@ -626,7 +623,7 @@ char *CtrlComm::processGetModInfo( parseReq_t *preq )
 
 int CtrlComm::logAccess(struct REQUEST *req, time_t now )
 {
-  
+
     if (isEnabled(LOG_CONNECT)) {
         if (0 == req->status) {
             req->status = 400; /* bad request */
@@ -654,7 +651,7 @@ int CtrlComm::logAccess(struct REQUEST *req, time_t now )
 int CtrlComm::logError(int eno, int loglevel, char *txt, char *peerhost)
 {
     char buf[256];
-  
+
     buf[0] = '\0';
 
     // FIXME loglevel is currently ignored
