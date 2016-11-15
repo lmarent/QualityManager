@@ -307,6 +307,7 @@ int delete_rule(std::string host, int host_port, int rule)
 
 
     curl_easy_setopt(curl, CURLOPT_URL, (url.str()).c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
     curl_easy_setopt(curl, CURLOPT_DEBUGDATA, &config);
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
@@ -420,6 +421,7 @@ int post_rule(std::string clientaddress, std::string host, int host_port, std::s
 
     // host:post/action
     curl_easy_setopt(curl, CURLOPT_URL, (url.str()).c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
     curl_easy_setopt(curl, CURLOPT_DEBUGDATA, &config);
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
