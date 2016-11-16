@@ -134,7 +134,7 @@ static int xsendfile(int out, int in, off_t offset, size_t bytes)
                the next write would return EAGAIN anyway... */
             break;
         }
-    
+
         bytes -= nread;
     }
     return nsent_total;
@@ -287,7 +287,7 @@ static int mkmulti(struct REQUEST *req, int i)
 #if (SIZEOF_OFF_T == 4)
 	fprintf(stderr,"%03d/%d: send range: %ld-%ld/%ld (%ld byte)\n",
 #else
-    fprintf(stderr,"%03d/%d: send range: %lld-%lld/%lld (%lld byte)\n",       
+    fprintf(stderr,"%03d/%d: send range: %lld-%lld/%lld (%lld byte)\n",
 #endif
             req->fd, req->state,
             req->r_start[i],req->r_end[i],req->bst.st_size,
@@ -332,7 +332,7 @@ void mkheader(struct REQUEST *req, int status, time_t mtime)
                              "Content-Length: %ld\r\n",
 #else
                              "Content-Range: bytes %lld-%lld/%lld\r\n"
-                             "Content-Length: %lld\r\n",                        
+                             "Content-Length: %lld\r\n",
 #endif
                              req->mime,
                              req->r_start[0],req->r_end[0]-1,req->bst.st_size,
@@ -397,6 +397,7 @@ void write_request(struct REQUEST *req)
 #endif
             rc = wrap_write(req,req->hres + req->written,
                             req->lres - req->written);
+            fprintf(stdout, "after writing the request response - return code:%d", rc);
             switch (rc) {
             case -1:
                 if (errno == EAGAIN) {
@@ -462,7 +463,7 @@ void write_request(struct REQUEST *req)
             req->state = STATE_FINISHED;
             return;
         case STATE_WRITE_FILE:
-            rc = wrap_xsendfile(req, req->written, 
+            rc = wrap_xsendfile(req, req->written,
                                 req->bst.st_size - req->written);
             switch (rc) {
             case -1:
@@ -533,7 +534,7 @@ void write_request(struct REQUEST *req)
             }
             if (req->rb != -1) {
                 /* write body */
-                rc = wrap_xsendfile(req, req->written, 
+                rc = wrap_xsendfile(req, req->written,
                                     req->r_end[req->rb] - req->written);
                 switch (rc) {
                 case -1:

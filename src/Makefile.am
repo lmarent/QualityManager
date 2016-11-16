@@ -16,8 +16,8 @@ qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
 						 ConfigManager.cpp ParserFcts.cpp \
 						 ConfigParser.cpp FilterValue.cpp \
 						 FilterDefParser.cpp FilterValParser.cpp \
-					     PageRepository.cpp Module.cc \
-						 Timeval.cpp  Event.cpp CtrlComm.cpp \
+					     	 PageRepository.cpp Module.cc \
+						 Timeval.cpp  Event.cpp CtrlComm.cpp FlowIdSource.cpp \
 						 constants_qos.cpp QualityManagerComponent.cpp \
 						 ProcModule.cpp Rule.cpp \
 						 RuleFileParser.cpp QualityManagerInfo.cpp \

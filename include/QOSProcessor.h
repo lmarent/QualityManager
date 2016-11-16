@@ -40,6 +40,7 @@
 #include "Error.h"
 #include "Logger.h"
 #include "EventScheduler.h"
+#include "FlowIdSource.h"
 
 
 struct ppaction_t
@@ -47,9 +48,12 @@ struct ppaction_t
     ProcModule *module;
     ProcModuleInterface_t *mapi; // module API
     void *flowData;
+
     // config params for module
     configParam_t *params;
 
+	// flow id assigned to this action.
+	uint16_t flowid; // 0 means not assigned.
 
     ppaction_t& operator=( ppaction_t const& rhs);
 
@@ -110,6 +114,9 @@ class QOSProcessor : public QualityManagerComponent
 
     //! action list for rules
     ruleActionList_t  rules;
+
+    //! pool of unique Flow ids
+    FlowIdSource idSource;
 
     //! add timer events to scheduler
     void addTimerEvents( int ruleID, int actID, ppaction_t &act, EventScheduler &es );

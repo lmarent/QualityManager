@@ -111,6 +111,7 @@ am_qualityManager_OBJECTS = qualityManager-Error.$(OBJEXT) \
 	qualityManager-Timeval.$(OBJEXT) \
 	qualityManager-Event.$(OBJEXT) \
 	qualityManager-CtrlComm.$(OBJEXT) \
+	qualityManager-FlowIdSource.$(OBJEXT) \
 	qualityManager-constants_qos.$(OBJEXT) \
 	qualityManager-QualityManagerComponent.$(OBJEXT) \
 	qualityManager-ProcModule.$(OBJEXT) \
@@ -360,8 +361,8 @@ qualityManager_SOURCES = Error.cpp constants.cpp Logger.cpp \
 						 ConfigManager.cpp ParserFcts.cpp \
 						 ConfigParser.cpp FilterValue.cpp \
 						 FilterDefParser.cpp FilterValParser.cpp \
-					     PageRepository.cpp Module.cc \
-						 Timeval.cpp  Event.cpp CtrlComm.cpp \
+					     	 PageRepository.cpp Module.cc \
+						 Timeval.cpp  Event.cpp CtrlComm.cpp FlowIdSource.cpp \
 						 constants_qos.cpp QualityManagerComponent.cpp \
 						 ProcModule.cpp Rule.cpp \
 						 RuleFileParser.cpp QualityManagerInfo.cpp \
@@ -486,6 +487,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-FilterDefParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-FilterValParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-FilterValue.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-FlowIdSource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-Logger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-MAPIRuleParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qualityManager-Module.Po@am__quote@
@@ -755,6 +757,20 @@ qualityManager-CtrlComm.obj: CtrlComm.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='CtrlComm.cpp' object='qualityManager-CtrlComm.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qualityManager-CtrlComm.obj `if test -f 'CtrlComm.cpp'; then $(CYGPATH_W) 'CtrlComm.cpp'; else $(CYGPATH_W) '$(srcdir)/CtrlComm.cpp'; fi`
+
+qualityManager-FlowIdSource.o: FlowIdSource.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qualityManager-FlowIdSource.o -MD -MP -MF $(DEPDIR)/qualityManager-FlowIdSource.Tpo -c -o qualityManager-FlowIdSource.o `test -f 'FlowIdSource.cpp' || echo '$(srcdir)/'`FlowIdSource.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/qualityManager-FlowIdSource.Tpo $(DEPDIR)/qualityManager-FlowIdSource.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='FlowIdSource.cpp' object='qualityManager-FlowIdSource.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qualityManager-FlowIdSource.o `test -f 'FlowIdSource.cpp' || echo '$(srcdir)/'`FlowIdSource.cpp
+
+qualityManager-FlowIdSource.obj: FlowIdSource.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qualityManager-FlowIdSource.obj -MD -MP -MF $(DEPDIR)/qualityManager-FlowIdSource.Tpo -c -o qualityManager-FlowIdSource.obj `if test -f 'FlowIdSource.cpp'; then $(CYGPATH_W) 'FlowIdSource.cpp'; else $(CYGPATH_W) '$(srcdir)/FlowIdSource.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/qualityManager-FlowIdSource.Tpo $(DEPDIR)/qualityManager-FlowIdSource.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='FlowIdSource.cpp' object='qualityManager-FlowIdSource.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qualityManager-FlowIdSource.obj `if test -f 'FlowIdSource.cpp'; then $(CYGPATH_W) 'FlowIdSource.cpp'; else $(CYGPATH_W) '$(srcdir)/FlowIdSource.cpp'; fi`
 
 qualityManager-constants_qos.o: constants_qos.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(qualityManager_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qualityManager-constants_qos.o -MD -MP -MF $(DEPDIR)/qualityManager-constants_qos.Tpo -c -o qualityManager-constants_qos.o `test -f 'constants_qos.cpp' || echo '$(srcdir)/'`constants_qos.cpp

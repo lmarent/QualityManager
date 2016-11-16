@@ -14,7 +14,7 @@
 
     <ACTION NAME="htb">
 		<!-- match both directions of the flow -->
-		<PREF NAME="Bidir">yes</PREF>
+		<PREF NAME="Bidir">no</PREF>
 		
 		<!-- Rate is on bytes  -->
 		<PREF NAME="Rate" TYPE="Float64">15000</PREF>
@@ -33,10 +33,10 @@
 
     <ACTION NAME="htb">
 		<!-- match both directions of the flow -->
-		<PREF NAME="Bidir">yes</PREF>
+		<PREF NAME="Bidir">no</PREF>
 		
 		<!-- Rate is on bytes  -->
-		<PREF NAME="Rate" TYPE="Float64">15000</PREF>
+		<PREF NAME="Rate" TYPE="Float64">14999</PREF>
 		<PREF NAME="Burst" TYPE="UInt32">1500</PREF>
 		<PREF NAME="Priority" TYPE="UInt32">2</PREF>
 		<!-- The value is in seconds -->
@@ -51,10 +51,10 @@
 
     <ACTION NAME="htb">
 		<!-- match both directions of the flow -->
-		<PREF NAME="Bidir">yes</PREF>
+		<PREF NAME="Bidir">no</PREF>
 		
 		<!-- Rate is on bytes  -->
-		<PREF NAME="Rate" TYPE="Float64">15000</PREF>
+		<PREF NAME="Rate" TYPE="Float64">14998</PREF>
 		<PREF NAME="Burst" TYPE="UInt32">1500</PREF>
 		<PREF NAME="Priority" TYPE="UInt32">2</PREF>
 		<!-- The value is in seconds -->

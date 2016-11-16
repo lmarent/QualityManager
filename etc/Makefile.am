@@ -9,10 +9,10 @@ dist_sysconf_DATA = netqos_conf.dtd filterdef.dtd filterdef.xml \
 		    main.html 
 		    
 
-nodist_sysconf_DATA = netqos_conf.xml
+nodist_sysconf_DATA = netqos_conf.xml netqos_conf_test.xml
 
 
-DISTCLEANFILES = gen_cert.sh netqos_conf.xml
+DISTCLEANFILES = gen_cert.sh netqos_conf.xml netqos_conf_test.xml
 
 
 

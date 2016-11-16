@@ -19,6 +19,7 @@ test_runner_SOURCES = @top_srcdir@/src/Error.cpp \
 					  @top_srcdir@/src/Module.cc \
 					  @top_srcdir@/src/Timeval.cpp  \
 					  @top_srcdir@/src/Event.cpp \
+					  @top_srcdir@/src/FlowIdSource.cpp \
 					  @top_srcdir@/src/QualityManagerInfo.cpp \
 					  @top_srcdir@/src/CtrlComm.cpp \
 					  @top_srcdir@/src/constants_qos.cpp \

@@ -843,9 +843,8 @@ void destroyFlowSetup( int rule_id, int action_id,
 
         params++;
     }
-#ifdef DEBUG
+
     fprintf( stdout, "Flow Id to delete: %d - num parameters:%d \n", flowId, numparams );
-#endif
 
 	if ( numparams == MOD_DEL_FLOW_REQUIRED_PARAMS )
 	{

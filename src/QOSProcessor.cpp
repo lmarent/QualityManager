@@ -47,6 +47,7 @@ ppaction_t& ppaction_t::operator=( ppaction_t const& rhs)
 	mapi = rhs.mapi;
 	flowData = rhs.flowData;
 	params = rhs.params;
+	flowid = rhs.flowid;
 
 	return *this;
 }
@@ -71,8 +72,7 @@ ruleActions_t& ruleActions_t::operator=( ruleActions_t const& rhs)
 /* ------------------------- QoSProcessor ------------------------- */
 
 QOSProcessor::QOSProcessor(ConfigManager *cnf, int threaded, string moduleDir )
-    : QualityManagerComponent(cnf, "QOS_PROCESSOR", threaded),
-      numRules(0)
+    : QualityManagerComponent(cnf, "QOS_PROCESSOR", threaded), numRules(0), idSource(0)
 {
     string txt;
 
@@ -389,6 +389,7 @@ int QOSProcessor::checkRule(Rule *r)
             a.module = NULL;
             a.params = NULL;
             a.flowData = NULL;
+            a.flowid = 0; // 0 means not
 
             // load Action Module used by this rule
             mod = loader->getModule(mname.c_str());
@@ -400,20 +401,18 @@ int QOSProcessor::checkRule(Rule *r)
 
                 // init module
                 configItemList_t itmConf = iter->conf;
-				char buffer1 [50];
                 configItem_t flowId;
                 flowId.group = getConfigGroup();
                 flowId.module = mname;
                 flowId.name = "FlowId";
 
-			    // The flowid is made of the rule id and the action id.
-			    uint16_t first_number = ruleId;
-				uint16_t second_number = cnt;
-				uint32_t uint32flowid = (uint32_t) first_number << 16;
-				uint32flowid |= second_number;
-				sprintf (buffer1, "%lu", (unsigned long) uint32flowid);
-				flowId.value = string(buffer1);
-                flowId.type = "UInt32";
+			    // The flowid is an sequence number.
+			    a.flowid = idSource.newId();
+
+				std::stringstream ss;
+				ss << a.flowid;
+				flowId.value = ss.str();
+                flowId.type = "UInt16";
 
                 itmConf.push_front(flowId);
                 a.params = ConfigManager::getParamList(itmConf);
@@ -434,8 +433,11 @@ int QOSProcessor::checkRule(Rule *r)
                 saveDeleteArr(a.params);
                 a.params = NULL;
 
+			    // The free the sequence number assigned for the flow id.
+			    idSource.freeId(a.flowid);
 
                 a.flowData = NULL;
+                a.flowid = 0;
 
                 //release packet processing modules already loaded for this rule
                 loader->releaseModule(a.module);
@@ -466,6 +468,10 @@ int QOSProcessor::checkRule(Rule *r)
 
 		log->elog(ch, "Rule %s.%s - Id:%d has errors", r->getSetName().c_str(), r->getRuleName().c_str(), ruleId);
 
+		// Free the flow id assigned if any
+		if (a.flowid != 0){
+			idSource.freeId(a.flowid);
+		}
 
         // free memory
         if (a.flowData != NULL) {
@@ -526,6 +532,7 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
             a.module = NULL;
             a.params = NULL;
             a.flowData = NULL;
+            a.flowid = 0;
 
             Module *mod;
             string mname = iter->name;
@@ -548,29 +555,23 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
 
                 // Define the Flow id to be used.
                 configItem_t flowId;
-				char buffer1 [50];
                 flowId.group = getConfigGroup();
                 flowId.module = mname;
                 flowId.name = "FlowId";
 
 			    // The flowid is made of the rule id and the action id.
-			    uint16_t first_number = ruleId;
-				uint16_t second_number = cnt;
-				uint32_t uint32flowid = (uint32_t) first_number << 16;
-				uint32flowid |= second_number;
-				sprintf (buffer1, "%lu", (unsigned long) uint32flowid);
-				flowId.value = string(buffer1);
-                flowId.type = "UInt32";
+			    a.flowid = idSource.newId();
+
+				std::stringstream ss;
+				ss << a.flowid;
+				flowId.value = ss.str();
+                flowId.type = "UInt16";
 
                 itmConf.push_front(flowId);
                 a.params = ConfigManager::getParamList(itmConf);
 
                 a.flowData = NULL;
                 (a.mapi)->initFlowSetup(ruleId, cnt, a.params, r->getFilter(), &a.flowData);
-				if (a.params != NULL) {
-					saveDeleteArr(a.params);
-					a.params = ConfigManager::getParamList(itmConf);
-				}
 
                 // init timers
                 addTimerEvents(ruleId, cnt, a, *e);
@@ -618,6 +619,11 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
         for (ppactionListIter_t i = entry.actions.begin(); i != entry.actions.end(); i++) {
 			ppaction_t a = i->second;
 			int action_id = i->first;
+
+			// Free the flow id assigned if any
+			if (a.flowid != 0){
+				idSource.freeId(a.flowid);
+			}
 
             (a.mapi)->destroyFlowSetup( ruleId, action_id, a.params, r->getFilter(), a.flowData );
 
@@ -676,6 +682,7 @@ int QOSProcessor::addRule( Rule *r )
             a.module = NULL;
             a.params = NULL;
             a.flowData = NULL;
+            a.flowid = 0;
 
             Module *mod;
             string mname = iter->name;
@@ -697,31 +704,23 @@ int QOSProcessor::addRule( Rule *r )
 
                 // Define the Flow id to be used.
                 configItem_t flowId;
-				char buffer1 [50];
                 flowId.group = getConfigGroup();
                 flowId.module = mname;
                 flowId.name = "FlowId";
 
 			    // The flowid is made of the rule id and the action id.
-			    uint16_t first_number = ruleId;
-				uint16_t second_number = cnt;
-				uint32_t uint32flowid = (uint32_t) first_number << 16;
-				uint32flowid |= second_number;
-				sprintf (buffer1, "%lu", (unsigned long) uint32flowid);
-				flowId.value = string(buffer1);
-                flowId.type = "UInt32";
+			    a.flowid = idSource.newId();
+
+				std::stringstream ss;
+				ss << a.flowid;
+				flowId.value = ss.str();
+                flowId.type = "UInt16";
 
                 itmConf.push_front(flowId);
                 a.params = ConfigManager::getParamList(itmConf);
 
                 a.flowData = NULL;
                 (a.mapi)->initFlowSetup(ruleId, cnt, a.params, r->getFilter(), &a.flowData);
-
-                // Set the whole parameters, which includes the filter, for the action.
-				if (a.params != NULL) {
-					saveDeleteArr(a.params);
-					a.params = ConfigManager::getParamList(itmConf);
-				}
 
                 // init timers
                 addTimerEvents(ruleId, cnt, a);
@@ -762,6 +761,11 @@ int QOSProcessor::addRule( Rule *r )
         {
 			ppaction_t a = i->second;
 			int action_id = i->first;
+
+			// Free the flow id assigned if any
+			if (a.flowid != 0){
+				idSource.freeId(a.flowid);
+			}
 
             (a.mapi)->destroyFlowSetup( ruleId, action_id, a.params, r->getFilter(), a.flowData );
 
@@ -814,10 +818,16 @@ int QOSProcessor::delRule( Rule *r )
 
 		try
 		{
+
 			// dismantle flow data structure with module function
 			a.mapi->destroyFlowSetup( ruleId, action_id, a.params, r->getFilter(), a.flowData );
 
 			log->log(ch, "Sucessfully destroy the flow setup");
+
+			assert (a.flowid > 1);
+			log->log(ch, "Rule:%d action %d - Flow id to destroy:%d",ruleId, action_id, a.flowid);
+			idSource.freeId(a.flowid);
+
 
 			if (a.params != NULL) {
 				saveDeleteArr(a.params);
@@ -1028,6 +1038,9 @@ void QOSProcessor::timeout(int rid, int actid, unsigned int tmID)
 
 		try
 		{
+			assert (a->flowid > 0);
+			idSource.freeId(a->flowid);
+
 			// dismantle flow data structure with module function
 			a->mapi->destroyFlowSetup(rid, actid, a->params, r->getFilter(), a->flowData );
 

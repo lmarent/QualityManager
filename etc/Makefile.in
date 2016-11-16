@@ -82,7 +82,8 @@ host_triplet = @host@
 @ENABLE_SSL_TRUE@am__append_1 = netqos.pem
 subdir = etc
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(srcdir)/netqos_conf.xml.in $(dist_sysconf_DATA)
+	$(srcdir)/netqos_conf.xml.in $(srcdir)/netqos_conf_test.xml.in \
+	$(dist_sysconf_DATA)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -92,7 +93,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = netqos_conf.xml
+CONFIG_CLEAN_FILES = netqos_conf.xml netqos_conf_test.xml
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -308,8 +309,9 @@ dist_sysconf_DATA = netqos_conf.dtd filterdef.dtd filterdef.xml \
 		    example_rules1.xml example_rules2.xml example_rules3.xml \
 		    main.html 
 
-nodist_sysconf_DATA = netqos_conf.xml
-DISTCLEANFILES = gen_cert.sh netqos_conf.xml $(am__append_1)
+nodist_sysconf_DATA = netqos_conf.xml netqos_conf_test.xml
+DISTCLEANFILES = gen_cert.sh netqos_conf.xml netqos_conf_test.xml \
+	$(am__append_1)
 @ENABLE_SSL_TRUE@nodist_bin_SCRIPTS = gen_cert.sh 
 all: all-am
 
@@ -345,6 +347,8 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 netqos_conf.xml: $(top_builddir)/config.status $(srcdir)/netqos_conf.xml.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+netqos_conf_test.xml: $(top_builddir)/config.status $(srcdir)/netqos_conf_test.xml.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-nodist_binSCRIPTS: $(nodist_bin_SCRIPTS)
 	@$(NORMAL_INSTALL)

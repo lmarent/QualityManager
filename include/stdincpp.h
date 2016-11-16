@@ -6,20 +6,20 @@
 
     This file is part of Network Measurement and Accounting System (NETMATE).
 
-    NETMATE is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETMATE is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETMATE is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETMATE is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- 
+
     Description:
     Include this file (stdincpp) in every .h file.\n
     This .h file includes all the C++ standard include
@@ -32,7 +32,7 @@
 #ifndef __STDINCPP_H
 #define __STDINCPP_H
 
-extern "C" 
+extern "C"
 {
 #include "stdinc.h"
 }
@@ -44,6 +44,7 @@ extern "C"
 #include <vector>
 #include <deque>
 #include <map>
+#include <assert.h>
 #if (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 0))
 // dont need include
 #else
@@ -69,12 +70,12 @@ using namespace __gnu_cxx;
 
 using namespace std;
 
-// definition of 'safeDelete' and 'safeDeleteArr' as 
+// definition of 'safeDelete' and 'safeDeleteArr' as
 // a safer replacement for delete and delete []
 
 // Put an assert to check if x is NULL, this is to catch
-// program "logic" errors early. Even though delete works 
-// fine with NULL by using assert you are actually catching 
+// program "logic" errors early. Even though delete works
+// fine with NULL by using assert you are actually catching
 // "bad code" very early
 // Defining saveDelete using templates
 template <class T>
@@ -89,7 +90,7 @@ inline void saveDelete(T*& x) {
      delete x;
      x = NULL;
 }
-// For delete array 
+// For delete array
 template <class T>
 inline void saveDeleteArr(T& x) {
      assert(x != NULL);
@@ -100,23 +101,23 @@ inline void saveDeleteArr(T& x) {
 // tolower (string)
 #if (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 0))
 struct ToLower {
-   
+
   private:
     std::locale loc;
 
   public:
-    ToLower () 
+    ToLower ()
         : loc(std::locale("C")) {;}
-    
+
     char operator() (char c)  { return std::tolower(c,loc); }
- 
+
 };
-#else 
+#else
 struct ToLower {
     ToLower () {;}
     char operator() (char c)  { return std::tolower(c); }
   private:
-  
+
 };
 #endif
 

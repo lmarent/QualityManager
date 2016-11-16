@@ -19,7 +19,7 @@ class QualityManager_Test;
 
 /*
  * We use a subclass for testing and make the test case a friend. This
- * way the test cases have access to protected methods. 
+ * way the test cases have access to protected methods.
  */
 class qualitymanager_test : public QualityManager {
   public:
@@ -41,12 +41,12 @@ class QualityManager_test : public CppUnit::TestFixture {
 	void setUp();
 	void tearDown();
 	void test();
-	
+
 
   private:
-    
+
 	qualitymanager_test *qualitymanagerPtr;
-    
+
 };
 
 #ifndef ENABLE_THREADS
@@ -55,17 +55,17 @@ CPPUNIT_TEST_SUITE_REGISTRATION( QualityManager_test );
 
 #endif
 
-void QualityManager_test::setUp() 
+void QualityManager_test::setUp()
 {
 
 
-	string commandLine = "qualityManager -c " DEF_SYSCONFDIR "/netqos_conf.xml";
-	
+	string commandLine = "qualityManager -c " DEF_SYSCONFDIR "/netqos_conf_test.xml";
+
 	cout << "commandLine:" << commandLine << endl;
-	
+
 	char *cstr = new char[commandLine.length() + 1];
 	strcpy(cstr, commandLine.c_str());
-	
+
 	enum { kMaxArgs = 64 };
 	int argc = 0;
 	char *argv[kMaxArgs];
@@ -77,19 +77,19 @@ void QualityManager_test::setUp()
 		p2 = strtok(0, " ");
 	}
 	argv[argc] = 0;
-		
+
 	try
 	{
         // start up the netqos (this blocks until Ctrl-C !)
         qualitymanagerPtr = new qualitymanager_test(argc, argv);
-        
+
     } catch (Error &e) {
         cout << "Terminating Quality Manager on error: " << e.getError() << endl;
     }
-				
+
 }
 
-void QualityManager_test::tearDown() 
+void QualityManager_test::tearDown()
 {
 	try
     {
@@ -100,53 +100,53 @@ void QualityManager_test::tearDown()
     }
 }
 
-void QualityManager_test::test() 
+void QualityManager_test::test()
 {
-    
+
     Event * evt = NULL;
-    
+
 	try
 	{
 
         // going into main loop
          if (qualitymanagerPtr != NULL){
-             
-            cout << "Log level configured is:" << qualitymanagerPtr->log->getLogLevel() << endl; 
-             
-			evt = qualitymanagerPtr->evnt.get()->getNextEvent();
-			
-			// Verifies that a new add auctions event was generated			
-			AddRulesEvent *aae = dynamic_cast<AddRulesEvent *>(evt);
-			CPPUNIT_ASSERT( aae != NULL );
-			
-			// Process the add rules event.
-			qualitymanagerPtr->handleEvent(evt, NULL);
-			
-            // delete the memory allocated to this event.
-            qualitymanagerPtr->evnt.get()->reschedNextEvent(evt);
-            
-			// Verifies the number of rules
-			CPPUNIT_ASSERT( qualitymanagerPtr->rulm->getNumRules() == 1);
-			
+
+            cout << "Log level configured is:" << qualitymanagerPtr->log->getLogLevel() << endl;
+
 			evt = qualitymanagerPtr->evnt.get()->getNextEvent();
 
-			// Verifies that a new active rules event was generated			
+			// Verifies that a new add rules event was generated
+			AddRulesEvent *aae = dynamic_cast<AddRulesEvent *>(evt);
+			CPPUNIT_ASSERT( aae != NULL );
+
+			// Process the add rules event.
+			qualitymanagerPtr->handleEvent(evt, NULL);
+
+            // delete the memory allocated to this event.
+            qualitymanagerPtr->evnt.get()->reschedNextEvent(evt);
+
+			// Verifies the number of rules
+			CPPUNIT_ASSERT( qualitymanagerPtr->rulm->getNumRules() == 1);
+
+			evt = qualitymanagerPtr->evnt.get()->getNextEvent();
+
+			// Verifies that a new active rules event was generated
 			ActivateRulesEvent *are = dynamic_cast<ActivateRulesEvent *>(evt);
 			CPPUNIT_ASSERT( are != NULL );
-            
+
 			// Process the active rules event.
 			qualitymanagerPtr->handleEvent(evt, NULL);
 
             // delete the memory allocated to this event.
             qualitymanagerPtr->evnt.get()->reschedNextEvent(evt);
-            
+
 			// Verifies the number of rules
 			CPPUNIT_ASSERT( qualitymanagerPtr->proc->getNumRules() == 1);
 
 			RemoveRulesEvent *rre = NULL;
             evt = qualitymanagerPtr->evnt.get()->getNextEvent();
 			while ( evt != NULL ){
-                
+
                 rre = dynamic_cast<RemoveRulesEvent *>(evt);
                 if (rre != NULL)
                 {
@@ -157,19 +157,19 @@ void QualityManager_test::test()
                     cout << eventNames[evt->getType()].c_str() << endl;
                     // delete the memory allocated to this event.
                     qualitymanagerPtr->evnt.get()->reschedNextEvent(evt);
-                    evt = qualitymanagerPtr->evnt.get()->getNextEvent();                     
+                    evt = qualitymanagerPtr->evnt.get()->getNextEvent();
                 }
-			}			
+			}
 
             CPPUNIT_ASSERT( rre != NULL );
-            
+
             qualitymanagerPtr->handleEvent(evt, NULL);
-            
+
             CPPUNIT_ASSERT( qualitymanagerPtr->proc->getNumRules() == 0);
             CPPUNIT_ASSERT( qualitymanagerPtr->rulm->getNumRules() == 0);
-            
+
 		 }
-		
+
 	} catch(Error &e){
 		std::cout << "Error:" << e.getError() << std::endl << std::flush;
 	}

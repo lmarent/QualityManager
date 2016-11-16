@@ -30,9 +30,9 @@ class QosProcessor_Test : public CppUnit::TestFixture {
   public:
 	void setUp();
 	void tearDown();
-    
+
     void testCheckOkRules();
-    void testCheckNonOkRules();    
+    void testCheckNonOkRules();
     void testAddDeleteRules();
 
   private:
@@ -45,8 +45,8 @@ class QosProcessor_Test : public CppUnit::TestFixture {
 
       //! logging channel number used by objects of this class
       int ch;
-	  
-    
+
+
 };
 
 #ifndef ENABLE_THREADS
@@ -56,7 +56,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( QosProcessor_Test );
 #endif
 
 
-void QosProcessor_Test::setUp() 
+void QosProcessor_Test::setUp()
 {
 
 	try
@@ -64,7 +64,7 @@ void QosProcessor_Test::setUp()
 		string commandLine = "qualityManager";
 		char *cstr = new char[commandLine.length() + 1];
 		strcpy(cstr, commandLine.c_str());
-		
+
 		enum { kMaxArgs = 64 };
 		int argc = 0;
 		char *argv[kMaxArgs];
@@ -76,12 +76,12 @@ void QosProcessor_Test::setUp()
 			p2 = strtok(0, " ");
 		}
 		argv[argc] = 0;
-					
+
 		const string configDTD = DEF_SYSCONFDIR "/netqos_conf.dtd";
 		const string configFileName = NETQOS_DEFAULT_CONFIG_FILE;
 		conf = new ConfigManager(configDTD, configFileName, argv[0]);
 
-        log = Logger::getInstance(); 	
+        log = Logger::getInstance();
         ch = log->createChannel("QoSProcessor_test");
 
         // set logging vebosity level if configured
@@ -89,25 +89,25 @@ void QosProcessor_Test::setUp()
         if (!verbosity.empty()) {
             log->setLogLevel( ParserFcts::parseInt( verbosity, -1, 4 ) );
         }
-				
+
 
 		qosProcessorPtr = new QOSProcessor( conf , 1);
 
 
-        rulem =  new RuleManager(conf->getValue("FilterDefFile", "MAIN"), 
+        rulem =  new RuleManager(conf->getValue("FilterDefFile", "MAIN"),
                             conf->getValue("FilterConstFile", "MAIN"));
-  
+
         evnt = new EventScheduler();
-				        
+
 	}
 	catch(Error &e){
 		cout << "Error:" << e.getError() << endl << flush;
 		throw e;
 	}
-		
+
 }
 
-void QosProcessor_Test::tearDown() 
+void QosProcessor_Test::tearDown()
 {
 
     log->log(ch, "starting teardown");
@@ -124,41 +124,41 @@ void QosProcessor_Test::tearDown()
     // delete the rule manager.
     if (rulem != NULL)
         delete(rulem);
-    
+
     log->log(ch, "after deleting ruleManager");
-            
+
     // delete the event schedule.
     if (evnt != NULL)
         delete(evnt);
-        
+
     log->log(ch, "after deleting evnt scheduler");
 }
 
 void QosProcessor_Test::testCheckOkRules()
 {
     ruleDB_t *new_rules = NULL;
-    
+
     try
     {
-        
+
         log->log(ch, "starting testCheckOkRules");
-        
+
         const string ruleFile = DEF_SYSCONFDIR "/example_rules1.xml";
         new_rules = rulem->parseRules(ruleFile);
-    
+
         log->log(ch, "after loading the rules");
         qosProcessorPtr->checkRules(new_rules, evnt);
-    
-    
+
+
         ruleDBIter_t it;
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
             Rule *rule = *it;
-            log->log(ch, "Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());        
+            log->log(ch, "Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
             CPPUNIT_ASSERT( rule->getState() == RS_VALID );
         }
 
-        // Release the memory created. 
+        // Release the memory created.
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
             Rule *rule = *it;
@@ -166,9 +166,9 @@ void QosProcessor_Test::testCheckOkRules()
         }
 
         saveDelete(new_rules);
-        
+
         log->log(ch, "ending testCheckOkRules");
-        
+
     }
     catch (Error &e)
     {
@@ -181,29 +181,29 @@ void QosProcessor_Test::testCheckOkRules()
 void QosProcessor_Test::testCheckNonOkRules()
 {
     ruleDB_t *new_rules = NULL;
-    
+
     try
     {
-        
+
         log->log(ch, "starting testCheckNonOkRules");
-        
+
         const string ruleFile = DEF_SYSCONFDIR "/example_rules2.xml";
         new_rules = rulem->parseRules(ruleFile);
-    
+
         log->log(ch, "numRules %d", (int) new_rules->size() );
-    
+
         qosProcessorPtr->checkRules(new_rules, evnt);
-    
+
         ruleDBIter_t it;
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
-            Rule *rule = *it;      
+            Rule *rule = *it;
             log->log(ch, "Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
             CPPUNIT_ASSERT( rule->getState() == RS_ERROR );
         }
 
 
-        // Release the memory created. 
+        // Release the memory created.
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
             Rule *rule = *it;
@@ -213,7 +213,7 @@ void QosProcessor_Test::testCheckNonOkRules()
         saveDelete(new_rules);
 
         log->log(ch, "ending testCheckNonOkRules");
-        
+
     }
     catch (Error &e)
     {
@@ -228,50 +228,54 @@ void QosProcessor_Test::testAddDeleteRules()
 
 
     ruleDB_t *new_rules = NULL;
-    
+
     try
     {
-        
-        log->log(ch, "starting testAddRules");
-        
+
         const string ruleFile = DEF_SYSCONFDIR "/example_rules1.xml";
+
+        log->log(ch, "starting testAddRules rules_file:%s", ruleFile.c_str());
+
         new_rules = rulem->parseRules(ruleFile);
-    
+
         log->log(ch, "numRules %d", (int) new_rules->size() );
-    
+
         qosProcessorPtr->checkRules(new_rules, evnt);
-        
+
         log->log(ch, "numRules %d", (int) new_rules->size() );
 
         ruleDBIter_t it;
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
-            Rule *rule = *it;      
+            Rule *rule = *it;
             log->log(ch, "Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
         }
 
-        
+		cout << "after checking the rules" << endl;
+
         qosProcessorPtr->addRules(new_rules, evnt);
 
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
-            Rule *rule = *it;      
+            Rule *rule = *it;
             log->log(ch, "Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
             CPPUNIT_ASSERT( rule->getState() == RS_ACTIVE );
         }
 
+		cout << "after adding the rules" << endl;
 
         qosProcessorPtr->delRules(new_rules, evnt);
 
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
-            Rule *rule = *it;      
+            Rule *rule = *it;
             log->log(ch, "Rule %s.%s - Status:%d", rule->getSetName().c_str(), rule->getRuleName().c_str(), (int) rule->getState());
             CPPUNIT_ASSERT( rule->getState() == RS_DONE );
         }
 
+		cout << "after deleting the rules" << endl;
 
-        // Release the memory created. 
+        // Release the memory created.
         for (it = new_rules->begin(); it != new_rules->end(); ++it)
         {
             Rule *rule = *it;
@@ -281,13 +285,13 @@ void QosProcessor_Test::testAddDeleteRules()
         saveDelete(new_rules);
 
         log->log(ch, "ending testAddRules");
-        
+
     }
     catch (Error &e)
     {
         cout << "Error:" << e.getError() << endl;
     }
-    
+
 
 }
 

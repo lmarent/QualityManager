@@ -110,6 +110,7 @@ am_test_runner_OBJECTS = @top_srcdir@/src/Error.$(OBJEXT) \
 	@top_srcdir@/src/Module.$(OBJEXT) \
 	@top_srcdir@/src/Timeval.$(OBJEXT) \
 	@top_srcdir@/src/Event.$(OBJEXT) \
+	@top_srcdir@/src/FlowIdSource.$(OBJEXT) \
 	@top_srcdir@/src/QualityManagerInfo.$(OBJEXT) \
 	@top_srcdir@/src/CtrlComm.$(OBJEXT) \
 	@top_srcdir@/src/constants_qos.$(OBJEXT) \
@@ -574,6 +575,7 @@ test_runner_SOURCES = @top_srcdir@/src/Error.cpp \
 					  @top_srcdir@/src/Module.cc \
 					  @top_srcdir@/src/Timeval.cpp  \
 					  @top_srcdir@/src/Event.cpp \
+					  @top_srcdir@/src/FlowIdSource.cpp \
 					  @top_srcdir@/src/QualityManagerInfo.cpp \
 					  @top_srcdir@/src/CtrlComm.cpp \
 					  @top_srcdir@/src/constants_qos.cpp \
@@ -698,6 +700,9 @@ clean-checkPROGRAMS:
 	@top_srcdir@/src/$(DEPDIR)/$(am__dirstamp)
 @top_srcdir@/src/Event.$(OBJEXT): @top_srcdir@/src/$(am__dirstamp) \
 	@top_srcdir@/src/$(DEPDIR)/$(am__dirstamp)
+@top_srcdir@/src/FlowIdSource.$(OBJEXT):  \
+	@top_srcdir@/src/$(am__dirstamp) \
+	@top_srcdir@/src/$(DEPDIR)/$(am__dirstamp)
 @top_srcdir@/src/QualityManagerInfo.$(OBJEXT):  \
 	@top_srcdir@/src/$(am__dirstamp) \
 	@top_srcdir@/src/$(DEPDIR)/$(am__dirstamp)
@@ -785,6 +790,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/FilterDefParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/FilterValParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/FilterValue.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/FlowIdSource.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/Logger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/MAPIRuleParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@@top_srcdir@/src/$(DEPDIR)/Module.Po@am__quote@
