@@ -100,6 +100,8 @@ int httpd_send_response(struct REQUEST *req, fd_sets_t *fds)
 {
     time_t now;
 
+	fprintf(stdout,"httpd_send_response: req state %d\n",req->state);
+
     if (req->body != NULL) {
         now = time(NULL);
         req->lbody = strlen(req->body);
@@ -108,6 +110,10 @@ int httpd_send_response(struct REQUEST *req, fd_sets_t *fds)
     } else {
         mkerror(req,500,1);
     }
+
+    char buff[100];
+    strftime (buff, 100, "%Y-%m-%d %H:%M:%S.000", localtime (&now));
+	fprintf(stdout,"%s - httpd_send_response - after mkheader: req state %d \n",buff, req->state);
 
     if (req->state == STATE_WRITE_HEADER) {
         // switch to writing
@@ -248,7 +254,11 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             req->ping = now;
         }
 
-        if ((wset != NULL) && FD_ISSET(req->fd, wset)) {
+        if ((wset != NULL) && FD_ISSET(req->fd, wset))
+        {
+		    now = time(NULL);
+		    strftime (buff, 100, "%Y-%m-%d %H:%M:%S.000", localtime (&now));
+			fprintf(stdout, "%s - ready to write response request \n", buff);
             write_request(req);
             req->ping = now;
         }
@@ -296,13 +306,14 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             write_request(req);
         }
 
-        fprintf(stdout, "parsing message abc \n");
-
         /* handle finished requests */
         if (req->state == STATE_FINISHED && !req->keep_alive) {
             req->state = STATE_CLOSE;
         }
         if (req->state == STATE_FINISHED) {
+
+			fprintf(stdout, "to manage state finished \n");
+
             /* access log hook */
             if (log_request_func != NULL) {
                 log_request_func(req, now);
@@ -390,10 +401,12 @@ int httpd_handle_event(fd_set *rset, fd_set *wset, fd_sets_t *fds)
             }
         }
 
-        fprintf(stdout, "to close connection");
 
         /* connections to close */
         if (req->state == STATE_CLOSE) {
+
+			fprintf(stdout, "to close connection \n");
+
             /* access log hook */
             /*if (log_request_func != NULL) {
                 log_request_func(req, now);

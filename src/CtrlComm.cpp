@@ -333,9 +333,9 @@ void CtrlComm::sendMsg(string msg, struct REQUEST *req, fd_sets_t *fds, int quot
 
     rep.replace(rep.find("@STATUS@"), strlen("@STATUS@"), "OK");
     rep.replace(rep.find("@MESSAGE@"), strlen("@MESSAGE@"), (quote) ? xmlQuote(msg) : msg);
-#ifdef DEBUG2
-    cerr << rep;
-#endif
+
+    log->dlog(ch, "send Msg: %s", rep.c_str());
+
     req->body = strdup(rep.c_str());
     req->mime = "text/xml";
     httpd_send_response(req, fds);
@@ -348,9 +348,9 @@ void CtrlComm::sendErrMsg(string msg, struct REQUEST *req, fd_sets_t *fds)
 
     rep.replace(rep.find("@STATUS@"), strlen("@STATUS@"), "Error");
     rep.replace(rep.find("@MESSAGE@"), strlen("@MESSAGE@"), xmlQuote(msg));
-#ifdef DEBUG2
-    cerr << rep;
-#endif
+
+	log->dlog(ch, "send Error Msg: %s", rep.c_str());
+
     req->body = strdup(rep.c_str());
     req->mime = "text/xml";
     if (fds != NULL) {
@@ -376,7 +376,6 @@ int CtrlComm::handleFDEvent(eventVec_t *e, fd_set *rset, fd_set *wset, fd_sets_t
     int http_handle = httpd_handle_event(rset, wset, fds);
 
     if (http_handle < 0) {
-		cout << "ERROR HANDLING THE EVENT" << endl;
 		throw Error("ctrlcomm handle event error");
 	}
 

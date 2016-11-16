@@ -530,8 +530,7 @@ void parse_request(struct REQUEST *req, char *server_host)
 
     /* check basic user auth */
     if (access_check_func != NULL) {
-		fprintf(stdout, "user given:" );
-		fprintf(stdout, req->auth );
+		fprintf(stdout, "user given:%s \n", req->auth );
         if (access_check_func(NULL, req->auth) < 0) {
             mkerror(req,401,1);
             return;
@@ -543,18 +542,18 @@ void parse_request(struct REQUEST *req, char *server_host)
     /* generate the resource name */
     h = filename -1 +sprintf(filename,"%s", req->path);
 
-	fprintf(stdout, "It is going to read the body");
+	fprintf(stdout, "It is going to read the body \n");
 
     /* immediatly read available body (part) */
     while (read_body(req, 0) > 0);
 
-	fprintf(stdout, "parse request - after reading the body");
+	fprintf(stdout, "parse request - after reading the body \n");
 
     if (strcmp(req->type,"POST") == 0) {
         if (strcmp(req->ctype,"application/x-www-form-urlencoded") == 0) {
             if (req->lbreq < req->clen) {
                 /* read rest of body */
-                fprintf(stdout, "parse request - we need to read the rest of the body");
+                fprintf(stdout, "parse request - we need to read the rest of the body \n");
                 req->state = STATE_READ_BODY;
                 return;
             }

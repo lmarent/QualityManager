@@ -499,9 +499,7 @@ void QualityManager::handlerAddRulesCntrlCommNonThreads(Event *e, fd_sets_t *fds
 
     try {
 
-#ifdef DEBUG
-        log->dlog(ch,"processing event add rules by controlcomm" );
-#endif
+        log->dlog(ch,"processing event add rules by controlcomm non threads" );
 
         new_rules = rulm->parseRulesBuffer(
                 ((AddRulesCtrlEvent *)e)->getBuf(),
@@ -529,10 +527,15 @@ void QualityManager::handlerAddRulesCntrlCommNonThreads(Event *e, fd_sets_t *fds
         // schedule for activation and removal
         rulm->addRules(new_rules, evnt.get());
 
+
+		log->dlog(ch,"rules sucessfully inserted in the rule management");
+
         // Response to the entity triggering the event.
         comm->sendMsg("rule(s) added", ((AddRulesCtrlEvent *)e)->getReq(), fds);
+
         saveDelete(new_rules);
 
+		log->dlog(ch,"Ending event add rules by controlcomm non threads");
     }
     catch (Error &err)
     {
