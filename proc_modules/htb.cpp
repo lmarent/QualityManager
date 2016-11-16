@@ -84,7 +84,7 @@ static const char *param_names[] = {
     ( 0 )
 };
 
-/* mapping table, map mcl parameter to netfilter modules paramter */
+/* mapping table, map mcl parameter to netfilter modules parameter */
 
 struct opt_map {
     const char *mcl;
@@ -527,7 +527,7 @@ void modify_filter( int flowId, filterList_t *filters,
 
 		// Allocate the new classifier.
 		err = create_u32_classifier(sk, nllink, &cls, prio,
-									NET_ROOT_HANDLE_MAJOR, 0,
+											NET_ROOT_HANDLE_MAJOR, 0,
 									NET_ROOT_HANDLE_MAJOR, flowId, htid, hashkey );
 
 		if ( err != NET_TC_SUCCESS )
@@ -644,7 +644,8 @@ ok:
 
 
 
-void initFlowSetup( configParam_t *params,
+void initFlowSetup( int rule_id,
+					int action_id, configParam_t *params,
 					filterList_t *filters, void **flowdata)
 {
 
@@ -709,12 +710,14 @@ void initFlowSetup( configParam_t *params,
 #endif
 
 
-	 if ( numparams == MOD_INI_FLOW_REQUIRED_PARAMS ){
+	 if ( numparams == MOD_INI_FLOW_REQUIRED_PARAMS )
+	 {
 		 uint32_t quantum = 10;
 		 err = class_add_HTB(sk, nllink, flowId, rate, rate,
 							 burst, burst, priority, quantum);
 
-	     if ( err == NET_TC_SUCCESS ){
+	     if ( err == NET_TC_SUCCESS )
+	     {
 			data->currTimers[0].ival_msec = 1000 * duration;
 			modify_filter(flowId, filters, bidir, TC_FILTER_ADD);
 			bandwidth_available = bandwidth_available - rate;
@@ -796,7 +799,8 @@ int checkBandWidth( configParam_t *params )
 	return NET_TC_RATE_AVAILABLE_ERROR;
 }
 
-void destroyFlowSetup( configParam_t *params,
+void destroyFlowSetup( int rule_id, int action_id,
+					   configParam_t *params,
 					   filterList_t *filters,
 					   void *flowdata )
 {

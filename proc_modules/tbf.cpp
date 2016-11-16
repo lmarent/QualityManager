@@ -5,18 +5,18 @@
 
     This file is part of Network Measurement and Accounting System (NETQoS).
 
-    NETQoS is free software; you can redistribute it and/or modify 
-    it under the terms of the GNU General Public License as published by 
+    NETQoS is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
 
-    NETQoS is distributed in the hope that it will be useful, 
-    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    NETQoS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this software; if not, write to the Free Software 
+    along with this software; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
     Description:
@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include "arpa/inet.h"
 #include <sys/types.h>
-#include <time.h>     
+#include <time.h>
 #include <iostream>
 
 #include "ProcError.h"
@@ -75,20 +75,20 @@ void destroyModule( configParam_t *params )
 }
 
 
-void initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdata )
+void initFlowSetup( int rule_id, int action_id, configParam_t *params, filterList_t *filters, void **flowdata )
 {
 	accData_t *data;
 
     data = (accData_t *) malloc( sizeof(accData_t) );
 
-    if (data == NULL ) 
-        throw ProcError(NET_TC_PARAMETER_ERROR, 
+    if (data == NULL )
+        throw ProcError(NET_TC_PARAMETER_ERROR,
 							"TBF Flow init - allocation flow data error");
-    
+
 
     /* copy default timers to current timers array for a specific task */
     memcpy(data->currTimers, timers, sizeof(timers));
-    
+
     while (params[0].name != NULL) {
         if (!strcmp(params[0].name, "Priority")) {
             int _priority= atoi(params[0].value);
@@ -112,7 +112,7 @@ void initFlowSetup( configParam_t *params, filterList_t *filters, void **flowdat
 
         params++;
     }
-    
+
     *flowdata = data;
 
 #ifdef DEBUG
@@ -138,9 +138,9 @@ int checkBandWidth( configParam_t *params )
 
     uint64_t rate;
     int numparams = 0;
-    
+
     while (params[0].name != NULL) {
-		
+
         if (!strcmp(params[0].name, "Rate")) {
             rate = parseLong(params[0].value);
 			numparams++;
@@ -148,18 +148,18 @@ int checkBandWidth( configParam_t *params )
         }
         params++;
      }
-	
+
 	if (numparams == 1){
 		if (( bandwidth_available - rate ) >= 0)
 			return 0;
 		else
 			return NET_TC_RATE_AVAILABLE_ERROR;
 	}
-	
+
 	return NET_TC_RATE_AVAILABLE_ERROR;
 }
 
-void destroyFlowSetup( configParam_t *params, filterList_t *filters, void *flowdata )
+void destroyFlowSetup( int rule_id, int action_id, configParam_t *params, filterList_t *filters, void *flowdata )
 {
 	accData_t *data = (accData_t *)flowdata;
 	free( data );
@@ -181,7 +181,7 @@ const char* getModuleInfo(int i)
     case I_CREATED:    return "2015/03/09";
     case I_MODIFIED:   return "2015/03/09";
     case I_BRIEF:      return "rules to setup bandwidth ";
-    case I_VERBOSE:    return "rules to setup bandwidth "; 
+    case I_VERBOSE:    return "rules to setup bandwidth ";
     case I_HTMLDOCS:   return "http://www.uniandes.edu.co/... ";
     case I_PARAMS:     return "Priority[int] : priority to setup";
     case I_RESULTS:    return "results description = ...";
