@@ -198,14 +198,23 @@ std::string getNewRule(int rule)
     return convert.str();
 }
 
+std::string getNewPort(int dst_port)
+{
+    int port = dst_port;
+    std::ostringstream convert;
+    convert << port;
+    return convert.str();
+}
+
+
 std::string getRate()
 {
 
-    int maxValue = 15000;
+    int maxValue = 8500;
 
     srand((unsigned int) time (NULL)); //activates the generator
     //...
-    int rate = rand()%maxValue;        //gives a random from 0 to 9
+    int rate = rand()%maxValue;        //gives a random from 0 to 15000
 
 	rate = maxValue;
 
@@ -224,54 +233,110 @@ void replace_rule_set(std::string &str)
 
 }
 
-void replace_rule_id(int rule, std::string &str)
+void replace_rule_id_uplink(int rule, std::string &str)
 {
      std::string rule_id = getNewRule(rule);
-     std::size_t found = str.find("rule_id_param");
+     std::size_t found = str.find("rule_id_param1");
      if (found!=std::string::npos)
-        str.replace(found, std::string("rule_id_param").size(), rule_id);
+        str.replace(found, std::string("rule_id_param1").size(), rule_id);
 }
 
-void replace_ip_address(std::string ip_address, std::string &str)
+void replace_ip_address_uplink(std::string ip_address, std::string &str)
 {
-     std::size_t found = str.find("ip_address_param");
+     std::size_t found = str.find("ip_address_param1");
      if (found!=std::string::npos)
-        str.replace(found, std::string("ip_address_param").size(), ip_address);
+        str.replace(found, std::string("ip_address_param1").size(), ip_address);
 }
 
-void replace_rate(std::string &str)
+void replace_dst_port_uplink(int dst_port, std::string &str)
+{
+ 	std::string dst_port_str =  getNewPort(dst_port);
+ 	std::size_t found = str.find("dst_port_param1");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("dst_port_param1").size(), dst_port_str);
+}
+
+void replace_rate_uplink(std::string &str)
 {
      std::string rate_str = getRate();
-     std::size_t found = str.find("rate_param");
+     std::size_t found = str.find("rate_param1");
      if (found!=std::string::npos)
-        str.replace(found, std::string("rate_param").size(), rate_str);
+        str.replace(found, std::string("rate_param1").size(), rate_str);
 }
 
-void replace_burst(std::string &str)
+void replace_burst_uplink(std::string &str)
 {
      std::string burst_str("1500");
-     std::size_t found = str.find("burst_param");
+     std::size_t found = str.find("burst_param1");
      if (found!=std::string::npos)
-        str.replace(found, std::string("burst_param").size(), burst_str);
+        str.replace(found, std::string("burst_param1").size(), burst_str);
 }
 
-void replace_priority(std::string &str)
+void replace_priority_uplink(std::string &str)
 {
      std::string priority_str("2");
-     std::size_t found = str.find("priority_param");
+     std::size_t found = str.find("priority_param1");
      if (found!=std::string::npos)
-        str.replace(found, std::string("priority_param").size(), priority_str);
+        str.replace(found, std::string("priority_param1").size(), priority_str);
 }
 
-void replace_duration(std::string &str)
+void replace_duration_uplink(std::string &str)
 {
      std::string duration_str("30");
-     std::size_t found = str.find("duration_param");
+     std::size_t found = str.find("duration_param1");
      if (found!=std::string::npos)
-        str.replace(found, std::string("duration_param").size(), duration_str);
+        str.replace(found, std::string("duration_param1").size(), duration_str);
 }
 
-int delete_rule(std::string host, int host_port, int rule)
+
+void replace_rule_id_downlink(int rule, std::string &str)
+{
+     std::string rule_id = getNewRule(rule);
+     std::size_t found = str.find("rule_id_param2");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("rule_id_param2").size(), rule_id);
+}
+
+void replace_ip_address_downlink(std::string ip_address, std::string &str)
+{
+     std::size_t found = str.find("ip_address_param2");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("ip_address_param2").size(), ip_address);
+}
+
+void replace_rate_downlink(std::string &str)
+{
+     std::string rate_str = getRate();
+     std::size_t found = str.find("rate_param2");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("rate_param2").size(), rate_str);
+}
+
+void replace_burst_downlink(std::string &str)
+{
+     std::string burst_str("1500");
+     std::size_t found = str.find("burst_param2");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("burst_param2").size(), burst_str);
+}
+
+void replace_priority_downlink(std::string &str)
+{
+     std::string priority_str("2");
+     std::size_t found = str.find("priority_param2");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("priority_param2").size(), priority_str);
+}
+
+void replace_duration_downlink(std::string &str)
+{
+     std::string duration_str("30");
+     std::size_t found = str.find("duration_param2");
+     if (found!=std::string::npos)
+        str.replace(found, std::string("duration_param2").size(), duration_str);
+}
+
+int delete_rule_set(std::string host, int host_port, int rule)
 {
 
   CURL *curl;
@@ -306,8 +371,8 @@ int delete_rule(std::string host, int host_port, int rule)
     url << "/rm_task"; // action
 
 
-    curl_easy_setopt(curl, CURLOPT_URL, (url.str()).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+    curl_easy_setopt(curl, CURLOPT_URL, (url.str()).c_str());
     curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
     curl_easy_setopt(curl, CURLOPT_DEBUGDATA, &config);
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
@@ -382,7 +447,7 @@ int delete_rule(std::string host, int host_port, int rule)
 
 }
 
-int post_rule(std::string clientaddress, std::string host, int host_port, std::string ruleFile, int rule)
+int post_rule_set(std::string clientaddress, std::string host, int host_port, std::string ruleFile, int ruleuplink, int ruledownlink, int dst_port)
 {
 
   CURL *curl;
@@ -420,8 +485,8 @@ int post_rule(std::string clientaddress, std::string host, int host_port, std::s
 
 
     // host:post/action
-    curl_easy_setopt(curl, CURLOPT_URL, (url.str()).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+    curl_easy_setopt(curl, CURLOPT_URL, (url.str()).c_str());
     curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, my_trace);
     curl_easy_setopt(curl, CURLOPT_DEBUGDATA, &config);
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
@@ -430,12 +495,24 @@ int post_rule(std::string clientaddress, std::string host, int host_port, std::s
 
     std::string bodyStr = strFile;
     replace_rule_set(bodyStr);
-    replace_ip_address(clientaddress, bodyStr);
-    replace_rule_id(rule, bodyStr);
-    replace_rate(bodyStr);
-    replace_burst(bodyStr);
-    replace_priority(bodyStr);
-    replace_duration(bodyStr);
+
+    // Replace fields associated with the uplink
+    replace_ip_address_uplink(clientaddress, bodyStr);
+    replace_rule_id_uplink(ruleuplink, bodyStr);
+    replace_dst_port_uplink(dst_port, bodyStr);
+    replace_rate_uplink(bodyStr);
+    replace_burst_uplink(bodyStr);
+    replace_priority_uplink(bodyStr);
+    replace_duration_uplink(bodyStr);
+
+    // Replace fields associated with the downlink
+    replace_ip_address_downlink(clientaddress, bodyStr);
+    replace_rule_id_downlink(ruledownlink, bodyStr);
+    replace_rate_downlink(bodyStr);
+    replace_burst_downlink(bodyStr);
+    replace_priority_downlink(bodyStr);
+    replace_duration_downlink(bodyStr);
+
 
     std::cout << "Body:" << bodyStr << std::endl;
 
@@ -463,6 +540,7 @@ int post_rule(std::string clientaddress, std::string host, int host_port, std::s
     struct curl_slist *headers = NULL;
 
     headers = curl_slist_append(headers, "Accept: text/plain");
+    headers = curl_slist_append(headers, "Expect:");
 
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
@@ -501,7 +579,7 @@ int post_rule(std::string clientaddress, std::string host, int host_port, std::s
 
   }
 
-  return rule;
+  return 0;
 
 }
 
@@ -558,14 +636,20 @@ int main(int argc, char *argv[])
 		args->add('C', "ClientAddres", "<clientAddres>", "use alternative client address",
 					  "MAIN", "caddr");
 
-		args->add('H', "HostAddres", "<hostAddres>", "use alternative host address",
-					  "MAIN", "haddr");
+		args->add('H', "RuleManagerAddres", "<rhostAddres>", "use alternative rule manager address",
+					  "MAIN", "raddr");
 
-		args->add('P', "HostPort", "<portnumber>", "use alternative host port",
+		args->add('P', "RuleManagerPort", "<rportnumber>", "use alternative rule manager port",
+					  "MAIN", "rport");
+
+		args->add('U', "uplinkRuleId", "<uruleidnumber>", "use alternative uplink rule id number",
+					  "MAIN", "urid");
+
+		args->add('D', "downlinkRuleId", "<druleidnumber>", "use alternative downlink rule id number",
+					  "MAIN", "drid");
+
+		args->add('O', "HostPort", "<hportnumber>", "use alternative host port number",
 					  "MAIN", "hport");
-
-		args->add('I', "RuleId", "<ruleidnumber>", "use alternative rule id number",
-					  "MAIN", "rid");
 
 
 		// parse command line args
@@ -602,39 +686,72 @@ int main(int argc, char *argv[])
 			Error("Parameter hostaddress is required");
 		}
 
-		string hostport = args->getArgValue('P');
+		string ruleport = args->getArgValue('P');
+		if (ruleport.empty())
+		{
+			Error("Parameter rule port is required");
+		}
+
+		int r_port = atoi(ruleport.c_str());
+		if ((r_port <= 0) && (r_port > 65535)){
+			Error("Wrong rule port number");
+		}
+
+		int uplinkRule;
+
+		string uplinkRuleId = args->getArgValue('U');
+		if (uplinkRuleId.empty())
+		{
+
+			int maxRule = 65000;
+
+			srand((unsigned int) time (NULL)); //activates the generator
+
+			// Generates a rule id randomly.
+			uplinkRule = rand()%maxRule;        //gives a random from 0 to 650000
+
+		}
+		else
+		{
+			uplinkRule = atoi(uplinkRuleId.c_str());
+		}
+
+
+		int downlinkRule;
+
+		string downlinkRuleId = args->getArgValue('D');
+		if (downlinkRuleId.empty())
+		{
+
+			int maxRule = 65000;
+
+			srand((unsigned int) time (NULL)); //activates the generator
+
+			// Generates a rule id randomly.
+			downlinkRule = rand()%maxRule;        //gives a random from 0 to 650000
+
+		}
+		else
+		{
+			downlinkRule = atoi(downlinkRuleId.c_str());
+		}
+
+
+		string hostport = args->getArgValue('O');
 		if (hostport.empty())
 		{
 			Error("Parameter host port is required");
 		}
 
-		int i_port = atoi(hostport.c_str());
-		if ((i_port <= 0) && (i_port > 65535)){
-			Error("Wrong port number is required");
+		int h_port = atoi(hostport.c_str());
+		if ((h_port <= 0) && (h_port > 65535)){
+			Error("Wrong host port number");
 		}
 
-		int rule;
-
-		string ruleId = args->getArgValue('I');
-		if (ruleId.empty())
-		{
-
-			int maxRule = 650000;
-
-			srand((unsigned int) time (NULL)); //activates the generator
-
-			// Generates a rule id randomly.
-			rule = rand()%maxRule;        //gives a random from 0 to 650000
-
-		}
-		else
-		{
-			rule = atoi(ruleId.c_str());
-		}
 
 		cout << rulefile << endl;
 
-		rule = post_rule(clientaddress, hostaddress, i_port, rulefile, rule);
+		post_rule_set(clientaddress, hostaddress, r_port, rulefile, uplinkRule, downlinkRule, h_port);
 	}
 	catch(Error &err){
 		cout << err << endl;
