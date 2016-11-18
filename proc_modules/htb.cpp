@@ -313,7 +313,8 @@ void initModule( configParam_t *params )
 				throw ProcError(err, "Error creating the HTB root");
 
 			quantum = 1; // recommended for rates less than 12kbps
-			err = class_add_HTB(sk, nllink, NET_DEFAULT_CLASS, 1, 1, 1, 1, 1000, quantum);
+			//prio = 1000;
+			err = class_add_HTB(sk, nllink, NET_DEFAULT_CLASS, rate, rate, burst, burst, 1000, quantum);
 			if (err != 0)
 				throw ProcError(err, "Error creating the default root class");
 
@@ -460,11 +461,9 @@ int create_hask_key(filterList_t *filters)
 
 	for ( iter = filters->begin() ; iter != filters->end() ; iter++ )
 	{
-#ifdef DEBUG
-        fprintf( stdout, "htb - filter type: %s \n", (iter->type).c_str() );
-#endif
+        fprintf( stdout, "htb - filter name: %s \n", (iter->name).c_str() );
 
-		if ( (strcmp((iter->type).c_str(), "IPAddr") == 0) and
+		if ( (strcmp((iter->name).c_str(), "srcip") == 0) and
 		     ((iter->mtype) == FT_EXACT) )
 		{
 
@@ -500,9 +499,9 @@ void modify_filter( int flowId, filterList_t *filters,
 					   //		   takes the protocol and return the prio.
 	struct rtnl_cls *cls = NULL;
 
-#ifdef DEBUG
-	fprintf( stdout, "htb: ------------------------  init modify filter" );
-#endif
+// #ifdef DEBUG
+	fprintf( stdout, "htb: ------------------------  init modify filter \n" );
+// #endif
 
 	if (filters == NULL)
 		throw ProcError(NET_TC_PARAMETER_ERROR, "Filters given are null");
@@ -519,11 +518,13 @@ void modify_filter( int flowId, filterList_t *filters,
 		htid = NET_HASH_FILTER_TABLE;
 	}
 
-	fprintf( stdout, "htb: flowId:%d hash table: %d - hashkey %d ", flowId, htid, hashkey );
+	fprintf( stdout, "htb: flowId:%d hash table: %d - hashkey %d \n", flowId, htid, hashkey );
 
 
 	if (action == TC_FILTER_ADD)
 	{
+
+		fprintf( stdout, "htb: inside filter add ");
 
 		// Allocate the new classifier.
 		err = create_u32_classifier(sk, nllink, &cls, prio,
@@ -544,14 +545,9 @@ void modify_filter( int flowId, filterList_t *filters,
 		{
 			filter_t filter = *iter;
 
-	#ifdef DEBUG
-			cout << "name:" << filter.name << endl;
-			// cout << "offs:" << filter.offs << endl;
-			// cout << "roffs:" << filter.roffs << endl;
-			// cout << "len:" << filter.len << endl;
-			// cout << "cnt:" << filter.cnt << endl;
-			// cout << "filterType:" << filter.mtype << endl;
-	#endif
+	// #ifdef DEBUG
+			fprintf( stdout, "htb: filter name:%s offs:%d roffs:%d  len:%d type:%d NbrValues:%d \n", filter.name.c_str(), filter.offs, filter.roffs, filter.len, filter.mtype, filter.cnt);
+	// #endif
 
 			switch (filter.mtype)
 			{
@@ -568,6 +564,8 @@ void modify_filter( int flowId, filterList_t *filters,
 						 err = u32_add_key_filter(cls, (filter.value[index]).getValue(),
 										(filter.mask).getValue(), filter.len,
 										offset, maskoffset);
+
+						 fprintf(stdout, "htb: filter name:%s offset:%d roffset:%d maskoffset:%d error:%d \n", filter.name.c_str(), offset, roffset, maskoffset, err);
 
 						 if ( err == NET_TC_CLASSIFIER_SETUP_ERROR)
 						 {
@@ -605,8 +603,9 @@ void modify_filter( int flowId, filterList_t *filters,
 		else
 			goto ok;
 	}
-	else
+	else // action delete
 	{
+		fprintf( stdout, "htb: inside filter delete ");
 
 		// Allocate the new classifier.
 		err = delete_u32_classifier(sk, nllink, &cls, prio,

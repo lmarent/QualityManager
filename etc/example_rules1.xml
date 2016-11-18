@@ -9,7 +9,7 @@
   </GLOBAL>
   <RULE ID="1">
     <!-- packets comming from specfic address and protocol-->
-    <FILTER NAME="SrcIP">10.0.2.15</FILTER>
+    <FILTER NAME="SrcIP">10.10.2.1</FILTER>
     
 
     <ACTION NAME="htb">
@@ -28,7 +28,7 @@
 
   <RULE ID="2">
     <!-- packets comming from specfic address and protocol-->
-    <FILTER NAME="SrcIP">10.0.2.16</FILTER>
+    <FILTER NAME="SrcIP">10.10.1.2</FILTER>
     
 
     <ACTION NAME="htb">

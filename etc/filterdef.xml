@@ -20,13 +20,20 @@
   <DEF REFER="IP" OFFSET="8" TYPE="IP6Addr" REV="DstIP6">SrcIP6</DEF>
   <DEF REFER="IP" OFFSET="24" TYPE="IP6Addr" REV="SrcIP6">DstIP6</DEF>
 
+  <DEF REFER="IP" OFFSET="20" TYPE="UInt16" REV="DstPort">SrcPort</DEF> 
+  <DEF REFER="IP" OFFSET="22" TYPE="UInt16" REV="SrcPort">DstPort</DEF>
+
   <!-- ICMP -->
   <DEF REFER="TRANS" OFFSET="0" TYPE="UInt8">ICMPType</DEF> 
   <DEF REFER="TRANS" OFFSET="1" TYPE="UInt8">ICMPCode</DEF> 
 
+  <!-- The filter from this point are relative to the next header, the user has to test which definition works -->
+  <!-- For example, during testing with Iperf we observe that dstPort and sPort should be configured as refering to IP -->
+  <!-- with OFFSET 20 and 22. In theory they could be configured as TRANS with offset 0 and 2s like there are configured below -->
+ 
   <!-- UDP, TCP -->
-  <DEF REFER="TRANS" OFFSET="0" TYPE="UInt16" REV="DstPort">SrcPort</DEF>
-  <DEF REFER="TRANS" OFFSET="2" TYPE="UInt16" REV="SrcPort">DstPort</DEF>
+  <!-- <DEF REFER="TRANS" OFFSET="0" TYPE="UInt16" REV="DstPort">SrcPort</DEF> -->
+  <!-- <DEF REFER="TRANS" OFFSET="2" TYPE="UInt16" REV="SrcPort">DstPort</DEF> -->
   <DEF REFER="TRANS" OFFSET="13" MASK="0x3F" TYPE="UInt8">TCPFlags</DEF>
 
 </FILTERDEF>

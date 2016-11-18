@@ -427,6 +427,8 @@ int QOSProcessor::checkRule(Rule *r)
 					 break;
 				}
 
+				log->log(ch, "pass bandwidth checking rule:%s.%s Nbr Filters:%d", r->getSetName().c_str(), r->getRuleName().c_str(), (int) r->getFilter()->size());
+
                 (a.mapi)->initFlowSetup(ruleId, cnt, a.params, r->getFilter(), &a.flowData);
 
                 (a.mapi)->destroyFlowSetup(ruleId, cnt,  a.params, r->getFilter(), a.flowData);
@@ -561,6 +563,8 @@ int QOSProcessor::addRule( Rule *r, EventScheduler *e )
 
 			    // The flowid is made of the rule id and the action id.
 			    a.flowid = idSource.newId();
+
+				log->log(ch, "it is going to create rule %d action %d with flowid:%d", ruleId, cnt, a.flowid);
 
 				std::stringstream ss;
 				ss << a.flowid;

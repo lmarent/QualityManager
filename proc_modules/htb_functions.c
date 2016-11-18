@@ -653,6 +653,8 @@ int create_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
 
     // Creates one hash table
     // table 1 is dedicated to the last byte in the IP address
+
+
     htid = NET_HASH_FILTER_TABLE;
 	u32_add_ht(sock, rtnlLink, priority, parentMaj, parentMin, htid, 256);
 
@@ -667,6 +669,8 @@ int create_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
      * that redirects all traffic and make a hash key
      * from the fist byte of the IP address
      */
+    // Test without hashing
+
     direction = 12; // Source IP.
 	sprintf(chashlink, "%d:",NET_HASH_FILTER_TABLE);
     htlink = 0x0;		// is used by get_u32_handle to return the correct value of hash table (link)
@@ -688,6 +692,7 @@ int create_hash_configuration(struct nl_sock *sock, struct rtnl_link *rtnlLink,
     u32_add_filter_on_ht_with_hashmask(sock, rtnlLink, priority, parentMaj,
 									   parentMin, 0x0, 0x0, direction,
 									   0, 0, htlink, 0x000000ff, direction);
+
 
 
     /*
